@@ -17,6 +17,10 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>loicpincon_AMP---Application-Manager-Pilote<sonar.projectKey>
+  		<sonar.organization>loicpincon-github</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  		<sonar.login>a117ca168912c9946d0e83208ea35e99c4b39734</sonar.login>
 	</properties>
 
 	<dependencies>
