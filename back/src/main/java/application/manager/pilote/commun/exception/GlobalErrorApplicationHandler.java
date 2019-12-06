@@ -1,7 +1,11 @@
 package application.manager.pilote.commun.exception;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -25,33 +29,25 @@ public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResol
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
-		LOG.error(ex);
 		if (ex instanceof ApplicationException) {
-			return handleIllegalArgument((ApplicationException) ex, response, request);
+			return handleIllegalArgument((ApplicationException) ex, response);
 		}
 		if (ex instanceof NoSuchElementException) {
-			return handleIllegalArgument((ApplicationException) ex, HttpStatus.NOT_FOUND, response, request);
+			return handleIllegalArgument((ApplicationException) ex, NOT_FOUND, response);
 		}
-		if (ex instanceof Exception) {
-			return handleIllegalArgument(ex, HttpStatus.INTERNAL_SERVER_ERROR, response, request);
-		}
-		return null;
+		StringWriter sw = new StringWriter();
+		ex.printStackTrace(new PrintWriter(sw));
+		LOG.error(ex.getMessage(), ex);
+		return handleIllegalArgument(ex, INTERNAL_SERVER_ERROR, response);
 	}
 
-	private ModelAndView handleIllegalArgument(Exception exc, HttpStatus ex, HttpServletResponse response,
-			HttpServletRequest request) {
+	private ModelAndView handleIllegalArgument(Exception exc, HttpStatus ex, HttpServletResponse response) {
 		try {
 			response.setStatus(ex.value());
 			PrintWriter out = response.getWriter();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			Retour r = new Retour();
-			r.setCodeHttp(ex.value());
-			r.setMessage(exc.getMessage());
-			r.setLibelleStatus(ex);
-			r.setTimestamp(new Date());
-			LOG.info(r.toJson());
-			out.print(r.toJson());
+			out.print(buildRetour(ex, exc).toJson());
 			out.flush();
 		} catch (IOException e) {
 			LOG.error(e);
@@ -59,24 +55,27 @@ public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResol
 		return new ModelAndView();
 	}
 
-	private ModelAndView handleIllegalArgument(ApplicationException ex, HttpServletResponse response,
-			HttpServletRequest request) {
+	private ModelAndView handleIllegalArgument(ApplicationException ex, HttpServletResponse response) {
 		try {
 			response.setStatus(ex.getStatus().value());
 			PrintWriter out = response.getWriter();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			Retour r = new Retour();
-			r.setCodeHttp(ex.getStatus().value());
-			r.setMessage(ex.getMessage());
-			r.setLibelleStatus(ex.getStatus());
-			r.setTimestamp(new Date());
-			out.print(r.toJson());
+			out.print(buildRetour(ex.getStatus(), ex).toJson());
 			out.flush();
 		} catch (IOException e) {
 			LOG.error(e);
 		}
 		return new ModelAndView();
+	}
+
+	private Retour buildRetour(HttpStatus ex, Exception exc) {
+		Retour r = new Retour();
+		r.setCodeHttp(ex.value());
+		r.setMessage(exc.getMessage());
+		r.setLibelleStatus(ex);
+		r.setTimestamp(new Date());
+		return r;
 	}
 
 }
