@@ -1,11 +1,10 @@
 package application.manager.pilote.session.api;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +39,7 @@ public class SessionController {
 	 * @param token
 	 * @return
 	 */
-	@RequestMapping(value = "/{id}", method = GET)
+	@GetMapping(path = "/{id}")
 	@ApiManager("consulter")
 	public Callable<ResponseEntity<UserSession>> consulter(@PathVariable String token) {
 		return () -> ResponseEntity.ok(null);

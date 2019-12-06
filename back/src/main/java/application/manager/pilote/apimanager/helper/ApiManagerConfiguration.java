@@ -63,20 +63,18 @@ public class ApiManagerConfiguration {
 			RequestMapping classs = cl.getAnnotation(RequestMapping.class);
 			ApiManager nomConttrolleur = cl.getAnnotation(ApiManager.class);
 			for (Method m : cl.getDeclaredMethods()) {
-				RequestMapping requestMethodMapping = m.getAnnotation(RequestMapping.class);
-				String verbe = getVerbe(m);
+				Api api = Api.builder().serveur(dns).build();
+				buildApi(api, m);
 				ApiManager nameapi = m.getAnnotation(ApiManager.class);
 				if (nameapi != null) {
 					String requestParam = buildParameterChain(m);
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
-					String key = nomConttrolleur.value() + "." + nameapi.value();
+					api.setKey(nomConttrolleur.value() + "." + nameapi.value());
 					StringBuilder uri = new StringBuilder(classs.value()[0]);
-					if (requestMethodMapping != null && requestMethodMapping.value().length > 0) {
-						uri.append(requestMethodMapping.value()[0]);
-					}
 					uri.append(requestParam);
-					apiMapBuilder.put(key, Api.builder().serveur(dns).key(key).url(dns + uri).uri(uri.toString())
-							.verbe(verbe).build());
+					api.setUri(api.getUri() + uri.toString());
+					api.setUrl(api.getServeur() + api.getUri());
+					apiMapBuilder.put(api.getKey(), api);
 				}
 			}
 		}
@@ -106,7 +104,7 @@ public class ApiManagerConfiguration {
 	 * @param m
 	 * @return
 	 */
-	private String getVerbe(Method m) {
+	private String buildApi(Api a, Method m) {
 		RequestMapping requestMethodMapping = m.getAnnotation(RequestMapping.class);
 		GetMapping requestMethodGetMapping = m.getAnnotation(GetMapping.class);
 		PostMapping requestMethodPostMapping = m.getAnnotation(PostMapping.class);
@@ -114,16 +112,29 @@ public class ApiManagerConfiguration {
 		DeleteMapping requestMethodDeleteMapping = m.getAnnotation(DeleteMapping.class);
 		String verbe = "";
 		if (requestMethodMapping != null) {
-			verbe = requestMethodMapping.method()[0].name();
+			a.setVerbe(requestMethodMapping.method()[0].name());
+			a.setUri(getPath(requestMethodMapping.value()));
+
 		} else if (requestMethodGetMapping != null) {
-			verbe = "GET";
+			a.setVerbe("GET");
+			a.setUri(getPath(requestMethodDeleteMapping));
 		} else if (requestMethodPostMapping != null) {
-			verbe = "POST";
+			a.setVerbe("POST");
+			a.setUri(getPath(requestMethodDeleteMapping));
 		} else if (requestMethodPutMapping != null) {
-			verbe = "PUT";
+			a.setVerbe("PUT");
+			a.setUri(getPath(requestMethodDeleteMapping));
 		} else if (requestMethodDeleteMapping != null) {
-			verbe = "DELETE";
+			a.setVerbe("DELETE");
+			a.setUri(getPath(requestMethodDeleteMapping));
 		}
 		return verbe;
+	}
+
+	private String getPath(Object tab) {
+		if (tab != null && ((String[]) tab)[0] != null) {
+			return ((String[]) tab)[0];
+		}
+		return "";
 	}
 }
