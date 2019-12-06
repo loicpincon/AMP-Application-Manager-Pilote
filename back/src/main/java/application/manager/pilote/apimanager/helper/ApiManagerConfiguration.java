@@ -12,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,13 +54,13 @@ public class ApiManagerConfiguration {
 		if (req != null) {
 			dns = req.getScheme() + "://" + req.getHeader("Host") + req.getContextPath();
 		}
-
 		Reflections ref = new Reflections("application");
 		for (Class<?> cl : ref.getTypesAnnotatedWith(RequestMapping.class)) {
 			RequestMapping classs = cl.getAnnotation(RequestMapping.class);
 			ApiManager nomConttrolleur = cl.getAnnotation(ApiManager.class);
 			for (Method m : cl.getDeclaredMethods()) {
-				RequestMapping findable = m.getAnnotation(RequestMapping.class);
+				RequestMapping requestMethodMapping = m.getAnnotation(RequestMapping.class);
+				String verbe = getVerbe(m);
 				ApiManager nameapi = m.getAnnotation(ApiManager.class);
 				if (nameapi != null) {
 					String requestParam = "?";
@@ -72,21 +76,40 @@ public class ApiManagerConfiguration {
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
 
 					String key = nomConttrolleur.value() + "." + nameapi.value();
-					String uri = "";
-					if (findable.value().length > 0) {
-						uri = classs.value()[0] + findable.value()[0];
-					} else {
-						uri = classs.value()[0];
+					String uri = classs.value()[0];
+					if (requestMethodMapping != null) {
+						if (requestMethodMapping.value().length > 0) {
+							uri += requestMethodMapping.value()[0];
+						}
 					}
 					uri += requestParam;
 
-					String verb = findable.method()[0].name();
-
-					apiMap.put(key,
-							Api.builder().serveur(dns).key(key).url(dns.toString() + uri).uri(uri).verbe(verb).build());
+					apiMap.put(key, Api.builder().serveur(dns).key(key).url(dns.toString() + uri).uri(uri).verbe(verbe)
+							.build());
 				}
 			}
 		}
 		return apiMap;
+	}
+
+	private String getVerbe(Method m) {
+		RequestMapping requestMethodMapping = m.getAnnotation(RequestMapping.class);
+		GetMapping requestMethodGetMapping = m.getAnnotation(GetMapping.class);
+		PostMapping requestMethodPostMapping = m.getAnnotation(PostMapping.class);
+		PutMapping requestMethodPutMapping = m.getAnnotation(PutMapping.class);
+		DeleteMapping requestMethodDeleteMapping = m.getAnnotation(DeleteMapping.class);
+		String verbe = "";
+		if (requestMethodMapping != null) {
+			verbe = requestMethodMapping.method()[0].name();
+		} else if (requestMethodGetMapping != null) {
+			verbe = "GET";
+		} else if (requestMethodPostMapping != null) {
+			verbe = "POST";
+		} else if (requestMethodPutMapping != null) {
+			verbe = "PUT";
+		} else if (requestMethodDeleteMapping != null) {
+			verbe = "DELETE";
+		}
+		return verbe;
 	}
 }

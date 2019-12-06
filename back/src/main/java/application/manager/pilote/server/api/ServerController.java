@@ -1,14 +1,15 @@
 package application.manager.pilote.server.api;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class ServerController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "", method = GET)
+	@GetMapping
 	@ApiManager("recuperer")
 	public Callable<ResponseEntity<List<Server>>> recuperer() {
 		return () -> ResponseEntity.ok(serverService.recuperer());
@@ -51,7 +52,7 @@ public class ServerController {
 	 * @param server
 	 * @return
 	 */
-	@RequestMapping(value = "", method = POST)
+	@PostMapping
 	@ApiManager("inserer")
 	public Callable<ResponseEntity<Server>> inserer(@RequestBody Server server) {
 		return () -> ResponseEntity.ok(serverService.inserer(server));

@@ -1,13 +1,13 @@
 package application.manager.pilote.session.api;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +29,7 @@ public class SessionController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "", method = POST)
+	@PostMapping
 	@ApiManager("login")
 	public Callable<ResponseEntity<UserSession>> login(@RequestBody UserSessionParam param) {
 		return () -> ResponseEntity.ok(sessionService.connexion(param));
