@@ -93,7 +93,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${build.directory}/classes/static/</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes/static/</outputDirectory>
 							<resources>
 								<resource>
 									<directory>../front/dist</directory>
