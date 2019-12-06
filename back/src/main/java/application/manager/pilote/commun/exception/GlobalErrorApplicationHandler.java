@@ -3,6 +3,7 @@ package application.manager.pilote.commun.exception;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,7 @@ import application.manager.pilote.commun.modele.Retour;
 @Component
 public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResolver {
 
-	protected final Log LOG = LogFactory.getLog(getClass());
+	protected static final Log LOG = LogFactory.getLog(GlobalErrorApplicationHandler.class);
 
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -28,10 +29,12 @@ public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResol
 		if (ex instanceof ApplicationException) {
 			return handleIllegalArgument((ApplicationException) ex, response, request);
 		}
+		if (ex instanceof NoSuchElementException) {
+			return handleIllegalArgument((ApplicationException) ex, HttpStatus.NOT_FOUND, response, request);
+		}
 		if (ex instanceof Exception) {
 			return handleIllegalArgument(ex, HttpStatus.INTERNAL_SERVER_ERROR, response, request);
 		}
-
 		return null;
 	}
 

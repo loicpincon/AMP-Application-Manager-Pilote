@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class BasicDataBean implements Serializable {
 
-	private final Log LOG = LogFactory.getLog(getClass());
+	private static final Log LOG = LogFactory.getLog(BasicDataBean.class);
 
 	/**
 	 * 
