@@ -1,0 +1,35 @@
+<div class="login">
+	<mat-card class="card">
+	  <div class="cardHeader">
+		<span class="titleHeader">Connexion au compte</span>
+	  </div>
+	  <form [formGroup]="formConnexion" (ngSubmit)="connexion(formConnexion)">
+		<mat-card-content class="cardBody">
+			<mat-form-field class="full-width-field">
+				<input matInput placeholder="Login" class="form-control" formControlName="login">
+				<mat-icon matSuffix>account_box</mat-icon>
+			</mat-form-field>
+			<ng-container *ngFor="let validation of validation_messages.login">
+				<mat-error *ngIf="formConnexion.get('login').hasError(validation.type) && (formConnexion.get('login').dirty || formConnexion.get('login').touched)">{{validation.message}}</mat-error>
+			</ng-container>
+			<mat-form-field class="full-width-field">
+				<input matInput placeholder="Mot de passe" type="password" class="form-control" formControlName="mdp">
+				<mat-icon matSuffix>vpn_key</mat-icon>
+			</mat-form-field>
+			<ng-container *ngFor="let validation of validation_messages.mdp">
+				<mat-error *ngIf="formConnexion.get('mdp').hasError(validation.type) && (formConnexion.get('mdp').dirty || formConnexion.get('mdp').touched)">{{validation.message}}</mat-error>
+			</ng-container>  
+			<div class="btnSubmit">
+				<mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
+				<button *ngIf="!loader" mat-raised-button type="submit" [disabled]="!formConnexion.valid" class="btn-block">Se connecter</button>
+			</div>
+		</mat-card-content>
+		<div class="cardFooter">
+			<p>
+			<span class="noAccount">Pas encore de compte ?</span><br>Demandez à un admin
+			</p>
+		</div>
+	  </form>
+	</mat-card>
+  
+  </div>
