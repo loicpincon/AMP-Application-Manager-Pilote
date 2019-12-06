@@ -1,0 +1,58 @@
+package application.manager.pilote.commun.exception;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+import java.util.Date;
+
+import org.springframework.http.HttpStatus;
+
+import application.manager.pilote.commun.modele.Retour;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ApplicationException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8131465557308920951L;
+
+	private HttpStatus status = INTERNAL_SERVER_ERROR;
+
+	public ApplicationException() {
+		super();
+	}
+
+	/**
+	 * 
+	 * @param message
+	 */
+	public ApplicationException(String message) {
+		super(message);
+	}
+
+	/**
+	 * 
+	 * @param message
+	 */
+	public ApplicationException(HttpStatus status, String message) {
+		super(message);
+		this.status = status;
+	}
+
+	/**
+	 * 
+	 * @param message
+	 */
+	public ApplicationException(int status, String message) {
+		super(message);
+		this.status = HttpStatus.valueOf(status);
+	}
+
+	public Retour getBody() {
+		return Retour.builder().timestamp(new Date()).libelleStatus(this.status).codeHttp(this.status.value())
+				.message(super.getMessage()).build();
+	}
+
+}
