@@ -33,11 +33,15 @@ public class ApiManagerConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger(ApiManagerConfiguration.class);
 
-	Map<String, Api> apiMap;
+	private Map<String, Api> apiMap;
 
 	@Autowired
 	private HttpServletRequest req;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Map<String, Api> getApiManager() {
 		if (apiMap == null) {
 			return apim(req);
@@ -45,15 +49,15 @@ public class ApiManagerConfiguration {
 		return apiMap;
 	}
 
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 */
 	public Map<String, Api> apim(HttpServletRequest req) {
-		Map<String, Api> apiMap = new HashMap<>();
+		Map<String, Api> apiMapBuilder = new HashMap<>();
 		logger.info("demarage du scan de pour l'api manager");
-
-		String dns = "";
-
-		if (req != null) {
-			dns = req.getScheme() + "://" + req.getHeader("Host") + req.getContextPath();
-		}
+		String dns = req.getScheme() + "://" + req.getHeader("Host") + req.getContextPath();
 		Reflections ref = new Reflections("application");
 		for (Class<?> cl : ref.getTypesAnnotatedWith(RequestMapping.class)) {
 			RequestMapping classs = cl.getAnnotation(RequestMapping.class);
@@ -66,21 +70,24 @@ public class ApiManagerConfiguration {
 					String requestParam = buildParameterChain(m);
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
 					String key = nomConttrolleur.value() + "." + nameapi.value();
-					String uri = classs.value()[0];
-					if (requestMethodMapping != null) {
-						if (requestMethodMapping.value().length > 0) {
-							uri += requestMethodMapping.value()[0];
-						}
+					StringBuilder uri = new StringBuilder(classs.value()[0]);
+					if (requestMethodMapping != null && requestMethodMapping.value().length > 0) {
+						uri.append(requestMethodMapping.value()[0]);
 					}
-					uri += requestParam;
-					apiMap.put(key, Api.builder().serveur(dns).key(key).url(dns.toString() + uri).uri(uri).verbe(verbe)
-							.build());
+					uri.append(requestParam);
+					apiMapBuilder.put(key, Api.builder().serveur(dns).key(key).url(dns + uri).uri(uri.toString())
+							.verbe(verbe).build());
 				}
 			}
 		}
-		return apiMap;
+		return apiMapBuilder;
 	}
 
+	/**
+	 * 
+	 * @param m
+	 * @return
+	 */
 	private String buildParameterChain(Method m) {
 		StringBuilder sb = new StringBuilder("?");
 		for (Parameter p : m.getParameters()) {
@@ -94,6 +101,11 @@ public class ApiManagerConfiguration {
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param m
+	 * @return
+	 */
 	private String getVerbe(Method m) {
 		RequestMapping requestMethodMapping = m.getAnnotation(RequestMapping.class);
 		GetMapping requestMethodGetMapping = m.getAnnotation(GetMapping.class);
