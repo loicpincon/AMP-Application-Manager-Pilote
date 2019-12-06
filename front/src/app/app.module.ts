@@ -1,12 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu'
-import {MatButtonModule} from '@angular/material/button';
+import { CoreModule } from './core/core.module';
+import { ApplicationModule } from './application/application.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
+import { LoaderService } from './core/services/loader.service';
+import { ApmHeaderInterceptor } from './core/services/apmHeaderInterceptor';
 
 @NgModule({
   declarations: [
@@ -16,11 +19,24 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatButtonModule
+    CoreModule,
+    HttpClientModule,
+    ApplicationModule,
   ],
-  providers: [],
+  providers: [
+    LoaderService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApmHeaderInterceptor,
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: apiMapLoaderConfigFactory,
+      deps: [ApiMapLoaderConfig],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

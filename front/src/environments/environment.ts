@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urlServeurBase: 'http://213.136.77.118:7001/amp/api/map'
 };
 
 /*
