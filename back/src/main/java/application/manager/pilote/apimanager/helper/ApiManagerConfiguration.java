@@ -51,7 +51,7 @@ public class ApiManagerConfiguration {
 			dns = req.getScheme() + "://" + req.getHeader("Host") + req.getContextPath();
 		}
 
-		Reflections ref = new Reflections("projet");
+		Reflections ref = new Reflections("application");
 		for (Class<?> cl : ref.getTypesAnnotatedWith(RequestMapping.class)) {
 			RequestMapping classs = cl.getAnnotation(RequestMapping.class);
 			ApiManager nomConttrolleur = cl.getAnnotation(ApiManager.class);
