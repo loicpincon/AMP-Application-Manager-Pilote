@@ -25,7 +25,7 @@ public class SessionService {
 	 */
 	public UserSession connexion(UserSessionParam param) {
 		Optional<Utilisateur> u = userRepo.trouverParLoginEtMotDePasse(param.getLogin(), param.getPassword());
-		if (u.isEmpty()) {
+		if (!u.isPresent()) {
 			throw new ApplicationException(BAD_REQUEST, "Identifiant ou mot de passe incorrect");
 		}
 		return UserSession.builder().token(u.get().getToken()).build();
