@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
 
-	protected final Log LOG = LogFactory.getLog(CorsConfig.class);
+	protected static final Log LOG = LogFactory.getLog(CorsConfig.class);
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
