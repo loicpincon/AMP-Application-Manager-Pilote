@@ -66,7 +66,6 @@ public class ApiManagerConfiguration {
 							requestParam += "={";
 							requestParam += p.getName();
 							requestParam += "}&";
-
 						}
 
 					}
