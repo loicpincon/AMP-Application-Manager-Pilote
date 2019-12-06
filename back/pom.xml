@@ -12,7 +12,7 @@
 	</parent>
 	<groupId>application.manager</groupId>
 	<artifactId>pilote</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>AMP-Application Manager Pilote</name>
 	<description>Application Manager Pilote</description>
