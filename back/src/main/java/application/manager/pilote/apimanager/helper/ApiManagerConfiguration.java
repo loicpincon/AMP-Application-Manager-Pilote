@@ -63,18 +63,8 @@ public class ApiManagerConfiguration {
 				String verbe = getVerbe(m);
 				ApiManager nameapi = m.getAnnotation(ApiManager.class);
 				if (nameapi != null) {
-					String requestParam = "?";
-					for (Parameter p : m.getParameters()) {
-						if (p.isAnnotationPresent(RequestParam.class)) {
-							requestParam += p.getName();
-							requestParam += "={";
-							requestParam += p.getName();
-							requestParam += "}&";
-						}
-
-					}
+					String requestParam = buildParameterChain(m);
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
-
 					String key = nomConttrolleur.value() + "." + nameapi.value();
 					String uri = classs.value()[0];
 					if (requestMethodMapping != null) {
@@ -83,13 +73,25 @@ public class ApiManagerConfiguration {
 						}
 					}
 					uri += requestParam;
-
 					apiMap.put(key, Api.builder().serveur(dns).key(key).url(dns.toString() + uri).uri(uri).verbe(verbe)
 							.build());
 				}
 			}
 		}
 		return apiMap;
+	}
+
+	private String buildParameterChain(Method m) {
+		StringBuilder sb = new StringBuilder("?");
+		for (Parameter p : m.getParameters()) {
+			if (p.isAnnotationPresent(RequestParam.class)) {
+				sb.append(p.getName());
+				sb.append("={");
+				sb.append(p.getName());
+				sb.append("}&");
+			}
+		}
+		return sb.toString();
 	}
 
 	private String getVerbe(Method m) {

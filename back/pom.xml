@@ -14,8 +14,8 @@
 	<artifactId>pilote</artifactId>
 	<version>0.0.4-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>pilote</name>
-	<description>Demo project for Spring Boot</description>
+	<name>AMP-Application Manager Pilote</name>
+	<description>Application Manager Pilote</description>
 
 	<properties>
 		<java.version>1.8</java.version>

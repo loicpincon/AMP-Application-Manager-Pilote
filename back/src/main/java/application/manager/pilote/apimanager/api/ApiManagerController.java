@@ -37,8 +37,6 @@ public class ApiManagerController {
 
 	@GetMapping
 	public Callable<ResponseEntity<Collection<Api>>> recuperer(HttpServletRequest req) {
-		return () -> {
-			return ResponseEntity.ok(getApiMap());
-		};
+		return () -> ResponseEntity.ok(getApiMap());
 	}
 }
