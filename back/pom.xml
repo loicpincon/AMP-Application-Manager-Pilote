@@ -12,7 +12,7 @@
 	</parent>
 	<groupId>application.manager</groupId>
 	<artifactId>pilote</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>pilote</name>
 	<description>Demo project for Spring Boot</description>
