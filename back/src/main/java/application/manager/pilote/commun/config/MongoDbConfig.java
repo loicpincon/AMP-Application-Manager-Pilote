@@ -14,7 +14,7 @@ public class MongoDbConfig {
 
 	private static final String MONGO_COLLECTION = "MONGO_COLLECTION";
 	private static final String MONGO_USER = "MONGO_USER";
-	private static final String MONGO_PASSWORD = "MONGO_PASSWORD";
+	private static final String MONGO_SECRET = "MONGO_PASSWORD";
 	private static final String MONGO_SERVER_PRIMARY = "MONGO_SERVER_PRIMARY";
 	private static final String MONGO_SERVER_SECONDARY_REPLICA = "MONGO_SERVER_SECONDARY_REPLICA";
 	private static final String MONGO_SERVER_SECONDARY = "MONGO_SERVER_SECONDARY";
@@ -29,7 +29,7 @@ public class MongoDbConfig {
 		sb.append("mongodb://");
 		sb.append(properties.getProperty(MONGO_USER));
 		sb.append(":");
-		sb.append(properties.getProperty(MONGO_PASSWORD));
+		sb.append(properties.getProperty(MONGO_SECRET));
 		sb.append("@");
 		sb.append(properties.getProperty(MONGO_SERVER_PRIMARY));
 		sb.append(":");
