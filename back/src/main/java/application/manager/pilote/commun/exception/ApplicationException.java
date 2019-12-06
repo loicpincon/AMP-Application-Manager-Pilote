@@ -18,7 +18,7 @@ public class ApplicationException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 8131465557308920951L;
 
-	private HttpStatus status;
+	private final HttpStatus status;
 
 	public ApplicationException() {
 		super();

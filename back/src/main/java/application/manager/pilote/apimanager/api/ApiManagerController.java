@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.helper.ApiManagerConfiguration;
 import application.manager.pilote.apimanager.modele.Api;
-import application.manager.pilote.commun.exception.ApplicationException;
 
 @RestController
 @RequestMapping("/api/map")
@@ -27,7 +26,7 @@ public class ApiManagerController {
 	@Autowired
 	private HttpServletRequest res;
 
-	private Collection<Api> getApiMap() throws ApplicationException {
+	private Collection<Api> getApiMap() {
 		if (apis == null) {
 			apis = apim.apim(res).values();
 		}
