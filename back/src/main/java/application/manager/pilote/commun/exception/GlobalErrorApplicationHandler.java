@@ -19,7 +19,7 @@ import application.manager.pilote.commun.modele.Retour;
 @Component
 public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResolver {
 
-	protected final Log LOG = LogFactory.getLog(getClass());
+	protected static final Log LOG = LogFactory.getLog(GlobalErrorApplicationHandler.class);
 
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,

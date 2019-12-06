@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PropertiesReader {
+
+	protected static final Log LOG = LogFactory.getLog(PropertiesReader.class);
 
 	private static Properties properties = new Properties();
 
@@ -31,7 +35,7 @@ public class PropertiesReader {
 		try (InputStream input = PropertiesReader.class.getClassLoader().getResourceAsStream("gcp.properties")) {
 			properties.load(input);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			LOG.error(ex);
 		}
 		return this;
 	}
