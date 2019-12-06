@@ -13,9 +13,9 @@ export class ApplicationComponent {
     constructor(private _router: Router) {}
 
     mode = new FormControl('push');
-
     deconnexion(){
         localStorage.removeItem('token')
         this._router.navigate(['login'])
-      }
+    }
+    
 }
