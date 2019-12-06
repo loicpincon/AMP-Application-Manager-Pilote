@@ -4,8 +4,9 @@ import { ApplicationComponent } from './application.component';
 import { PilotageComponent } from './pilotage/pilotage.component';
 import { ApplicationRoutingModule } from './applicationRouting.module';
 import { MatButtonModule } from '@angular/material';
-
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -15,8 +16,10 @@ import { MatButtonModule } from '@angular/material';
   imports: [
     CommonModule,
     MatButtonModule,
-    ApplicationRoutingModule
-
+    ApplicationRoutingModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSidenavModule
   ]
 })
 export class ApplicationModule { }
