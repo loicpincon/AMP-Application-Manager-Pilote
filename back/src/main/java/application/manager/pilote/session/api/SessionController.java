@@ -30,6 +30,7 @@ public class SessionController {
 	 * @return
 	 */
 	@RequestMapping(value = "", method = POST)
+	@ApiManager("login")
 	public Callable<ResponseEntity<UserSession>> login(@RequestBody UserSessionParam param) {
 		return () -> ResponseEntity.ok(sessionService.connexion(param));
 	}
@@ -40,6 +41,7 @@ public class SessionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/{id}", method = GET)
+	@ApiManager("consulter")
 	public Callable<ResponseEntity<UserSession>> consulter(@PathVariable String token) {
 		return () -> ResponseEntity.ok(null);
 	}

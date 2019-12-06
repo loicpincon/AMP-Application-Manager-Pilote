@@ -29,6 +29,7 @@ public class UtilisateurController {
 	 * @return
 	 */
 	@RequestMapping(value = "", method = POST)
+	@ApiManager("ajouter")
 	public Callable<ResponseEntity<Utilisateur>> ajouter(@RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.inserer(utilisateur));
 	}
@@ -38,6 +39,7 @@ public class UtilisateurController {
 	 * @return
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@ApiManager("modifier")
 	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id,
 			@RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.modifier(id,utilisateur));
