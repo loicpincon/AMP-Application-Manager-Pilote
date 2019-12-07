@@ -20,23 +20,11 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 @ApiManager("Mangager")
 public class ApiManagerController {
 
-	private static Collection<Api> apis;
-
 	@Autowired
 	private ApiManagerConfiguration apim;
 
-	@Autowired
-	private HttpServletRequest res;
-
-	private Collection<Api> getApiMap() {
-		if (apis == null) {
-			apis = apim.apim(res).values();
-		}
-		return apis;
-	}
-
 	@GetMapping
 	public Callable<ResponseEntity<Collection<Api>>> recuperer(HttpServletRequest req) {
-		return () -> ResponseEntity.ok(getApiMap());
+		return () -> ResponseEntity.ok(apim.getApiManager(req).values());
 	}
 }

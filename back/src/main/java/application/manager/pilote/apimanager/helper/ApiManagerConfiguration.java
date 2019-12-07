@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +34,11 @@ public class ApiManagerConfiguration {
 
 	private Map<String, Api> apiMap;
 
-	@Autowired
-	private HttpServletRequest req;
-
 	/**
 	 * 
 	 * @return
 	 */
-	public Map<String, Api> getApiManager() {
+	public Map<String, Api> getApiManager(HttpServletRequest req) {
 		if (apiMap == null) {
 			return apim(req);
 		}
@@ -54,7 +50,7 @@ public class ApiManagerConfiguration {
 	 * @param req
 	 * @return
 	 */
-	public Map<String, Api> apim(HttpServletRequest req) {
+	private Map<String, Api> apim(HttpServletRequest req) {
 		Map<String, Api> apiMapBuilder = new HashMap<>();
 		logger.info("demarage du scan de pour l'api manager");
 		String dns = req.getScheme() + "://" + req.getHeader("Host") + req.getContextPath();
@@ -69,7 +65,11 @@ public class ApiManagerConfiguration {
 				if (nameapi != null) {
 					String requestParam = buildParameterChain(m);
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
-					api.setKey(nomConttrolleur.value() + "." + nameapi.value());
+					if (nameapi.value().equals("")) {
+						api.setKey(nomConttrolleur.value() + "." + m.getName());
+					} else {
+						api.setKey(nomConttrolleur.value() + "." + nameapi.value());
+					}
 					StringBuilder uri = new StringBuilder(classs.value()[0]);
 					uri.append(api.getUri());
 					uri.append(requestParam);

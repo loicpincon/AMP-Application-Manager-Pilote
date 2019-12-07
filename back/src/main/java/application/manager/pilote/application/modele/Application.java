@@ -1,5 +1,7 @@
 package application.manager.pilote.application.modele;
 
+import java.util.Map;
+
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -33,4 +35,5 @@ public class Application extends BasicDataBean {
 
 	private String type;
 
+	private Map<Integer, Environnement> environnements;
 }
