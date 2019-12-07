@@ -1,24 +1,24 @@
 package application.manager.pilote.application.service;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.hash.Hashing;
-
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.repository.ApplicationRepository;
 import application.manager.pilote.commun.service.DefaultCrudService;
+import application.manager.pilote.commun.service.HashService;
 
 @Service
 public class ApplicationService implements DefaultCrudService<Application, String> {
 
 	@Autowired
 	private ApplicationRepository appRepo;
+
+	@Autowired
+	private HashService hashService;
 
 	@Override
 	public Application consulter(String id) {
@@ -32,7 +32,7 @@ public class ApplicationService implements DefaultCrudService<Application, Strin
 
 	@Override
 	public Application inserer(Application param) {
-		param.setId(Hashing.sha256().hashString(new Date() + param.getName(), UTF_8).toString());
+		param.setId(hashService.hash(new Date() + param.getName()));
 		return appRepo.insert(param);
 	}
 
