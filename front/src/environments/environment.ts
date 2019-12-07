@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  urlServeurBase: 'http://213.136.77.118:7001/amp/api/map'
+  urlServeurBase: 'http://213.136.77.118:7001/amp/api/map',
+  //urlServeurBase: 'http://localhost:8080/api/map'
+
 };
 
 /*

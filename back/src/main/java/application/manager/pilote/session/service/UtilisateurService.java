@@ -25,4 +25,8 @@ public class UtilisateurService {
 		return uRepo.save(utilisateur);
 	}
 
+	public Utilisateur consulter(String id) {
+		return uRepo.consulter(id).get();
+	}
+
 }

@@ -39,7 +39,7 @@ public class SessionController {
 	 * @param token
 	 * @return
 	 */
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/{token}")
 	@ApiManager("consulter")
 	public Callable<ResponseEntity<UserSession>> consulter(@PathVariable String token) {
 		return () -> ResponseEntity.ok(null);

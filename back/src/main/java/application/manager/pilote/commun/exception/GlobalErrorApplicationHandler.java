@@ -33,7 +33,7 @@ public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResol
 			return handleIllegalArgument((ApplicationException) ex, response);
 		}
 		if (ex instanceof NoSuchElementException) {
-			return handleIllegalArgument((ApplicationException) ex, NOT_FOUND, response);
+			return handleIllegalArgument(ex, NOT_FOUND, response);
 		}
 		StringWriter sw = new StringWriter();
 		ex.printStackTrace(new PrintWriter(sw));

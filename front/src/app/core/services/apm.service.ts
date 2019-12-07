@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 
@@ -22,5 +22,11 @@ export class ApmService {
         const uri = this.apiManagerService.genereUrl('Session.login').url;
         return this.httpClient.post<any>(uri, user);
     }
-    
+
+
+    recupererUser(token: string): Observable<any> {
+        let params = new HttpParams().set('id', token);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.consulter', params).url;
+        return this.httpClient.get<any>(uri);
+    }
 }

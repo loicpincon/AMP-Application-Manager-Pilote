@@ -20,4 +20,13 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	@Query("{'login' : ?0 , 'password' : ?1}")
 	Optional<Utilisateur> trouverParLoginEtMotDePasse(String login, String password);
 
+	/**
+	 * 
+	 * @param login
+	 * @param password
+	 * @return
+	 */
+	@Query("{'token' : ?0}")
+	Optional<Utilisateur> consulter(String token);
+
 }

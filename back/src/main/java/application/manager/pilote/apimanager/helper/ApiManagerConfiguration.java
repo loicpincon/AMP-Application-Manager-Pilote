@@ -71,8 +71,9 @@ public class ApiManagerConfiguration {
 					requestParam = requestParam.substring(0, requestParam.length() - 1);
 					api.setKey(nomConttrolleur.value() + "." + nameapi.value());
 					StringBuilder uri = new StringBuilder(classs.value()[0]);
+					uri.append(api.getUri());
 					uri.append(requestParam);
-					api.setUri(api.getUri() + uri.toString());
+					api.setUri(uri.toString());
 					api.setUrl(api.getServeur() + api.getUri());
 					apiMapBuilder.put(api.getKey(), api);
 				}
@@ -111,29 +112,37 @@ public class ApiManagerConfiguration {
 		PutMapping requestMethodPutMapping = m.getAnnotation(PutMapping.class);
 		DeleteMapping requestMethodDeleteMapping = m.getAnnotation(DeleteMapping.class);
 		String verbe = "";
+		a.setUri("");
 		if (requestMethodMapping != null) {
 			a.setVerbe(requestMethodMapping.method()[0].name());
 			a.setUri(getPath(requestMethodMapping.value()));
-
 		} else if (requestMethodGetMapping != null) {
 			a.setVerbe("GET");
-			a.setUri(getPath(requestMethodDeleteMapping));
+			if (requestMethodGetMapping.path() != null) {
+				a.setUri(getPath(requestMethodGetMapping.path()));
+			}
 		} else if (requestMethodPostMapping != null) {
 			a.setVerbe("POST");
-			a.setUri(getPath(requestMethodDeleteMapping));
+			if (requestMethodPostMapping.path() != null) {
+				a.setUri(getPath(requestMethodPostMapping.path()));
+			}
 		} else if (requestMethodPutMapping != null) {
 			a.setVerbe("PUT");
-			a.setUri(getPath(requestMethodDeleteMapping));
+			if (requestMethodPutMapping.path() != null) {
+				a.setUri(getPath(requestMethodPutMapping.path()));
+			}
 		} else if (requestMethodDeleteMapping != null) {
 			a.setVerbe("DELETE");
-			a.setUri(getPath(requestMethodDeleteMapping));
+			if (requestMethodDeleteMapping.path() != null) {
+				a.setUri(getPath(requestMethodDeleteMapping.path()));
+			}
 		}
 		return verbe;
 	}
 
-	private String getPath(Object tab) {
-		if (tab != null && ((String[]) tab)[0] != null) {
-			return ((String[]) tab)[0];
+	private String getPath(String[] tab) {
+		if (tab != null && tab.length > 0) {
+			return tab[0];
 		}
 		return "";
 	}
