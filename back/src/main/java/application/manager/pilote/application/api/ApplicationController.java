@@ -1,8 +1,5 @@
 package application.manager.pilote.application.api;
 
-import static application.manager.pilote.application.modele.ApplicationType.APPLICATIONS_TYPE;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Application;
-import application.manager.pilote.application.repository.ApplicationRepository;
+import application.manager.pilote.application.service.ApplicationService;
 
 @RestController
 @RequestMapping("/applications")
@@ -24,7 +21,7 @@ import application.manager.pilote.application.repository.ApplicationRepository;
 public class ApplicationController {
 
 	@Autowired
-	private ApplicationRepository appRepo;
+	private ApplicationService appService;
 
 	/**
 	 * 
@@ -33,17 +30,7 @@ public class ApplicationController {
 	@GetMapping
 	@ApiManager("recuperer")
 	public Callable<ResponseEntity<List<Application>>> recuperer() {
-		return () -> ResponseEntity.ok(appRepo.findAll());
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	@GetMapping(path = "/types")
-	@ApiManager("recupererTypes")
-	public Callable<ResponseEntity<List<String>>> recupererTypes() {
-		return () -> ResponseEntity.ok(Arrays.asList(APPLICATIONS_TYPE));
+		return () -> ResponseEntity.ok(appService.recuperer());
 	}
 
 	/**
@@ -53,6 +40,6 @@ public class ApplicationController {
 	@PostMapping
 	@ApiManager("ajouter")
 	public Callable<ResponseEntity<Application>> ajouter(@RequestBody Application param) {
-		return () -> ResponseEntity.ok(appRepo.insert(param));
+		return () -> ResponseEntity.ok(appService.inserer(param));
 	}
 }

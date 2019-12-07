@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({ @Type(name = ApplicationType.BASH, value = BashApplication.class),
 		@Type(name = ApplicationType.WAR, value = WarApplication.class) })
 public class Application extends BasicDataBean {
@@ -27,7 +27,7 @@ public class Application extends BasicDataBean {
 	private static final long serialVersionUID = 4478928365182068579L;
 
 	@Id
-	private Integer id;
+	private String id;
 
 	private String name;
 
