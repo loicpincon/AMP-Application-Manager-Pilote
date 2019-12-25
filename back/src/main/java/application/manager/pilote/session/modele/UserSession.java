@@ -1,5 +1,7 @@
 package application.manager.pilote.session.modele;
 
+import java.util.List;
+
 import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,4 +19,5 @@ public class UserSession extends BasicDataBean {
 
 	private String token;
 
+	private List<DroitApplicatif> rights;
 }
