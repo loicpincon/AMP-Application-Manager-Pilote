@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.model.Container;
-
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.docker.modele.Container;
+import application.manager.pilote.docker.service.DockerContainerService;
 
 @RestController
 @RequestMapping("/docker")
@@ -20,7 +19,7 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 public class DockerInfoController {
 
 	@Autowired
-	private DockerClient dockerClient;
+	private DockerContainerService dockerService;
 
 	/**
 	 * 
@@ -29,7 +28,7 @@ public class DockerInfoController {
 	@GetMapping(path = "/containers")
 	@ApiManager
 	public Callable<ResponseEntity<List<Container>>> recuperer() {
-		return () -> ResponseEntity.ok(dockerClient.listContainersCmd().exec());
+		return () -> ResponseEntity.ok(dockerService.getContainers());
 	}
 
 }

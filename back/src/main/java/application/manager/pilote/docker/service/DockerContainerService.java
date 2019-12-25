@@ -1,6 +1,8 @@
 package application.manager.pilote.docker.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,17 @@ import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
 import application.manager.pilote.commun.exception.ApplicationException;
+import application.manager.pilote.docker.mapper.ContainerMapper;
+import application.manager.pilote.docker.modele.Container;
 
 @Service
 public class DockerContainerService {
 
 	@Autowired
 	private DockerClient dockerClient;
+
+	@Autowired
+	private ContainerMapper containerMapper;
 
 	/**
 	 * 
@@ -54,6 +61,14 @@ public class DockerContainerService {
 		} catch (DockerException | InterruptedException e) {
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
+	}
+
+	public List<Container> getContainers() {
+		List<Container> retour = new ArrayList<>();
+		for (com.github.dockerjava.api.model.Container container : dockerClient.listContainersCmd().exec()) {
+			retour.add(this.containerMapper.mapFrom(container));
+		}
+		return retour;
 	}
 
 }
