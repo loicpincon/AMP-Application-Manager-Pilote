@@ -1,8 +1,12 @@
 package application.manager.pilote.session.modele;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import application.manager.pilote.commun.modele.BasicDataBean;
+import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +23,18 @@ public class UserSession extends BasicDataBean {
 
 	private String token;
 
+	private String nom;
+
+	private String prenom;
+
 	private List<DroitApplicatif> rights;
+
+	@JsonIgnore
+	public List<String> getCodesApplications() {
+		List<String> temp = new ArrayList<>();
+		for (DroitApplicatif da : rights) {
+			temp.add(da.getApplicationId());
+		}
+		return temp;
+	}
 }

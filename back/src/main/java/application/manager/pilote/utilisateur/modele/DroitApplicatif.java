@@ -1,4 +1,4 @@
-package application.manager.pilote.session.modele;
+package application.manager.pilote.utilisateur.modele;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;

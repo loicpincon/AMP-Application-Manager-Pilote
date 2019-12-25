@@ -30,4 +30,6 @@ public class Utilisateur extends BasicDataBean {
 
 	private List<String> roles;
 
+	private List<DroitApplicatif> rights;
+
 }
