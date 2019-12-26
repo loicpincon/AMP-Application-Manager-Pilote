@@ -52,7 +52,7 @@
                 <button mat-button (click)="menuApp.open()">Afficher menu</button>
             </div>
             <div class="containerLeft">
-                <button mat-button [matMenuTriggerFor]="menuUser">Jérémie BRISON</button>
+                <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
                 <mat-menu #menuUser="matMenu">
                     <button mat-menu-item>Mon profil</button>
                     <button mat-menu-item (click)="deconnexion()">Se déconnecter</button>

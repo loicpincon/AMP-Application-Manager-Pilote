@@ -43,7 +43,9 @@ public class SessionService {
 		Utilisateur user = u.get();
 		UserSession session = UserSession.builder().token(user.getToken()).nom(user.getNom()).prenom(user.getPrenom())
 				.rights(user.getRights()).build();
-		userSessionRepo.insert(session);
+		if (!userSessionRepo.findById(session.getToken()).isPresent()) {
+			userSessionRepo.insert(session);
+		}
 		return session;
 	}
 

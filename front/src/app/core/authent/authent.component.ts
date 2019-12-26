@@ -30,7 +30,7 @@ export class AuthentComponent implements OnInit {
   };
 
   ngOnInit(){
-    if(localStorage.getItem('token')){
+    if(localStorage.getItem('USER_TOKEN')){
       this._router.navigate(['application'])
     }
     this.createForm()
@@ -48,7 +48,7 @@ export class AuthentComponent implements OnInit {
       this.loader = true;
       this._apm.connecterUser(f.value.login,f.value.mdp).subscribe((data:any) => {
         this.loader = false
-        localStorage.setItem('token',data.token)
+        localStorage.setItem('USER_TOKEN',data.token)
         this._router.navigate(['application'])
       },(err:any)=>{
         this.loader = false
