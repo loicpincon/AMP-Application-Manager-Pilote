@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
+import { ApmService } from './apm.service';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router,private service:ApmService) { }
 
   variableAVerifier= false;
 
-  canActivate(): boolean {
-    if (!localStorage.getItem('token')) {
-      this.router.navigate(['login']);
-      return false;
-    }
-    return true;
+  canActivate() {
+    return this.service.recupererSession().pipe(
+      map(data => {
+       return true;
+      }),
+      catchError(() => {
+        this.router.navigate(['login']);
+        return of(false);
+      }),
+    );
+
   }
 }

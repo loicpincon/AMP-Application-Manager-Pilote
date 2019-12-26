@@ -16,8 +16,6 @@ export class ApmService {
     }
 
     connecterUser(login: string, pass: string): Observable<any> {
-        console.log(login)
-        console.log(pass)
         const user = { 'login': login, 'password': pass }
         const uri = this.apiManagerService.genereUrl('Session.login').url;
         return this.httpClient.post<any>(uri, user);
@@ -28,5 +26,15 @@ export class ApmService {
         let params = new HttpParams().set('id', token);
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.consulter', params).url;
         return this.httpClient.get<any>(uri);
+    }
+
+    recupererSession(): Observable<any> {
+        const uri = this.apiManagerService.genereUrl('Session.consulter').url;
+        return this.httpClient.get<any>(uri);
+    }
+
+    deconnecterSession(): Observable<any> {
+        const uri = this.apiManagerService.genereUrl('Session.deconnecter').url;
+        return this.httpClient.delete<any>(uri);
     }
 }
