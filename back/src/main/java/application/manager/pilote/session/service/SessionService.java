@@ -66,4 +66,9 @@ public class SessionService {
 		return u.get();
 	}
 
+	public Void disconnect() {
+		String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR);
+		userSessionRepo.deleteById(tokenUserHeader);
+		return null;
+	}
 }
