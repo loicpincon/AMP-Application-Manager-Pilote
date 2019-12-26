@@ -1,13 +1,13 @@
 package application.manager.pilote.session.service;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import application.manager.pilote.commun.exception.ApplicationException;
@@ -60,12 +60,13 @@ public class SessionService {
 
 	public UserSession getSession() {
 		String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR);
-		Optional<UserSession> u = userSessionRepo.findById(tokenUserHeader);
-		if (!u.isPresent()) {
-			throw new ApplicationException(HttpStatus.UNAUTHORIZED,
-					"Une session est nescessaire pour acceder à cette ressource");
+		if (tokenUserHeader != null) {
+			Optional<UserSession> u = userSessionRepo.findById(tokenUserHeader);
+			if (u.isPresent()) {
+				return u.get();
+			}
 		}
-		return u.get();
+		throw new ApplicationException(UNAUTHORIZED, "Une session est nescessaire pour acceder à cette ressource");
 	}
 
 	public Void disconnect() {
