@@ -10,6 +10,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
 import { LoaderService } from './core/services/loader.service';
 import { ApmHeaderInterceptor } from './core/services/apmHeaderInterceptor';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule, MatMenuModule, MatToolbarModule, MatSidenavModule, MatExpansionModule } from '@angular/material';
+import { ApplicationRoutingModule } from './application/applicationRouting.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,12 @@ import { ApmHeaderInterceptor } from './core/services/apmHeaderInterceptor';
     CoreModule,
     HttpClientModule,
     ApplicationModule,
+    CommonModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatExpansionModule
   ],
   providers: [
     LoaderService,

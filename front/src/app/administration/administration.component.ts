@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-gestion-droits-applications'})
+  selector: 'app-admin',
+  templateUrl: './administration.component.html',
+}
+  )
+
 export class AdministrationComponent { }

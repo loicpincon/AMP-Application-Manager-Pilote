@@ -1,1 +1,64 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="container">
+    <mat-sidenav #menuApp [mode]="mode.value">
+      <div class="sidebar-header">
+          <img src="assets/amp_logo.png">
+          <div>
+              <p class="separator"></p>
+          </div>
+      </div>
+      <mat-accordion hideToggle>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Applications
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p  [routerLink]="['/application']"  class="nameApp" (click)="menuApp.close()">[EAI]blabla</p>
+                <p   [routerLink]="['/application']"  class="nameApp" (click)="menuApp.close()">[TTT]test</p>
+              </mat-expansion-panel>
+              
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Données
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="nameApp" (click)="menuApp.close()">[EAI]blabla</p>
+                <p class="nameApp" (click)="menuApp.close()">[TTT]test</p>
+              </mat-expansion-panel>
+  
+              <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                      <mat-panel-title>
+                      JMS
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <p>Pas encore dispo</p>
+              </mat-expansion-panel>
+              
+              <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                      <mat-panel-title>
+                      Admin
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <a  [routerLink]="['/administration/gestion-droits']" >Droits membres</a>
+                </mat-expansion-panel>
+            </mat-accordion>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar class="headerBandeau">
+              <div class="btnMenu">
+                  <button mat-button (click)="menuApp.open()">Afficher menu</button>
+              </div>
+              <div class="containerLeft">
+                  <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
+                  <mat-menu #menuUser="matMenu">
+                      <button mat-menu-item>Mon profil</button>
+                      <button mat-menu-item (click)="deconnexion()">Se déconnecter</button>
+                  </mat-menu>
+              </div>
+          </mat-toolbar>
+          <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

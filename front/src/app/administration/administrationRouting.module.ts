@@ -9,9 +9,6 @@ const routes: Routes = [
     path: '', component: AdministrationComponent, children: [
       {
         path: 'gestion-droits', component: GestionDroitsApplicationsComponent
-      },
-      {
-        path: '', redirectTo: 'gestion-droits', pathMatch: 'full'
       }
     ]
   }

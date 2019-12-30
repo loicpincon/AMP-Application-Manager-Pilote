@@ -11,6 +11,9 @@ const routes: Routes = [
     path: 'application', loadChildren: './application/application.module#ApplicationModule',canActivate: [AuthGuard] 
   },
   {
+   path: 'administration', loadChildren: './administration/administration.module#AdministrationModule',canActivate: [AuthGuard] 
+  },
+  {
     path: '**', redirectTo: 'application'
   }
 ];
