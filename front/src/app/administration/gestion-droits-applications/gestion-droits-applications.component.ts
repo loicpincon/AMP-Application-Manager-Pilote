@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApmService } from 'src/app/core/services/apm.service';
 
 export interface PeriodicElement {
   name: string;
@@ -12,14 +13,6 @@ export interface Food {
   viewValue: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, selected: 'CP'},
-  {position: 2, name: 'Helium', weight: 4.0026, selected: 'DEV'},
-  {position: 3, name: 'Lithium', weight: 6.941, selected: 'DEV'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, selected: 'CP'},
-  {position: 5, name: 'Boron', weight: 10.811, selected: ''},
-  {position: 6, name: 'Carbon', weight: 12.0107, selected: 'DEV'}
-];
 
 @Component({
   selector: 'app-gestion-droits-applications',
@@ -29,7 +22,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class GestionDroitsApplicationsComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  users :any[];
+  applications :any[];
 
   foods: Food[] = [
     {value: 'steak-0', viewValue: 'Steak'},
@@ -43,9 +37,28 @@ export class GestionDroitsApplicationsComponent implements OnInit {
    'EXPRT'
   ];
 
-  constructor() { }
+  constructor(private serviceApm:ApmService) { }
 
   ngOnInit() {
+    this.serviceApm.recupererAllUser().subscribe(users=>{
+      this.users = users;
+    })
+    this.serviceApm.recupererAllApplications().subscribe(applications=>{
+      this.applications = applications;
+    })
+  }
+
+checkedApp = false;
+checkedUsers = false;
+
+  changeStateUsers(){
+    this.checkedApp = false;
+    this.checkedUsers = true;
+  }
+
+  changeStateApp(){
+    this.checkedApp = true;
+    this.checkedUsers = false;
   }
 
 }

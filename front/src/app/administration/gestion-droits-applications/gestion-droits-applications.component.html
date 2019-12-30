@@ -3,22 +3,22 @@
 </div>
 
 <div class="row">
-    <mat-radio-button value="1">Rechercher par application : </mat-radio-button>
+    <mat-radio-button (click)="changeStateApp()" [checked]='checkedApp' value="1">Rechercher par application : </mat-radio-button>
 
     <mat-form-field>
-        <mat-select>
-          <mat-option *ngFor="let food of dataSource" [value]="food.name">
+        <mat-select  [disabled]="!checkedApp">
+          <mat-option *ngFor="let food of applications" [value]="food.id">
             {{food.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-radio-button value="2">Rechercher par membres : </mat-radio-button>
+      <mat-radio-button (click)="changeStateUsers()" [checked]='checkedUsers'  value="2">Rechercher par membres : </mat-radio-button>
 
       <mat-form-field>
-          <mat-select>
-            <mat-option *ngFor="let food of dataSource" [value]="food.name">
-              {{food.name}}
+          <mat-select   [disabled]="!checkedUsers" >
+            <mat-option *ngFor="let food of users" [value]="food.login">
+              {{food.nom}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -29,9 +29,7 @@
 <div class="row">
     
 
-
-
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table *ngIf="checkedApp" [dataSource]="users" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -39,7 +37,49 @@
     <!-- Position Column -->
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef>Identifiant</th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.login}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Prenom </th>
+      <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Niveau d'acces <i class="material-icons">
+        help
+        </i></th>
+      <td mat-cell *matCellDef="let element">
+        <mat-select [(value)]="element.login">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+    </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+
+  <table mat-table *ngIf="checkedUsers" [dataSource]="applications" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Identifiant</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
   
     <!-- Name Column -->
@@ -50,8 +90,8 @@
   
     <!-- Weight Column -->
     <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Prenom </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      <th mat-header-cell *matHeaderCellDef> Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
@@ -60,7 +100,7 @@
         help
         </i></th>
       <td mat-cell *matCellDef="let element">
-        <mat-select [(value)]="element.selected">
+        <mat-select [(value)]="element.login">
           <mat-option *ngFor="let type of types" [value]="type">
             {{type}}
           </mat-option>

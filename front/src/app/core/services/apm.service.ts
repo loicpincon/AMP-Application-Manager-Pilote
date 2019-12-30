@@ -28,6 +28,16 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
+    recupererAllUser(): Observable<any> {
+        const uri = this.apiManagerService.genereUrl('Utilisateur.recuperer').url;
+        return this.httpClient.get<any>(uri);
+    }
+
+    recupererAllApplications(): Observable<any> {
+        const uri = this.apiManagerService.genereUrl('Application.recuperer').url;
+        return this.httpClient.get<any>(uri);
+    }
+
     recupererSession(): Observable<any> {
         const uri = this.apiManagerService.genereUrl('Session.consulter').url;
         return this.httpClient.get<any>(uri);
