@@ -16,7 +16,7 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/api/map")
-@ApiManager("Mangager")
+@ApiManager("Manager")
 public class ApiManagerController {
 
 	@Autowired
