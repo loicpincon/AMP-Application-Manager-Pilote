@@ -1,5 +1,7 @@
 package application.manager.pilote.utilisateur.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,10 @@ public class UtilisateurService {
 
 	public Utilisateur consulter(String id) {
 		return uRepo.consulter(id).get();
+	}
+
+	public List<Utilisateur> recuperer() {
+		return uRepo.findAll();
 	}
 
 }

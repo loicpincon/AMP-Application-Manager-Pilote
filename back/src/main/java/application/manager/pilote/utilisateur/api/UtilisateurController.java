@@ -1,5 +1,6 @@
 package application.manager.pilote.utilisateur.api;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,15 @@ public class UtilisateurController {
 	@ApiManager("consulter")
 	public Callable<ResponseEntity<Utilisateur>> consulter(@PathVariable String id) {
 		return () -> ResponseEntity.ok(userService.consulter(id));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping()
+	@ApiManager("recuperer")
+	public Callable<ResponseEntity<List<Utilisateur>>> recuperer() {
+		return () -> ResponseEntity.ok(userService.recuperer());
 	}
 }
