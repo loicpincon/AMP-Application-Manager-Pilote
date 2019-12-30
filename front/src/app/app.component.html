@@ -42,7 +42,7 @@
                       Admin
                       </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <a  [routerLink]="['/administration/gestion-droits']" >Droits membres</a>
+                  <a  [routerLink]="['/administration/gestion-droits']"  (click)="menuApp.close()" >Droits membres</a>
                 </mat-expansion-panel>
             </mat-accordion>
     </mat-sidenav>
@@ -51,7 +51,7 @@
               <div class="btnMenu">
                   <button mat-button (click)="menuApp.open()">Afficher menu</button>
               </div>
-              <div class="containerLeft">
+              <div class="containerLeft" *ngIf="user">
                   <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
                   <mat-menu #menuUser="matMenu">
                       <button mat-menu-item>Mon profil</button>

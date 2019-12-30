@@ -1,1 +1,76 @@
-<p>gestion-droits mùembres -applications works!</p>
+<div class="row">
+<H1 style="text-align: center;">Gestion des privileges</H1>
+</div>
+
+<div class="row">
+    <mat-radio-button value="1">Rechercher par application : </mat-radio-button>
+
+    <mat-form-field>
+        <mat-select>
+          <mat-option *ngFor="let food of dataSource" [value]="food.name">
+            {{food.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-radio-button value="2">Rechercher par membres : </mat-radio-button>
+
+      <mat-form-field>
+          <mat-select>
+            <mat-option *ngFor="let food of dataSource" [value]="food.name">
+              {{food.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+</div>
+
+
+
+<div class="row">
+    
+
+
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Identifiant</th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Prenom </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Niveau d'acces <i class="material-icons">
+        help
+        </i></th>
+      <td mat-cell *matCellDef="let element">
+        <mat-select [(value)]="element.selected">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+    </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<button color="warn" mat-button>Annuler</button>
+<button  color="primary" mat-button>Sauvegarder</button>

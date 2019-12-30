@@ -11,7 +11,6 @@ import { ApmService } from '../core/services/apm.service';
 })
 export class ApplicationComponent implements OnInit {
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
     }
 
  
