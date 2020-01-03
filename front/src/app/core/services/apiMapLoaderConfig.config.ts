@@ -6,19 +6,13 @@ import { ApiManagerService, Api } from './api-manager.service';
 })
 export class ApiMapLoaderConfig {
 
-    public message: string;
-  
     constructor(private apimanager: ApiManagerService) {
-    
     }
 
     async loadApiMap() {
-        let InProgress = true;
         await this.apimanager.init().toPromise().then(function (result) {
             ApiManagerService.apis = result as Api[];
-            InProgress = false;
         });
-
     }
 }
 

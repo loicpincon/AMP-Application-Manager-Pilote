@@ -9,10 +9,7 @@ import { WarApplication, Application, BashApplication } from '../modele/Applicat
   styleUrls: ['./creation-application.component.css']
 })
 export class CreationApplicationComponent implements OnInit {
-
   typeApplication: string[];
-
-
   formulaire: FormGroup;
 
   constructor(private apmService: ApmService, private formBuilder: FormBuilder) { }
@@ -35,8 +32,6 @@ export class CreationApplicationComponent implements OnInit {
         versionNode: new FormControl('')
       })
     });
-
-
   }
 
   onSubmit(customerData) {

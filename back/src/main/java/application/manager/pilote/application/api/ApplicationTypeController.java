@@ -1,6 +1,6 @@
 package application.manager.pilote.application.api;
 
-import static application.manager.pilote.application.modele.ApplicationType.APPLICATIONS_TYPE;
+import static application.manager.pilote.application.modele.ApplicationType.getApplicationTypes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ApplicationTypeController {
 	@GetMapping()
 	@ApiManager("recuperer")
 	public Callable<ResponseEntity<List<String>>> recupererTypes() {
-		return () -> ResponseEntity.ok(Arrays.asList(APPLICATIONS_TYPE));
+		return () -> ResponseEntity.ok(Arrays.asList(getApplicationTypes()));
 	}
 
 }

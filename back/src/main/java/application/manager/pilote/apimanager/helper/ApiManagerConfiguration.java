@@ -118,24 +118,16 @@ public class ApiManagerConfiguration {
 			a.setUri(getPath(requestMethodMapping.value()));
 		} else if (requestMethodGetMapping != null) {
 			a.setVerbe("GET");
-			if (requestMethodGetMapping.path() != null) {
-				a.setUri(getPath(requestMethodGetMapping.path()));
-			}
+			a.setUri(getPath(requestMethodGetMapping.path()));
 		} else if (requestMethodPostMapping != null) {
 			a.setVerbe("POST");
-			if (requestMethodPostMapping.path() != null) {
-				a.setUri(getPath(requestMethodPostMapping.path()));
-			}
+			a.setUri(getPath(requestMethodPostMapping.path()));
 		} else if (requestMethodPutMapping != null) {
 			a.setVerbe("PUT");
-			if (requestMethodPutMapping.path() != null) {
-				a.setUri(getPath(requestMethodPutMapping.path()));
-			}
+			a.setUri(getPath(requestMethodPutMapping.path()));
 		} else if (requestMethodDeleteMapping != null) {
 			a.setVerbe("DELETE");
-			if (requestMethodDeleteMapping.path() != null) {
-				a.setUri(getPath(requestMethodDeleteMapping.path()));
-			}
+			a.setUri(getPath(requestMethodDeleteMapping.path()));
 		}
 		return verbe;
 	}
