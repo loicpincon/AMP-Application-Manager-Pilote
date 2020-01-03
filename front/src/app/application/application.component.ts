@@ -5,13 +5,6 @@ import { FormControl } from '@angular/forms';
 import { ApmService } from '../core/services/apm.service';
 @Component({
     selector: 'app-root',
-    templateUrl: './application.component.html',
-    styleUrls: ['./application.component.css']
-
+    template: '<router-outlet></router-outlet>'
 })
-export class ApplicationComponent implements OnInit {
-    ngOnInit(): void {
-    }
-
- 
-}
+export class ApplicationComponent {}
