@@ -15,8 +15,13 @@
         </mat-expansion-panel-header>
 
         <p *ngFor="let app of applications" [routerLink]="['/application']" class="nameApp" (click)="menuApp.close()">
-          {{app.name}}</p>
-        <p [routerLink]="['/application/creation']" class="nameApp" (click)="menuApp.close()">ajouter app</p>
+          <i class="material-icons">
+            apps
+          </i> {{app.name}}</p>
+        <p [routerLink]="['/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
+            class="material-icons">
+            add
+          </i>ajouter app</p>
 
       </mat-expansion-panel>
 
