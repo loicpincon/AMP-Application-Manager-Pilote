@@ -15,6 +15,9 @@ public class ContainerParam extends BasicDataBean {
 
 	private Integer dockerFileId;
 
-	private String containerName;
+	private String idApplicationCible;
 
+	private String idInstanceCible;
+
+	private Integer idServeurCible;
 }

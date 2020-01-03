@@ -30,6 +30,12 @@ public class DeployFileHelper {
 	@Autowired
 	private StringHelper stringUtils;
 
+	/**
+	 * 
+	 * @param pathFoldeTemporaire
+	 * @param structure
+	 * @return
+	 */
 	public File createDockerFile(String pathFoldeTemporaire, DockerFile structure) {
 		InputStream stream = new ByteArrayInputStream(structure.getFile().getBytes());
 		LOG.info(pathFoldeTemporaire);
@@ -37,6 +43,13 @@ public class DeployFileHelper {
 		return this.writeInputStream(pathFoldeTemporaire, DOCKERFILE, stream);
 	}
 
+	/**
+	 * 
+	 * @param path
+	 * @param fileName
+	 * @param is
+	 * @return
+	 */
 	private File writeInputStream(String path, String fileName, InputStream is) {
 		try {
 			createDossierRecursif(path);
@@ -67,6 +80,10 @@ public class DeployFileHelper {
 //		}
 //	}
 
+	/**
+	 * 
+	 * @param path
+	 */
 	private void createDossierRecursif(String path) {
 		if (!new File(path).exists()) {
 			new File(path).mkdirs();

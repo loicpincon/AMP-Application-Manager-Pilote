@@ -14,20 +14,24 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.exception.DockerException;
-import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
+import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
+import application.manager.pilote.commun.helper.RandomPortHelper;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.docker.helper.DeployFileHelper;
 import application.manager.pilote.docker.mapper.ContainerMapper;
 import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.pr.ContainerParam;
+import application.manager.pilote.server.modele.Server;
+import application.manager.pilote.server.service.ServerService;
 
 @Service
 public class DockerContainerService {
@@ -61,26 +65,36 @@ public class DockerContainerService {
 	@Autowired
 	private StringHelper stringUtils;
 
+	@Autowired
+	private RandomPortHelper randomPortHelper;
+
+	@Autowired
+	private InstanceService instanceService;
+
+	@Autowired
+	private ServerService serveurService;
+
 	/**
 	 * 
 	 * @param dockerFile
 	 */
 	public Container createContainer(ContainerParam param) {
 
+		String containerName = stringUtils.concat(param.getIdApplicationCible(), "-", param.getIdInstanceCible());
+
+		Instance ins = instanceService.consulter(param.getIdInstanceCible());
+		Server server = serveurService.consulter(param.getIdServeurCible());
+		if (ins.getContainerId() != null) {
+			ins.setContainerId(containerName);
+			instanceService.modifier(ins);
+		}
+
 		String pathToFolderTemporaire = stringUtils.concat(
 				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
 				hasherService.randomInt());
-		if (this.dockerClient.inspectContainerCmd(param.getContainerName()).exec() != null) {
-			this.delete(param.getContainerName());
-		}
 
 		try {
-			BuildImageResultCallback callback = new BuildImageResultCallback() {
-				@Override
-				public void onNext(BuildResponseItem item) {
-					super.onNext(item);
-				}
-			};
+			BuildImageResultCallback callback = new BuildImageResultCallback();
 
 			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
 					dockerFileService.get(param.getDockerFileId()));
@@ -88,25 +102,37 @@ public class DockerContainerService {
 			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("-t", "ceiciestie").exec(callback)
 					.awaitCompletion().awaitImageId();
 			LOG.info(test);
-			CreateContainerResponse container = dockerClient.createContainerCmd(test).withPublishAllPorts(true)
-					.withName(param.getContainerName()).withPortBindings(getPortsBinds()).exec();
+			CreateContainerResponse container = dockerClient.createContainerCmd(test)
+					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
+					.withPortBindings(getPortsBinds(server)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
-
 			return new Container();
 		} catch (DockerException | InterruptedException e) {
+			Thread.currentThread().interrupt();
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
+		} finally {
+
 		}
 	}
 
-	private Ports getPortsBinds() {
+	/**
+	 * 
+	 * @param serveur
+	 * @return
+	 */
+	private Ports getPortsBinds(Server serveur) {
 		Ports portBindings = new Ports();
 
 		ExposedPort expoPort = new ExposedPort(8080);
-		portBindings.bind(expoPort, Binding.bindPort(7894));
+		portBindings.bind(expoPort, Binding.bindPort(randomPortHelper.randomPort(serveur.getIp())));
 		return portBindings;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Container> getContainers() {
 		List<Container> retour = new ArrayList<>();
 		for (com.github.dockerjava.api.model.Container container : dockerClient.listContainersCmd().exec()) {
@@ -115,6 +141,10 @@ public class DockerContainerService {
 		return retour;
 	}
 
+	/**
+	 * 
+	 * @param containerId
+	 */
 	private void start(String containerId) {
 		try {
 			dockerClient.startContainerCmd(containerId).exec();
@@ -123,6 +153,12 @@ public class DockerContainerService {
 		}
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param action
+	 * @return
+	 */
 	public Container manage(String id, String action) {
 		switch (action) {
 		case "start":
@@ -143,6 +179,10 @@ public class DockerContainerService {
 		return new Container();
 	}
 
+	/**
+	 * 
+	 * @param containerId
+	 */
 	private void stop(String containerId) {
 		try {
 			dockerClient.stopContainerCmd(containerId).exec();
@@ -151,6 +191,10 @@ public class DockerContainerService {
 		}
 	}
 
+	/**
+	 * 
+	 * @param containerId
+	 */
 	private void reload(String containerId) {
 		try {
 			dockerClient.restartContainerCmd(containerId).exec();
@@ -159,6 +203,10 @@ public class DockerContainerService {
 		}
 	}
 
+	/**
+	 * 
+	 * @param containerId
+	 */
 	public void delete(String containerId) {
 		try {
 			dockerClient.stopContainerCmd(containerId).exec();
@@ -172,6 +220,11 @@ public class DockerContainerService {
 		dockerClient.removeContainerCmd(containerId).exec();
 	}
 
+	/**
+	 * 
+	 * @param containerId
+	 * @return
+	 */
 	public InspectContainerResponse inspect(String containerId) {
 		try {
 			return dockerClient.inspectContainerCmd(containerId).exec();
