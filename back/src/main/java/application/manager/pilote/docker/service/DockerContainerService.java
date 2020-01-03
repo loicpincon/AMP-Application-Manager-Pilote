@@ -1,6 +1,6 @@
 package application.manager.pilote.docker.service;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import com.github.dockerjava.core.command.BuildImageResultCallback;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.docker.mapper.ContainerMapper;
 import application.manager.pilote.docker.modele.Container;
+import application.manager.pilote.docker.service.pr.ContainerParam;
 
 @Service
 public class DockerContainerService {
@@ -30,19 +31,14 @@ public class DockerContainerService {
 	@Autowired
 	private ContainerMapper containerMapper;
 
-	/**
-	 * 
-	 * @param dockerFile
-	 */
-	public void createContainer(String dockerFile, String nameContainer) {
-		this.createContainer(new File(dockerFile), nameContainer);
-	}
+	@Autowired
+	private DockerFileService dockerFileService;
 
 	/**
 	 * 
 	 * @param dockerFile
 	 */
-	public void createContainer(File dockerFile, String nameContainer) {
+	public Container createContainer(ContainerParam param) {
 		try {
 			BuildImageResultCallback callback = new BuildImageResultCallback() {
 				@Override
@@ -50,14 +46,21 @@ public class DockerContainerService {
 					super.onNext(item);
 				}
 			};
-			String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion().awaitImageId();
+			String test = dockerClient
+					.buildImageCmd(new ByteArrayInputStream(
+							dockerFileService.get(param.getDockerFileId()).getFile().getBytes()))
+					.exec(callback).awaitCompletion().awaitImageId();
 			Ports portBindings = new Ports();
+
 			ExposedPort expoPort = new ExposedPort(80);
 			portBindings.bind(expoPort, Binding.bindPort(1111));
+
 			CreateContainerResponse container = dockerClient.createContainerCmd(test).withPublishAllPorts(true)
-					.withName(nameContainer).withPortBindings(portBindings).exec();
+					.withName(param.getContainerName()).withPortBindings(portBindings).exec();
+
 			dockerClient.startContainerCmd(container.getId()).exec();
 
+			return new Container();
 		} catch (DockerException | InterruptedException e) {
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
