@@ -18,6 +18,6 @@ public class WarApplication extends Application {
 
 	private String versionWar;
 
-	private String urlRepoNexs;
+	private String urlRepoNexus;
 
 }

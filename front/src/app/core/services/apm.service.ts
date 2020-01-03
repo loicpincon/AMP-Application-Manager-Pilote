@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
+import { Application } from 'src/app/application/modele/Application';
 
 
 /**
@@ -43,8 +44,19 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
+    recupererTypeApplications(): Observable<string[]> {
+        const uri = this.apiManagerService.genereUrl('ApplicationType.recuperer').url;
+        return this.httpClient.get<string[]>(uri);
+    }
+
     deconnecterSession(): Observable<any> {
         const uri = this.apiManagerService.genereUrl('Session.deconnecter').url;
         return this.httpClient.delete<any>(uri);
     }
+
+    ajouterApplication(application: Application): Observable<Application> {
+        const uri = this.apiManagerService.genereUrl('Application.ajouter').url;
+        return this.httpClient.post<Application>(uri, application);
+    }
+
 }
