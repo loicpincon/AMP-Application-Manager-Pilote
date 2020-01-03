@@ -10,6 +10,7 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.repository.ApplicationRepository;
 import application.manager.pilote.commun.service.DefaultCrudService;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.session.service.SessionService;
 
 @Service
 public class ApplicationService implements DefaultCrudService<Application, String> {
@@ -19,6 +20,9 @@ public class ApplicationService implements DefaultCrudService<Application, Strin
 
 	@Autowired
 	private HashService hashService;
+
+	@Autowired
+	private SessionService sesionContext;
 
 	@Override
 	public Application consulter(String id) {
