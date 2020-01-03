@@ -123,6 +123,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>amp</finalName>
 	</build>
 	<distributionManagement>
 		<repository>
