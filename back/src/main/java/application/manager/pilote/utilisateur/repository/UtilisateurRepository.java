@@ -27,6 +27,6 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	 * @return
 	 */
 	@Query("{'token' : ?0}")
-	Optional<Utilisateur> consulter(String token);
+	Optional<Utilisateur> findByToken(String token);
 
 }

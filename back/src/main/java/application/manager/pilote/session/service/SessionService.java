@@ -70,11 +70,7 @@ public class SessionService {
 	}
 
 	public UserSession getSession() {
-		Optional<UserSession> u = userSessionRepo.findById(request.getHeader(X_TOKEN_UTILISATEUR));
-		if (u.isPresent()) {
-			return u.get();
-		}
-		throw new ApplicationException(UNAUTHORIZED, "Une session est nescessaire pour acceder à cette ressource");
+		return getSession(request.getHeader(X_TOKEN_UTILISATEUR));
 	}
 
 	public Void disconnect() {

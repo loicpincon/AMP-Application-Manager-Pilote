@@ -1,11 +1,19 @@
 package application.manager.pilote.utilisateur.modele;
 
+import java.util.Date;
+
 import application.manager.pilote.commun.modele.BasicDataBean;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DroitApplicatif extends BasicDataBean {
 
 	/**
@@ -15,12 +23,16 @@ public class DroitApplicatif extends BasicDataBean {
 
 	private String applicationId;
 
-	private Boolean read;
+	private Date date;
 
-	private Boolean update;
+	private boolean read;
 
-	private Boolean delete;
+	private boolean update;
 
-	private Boolean pilote;
+	private boolean delete;
+
+	private boolean pilote;
+
+	private boolean admin;
 
 }

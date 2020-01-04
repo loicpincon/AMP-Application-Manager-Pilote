@@ -1,5 +1,6 @@
 package application.manager.pilote.application.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,14 @@ import org.springframework.stereotype.Service;
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.repository.ApplicationRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
-import application.manager.pilote.commun.service.DefaultCrudService;
+import application.manager.pilote.commun.service.DefaultService;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.utilisateur.modele.DroitApplicatif;
+import application.manager.pilote.utilisateur.modele.Utilisateur;
+import application.manager.pilote.utilisateur.service.UtilisateurService;
 
 @Service
-public class ApplicationService implements DefaultCrudService<Application, String> {
+public class ApplicationService extends DefaultService {
 
 	@Autowired
 	private ApplicationRepository appRepo;
@@ -23,7 +27,9 @@ public class ApplicationService implements DefaultCrudService<Application, Strin
 	@Autowired
 	private HashService hashService;
 
-	@Override
+	@Autowired
+	private UtilisateurService userService;
+
 	public Application consulter(String id) {
 		Optional<Application> appOpt = appRepo.findById(id);
 		if (!appOpt.isPresent()) {
@@ -32,20 +38,32 @@ public class ApplicationService implements DefaultCrudService<Application, Strin
 		return appOpt.get();
 	}
 
-	@Override
 	public List<Application> recuperer() {
 		return appRepo.findAll();
 	}
 
-	@Override
-	public Application inserer(Application param) {
+	public Application inserer(String idUser, Application param) {
 		param.setId(hashService.hash(new Date() + param.getName()));
+		userService.ajouterDroit(idUser, param.getId(), "PROP");
 		return appRepo.insert(param);
 	}
 
-	@Override
 	public Application modifier(Application param) {
 		return appRepo.save(param);
+	}
+
+	public List<Application> recupererParUser(String idUser) {
+		Utilisateur us = userService.consulter(idUser);
+		List<String> idApplicationAutorises = new ArrayList<>();
+		if (us.getRights() != null) {
+			for (DroitApplicatif da : us.getRights()) {
+				idApplicationAutorises.add(da.getApplicationId());
+			}
+			return appRepo.findByIdIn(idApplicationAutorises);
+		} else {
+			return new ArrayList<>();
+		}
+
 	}
 
 }

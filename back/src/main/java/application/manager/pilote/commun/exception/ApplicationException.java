@@ -7,11 +7,9 @@ import java.util.Date;
 import org.springframework.http.HttpStatus;
 
 import application.manager.pilote.commun.modele.Retour;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
 public class ApplicationException extends RuntimeException {
 	/**
 	 * 

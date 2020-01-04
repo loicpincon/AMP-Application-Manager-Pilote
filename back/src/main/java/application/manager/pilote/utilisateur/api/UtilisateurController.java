@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import application.manager.pilote.utilisateur.modele.Utilisateur;
 import application.manager.pilote.utilisateur.service.UtilisateurService;
 
@@ -39,18 +41,29 @@ public class UtilisateurController {
 	 * 
 	 * @return
 	 */
-	@PutMapping(value = "/{id}")
+	@PutMapping(path = "/{id}")
 	@ApiManager("modifier")
 	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id,
 			@RequestBody Utilisateur utilisateur) {
-		return () -> ResponseEntity.ok(userService.modifier(id, utilisateur));
+		return () -> ResponseEntity.ok(userService.modifier(utilisateur));
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping(value = "/{id}")
+	@PostMapping(path = "/{id}/droitsApplicatifs")
+	@ApiManager
+	public Callable<ResponseEntity<DroitApplicatif>> ajouterDroitApplicatifs(@PathVariable String id,
+			@RequestBody DroitApplicatif droit, @RequestParam(required = true) String level) {
+		return () -> ResponseEntity.ok(userService.ajouterDroitApplicatifs(id, droit, level));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/{id}")
 	@ApiManager("consulter")
 	public Callable<ResponseEntity<Utilisateur>> consulter(@PathVariable String id) {
 		return () -> ResponseEntity.ok(userService.consulter(id));

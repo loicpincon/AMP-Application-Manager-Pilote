@@ -18,11 +18,12 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
+import application.manager.pilote.commun.controller.DefaultController;
 
 @RestController
 @RequestMapping("/applications")
 @ApiManager("Application")
-public class ApplicationController {
+public class ApplicationController extends DefaultController {
 
 	@Autowired
 	private ApplicationService appService;
@@ -44,10 +45,20 @@ public class ApplicationController {
 	 * 
 	 * @return
 	 */
-	@PostMapping
+	@GetMapping(path = "/{idUser}/applications")
 	@ApiManager
-	public Callable<ResponseEntity<Application>> ajouter(@RequestBody Application param) {
-		return () -> ResponseEntity.ok(appService.inserer(param));
+	public Callable<ResponseEntity<List<Application>>> recupererParUser(@PathVariable String idUser) {
+		return () -> ResponseEntity.ok(appService.recupererParUser(idUser));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@PostMapping(path = "/{idUser}/applications")
+	@ApiManager
+	public Callable<ResponseEntity<Application>> ajouter(@PathVariable String idUser, @RequestBody Application param) {
+		return () -> ResponseEntity.ok(appService.inserer(idUser, param));
 	}
 
 	/**

@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -24,20 +23,18 @@ import application.manager.pilote.commun.modele.Retour;
 @Component
 public class GlobalErrorApplicationHandler extends AbstractHandlerExceptionResolver {
 
-	protected static final Log LOG = LogFactory.getLog(GlobalErrorApplicationHandler.class);
+	private static final Log LOG = LogFactory.getLog(GlobalErrorApplicationHandler.class);
 
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
+		LOG.error(ex.getMessage(), ex);
 		if (ex instanceof ApplicationException) {
 			return handleIllegalArgument((ApplicationException) ex, response);
 		}
 		if (ex instanceof NoSuchElementException) {
 			return handleIllegalArgument(ex, NOT_FOUND, response);
 		}
-		StringWriter sw = new StringWriter();
-		ex.printStackTrace(new PrintWriter(sw));
-		LOG.error(ex.getMessage(), ex);
 		return handleIllegalArgument(ex, INTERNAL_SERVER_ERROR, response);
 	}
 
