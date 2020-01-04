@@ -57,14 +57,17 @@ export class ApiManagerService {
   }
 
   private buildParam(api: Api, tab: HttpParams): Api {
-    let url: string = api.url;
+    const matchAll = require("match-all");
+    let url = api.url;
+    let array = matchAll(url, /{([a-z]+)}/gi).toArray();
     tab.keys().forEach(function (element) {
       url = url.replace('{' + element + '}', tab.get(element));
     });
-    tab.keys().forEach(function (element) {
-      url = url.replace(element, tab.get(element));
+    array.forEach(element => {
+      url = url.replace(element + '={' + element + '}', '');
     });
     api.url = url;
     return api;
   }
+
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application } from 'src/app/application/modele/Application';
+import { DroitApplicatifLevel, User } from 'src/app/administration/modele/model';
 
 
 /**
@@ -46,6 +47,13 @@ export class ApmService {
         return this.httpClient.get<Application[]>(uri);
     }
 
+
+    recupererAllUserByApplications(idApp: string): Observable<User[]> {
+        let params = new HttpParams().set('idApp', idApp);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.recuperer', params).url;
+        return this.httpClient.get<User[]>(uri);
+    }
+
     recupererSession(): Observable<any> {
         const uri = this.apiManagerService.genereUrl('Session.consulter').url;
         return this.httpClient.get<any>(uri);
@@ -54,6 +62,11 @@ export class ApmService {
     recupererTypeApplications(): Observable<string[]> {
         const uri = this.apiManagerService.genereUrl('ApplicationType.recuperer').url;
         return this.httpClient.get<string[]>(uri);
+    }
+
+    recupererDroitApplicatifs(): Observable<DroitApplicatifLevel[]> {
+        const uri = this.apiManagerService.genereUrl('DroitApplicatifs.recuperer').url;
+        return this.httpClient.get<DroitApplicatifLevel[]>(uri);
     }
 
     deconnecterSession(): Observable<any> {
