@@ -1,4 +1,31 @@
 Mettre une recherche de user avec une list epour ajouter plusieurs personnes
+<table mat-table [dataSource]="userBD" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Identifiant</th>
+        <td mat-cell *matCellDef="let element"> {{element.login}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Prenom </th>
+        <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
 
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Annuler</button>

@@ -53,10 +53,12 @@ export class ApiManagerService {
 
   public genereUrl(key: string): Api {
     const api: Api = this.getApiByKey(key);
+    api.url = api.url.split('?')[0];
     return api;
   }
 
   private buildParam(api: Api, tab: HttpParams): Api {
+
     const matchAll = require("match-all");
     let url = api.url;
     let array = matchAll(url, /{([a-z]+)}/gi).toArray();
