@@ -58,13 +58,21 @@ public class SessionService {
 		userSessionRepo.deleteById(token);
 	}
 
+	public UserSession getSession(String token) {
+		if (token == null) {
+			throw new ApplicationException(UNAUTHORIZED, "Une session est nescessaire pour acceder à cette ressource");
+		}
+		Optional<UserSession> u = userSessionRepo.findById(token);
+		if (u.isPresent()) {
+			return u.get();
+		}
+		throw new ApplicationException(UNAUTHORIZED, "Une session est nescessaire pour acceder à cette ressource");
+	}
+
 	public UserSession getSession() {
-		String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR);
-		if (tokenUserHeader != null) {
-			Optional<UserSession> u = userSessionRepo.findById(tokenUserHeader);
-			if (u.isPresent()) {
-				return u.get();
-			}
+		Optional<UserSession> u = userSessionRepo.findById(request.getHeader(X_TOKEN_UTILISATEUR));
+		if (u.isPresent()) {
+			return u.get();
 		}
 		throw new ApplicationException(UNAUTHORIZED, "Une session est nescessaire pour acceder à cette ressource");
 	}

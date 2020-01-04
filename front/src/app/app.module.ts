@@ -9,7 +9,6 @@ import { ApplicationModule } from './application/application.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
 import { LoaderService } from './core/services/loader.service';
-import { ApmHeaderInterceptor } from './core/services/apmHeaderInterceptor';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatMenuModule, MatToolbarModule, MatSidenavModule, MatExpansionModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
@@ -38,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddHeaderInterceptor } from './core/interceptor/HeaderInterceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -96,7 +96,7 @@ import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
     LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApmHeaderInterceptor,
+      useClass: AddHeaderInterceptor,
       multi: true,
     },
     {
