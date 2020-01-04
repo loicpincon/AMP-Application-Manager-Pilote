@@ -14,11 +14,11 @@ export class AuthentComponent implements OnInit {
     private _fb: FormBuilder,
     private _apm: ApmService,
     private _snackBar: MatSnackBar,
-    private _router: Router){}
+    private _router: Router) { }
 
   loader: boolean = false;
   formConnexion: FormGroup;
-  itemCo: any = {'login':null,'mdp':null}
+  itemCo: any = { 'login': null, 'mdp': null }
   validationMessageMdp: string = "Le mot de passe est requis."
   validation_messages = {
     'login': [
@@ -29,8 +29,8 @@ export class AuthentComponent implements OnInit {
     ]
   };
 
-  ngOnInit(){
-    if(localStorage.getItem('USER_TOKEN')){
+  ngOnInit() {
+    if (sessionStorage.getItem('USER_TOKEN')) {
       this._router.navigate(['application'])
     }
     this.createForm()
@@ -43,16 +43,17 @@ export class AuthentComponent implements OnInit {
       mdp: [this.itemCo.mdp, Validators.required]
     });
   }
-  connexion(f: FormGroup){
-    if(f.valid){
+  connexion(f: FormGroup) {
+    if (f.valid) {
       this.loader = true;
-      this._apm.connecterUser(f.value.login,f.value.mdp).subscribe((data:any) => {
+      this._apm.connecterUser(f.value.login, f.value.mdp).subscribe((data: any) => {
         this.loader = false
-        localStorage.setItem('USER_TOKEN',data.token)
-        this._router.navigate(['application'])
-      },(err:any)=>{
+        sessionStorage.setItem('USER_TOKEN', data.token)
+        window.location.href = '/'
+      }, (err: any) => {
         this.loader = false
-        this._snackBar.open('Mauvais identifiants','',{
+        console.error(err);
+        this._snackBar.open('Mauvais identifiants', '', {
           duration: 1500
         });
       })

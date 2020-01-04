@@ -24,17 +24,19 @@ export class AppComponent {
     ngOnInit() {
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
+            this.appService.recupererAllApplications().subscribe(apps => {
+                this.applications = apps;
+            })
         })
-        this.appService.recupererAllApplications().subscribe(apps => {
-            this.applications = apps;
-        })
+
     }
 
 
     deconnexion() {
         this.appService.deconnecterSession().subscribe(data => {
-            localStorage.removeItem('USER_TOKEN')
+            sessionStorage.removeItem('USER_TOKEN')
             this._router.navigate(['login'])
+            this.user = null;
         }, error => {
             alert(error.error.message);
         })

@@ -12,6 +12,8 @@ import { CreationApplicationComponent } from './creation-application/creation-ap
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AddHeaderInterceptor } from '../core/interceptor/HeaderInterceptor';
 
 @NgModule({
   declarations: [
