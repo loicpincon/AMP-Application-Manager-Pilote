@@ -22,41 +22,41 @@ export interface Food {
 export class GestionDroitsApplicationsComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  users :any[];
-  applications :any[];
+  users: any[];
+  applications: any[];
 
   foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
+    { value: 'steak-0', viewValue: 'Steak' },
+    { value: 'pizza-1', viewValue: 'Pizza' },
+    { value: 'tacos-2', viewValue: 'Tacos' }
   ];
 
   types: any[] = [
-   'DEV',
-   'CP',
-   'EXPRT'
+    'DEV',
+    'CP',
+    'EXPRT'
   ];
 
-  constructor(private serviceApm:ApmService) { }
+  constructor(private serviceApm: ApmService) { }
 
   ngOnInit() {
-    this.serviceApm.recupererAllUser().subscribe(users=>{
+    this.serviceApm.recupererAllUser().subscribe(users => {
       this.users = users;
     })
-    this.serviceApm.recupererAllApplications().subscribe(applications=>{
+    this.serviceApm.recupererAllApplicationsByUser().subscribe(applications => {
       this.applications = applications;
     })
   }
 
-checkedApp = false;
-checkedUsers = false;
+  checkedApp = false;
+  checkedUsers = false;
 
-  changeStateUsers(){
+  changeStateUsers() {
     this.checkedApp = false;
     this.checkedUsers = true;
   }
 
-  changeStateApp(){
+  changeStateApp() {
     this.checkedApp = true;
     this.checkedUsers = false;
   }

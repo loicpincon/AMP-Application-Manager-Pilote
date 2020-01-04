@@ -4,17 +4,18 @@ import org.springframework.stereotype.Component;
 
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
+import application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
 
 @Component
 public class DroitApplicatifHelper {
 
-	private static final String DEV = "DEV";
+	private static final String DEV = DroitApplicatifLevel.DEV.name();
 
-	private static final String CP = "CP";
+	private static final String CP = DroitApplicatifLevel.CP.name();
 
-	private static final String EXPERT = "EXPERT";
+	private static final String EXPERT = DroitApplicatifLevel.EXPERT.name();
 
-	private static final String PROP = "PROP";
+	private static final String PROP = DroitApplicatifLevel.PROP.name();
 
 	/**
 	 * 
@@ -23,21 +24,16 @@ public class DroitApplicatifHelper {
 	 * @return
 	 */
 	public DroitApplicatif setDroitApplicatif(DroitApplicatif da, String accessLevel) {
-		switch (accessLevel) {
-		case DEV:
+		if (accessLevel.equals(DEV)) {
 			setDevDroit(da);
-			break;
-		case CP:
+		} else if (accessLevel.equals(CP)) {
 			setCpDroit(da);
-			break;
-		case EXPERT:
+		} else if (accessLevel.equals(EXPERT)) {
 			setExpertDroit(da);
-			break;
-		case PROP:
+		} else if (accessLevel.equals(PROP)) {
 			setPropDroit(da);
-			break;
-		default:
-			throw new ApplicationException(400, "Ce niveau de droit est inconnu");
+		} else {
+			throw new ApplicationException(400, "Ce niveau de droit est inconnu : " + accessLevel);
 		}
 		return da;
 	}

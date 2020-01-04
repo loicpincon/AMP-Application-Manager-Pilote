@@ -34,9 +34,16 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
-    recupererAllApplications(): Observable<any> {
+    recupererAllApplications(): Observable<Application[]> {
         const uri = this.apiManagerService.genereUrl('Application.recuperer').url;
-        return this.httpClient.get<any>(uri);
+        return this.httpClient.get<Application[]>(uri);
+    }
+
+    recupererAllApplicationsByUser(): Observable<Application[]> {
+        let params = new HttpParams().set('idUser', localStorage.getItem('USER_TOKEN'));
+        const uri = this.apiManagerService.genereUrlWithParam('Application.recupererParUser', params).url;
+        console.log(uri)
+        return this.httpClient.get<Application[]>(uri);
     }
 
     recupererSession(): Observable<any> {
@@ -55,7 +62,8 @@ export class ApmService {
     }
 
     ajouterApplication(application: Application): Observable<Application> {
-        const uri = this.apiManagerService.genereUrl('Application.ajouter').url;
+        let params = new HttpParams().set('idUser', localStorage.getItem('USER_TOKEN'));
+        const uri = this.apiManagerService.genereUrlWithParam('Application.ajouter', params).url;
         return this.httpClient.post<Application>(uri, application);
     }
 

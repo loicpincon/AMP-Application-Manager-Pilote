@@ -24,7 +24,7 @@ export class AppComponent {
     ngOnInit() {
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
-            this.appService.recupererAllApplications().subscribe(apps => {
+            this.appService.recupererAllApplicationsByUser().subscribe(apps => {
                 this.applications = apps;
             })
         })

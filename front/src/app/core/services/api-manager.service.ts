@@ -59,6 +59,9 @@ export class ApiManagerService {
   private buildParam(api: Api, tab: HttpParams): Api {
     let url: string = api.url;
     tab.keys().forEach(function (element) {
+      url = url.replace('{' + element + '}', tab.get(element));
+    });
+    tab.keys().forEach(function (element) {
       url = url.replace(element, tab.get(element));
     });
     api.url = url;
