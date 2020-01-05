@@ -12,4 +12,5 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
 
 	List<Application> findByIdIn(List<String> id);
 
+	
 }

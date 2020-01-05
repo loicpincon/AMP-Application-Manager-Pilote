@@ -25,14 +25,6 @@ public class DroitApplicatif extends BasicDataBean {
 
 	private Date date;
 
-	private boolean read;
-
-	private boolean update;
-
-	private boolean delete;
-
-	private boolean pilote;
-
-	private boolean admin;
+	private DroitApplicatifLevel level;
 
 }

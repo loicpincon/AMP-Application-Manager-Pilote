@@ -1,5 +1,7 @@
 package application.manager.pilote.utilisateur.helper;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import application.manager.pilote.commun.exception.ApplicationException;
@@ -24,66 +26,19 @@ public class DroitApplicatifHelper {
 	 * @return
 	 */
 	public DroitApplicatif setDroitApplicatif(DroitApplicatif da, String accessLevel) {
+		da.setDate(new Date());
 		if (accessLevel.equals(DEV)) {
-			setDevDroit(da);
+			da.setLevel(DroitApplicatifLevel.DEV);
 		} else if (accessLevel.equals(CP)) {
-			setCpDroit(da);
+			da.setLevel(DroitApplicatifLevel.CP);
 		} else if (accessLevel.equals(EXPERT)) {
-			setExpertDroit(da);
+			da.setLevel(DroitApplicatifLevel.EXPERT);
 		} else if (accessLevel.equals(PROP)) {
-			setPropDroit(da);
+			da.setLevel(DroitApplicatifLevel.PROP);
 		} else {
 			throw new ApplicationException(400, "Ce niveau de droit est inconnu : " + accessLevel);
 		}
 		return da;
-	}
-
-	/**
-	 * 
-	 * @param da
-	 */
-	private void setDevDroit(DroitApplicatif da) {
-		da.setRead(true);
-		da.setPilote(false);
-		da.setDelete(false);
-		da.setUpdate(false);
-		da.setAdmin(false);
-	}
-
-	/**
-	 * 
-	 * @param da
-	 */
-	private void setPropDroit(DroitApplicatif da) {
-		da.setRead(true);
-		da.setPilote(true);
-		da.setDelete(true);
-		da.setUpdate(true);
-		da.setAdmin(true);
-	}
-
-	/**
-	 * 
-	 * @param da
-	 */
-	private void setExpertDroit(DroitApplicatif da) {
-		da.setRead(true);
-		da.setPilote(true);
-		da.setDelete(false);
-		da.setUpdate(true);
-		da.setAdmin(true);
-	}
-
-	/**
-	 * 
-	 * @param da
-	 */
-	private void setCpDroit(DroitApplicatif da) {
-		da.setRead(true);
-		da.setPilote(true);
-		da.setDelete(false);
-		da.setUpdate(false);
-		da.setAdmin(false);
 	}
 
 }

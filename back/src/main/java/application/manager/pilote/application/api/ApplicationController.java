@@ -40,6 +40,8 @@ public class ApplicationController extends DefaultController {
 	public Callable<ResponseEntity<List<Application>>> recuperer() {
 		return () -> ResponseEntity.ok(appService.recuperer());
 	}
+	
+	
 
 	/**
 	 * 

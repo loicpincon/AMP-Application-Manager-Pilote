@@ -75,7 +75,8 @@ public class UtilisateurController {
 	 */
 	@GetMapping()
 	@ApiManager("recuperer")
-	public Callable<ResponseEntity<List<Utilisateur>>> recuperer() {
-		return () -> ResponseEntity.ok(userService.recuperer());
+	public Callable<ResponseEntity<List<Utilisateur>>> recuperer(@RequestParam(required = false) String idApp) {
+		return () -> ResponseEntity.ok(userService.recuperer(idApp));
 	}
+
 }

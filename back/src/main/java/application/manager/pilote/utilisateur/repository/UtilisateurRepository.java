@@ -1,5 +1,6 @@
 package application.manager.pilote.utilisateur.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -28,5 +29,8 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	 */
 	@Query("{'token' : ?0}")
 	Optional<Utilisateur> findByToken(String token);
+
+	@Query(value = "{'rights.applicationId' : ?0 }")
+	List<Utilisateur> findUserByApplication(String id);
 
 }
