@@ -22,6 +22,7 @@ export class AppComponent {
     mode = new FormControl('push');
 
     ngOnInit() {
+        console.log("Application chargée")
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
