@@ -16,6 +16,7 @@ import application.manager.pilote.commun.service.DefaultService;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.utilisateur.helper.DroitApplicatifHelper;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
+import application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
 import application.manager.pilote.utilisateur.modele.Utilisateur;
 import application.manager.pilote.utilisateur.repository.UtilisateurRepository;
 
@@ -51,13 +52,28 @@ public class UtilisateurService extends DefaultService {
 		return uOpt.get();
 	}
 
-	public List<Utilisateur> recuperer() {
-		return uRepo.findAll();
+	public List<Utilisateur> recuperer(String idApp) {
+		if (idApp == null) {
+			return uRepo.findAll();
+		} else {
+			List<Utilisateur> list = uRepo.findUserByApplication(idApp);
+			for (Utilisateur user : list) {
+				List<DroitApplicatif> listToRemove = new ArrayList<>();
+				for (DroitApplicatif droit : user.getRights()) {
+					if (!droit.getApplicationId().equals(idApp)) {
+						listToRemove.add(droit);
+					}
+				}
+				user.getRights().removeAll(listToRemove);
+			}
+			return list;
+		}
 	}
 
 	public Utilisateur ajouterDroit(String id, String idApplication, String level) {
 		Utilisateur us = consulter(id);
-		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).admin(true).build(), level);
+		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).date(new Date())
+				.level(DroitApplicatifLevel.PROP).build(), level);
 		return uRepo.save(us);
 	}
 
@@ -79,7 +95,7 @@ public class UtilisateurService extends DefaultService {
 				return droitApplicatifHelper.setDroitApplicatif(droitU, level);
 			}
 		}
-		da.setDate(new Date());
+
 		LOG.debug("l'utilisateur a maintenant les droits de " + level + " sur l'application " + app.getName());
 		us.getRights().add(droitApplicatifHelper.setDroitApplicatif(da, level));
 		return da;
