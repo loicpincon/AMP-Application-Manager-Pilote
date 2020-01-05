@@ -35,6 +35,14 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
+
+    recupererAllUserByLoginOrNomOrPrenom(keyword: string): Observable<User[]> {
+        let params = new HttpParams().set('keyword', keyword);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.recuperer', params).url;
+        return this.httpClient.get<User[]>(uri);
+    }
+
+
     recupererAllApplications(): Observable<Application[]> {
         const uri = this.apiManagerService.genereUrl('Application.recuperer').url;
         return this.httpClient.get<Application[]>(uri);
@@ -43,7 +51,6 @@ export class ApmService {
     recupererAllApplicationsByUser(): Observable<Application[]> {
         let params = new HttpParams().set('idUser', localStorage.getItem('USER_TOKEN'));
         const uri = this.apiManagerService.genereUrlWithParam('Application.recupererParUser', params).url;
-        console.log(uri)
         return this.httpClient.get<Application[]>(uri);
     }
 

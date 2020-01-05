@@ -1,5 +1,12 @@
-Mettre une recherche de user avec une list epour ajouter plusieurs personnes
-<table mat-table [dataSource]="userBD" class="mat-elevation-z8">
+<form [formGroup]="formulaire">
+    <mat-form-field style="width: 100%;">
+        <input formControlName="keywordSearch" matInput placeholder="Search by login, name or
+        surname">
+    </mat-form-field>
+</form>
+
+
+<table mat-table [dataSource]="userBD" style="width: 100%;">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->

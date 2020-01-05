@@ -10,11 +10,7 @@ export class AddHeaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let headers = new HttpHeaders({ 'Access-Control-Allow-Origin': '*' });
-
-    console.log(req.urlWithParams);
-    console.log(sessionStorage.getItem('USER_TOKEN'))
     if (sessionStorage.getItem('USER_TOKEN')) {
-      console.log('ajou du header')
       if (sessionStorage.getItem('X-TOKEN-UTILISATEUR')) {
         headers = headers.append('X-TOKEN-UTILISATEUR', sessionStorage.getItem('USER_TOKEN'));
       }
