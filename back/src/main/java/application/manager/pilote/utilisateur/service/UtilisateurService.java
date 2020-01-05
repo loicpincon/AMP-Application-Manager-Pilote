@@ -52,10 +52,14 @@ public class UtilisateurService extends DefaultService {
 		return uOpt.get();
 	}
 
-	public List<Utilisateur> recuperer(String idApp) {
-		if (idApp == null) {
-			return uRepo.findAll();
-		} else {
+	/**
+	 * 
+	 * @param idApp
+	 * @param keyword
+	 * @return
+	 */
+	public List<Utilisateur> recuperer(String idApp, String keyword) {
+		if (idApp != null) {
 			List<Utilisateur> list = uRepo.findUserByApplication(idApp);
 			for (Utilisateur user : list) {
 				List<DroitApplicatif> listToRemove = new ArrayList<>();
@@ -67,6 +71,10 @@ public class UtilisateurService extends DefaultService {
 				user.getRights().removeAll(listToRemove);
 			}
 			return list;
+		} else if (keyword != null) {
+			return uRepo.findByNomOrPrenomOrLogin(keyword);
+		} else {
+			return uRepo.findAll();
 		}
 	}
 

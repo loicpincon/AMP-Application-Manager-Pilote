@@ -30,7 +30,20 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	@Query("{'token' : ?0}")
 	Optional<Utilisateur> findByToken(String token);
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Query(value = "{'rights.applicationId' : ?0 }")
 	List<Utilisateur> findUserByApplication(String id);
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Query("{'$or' : [{'nom' : {$regex :?0}}, {'prenom' : {$regex :?0}},{'login' : {$regex :?0}}]}")
+	List<Utilisateur> findByNomOrPrenomOrLogin(String id);
 
 }
