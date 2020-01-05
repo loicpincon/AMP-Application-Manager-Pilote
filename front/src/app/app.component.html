@@ -55,7 +55,7 @@
     </mat-accordion>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="headerBandeau">
+    <mat-toolbar *ngIf="user" class="headerBandeau">
       <div class="btnMenu">
         <button mat-button (click)="menuApp.open()">Afficher menu</button>
       </div>
