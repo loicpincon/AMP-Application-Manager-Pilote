@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
-import { ApmService } from '../services/apm.service';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ApmService } from '../../core/services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
-  providers:[AppComponent],
+  providers: [AppComponent],
   selector: 'core-authent',
   templateUrl: './authent.component.html',
   styleUrls: ['./authent.component.css']
@@ -17,8 +17,7 @@ export class AuthentComponent implements OnInit {
     private _fb: FormBuilder,
     private _apm: ApmService,
     private _snackBar: MatSnackBar,
-    private _router: Router,
-    private t : AppComponent) { }
+    private _router: Router) { }
 
   loader: boolean = false;
   formConnexion: FormGroup;
@@ -35,7 +34,7 @@ export class AuthentComponent implements OnInit {
 
   ngOnInit() {
     if (sessionStorage.getItem('USER_TOKEN')) {
-      this._router.navigate(['application'])
+      this._router.navigate(['/secure'])
     }
     this.createForm()
   }
@@ -53,8 +52,7 @@ export class AuthentComponent implements OnInit {
       this._apm.connecterUser(f.value.login, f.value.mdp).subscribe((data: any) => {
         this.loader = false
         sessionStorage.setItem('USER_TOKEN', data.token)
-        this.t.user = "test";
-        window.location.reload();
+        this._router.navigate(['/secure'])
       }, (err: any) => {
         this.loader = false
         console.error(err);

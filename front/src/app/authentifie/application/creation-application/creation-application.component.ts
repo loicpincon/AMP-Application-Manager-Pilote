@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { WarApplication, Application, BashApplication } from '../modele/Application';
+import { WarApplication, BashApplication } from '../modele/Application';
 
 @Component({
-  selector: 'app-creation-application',
+  selector: 'application-creation-application',
   templateUrl: './creation-application.component.html',
   styleUrls: ['./creation-application.component.css']
 })

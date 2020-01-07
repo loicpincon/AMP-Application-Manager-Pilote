@@ -1,0 +1,72 @@
+<mat-sidenav-container class="container" [hasBackdrop]="true">
+    <mat-sidenav #menuApp [mode]="mode.value">
+        <div class="sidebar-header">
+            <img src="assets/amp_logo.png">
+            <div>
+                <p class="separator"></p>
+            </div>
+        </div>
+        <mat-accordion hideToggle>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Applications
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p *ngFor="let app of applications" (click)="loadApp(app.id)" class="nameApp">
+                    <i class="material-icons">
+                        apps
+                    </i> {{app.name}}</p>
+                <p [routerLink]="['/secure/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
+                        class="material-icons">
+                        add
+                    </i>ajouter app</p>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Données
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="nameApp" (click)="menuApp.close()">[EAI]blabla</p>
+                <p class="nameApp" (click)="menuApp.close()">[TTT]test</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        JMS
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Pas encore dispo</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Admin
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <a [routerLink]="['/secure/administration/gestion-droits']" (click)="menuApp.close()">Droits membres</a>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar *ngIf="user" class="headerBandeau">
+            <div class="btnMenu">
+                <button mat-button (click)="menuApp.open()">Afficher menu</button>
+            </div>
+            <div class="containerLeft" *ngIf="user">
+                <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
+                <mat-menu #menuUser="matMenu">
+                    <button mat-menu-item>Mon profil</button>
+                    <button mat-menu-item (click)="deconnexion()">Se déconnecter</button>
+                </mat-menu>
+            </div>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

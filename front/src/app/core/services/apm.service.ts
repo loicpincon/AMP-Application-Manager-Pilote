@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
-import { Application } from 'src/app/application/modele/Application';
-import { DroitApplicatifLevel, User } from 'src/app/administration/modele/model';
+import { Application } from 'src/app/authentifie/application/modele/Application';
+import { User, DroitApplicatifLevel } from 'src/app/authentifie/administration/modele/model';
 
 
 /**

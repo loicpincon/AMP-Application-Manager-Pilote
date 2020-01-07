@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DroitApplicatifLevel, User } from '../modele/model';
-import { Application } from 'src/app/application/modele/Application';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ModalAjoutUserData, ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
+import { MatDialog } from '@angular/material';
+import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
+import { Application } from '../../application/modele/Application';
 
 export interface PeriodicElement {
   name: string;
@@ -19,7 +19,7 @@ export interface Food {
 
 
 @Component({
-  selector: 'app-gestion-droits-applications',
+  selector: 'administration-gestion-droits-applications',
   templateUrl: './gestion-droits-applications.component.html',
   styleUrls: ['./gestion-droits-applications.component.css']
 })
@@ -27,14 +27,11 @@ export class GestionDroitsApplicationsComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   users: User[];
-
   user: User;
-
   applications: Application[];
-
   applicationEnCours: string;
-
   types: DroitApplicatifLevel[];
+
   constructor(private serviceApm: ApmService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -44,10 +41,6 @@ export class GestionDroitsApplicationsComponent implements OnInit {
         this.applications = applications;
       })
     })
-
-
-
-
     this.serviceApm.recupererDroitApplicatifs().subscribe(droits => {
       this.types = droits;
     })
