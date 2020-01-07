@@ -1,11 +1,8 @@
 import { Component, Inject, Optional, OnInit } from '@angular/core';
-
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { User } from '../../modele/model';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 
 export interface ModalAjoutUserData {
     animal: string;
@@ -14,22 +11,19 @@ export interface ModalAjoutUserData {
 
 
 @Component({
-    selector: 'modal-ajout-user',
+    selector: 'administration-modal-ajout-user',
     templateUrl: './modal-ajout-user.html',
 })
 export class ModalAjoutUser implements OnInit {
 
     displayedColumns: string[] = ['position', 'name', 'weight'];
     formulaire: FormGroup;
-
-
     userBD: User[];
     myControl = new FormControl();
 
-
-    constructor(private formBuilder: FormBuilder,
-        public dialogRef: MatDialogRef<ModalAjoutUser>,
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: ModalAjoutUserData, private apmService: ApmService) { }
+    constructor(private formBuilder: FormBuilder,public dialogRef: MatDialogRef<ModalAjoutUser>,
+    
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: ModalAjoutUserData, private apmService: ApmService) { }
 
     ngOnInit(): void {
 

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AuthentComponent } from '../public/authent/authent.component';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-
 import { AuthGuardService as AuthGuard } from '../core/services/auth-guard.service';
 import { AuthentifieComponent } from './authentifie.component';
 import { MaterialModule } from '../material.module';
