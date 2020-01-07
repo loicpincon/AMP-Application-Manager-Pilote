@@ -22,9 +22,6 @@ const routes: Routes = [
 })
 export class PublicRoutingModule { }
 
-
-
-
 @NgModule({
     declarations: [
         PublicComponent,

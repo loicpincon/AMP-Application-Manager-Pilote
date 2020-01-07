@@ -2,7 +2,7 @@ import { Component, OnInit, Input} from '@angular/core';
 import { Environnement } from '../modele/Application';
 
 @Component({
-  selector: 'app-instance',
+  selector: 'application-instance',
   templateUrl: './instance.component.html',
   styleUrls: ['./instance.component.css']
 })
@@ -13,6 +13,5 @@ export class InstanceComponent implements OnInit {
   constructor(){}
 
   ngOnInit(){
-    console.log(this.environnements)
   }
 }
