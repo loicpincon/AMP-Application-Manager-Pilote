@@ -25,7 +25,6 @@ export class AuthentifieComponent implements OnInit {
 
     ngOnInit() {
         this.sidenavService.sideNav = this.menuApp;
-        console.log("Application chargée")
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
