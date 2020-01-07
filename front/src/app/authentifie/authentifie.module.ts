@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { AuthentComponent } from '../public/authent/authent.component';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -8,9 +7,6 @@ import { AuthentifieComponent } from './authentifie.component';
 import { MaterialModule } from '../material.module';
 import { ApplicationModule } from './application/application.module';
 import { AdministrationModule } from './administration/administration.module';
-
-
-
 
 const routes: Routes = [
     {
