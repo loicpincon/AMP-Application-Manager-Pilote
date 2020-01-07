@@ -41,6 +41,18 @@ public class ApplicationController extends DefaultController {
 		return () -> ResponseEntity.ok(appService.recuperer());
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/{idApp}")
+	@ApiManager
+	public Callable<ResponseEntity<Application>> consulter(@PathVariable String idApp) {
+		return () -> ResponseEntity.ok(appService.consulter(idApp));
+	}
+	
+	
+	
 	
 
 	/**
