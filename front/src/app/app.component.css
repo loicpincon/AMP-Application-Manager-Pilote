@@ -23,4 +23,9 @@
     cursor: pointer;
     color: grey;
 }
-
+.mat-sidenav {
+    width: 200px;
+}
+.sidebar-header{
+    text-align: center;
+}
