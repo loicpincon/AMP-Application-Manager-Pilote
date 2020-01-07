@@ -44,8 +44,9 @@ public class ApplicationService extends DefaultService {
 
 	public Application inserer(String idUser, Application param) {
 		param.setId(hashService.hash(new Date() + param.getName()));
-		userService.ajouterDroit(idUser, param.getId(), "PROP");
-		return appRepo.insert(param);
+		Application appInsert = appRepo.insert(param);
+		userService.ajouterDroit(idUser, appInsert.getId(), "PROP");
+		return appInsert;
 	}
 
 	public Application modifier(Application param) {
