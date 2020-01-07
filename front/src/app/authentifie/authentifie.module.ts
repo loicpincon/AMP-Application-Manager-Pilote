@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService as AuthGuard } from '../core/services/auth-guard.service';
 import { AuthentifieComponent } from './authentifie.component';
 import { MaterialModule } from '../material.module';
+import { ApplicationModule } from './application/application.module';
+import { AdministrationModule } from './administration/administration.module';
 
 
 
@@ -40,7 +42,9 @@ export class AuthentifieRoutingModule { }
     imports: [
         CommonModule,
         AuthentifieRoutingModule,
-        MaterialModule
+        MaterialModule,
+        ApplicationModule,
+        AdministrationModule
     ]
 })
 export class AuthentifieModule { }

@@ -6,6 +6,7 @@ import { CreationApplicationComponent } from './creation-application/creation-ap
 import { CommonModule } from '@angular/common';
 import { ApplicationRoutingModule } from './applicationRouting.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({

@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthentComponent } from './core/authent/authent.component';
-import { AuthGuardService as AuthGuard } from './core/services/auth-guard.service';
 
 const routes: Routes = [
   {
-    path: 'secure', loadChildren: './authentifie.module#AuthentifieModule'
+    path: 'secure', loadChildren: './authentifie/authentifie.module#AuthentifieModule'
   },
   {
-    path: 'unsecure', loadChildren: './public.module#PublicModule'
+    path: 'unsecure', loadChildren: './public/public.module#PublicModule'
   },
   {
     path: '**', redirectTo: 'secure'

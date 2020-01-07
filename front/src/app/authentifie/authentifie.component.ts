@@ -2,8 +2,8 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { Application } from './application/modele/Application';
 import { MatSidenav } from '@angular/material';
 import { Router, NavigationExtras } from '@angular/router';
-import { ApmService } from './core/services/apm.service';
-import { SidenavService } from './core/services/sideNav.service';
+import { ApmService } from '../core/services/apm.service';
+import { SidenavService } from '../core/services/sideNav.service';
 import { FormControl } from '@angular/forms';
 
 @Component({

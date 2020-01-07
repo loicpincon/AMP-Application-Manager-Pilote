@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DroitApplicatifLevel, User } from '../modele/model';
-import { Application } from 'src/app/application/modele/Application';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalAjoutUserData, ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
+import { Application } from '../../application/modele/Application';
 
 export interface PeriodicElement {
   name: string;

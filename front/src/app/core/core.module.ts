@@ -13,7 +13,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    ,
   ],
   imports: [
     CommonModule,

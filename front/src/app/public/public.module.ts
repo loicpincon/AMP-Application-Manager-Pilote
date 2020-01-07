@@ -1,13 +1,11 @@
-
-
-
-
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthentComponent } from './authent/authent.component';
-import { AuthGuardService as AuthGuard } from '../core/services/auth-guard.service';
 import { CoreModule } from '../core/core.module';
 import { PublicComponent } from './public.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../material.module';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
     {
@@ -34,7 +32,10 @@ export class PublicRoutingModule { }
     ],
     imports: [
         PublicRoutingModule,
-        CoreModule
+        CoreModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        CommonModule,
     ]
 })
 export class PublicModule { }
