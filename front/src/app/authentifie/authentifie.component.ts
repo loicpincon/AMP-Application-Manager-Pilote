@@ -25,9 +25,6 @@ export class AuthentifieComponent implements OnInit {
 
     ngOnInit() {
         this.sidenavService.sideNav = this.menuApp;
-        //A SUPPRIMER. UNIQUEMENT POUR BYPASSER CE QUE LOIC A FAIT ET QUI MARCHE PAS
-        localStorage.setItem('USER_TOKEN', 'AZERTYIOP');
-        console.log("Application chargée")
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
