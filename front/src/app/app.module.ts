@@ -1,5 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { AppComponent } from './app.component';
+import { NgModule, APP_INITIALIZER, Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
@@ -22,6 +21,15 @@ const routes: Routes = [
   }
 ];
 
+@Component({
+  selector: 'app-root',
+  template: '<router-outlet></router-outlet>'
+})
+export class AppComponent {
+
+
+}
+
 @NgModule({
   imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
@@ -36,7 +44,8 @@ export class AppRoutingModule { }
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    CoreModule, AuthentifieModule],
+    CoreModule,
+    AuthentifieModule],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     LoaderService,
@@ -51,3 +60,8 @@ export class AppRoutingModule { }
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+
+
+

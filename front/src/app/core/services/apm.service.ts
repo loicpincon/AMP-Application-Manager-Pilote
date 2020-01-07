@@ -55,7 +55,7 @@ export class ApmService {
     }
 
     recupererAllApplicationsByUser(): Observable<Application[]> {
-        let params = new HttpParams().set('idUser', localStorage.getItem('USER_TOKEN'));
+        let params = new HttpParams().set('idUser', sessionStorage.getItem('USER_TOKEN'));
         const uri = this.apiManagerService.genereUrlWithParam('Application.recupererParUser', params).url;
         return this.httpClient.get<Application[]>(uri);
     }

@@ -3,10 +3,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApmService } from '../../core/services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 
 @Component({
-  providers: [AppComponent],
   selector: 'core-authent',
   templateUrl: './authent.component.html',
   styleUrls: ['./authent.component.css']
