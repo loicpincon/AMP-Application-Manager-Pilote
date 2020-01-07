@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AuthentComponent } from '../public/authent/authent.component';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService as AuthGuard } from '../core/services/auth-guard.service';
@@ -6,6 +7,11 @@ import { AuthentifieComponent } from './authentifie.component';
 import { MaterialModule } from '../material.module';
 import { ApplicationModule } from './application/application.module';
 import { AdministrationModule } from './administration/administration.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenUserHeaderInterceptor } from './interceptor/TokenUserHeaderInterceptor';
+
+
+
 
 const routes: Routes = [
     {
@@ -40,6 +46,12 @@ export class AuthentifieRoutingModule { }
         MaterialModule,
         ApplicationModule,
         AdministrationModule
+    ], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenUserHeaderInterceptor,
+            multi: true,
+        }
     ]
 })
 export class AuthentifieModule { }

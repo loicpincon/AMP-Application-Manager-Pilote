@@ -5,27 +5,13 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
 import { LoaderService } from './core/services/loader.service';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { AddHeaderInterceptor } from './core/interceptor/HeaderInterceptor';
+import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
 import { SidenavService } from './core/services/sideNav.service';
-import { Routes, RouterModule } from '@angular/router';
-
-const routes: Routes = [
-  {
-    path: 'secure', loadChildren: './authentifie/authentifie.module#AuthentifieModule'
-  },
-  {
-    path: 'unsecure', loadChildren: './public/public.module#PublicModule'
-  },
-  {
-    path: '**', redirectTo: 'secure'
-  }
-];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+import { TokenUserHeaderInterceptor } from './authentifie/interceptor/TokenUserHeaderInterceptor';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { AuthentifieModule } from './authentifie/authentifie.module';
 
 @NgModule({
   declarations: [
@@ -35,17 +21,13 @@ export class AppRoutingModule { }
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-  ],
+    CoreModule, AuthentifieModule],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
 
     LoaderService,
     SidenavService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AddHeaderInterceptor,
-      multi: true,
-    },
+
     {
       provide: APP_INITIALIZER,
       useFactory: apiMapLoaderConfigFactory,
