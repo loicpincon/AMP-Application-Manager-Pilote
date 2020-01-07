@@ -10,6 +10,8 @@ import { MaterialModule } from './material.module';
 import { SidenavService } from './core/services/sideNav.service';
 import { TokenUserHeaderInterceptor } from './authentifie/interceptor/TokenUserHeaderInterceptor';
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { AuthentifieModule } from './authentifie/authentifie.module';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-  ],
+    CoreModule, AuthentifieModule],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenUserHeaderInterceptor,
-      multi: true,
-    },
-
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
 
     LoaderService,
