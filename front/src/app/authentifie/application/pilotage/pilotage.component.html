@@ -1,0 +1,30 @@
+<div *ngIf="application">
+    <div class="header">
+        <h3 class="text-center">{{application.name}}</h3>
+        <h4 class="text-center">[{{application.type}}]</h4>
+    </div>
+    <div class="container" fxLayout fxLayout.xs="column">
+        <div fxFlex fxLayout="column">
+            <app-instance [environnements]="application.environnements"></app-instance>
+        </div>
+        <div fxFlex>
+            <mat-card class="blocApp">
+                <mat-card-header>
+                    <mat-card-title>bloc initule</mat-card-title>
+                    <mat-card-subtitle>Sert juste à montrer la répartition de l'écran</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>
+                        Sert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écran
+                        Sert juste à montrer la répartition de l'écran
+                    </p>
+                  </mat-card-content>
+                </mat-card>
+        </div>
+    </div>
+</div>

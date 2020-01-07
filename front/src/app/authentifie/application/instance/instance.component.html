@@ -1,0 +1,32 @@
+<mat-card fxFlex class="blocInstance">
+    <div class="blocInstanceHeader">
+        <mat-card-title class="blocInstanceTitre"><h5>Instances</h5></mat-card-title>
+    </div>
+    <mat-card-content class="contentInstance">
+        <mat-accordion *ngIf="environnements != null; else envNull">
+            <mat-expansion-panel *ngFor="let env of environnements | keyvalue" hideToggle>
+                <mat-expansion-panel-header class="env_header">
+                    <mat-panel-title class="env_titre">
+                        <span *ngIf="env.key==1">Développement</span>
+                        <span *ngIf="env.key==2">Recette Utilisateurs</span>
+                        <span *ngIf="env.key==3">Production</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                    <div *ngIf="env.value.instances != null; else instanceNull" class="listeInstances">
+                        <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn">{{instance.id}}</button>
+                        <button mat-raised-button class="listeInstances_btnOff">test</button>
+                    </div>
+                    <ng-template #instanceNull>
+                        <div class="env-InstanceNull">
+                            Aucune instance pour cet environnement
+                        </div>
+                    </ng-template>
+                </mat-expansion-panel>
+          </mat-accordion>
+          <ng-template #envNull>
+                <div class="env-InstanceNull">
+                    Aucun environnements pour cette application
+                </div>
+            </ng-template>
+    </mat-card-content>
+</mat-card>
