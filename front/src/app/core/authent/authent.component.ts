@@ -3,7 +3,10 @@ import { FormControl, Validators, FormGroup, FormBuilder, Form } from '@angular/
 import { ApmService } from '../services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
+
 @Component({
+  providers:[AppComponent],
   selector: 'core-authent',
   templateUrl: './authent.component.html',
   styleUrls: ['./authent.component.css']
@@ -14,7 +17,8 @@ export class AuthentComponent implements OnInit {
     private _fb: FormBuilder,
     private _apm: ApmService,
     private _snackBar: MatSnackBar,
-    private _router: Router) { }
+    private _router: Router,
+    private t : AppComponent) { }
 
   loader: boolean = false;
   formConnexion: FormGroup;
@@ -49,7 +53,8 @@ export class AuthentComponent implements OnInit {
       this._apm.connecterUser(f.value.login, f.value.mdp).subscribe((data: any) => {
         this.loader = false
         sessionStorage.setItem('USER_TOKEN', data.token)
-        window.location.href = '/'
+        this.t.user = "test";
+        window.location.reload();
       }, (err: any) => {
         this.loader = false
         console.error(err);
