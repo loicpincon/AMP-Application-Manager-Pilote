@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
-import { ApplicationModule } from './application/application.module';
+import { ApplicationModule } from './authentifie/application/application.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
 import { LoaderService } from './core/services/loader.service';

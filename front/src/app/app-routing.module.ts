@@ -5,21 +5,18 @@ import { AuthGuardService as AuthGuard } from './core/services/auth-guard.servic
 
 const routes: Routes = [
   {
-    path: 'login', component: AuthentComponent,
+    path: 'secure', loadChildren: './authentifie.module#AuthentifieModule'
   },
   {
-    path: 'application', loadChildren: './application/application.module#ApplicationModule',canActivate: [AuthGuard] 
+    path: 'unsecure', loadChildren: './public.module#PublicModule'
   },
   {
-   path: 'administration', loadChildren: './administration/administration.module#AdministrationModule',canActivate: [AuthGuard] 
-  },
-  {
-    path: '**', redirectTo: 'application'
+    path: '**', redirectTo: 'secure'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

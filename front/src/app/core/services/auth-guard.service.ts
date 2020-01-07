@@ -9,17 +9,17 @@ import { of } from 'rxjs';
 })
 export class AuthGuardService {
 
-  constructor(public router: Router,private service:ApmService) { }
+  constructor(public router: Router, private service: ApmService) { }
 
-  variableAVerifier= false;
+  variableAVerifier = false;
 
   canActivate() {
     return this.service.recupererSession().pipe(
       map(data => {
-       return true;
+        return true;
       }),
       catchError(() => {
-        this.router.navigate(['login']);
+        this.router.navigate(['/unsecure']);
         return of(false);
       }),
     );
