@@ -8,6 +8,8 @@ import { AuthentifieComponent } from './authentifie.component';
 import { MaterialModule } from '../material.module';
 import { ApplicationModule } from './application/application.module';
 import { AdministrationModule } from './administration/administration.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenUserHeaderInterceptor } from './interceptor/TokenUserHeaderInterceptor';
 
 
 
@@ -45,6 +47,8 @@ export class AuthentifieRoutingModule { }
         MaterialModule,
         ApplicationModule,
         AdministrationModule
+    ], exports: [
+        TokenUserHeaderInterceptor
     ]
 })
 export class AuthentifieModule { }

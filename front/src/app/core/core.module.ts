@@ -10,6 +10,8 @@ import { MatInputModule, MatIconModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GeneralHeaderInterceptor } from './interceptor/GeneralHeaderInterceptor';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatSnackBarModule,
     MatProgressSpinnerModule
+  ], providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GeneralHeaderInterceptor,
+      multi: true,
+    }
   ]
 })
 export class CoreModule { }

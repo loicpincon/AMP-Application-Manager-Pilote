@@ -13,9 +13,9 @@ import { CommonModule } from '@angular/common';
 
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddHeaderInterceptor } from './core/interceptor/HeaderInterceptor';
-import { SidenavService } from './core/services/sideNav.service';
 import { MaterialModule } from './material.module';
+import { SidenavService } from './core/services/sideNav.service';
+import { TokenUserHeaderInterceptor } from './authentifie/interceptor/TokenUserHeaderInterceptor';
 
 @NgModule({
   declarations: [
@@ -37,15 +37,17 @@ import { MaterialModule } from './material.module';
     MaterialModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenUserHeaderInterceptor,
+      multi: true,
+    },
+
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
 
     LoaderService,
     SidenavService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AddHeaderInterceptor,
-      multi: true,
-    },
+
     {
       provide: APP_INITIALIZER,
       useFactory: apiMapLoaderConfigFactory,
