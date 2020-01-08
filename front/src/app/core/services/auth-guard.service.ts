@@ -27,6 +27,7 @@ export class AuthGuardService {
       );
     } else {
       this.router.navigate(['/secure']);
+      return false;
     }
 
 
