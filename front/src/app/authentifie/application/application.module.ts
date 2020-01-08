@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { ApplicationComponent } from './application.component';
 import { PilotageComponent } from './pilotage/pilotage.component';
 import { InstanceComponent } from './instance/instance.component';
+import { ActionComponent } from './action/action.component';
 import { CreationApplicationComponent } from './creation-application/creation-application.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterModule, Routes } from '@angular/router';
+import { ParametreComponent } from './parametre/parametre.component';
 
 const routes: Routes = [
   {
@@ -36,7 +38,9 @@ export class ApplicationRoutingModule { }
     ApplicationComponent,
     PilotageComponent,
     InstanceComponent,
-    CreationApplicationComponent
+    CreationApplicationComponent,
+    ActionComponent,
+    ParametreComponent
   ],
   imports: [
     CommonModule,

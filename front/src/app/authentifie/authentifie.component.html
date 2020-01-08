@@ -8,26 +8,24 @@
         </div>
         <mat-accordion hideToggle>
             <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
+                <mat-expansion-panel-header class="headerPanel">
+                    <mat-panel-title class="titlePanel">
                         Applications
                     </mat-panel-title>
                 </mat-expansion-panel-header>
 
-                <p *ngFor="let app of applications" (click)="loadApp(app.id)" class="nameApp">
-                    <i class="material-icons">
-                        apps
-                    </i> {{app.name}}</p>
-                <p [routerLink]="['/secure/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
+                <div *ngFor="let app of applications" (click)="loadApp(app.id)" class="nameApp">
+                    <i class="material-icons">apps</i><span class="appSpanName">{{app.name}}</span></div>
+                <div [routerLink]="['/secure/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
                         class="material-icons">
                         add
-                    </i>ajouter app</p>
+                    </i>ajouter app</div>
 
             </mat-expansion-panel>
 
             <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
+                <mat-expansion-panel-header class="headerPanel">
+                    <mat-panel-title class="titlePanel">
                         Données
                     </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -36,8 +34,8 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
+                <mat-expansion-panel-header class="headerPanel">
+                    <mat-panel-title class="titlePanel">
                         JMS
                     </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -45,8 +43,8 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
+                <mat-expansion-panel-header class="headerPanel">
+                    <mat-panel-title class="titlePanel"> 
                         Admin
                     </mat-panel-title>
                 </mat-expansion-panel-header>

@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { Application } from '../modele/Application';
+import { Application, Instance } from '../modele/Application';
 
 @Component({
   selector: 'application-pilotage',
@@ -12,11 +12,14 @@ export class PilotageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,private appService : ApmService){}
 
+  instanceSelect: Instance = null;
   application: Application = null;
+
   ngOnInit(){
     this.route.queryParams.subscribe(params => {
       if (params.idApp !== undefined) {
         this.appService.recupererApplication(params.idApp).subscribe(data =>{
+          this.instanceSelect = null;
           this.application = data;
         },
         error =>{
@@ -25,5 +28,10 @@ export class PilotageComponent implements OnInit {
       }
 
     });
+  }
+
+  instanceSelectEvent(agreed: Instance) {
+    console.log(agreed);
+    this.instanceSelect = agreed;
   }
 }

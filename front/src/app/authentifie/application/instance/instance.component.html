@@ -13,7 +13,7 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                     <div *ngIf="env.value.instances != null; else instanceNull" class="listeInstances">
-                        <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn">{{instance.id}}</button>
+                        <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn" (click)="selectInstance(instance)">{{instance.id}}</button>
                         <button mat-raised-button class="listeInstances_btnOff">test</button>
                     </div>
                     <ng-template #instanceNull>

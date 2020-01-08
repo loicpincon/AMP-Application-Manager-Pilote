@@ -5,26 +5,11 @@
     </div>
     <div class="container" fxLayout fxLayout.xs="column">
         <div fxFlex fxLayout="column">
-            <application-instance [environnements]="application.environnements"></application-instance>
+            <application-instance [environnements]="application.environnements" (instanceSelect)="instanceSelectEvent($event)"></application-instance>
         </div>
         <div fxFlex>
-            <mat-card class="blocApp">
-                <mat-card-header>
-                    <mat-card-title>bloc initule</mat-card-title>
-                    <mat-card-subtitle>Sert juste à montrer la répartition de l'écran</mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <p>
-                        Sert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écranSert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écran
-                        Sert juste à montrer la répartition de l'écran
-                    </p>
-                  </mat-card-content>
-                </mat-card>
+            <application-action *ngIf="instanceSelect"></application-action>
+            <application-parametre *ngIf="instanceSelect"></application-parametre>
         </div>
     </div>
 </div>

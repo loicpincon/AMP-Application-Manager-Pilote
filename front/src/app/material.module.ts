@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { getFrPaginatorIntl } from './fr-paginator-intl';
 import {
   MatButtonModule,
   MatMenuModule,
@@ -30,7 +30,8 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatPaginatorIntl
 } from '@angular/material';
 
 @NgModule({
@@ -107,6 +108,9 @@ import {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule
+  ],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: getFrPaginatorIntl() }
   ]
 })
 export class MaterialModule { }

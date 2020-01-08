@@ -1,5 +1,5 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { Environnement } from '../modele/Application';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Environnement, Instance } from '../modele/Application';
 
 @Component({
   selector: 'application-instance',
@@ -8,10 +8,15 @@ import { Environnement } from '../modele/Application';
 })
 export class InstanceComponent implements OnInit {
 
+  @Output() instanceSelect = new EventEmitter<Instance>();
   @Input() environnements: Environnement[];
 
   constructor(){}
 
   ngOnInit(){
+  }
+
+  selectInstance(is: Instance) {
+    this.instanceSelect.emit(is);
   }
 }

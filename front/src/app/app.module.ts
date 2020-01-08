@@ -57,7 +57,7 @@ export class AppRoutingModule { }
       useFactory: apiMapLoaderConfigFactory,
       deps: [ApiMapLoaderConfig],
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

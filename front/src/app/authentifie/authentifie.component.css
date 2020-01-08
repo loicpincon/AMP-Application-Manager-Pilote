@@ -19,6 +19,12 @@
 .mat-expansion-panel-spacing{
     margin: 0;
 }
+.nameApp{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 16px;
+}
 .nameApp:hover{
     cursor: pointer;
     color: grey;
@@ -28,4 +34,16 @@
 }
 .sidebar-header{
     text-align: center;
+}
+.material-icons{
+    vertical-align: middle;
+}
+.appSpanName{
+    margin: 5px;
+}
+.titlePanel{
+   color: #3ac569;
+}
+.headerPanel{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
