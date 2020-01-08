@@ -8,6 +8,7 @@ import { SidenavService } from './core/services/sideNav.service';
 import { CoreModule } from './core/core.module';
 import { AuthentifieModule } from './authentifie/authentifie.module';
 import { Routes, RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ export class AppRoutingModule { }
     CoreModule,
     AuthentifieModule],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     LoaderService,
     SidenavService,
