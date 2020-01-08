@@ -17,6 +17,7 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.DockerContainerService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
+import application.manager.pilote.session.modele.Secured;
 
 @RestController
 @RequestMapping("/docker")
@@ -32,6 +33,7 @@ public class DockerContainerController {
 	 */
 	@GetMapping(path = "/containers")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<List<Container>>> recuperer() {
 		return () -> ResponseEntity.ok(dockerService.getContainers());
 	}
@@ -42,6 +44,7 @@ public class DockerContainerController {
 	 */
 	@PostMapping(path = "/containers")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<Container>> creer(@RequestBody ContainerParam param) {
 		return () -> ResponseEntity.ok(dockerService.createContainer(param));
 	}
@@ -52,6 +55,7 @@ public class DockerContainerController {
 	 */
 	@GetMapping(path = "/containers/{id}")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<Container>> manage(@PathVariable String id, @RequestParam String action) {
 		return () -> ResponseEntity.ok(dockerService.manage(id, action));
 	}

@@ -19,6 +19,7 @@ import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
+import application.manager.pilote.session.modele.Secured;
 
 @RestController
 @RequestMapping("/applications")
@@ -37,23 +38,21 @@ public class ApplicationController extends DefaultController {
 	 */
 	@GetMapping
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<List<Application>>> recuperer() {
 		return () -> ResponseEntity.ok(appService.recuperer());
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	@GetMapping(path = "/{idApp}")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<Application>> consulter(@PathVariable String idApp) {
 		return () -> ResponseEntity.ok(appService.consulter(idApp));
 	}
-	
-	
-	
-	
 
 	/**
 	 * 
@@ -61,6 +60,7 @@ public class ApplicationController extends DefaultController {
 	 */
 	@GetMapping(path = "/{idUser}/applications")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<List<Application>>> recupererParUser(@PathVariable String idUser) {
 		return () -> ResponseEntity.ok(appService.recupererParUser(idUser));
 	}
@@ -71,6 +71,7 @@ public class ApplicationController extends DefaultController {
 	 */
 	@PostMapping(path = "/{idUser}/applications")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<Application>> ajouter(@PathVariable String idUser, @RequestBody Application param) {
 		return () -> ResponseEntity.ok(appService.inserer(idUser, param));
 	}
@@ -81,6 +82,7 @@ public class ApplicationController extends DefaultController {
 	 */
 	@PutMapping(path = "/{id}/{serveur}/instances")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<Instance>> ajouterInstance(@PathVariable String id, @PathVariable Integer serveur,
 			@RequestBody Instance instance) {
 		return () -> ResponseEntity.ok(insService.ajouter(id, serveur, instance));

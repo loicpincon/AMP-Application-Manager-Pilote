@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import application.manager.pilote.utilisateur.modele.Utilisateur;
 import application.manager.pilote.utilisateur.service.UtilisateurService;
@@ -33,6 +34,7 @@ public class UtilisateurController {
 	 */
 	@PostMapping
 	@ApiManager("ajouter")
+	@Secured
 	public Callable<ResponseEntity<Utilisateur>> ajouter(@RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.inserer(utilisateur));
 	}
@@ -43,6 +45,7 @@ public class UtilisateurController {
 	 */
 	@PutMapping(path = "/{id}")
 	@ApiManager("modifier")
+	@Secured
 	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id,
 			@RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.modifier(utilisateur));
@@ -54,6 +57,7 @@ public class UtilisateurController {
 	 */
 	@PostMapping(path = "/{id}/droitsApplicatifs")
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<DroitApplicatif>> ajouterDroitApplicatifs(@PathVariable String id,
 			@RequestBody DroitApplicatif droit, @RequestParam(required = true) String level) {
 		return () -> ResponseEntity.ok(userService.ajouterDroitApplicatifs(id, droit, level));
@@ -65,6 +69,7 @@ public class UtilisateurController {
 	 */
 	@GetMapping(path = "/{id}")
 	@ApiManager("consulter")
+	@Secured
 	public Callable<ResponseEntity<Utilisateur>> consulter(@PathVariable String id) {
 		return () -> ResponseEntity.ok(userService.consulter(id));
 	}
@@ -75,6 +80,7 @@ public class UtilisateurController {
 	 */
 	@GetMapping()
 	@ApiManager("recuperer")
+	@Secured
 	public Callable<ResponseEntity<List<Utilisateur>>> recuperer(@RequestParam(required = false) String idApp,
 			@RequestParam(required = false) String keyword) {
 		return () -> ResponseEntity.ok(userService.recuperer(idApp, keyword));

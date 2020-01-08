@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.session.modele.Secured;
 
 @RestController
 @RequestMapping("/application-types")
@@ -24,6 +25,7 @@ public class ApplicationTypeController {
 	 */
 	@GetMapping()
 	@ApiManager("recuperer")
+	@Secured
 	public Callable<ResponseEntity<List<String>>> recupererTypes() {
 		return () -> ResponseEntity.ok(Arrays.asList(getApplicationTypes()));
 	}

@@ -1,6 +1,7 @@
 package application.manager.pilote.apimanager.api;
 
 import java.util.Collection;
+import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +24,7 @@ public class ApiManagerController {
 	private ApiManagerConfiguration apim;
 
 	@GetMapping
-	public ResponseEntity<Collection<Api>> recuperer(HttpServletRequest req) {
-		return ResponseEntity.ok(apim.getApiManager(req).values());
+	public Callable<ResponseEntity<Collection<Api>>> recuperer(HttpServletRequest req) {
+		return () -> ResponseEntity.ok(apim.getApiManager(req).values());
 	}
 }

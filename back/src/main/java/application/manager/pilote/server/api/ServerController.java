@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
+import application.manager.pilote.session.modele.Secured;
 
 @RestController
 @RequestMapping("/servers")
@@ -30,6 +31,7 @@ public class ServerController {
 	 */
 	@GetMapping
 	@ApiManager("recuperer")
+	@Secured
 	public Callable<ResponseEntity<List<Server>>> recuperer() {
 		return () -> ResponseEntity.ok(serverService.recuperer());
 	}
@@ -41,6 +43,7 @@ public class ServerController {
 	 */
 	@GetMapping(value = "/{id}")
 	@ApiManager("consulter")
+	@Secured
 	public Callable<ResponseEntity<Server>> consulter(@PathVariable Integer id) {
 		return () -> ResponseEntity.ok(serverService.consulter(id));
 	}
@@ -52,6 +55,7 @@ public class ServerController {
 	 */
 	@PostMapping
 	@ApiManager("inserer")
+	@Secured
 	public Callable<ResponseEntity<Server>> inserer(@RequestBody Server server) {
 		return () -> ResponseEntity.ok(serverService.inserer(server));
 	}

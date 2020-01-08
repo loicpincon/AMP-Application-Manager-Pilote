@@ -15,6 +15,7 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.docker.modele.DockerFile;
 import application.manager.pilote.docker.service.DockerFileService;
 import application.manager.pilote.docker.service.pr.DockerFileParam;
+import application.manager.pilote.session.modele.Secured;
 
 @RestController
 @RequestMapping("/dockerfile")
@@ -29,6 +30,7 @@ public class DockerFileController {
 	 */
 	@GetMapping
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<List<DockerFile>>> recuperer() {
 		return () -> ResponseEntity.ok(dockerFileService.getAll());
 	}
@@ -39,6 +41,7 @@ public class DockerFileController {
 	 */
 	@PostMapping
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<DockerFile>> creer(@RequestBody DockerFileParam param) {
 		return () -> ResponseEntity.ok(dockerFileService.insert(param));
 	}

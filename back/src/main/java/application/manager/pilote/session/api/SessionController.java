@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.session.modele.UserSession;
 import application.manager.pilote.session.service.SessionService;
 import application.manager.pilote.session.service.UserSessionParam;
@@ -52,6 +53,7 @@ public class SessionController {
 	 */
 	@DeleteMapping()
 	@ApiManager("deconnecter")
+	@Secured
 	public Callable<ResponseEntity<Void>> deconnecter() {
 		return () -> ResponseEntity.ok(sessionService.disconnect());
 	}

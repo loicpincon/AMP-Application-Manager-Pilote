@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.commun.modele.BasicDataBean;
+import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class DroitApplicatifsController {
 	 */
 	@GetMapping()
 	@ApiManager
+	@Secured
 	public Callable<ResponseEntity<List<DroitApplicatifLevelRessource>>> recuperer() {
 		return () -> {
 			List<DroitApplicatifLevelRessource> listDroitApplicatifLevelRessource = new ArrayList<>();
