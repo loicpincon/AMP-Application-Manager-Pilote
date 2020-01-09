@@ -31,7 +31,8 @@ import {
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  MatPaginatorIntl
+  MatPaginatorIntl,
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material';
 
 @NgModule({
@@ -110,7 +111,8 @@ import {
     MatPaginatorModule
   ],
   providers: [
-    { provide: MatPaginatorIntl, useValue: getFrPaginatorIntl() }
+    { provide: MatPaginatorIntl, useValue: getFrPaginatorIntl() },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ]
 })
 export class MaterialModule { }

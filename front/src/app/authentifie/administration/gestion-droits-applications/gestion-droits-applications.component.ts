@@ -67,7 +67,7 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   openModalAjoutUser() {
     const dialogRef = this.dialog.open(ModalAjoutUser, {
       width: '75%',
-      data: { name: 'un Nom', animal: 'un Animal' }
+      data: this.users
     });
 
     dialogRef.afterClosed().subscribe(result => {
