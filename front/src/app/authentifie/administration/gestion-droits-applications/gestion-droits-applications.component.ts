@@ -25,7 +25,7 @@ export interface Food {
 })
 export class GestionDroitsApplicationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['id', 'nom', 'prenom', 'niveau'];
   users: User[];
   user: User;
   applications: Application[];
@@ -49,7 +49,6 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   loadUserByApp(evt) {
     this.users = null;
     this.applicationEnCours = evt.value;
-    console.log(evt)
     this.serviceApm.recupererAllUserByApplications(evt.value).subscribe(users => {
       this.users = users;
     })
