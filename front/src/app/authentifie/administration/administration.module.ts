@@ -11,7 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ModalAjoutUser } from './gestion-droits-applications/modal-ajout-user/modal-ajout-user';
 import { MatInputModule } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
@@ -41,7 +41,8 @@ export class AdministrationRoutingModule { }
     CommonModule,
     AdministrationRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   entryComponents: [

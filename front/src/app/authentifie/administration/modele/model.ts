@@ -17,3 +17,8 @@ export class User {
     prenom: string;
     rights: Right[];
 }
+
+export interface UserTypes{
+    user: User[];
+    types: Right[];
+}

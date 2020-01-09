@@ -1,7 +1,7 @@
-import { Component, Inject, Optional, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { User } from '../../modele/model';
+import { User, Right, UserTypes } from '../../modele/model';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,21 +10,21 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ModalAjoutUser implements OnInit {
 
-    displayedColumns: string[] = ['position', 'name', 'weight'];
+    displayedColumns: string[] = ['selectionner','id', 'nom', 'prenom', 'niveau'];
     formulaire: FormGroup;
     users: User[];
     myControl = new FormControl();
-
-    
+    types: Right[];
+    selectedPerson: User;
 
     constructor( 
         private formBuilder: FormBuilder, 
         public dialogRef: MatDialogRef<ModalAjoutUser>,
         private apmService: ApmService,
-        @Inject(MAT_DIALOG_DATA) public data: User[]) { }
+        @Inject(MAT_DIALOG_DATA) public data: UserTypes) { }
 
     ngOnInit(): void {
-        console.log(this.data)
+        this.types = this.data.types
         this.formulaire = this.formBuilder.group({
             keywordSearch: null
         });
@@ -35,7 +35,7 @@ export class ModalAjoutUser implements OnInit {
 
         this.apmService.recupererAllUser().subscribe(usersBd => {
             this.users = usersBd.filter(obj => {
-                return !this.data.some(obj2 => {
+                return !this.data.user.some(obj2 => {
                     return obj.token == obj2.token;
                 });
             });
@@ -48,7 +48,7 @@ export class ModalAjoutUser implements OnInit {
     onSearchChange(str) {
         this.apmService.recupererAllUserByLoginOrNomOrPrenom(str).subscribe(usersFind => {
             this.users = usersFind.filter(obj => {
-                return !this.data.some(obj2 => {
+                return !this.data.user.some(obj2 => {
                     return obj.token == obj2.token;
                 });
             });
@@ -57,6 +57,10 @@ export class ModalAjoutUser implements OnInit {
 
     onNoClick(): void {
         this.dialogRef.close();
+    }
+
+    ajouterUtilisateur(){
+        console.log(this.selectedPerson)
     }
     
 }
