@@ -3,7 +3,7 @@
         <mat-card-title class="blocLivrableTitre"><h5>Historique des livrables</h5></mat-card-title>
     </div>
     <mat-card-content class="contentLivrable">
-        <div class="mat-elevation-z8">
+        <div *ngIf="livrables; else livrablesNull" class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource">
           
               <ng-container matColumnDef="Version">
@@ -22,5 +22,10 @@
           
             <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
           </div>
+          <ng-template #livrablesNull>
+            <div class="livrablesNull">
+                Aucun livrable pour cette application
+            </div>
+        </ng-template>
     </mat-card-content>
 </mat-card>
