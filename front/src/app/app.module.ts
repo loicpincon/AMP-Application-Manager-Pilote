@@ -9,10 +9,11 @@ import { CoreModule } from './core/core.module';
 import { AuthentifieModule } from './authentifie/authentifie.module';
 import { Routes, RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AuthGuardService as AuthGuard } from './core/services/auth-guard.service';
 
 const routes: Routes = [
   {
-    path: 'secure', loadChildren: './authentifie/authentifie.module#AuthentifieModule'
+    path: 'secure', loadChildren: './authentifie/authentifie.module#AuthentifieModule', canLoad: [AuthGuard]
   },
   {
     path: 'unsecure', loadChildren: './public/public.module#PublicModule'

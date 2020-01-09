@@ -13,7 +13,7 @@ export class AuthGuardService {
 
   variableAVerifier = false;
 
-  canActivate() {
+  canLoad() {
 
     return this.service.recupererSession().pipe(
       map(data => {

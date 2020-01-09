@@ -16,10 +16,10 @@ const routes: Routes = [
     {
         path: '', component: AuthentifieComponent, children: [
             {
-                path: 'application', loadChildren: './application/application.module#ApplicationModule', canActivate: [AuthGuard]
+                path: 'application', loadChildren: './application/application.module#ApplicationModule'
             },
             {
-                path: 'administration', loadChildren: './administration/administration.module#AdministrationModule', canActivate: [AuthGuard]
+                path: 'administration', loadChildren: './administration/administration.module#AdministrationModule'
             },
             {
                 path: '', redirectTo: 'application', pathMatch: 'full'
