@@ -1,4 +1,5 @@
 package application.manager.pilote.application.modele;
+import java.util.List;
 
 import java.util.Map;
 
@@ -36,4 +37,7 @@ public class Application extends BasicDataBean {
 	private String type;
 
 	private Map<Integer, Environnement> environnements;
+	
+	private List<Livrable> livrables;
+
 }
