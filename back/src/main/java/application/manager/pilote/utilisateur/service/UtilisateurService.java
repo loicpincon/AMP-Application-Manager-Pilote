@@ -86,10 +86,15 @@ public class UtilisateurService extends DefaultService {
 	}
 
 	public DroitApplicatif ajouterDroitApplicatifs(String id, DroitApplicatif droit, String accessLevel) {
-		Utilisateur us = consulter(id);
-		DroitApplicatif droitU = ajouterDroitUser(us, droit, accessLevel);
-		uRepo.save(us);
-		return droitU;
+		if (DroitApplicatifLevel.isPresent(accessLevel)) {
+			Utilisateur us = consulter(id);
+			DroitApplicatif droitU = ajouterDroitUser(us, droit, accessLevel);
+			uRepo.save(us);
+			return droitU;
+		}
+		else {
+			throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas");
+		}
 	}
 
 	private DroitApplicatif ajouterDroitUser(Utilisateur us, DroitApplicatif da, String level) {
