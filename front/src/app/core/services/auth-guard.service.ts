@@ -14,21 +14,17 @@ export class AuthGuardService {
   variableAVerifier = false;
 
   canActivate() {
-    console.log(sessionStorage.getItem('USER_TOKEN'))
-    if (sessionStorage.getItem('USER_TOKEN') != undefined) {
-      return this.service.recupererSession().pipe(
-        map(data => {
-          return true;
-        }),
-        catchError(() => {
-          this.router.navigate(['/unsecure']);
-          return of(false);
-        }),
-      );
-    } else {
-      this.router.navigate(['/secure']);
-      return false;
-    }
+
+    return this.service.recupererSession().pipe(
+      map(data => {
+        return true;
+      }),
+      catchError(() => {
+        this.router.navigate(['/unsecure']);
+        return of(false);
+      }),
+    );
+
 
 
   }
