@@ -18,7 +18,6 @@
                     <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn"
                         (click)="selectInstance(instance,env.value.parametre,env.key)">{{instance.id}} -
                         {{instance.libelle}}</button>
-                    <button mat-raised-button class="listeInstances_btnOff">test</button>
                 </div>
                 <ng-template #instanceNull>
                     <div class="env-InstanceNull">

@@ -28,7 +28,7 @@ export class ActionComponent implements OnInit {
   }
 
   stop() {
-    this.apmService.manageApplication(this.instance.containerId, 'stop').subscribe(res => {
+    this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'stop').subscribe(res => {
 
     }, error => {
 
@@ -37,7 +37,7 @@ export class ActionComponent implements OnInit {
 
 
   restart() {
-    this.apmService.manageApplication(this.instance.containerId, 'reload').subscribe(res => {
+    this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'reload').subscribe(res => {
 
     }, error => {
 
@@ -46,7 +46,7 @@ export class ActionComponent implements OnInit {
 
 
   delete() {
-    this.apmService.manageApplication(this.instance.containerId, 'delete').subscribe(res => {
+    this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'delete').subscribe(res => {
 
     }, error => {
 

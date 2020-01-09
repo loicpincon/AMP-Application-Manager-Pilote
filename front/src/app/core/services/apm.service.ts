@@ -100,8 +100,8 @@ export class ApmService {
         return this.httpClient.post<Application>(uri, body);
     }
 
-    manageApplication(idContainer: string, action: string): Observable<Application> {
-        let params = new HttpParams().set('id', idContainer).set('action', action);
+    manageApplication(idApp: string, idServer: number, idContainer: string, action: string): Observable<Application> {
+        let params = new HttpParams().set('idApp', idApp).set('idServer', idServer + '').set('id', idContainer).set('action', action);
         const uri = this.apiManagerService.genereUrlWithParam('Docker.manage', params).url;
         return this.httpClient.get<Application>(uri);
     }
