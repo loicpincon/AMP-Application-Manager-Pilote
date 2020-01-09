@@ -13,11 +13,11 @@ public class ContainerParam extends BasicDataBean {
 	 */
 	private static final long serialVersionUID = 7201337464936970424L;
 
-	private Integer dockerFileId;
-
 	private String idApplicationCible;
 
 	private String idInstanceCible;
 
 	private Integer idServeurCible;
+
+	private String version;
 }

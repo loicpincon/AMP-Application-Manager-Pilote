@@ -39,6 +39,10 @@ public class Application extends BasicDataBean {
 
 	private Map<Integer, Environnement> environnements;
 
+	private String baseName;
+
+	private Integer dockerFileId;
+
 	private List<Livrable> livrables = new ArrayList<>();
 
 }

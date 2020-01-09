@@ -1,6 +1,8 @@
 <mat-card fxFlex class="blocInstance">
     <div class="blocInstanceHeader">
-        <mat-card-title class="blocInstanceTitre"><h5>Instances</h5></mat-card-title>
+        <mat-card-title class="blocInstanceTitre">
+            <h5>Instances</h5>
+        </mat-card-title>
     </div>
     <mat-card-content class="contentInstance">
         <mat-accordion *ngIf="environnements; else envNull">
@@ -12,21 +14,23 @@
                         <span *ngIf="env.key==3">Production</span>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                    <div *ngIf="env.value.instances; else instanceNull" class="listeInstances">
-                        <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn" (click)="selectInstance(instance,env.value.parametres)">{{instance.libelle}}</button>
-                        <button mat-raised-button class="listeInstances_btnOff">test</button>
-                    </div>
-                    <ng-template #instanceNull>
-                        <div class="env-InstanceNull">
-                            Aucune instance pour cet environnement
-                        </div>
-                    </ng-template>
-                </mat-expansion-panel>
-          </mat-accordion>
-          <ng-template #envNull>
-                <div class="env-InstanceNull">
-                    Aucun environnements pour cette application
+                <div *ngIf="env.value.instances; else instanceNull" class="listeInstances">
+                    <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn"
+                        (click)="selectInstance(instance,env.value.parametre,env.key)">{{instance.id}} -
+                        {{instance.libelle}}</button>
+                    <button mat-raised-button class="listeInstances_btnOff">test</button>
                 </div>
-            </ng-template>
+                <ng-template #instanceNull>
+                    <div class="env-InstanceNull">
+                        Aucune instance pour cet environnement
+                    </div>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <ng-template #envNull>
+            <div class="env-InstanceNull">
+                Aucun environnements pour cette application
+            </div>
+        </ng-template>
     </mat-card-content>
 </mat-card>

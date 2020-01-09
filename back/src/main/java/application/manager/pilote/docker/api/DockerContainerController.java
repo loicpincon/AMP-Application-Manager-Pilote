@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.DockerContainerService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
@@ -31,7 +32,7 @@ public class DockerContainerController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(path = "/containers")
+	@GetMapping(path = "/instances")
 	@ApiManager
 	@Secured
 	public Callable<ResponseEntity<List<Container>>> recuperer() {
@@ -42,10 +43,10 @@ public class DockerContainerController {
 	 * 
 	 * @return
 	 */
-	@PostMapping(path = "/containers")
+	@PostMapping(path = "/instances")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<Container>> creer(@RequestBody ContainerParam param) {
+	public Callable<ResponseEntity<Instance>> creer(@RequestBody ContainerParam param) {
 		return () -> ResponseEntity.ok(dockerService.createContainer(param));
 	}
 

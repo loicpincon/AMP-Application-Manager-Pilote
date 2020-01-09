@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,12 +76,13 @@ public class InstanceService {
 	 * @param id
 	 * @return
 	 */
-	public Instance consulter(String id) {
-		Optional<Instance> insOpt = instanceRepo.findById(id);
-		if (!insOpt.isPresent()) {
-			throw new ApplicationException(HttpStatus.NOT_FOUND, "Instance non trouve");
+	public Instance consulter(List<Instance> instances, String id) {
+		for (Instance i : instances) {
+			if (i.getId().equals(id)) {
+				return i;
+			}
 		}
-		return insOpt.get();
+		throw new ApplicationException(HttpStatus.NOT_FOUND, "Instance non trouve");
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class InstanceService {
 		livrable.setNom(file.getName());
 		livrable.setPathtoFile("");
 		app.getLivrables().add(livrable);
-		String path = idApp + "/" + version + "/" + file.getOriginalFilename();
+		String path = idApp + "/" + version + "/" + app.getBaseName();
 		livrable.setPathtoFile(path);
 		appService.modifier(app);
 		writeFileToPath(file, path);

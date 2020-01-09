@@ -1,9 +1,11 @@
 package application.manager.pilote.docker.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
+import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
@@ -35,6 +39,8 @@ import application.manager.pilote.server.service.ServerService;
 
 @Service
 public class DockerContainerService {
+
+	private static final String BASE_PATH_TO_APPLICATION_STOCK = "BASE_PATH_TO_APPLICATION_STOCK";
 
 	private static final String SLASH = "/";
 
@@ -74,20 +80,22 @@ public class DockerContainerService {
 	@Autowired
 	private ServerService serveurService;
 
+	@Autowired
+	private ApplicationService appService;
+
 	/**
 	 * 
 	 * @param dockerFile
+	 * @throws IOException
 	 */
-	public Container createContainer(ContainerParam param) {
+	public Instance createContainer(ContainerParam param) throws IOException {
 
 		String containerName = stringUtils.concat(param.getIdApplicationCible(), "-", param.getIdInstanceCible());
-
-		Instance ins = instanceService.consulter(param.getIdInstanceCible());
+		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());
-		if (ins.getContainerId() != null) {
-			ins.setContainerId(containerName);
-			instanceService.modifier(ins);
-		}
+
+		Instance ins = instanceService.consulter(app.getEnvironnements().get(server.getId()).getInstances(),
+				param.getIdInstanceCible());
 
 		String pathToFolderTemporaire = stringUtils.concat(
 				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
@@ -95,11 +103,16 @@ public class DockerContainerService {
 
 		try {
 			BuildImageResultCallback callback = new BuildImageResultCallback();
-
 			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
-					dockerFileService.get(param.getDockerFileId()));
+					dockerFileService.get(app.getDockerFileId()));
 
-			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("-t", "ceiciestie").exec(callback)
+			String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId() + SLASH
+					+ param.getVersion() + SLASH + app.getBaseName();
+
+			File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
+			FileUtils.copyFile(new File(pathToWar), copied);
+
+			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("path", pathToWar).exec(callback)
 					.awaitCompletion().awaitImageId();
 			LOG.info(test);
 			CreateContainerResponse container = dockerClient.createContainerCmd(test)
@@ -107,7 +120,21 @@ public class DockerContainerService {
 					.withPortBindings(getPortsBinds(server)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
-			return new Container();
+
+			if (ins.getContainerId() != null) {
+				ins.setContainerId(containerName);
+			}
+			ins.setLibelle(param.getVersion());
+			ins.setEtat("L");
+			if (server.getDns() != null) {
+				ins.setUrl("http://" + server.getDns() + ":PORT");
+			} else {
+				ins.setUrl("http://" + server.getIp() + ":PORT");
+			}
+
+			appService.modifier(app);
+
+			return ins;
 		} catch (DockerException | InterruptedException e) {
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());

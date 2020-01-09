@@ -50,7 +50,7 @@ export class Instance {
 /**
  * 
  */
-export class Livrable{
+export class Livrable {
     id: string;
     nom: string;
     dateUpload: Date;
@@ -74,7 +74,8 @@ export class WarApplication extends Application {
 /**
  * 
  */
-export interface ParamsInstance{
-    is:Instance,
-    params:ParametreSeries
+export interface ParamsInstance {
+    is: Instance,
+    params: ParametreSeries
+    idServer: number;
 }

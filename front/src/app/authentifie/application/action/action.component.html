@@ -1,21 +1,25 @@
 <mat-card class="blocAction">
     <div class="blocActionHeader">
-        <mat-card-title class="blocActionTitre"><h5>Actions</h5></mat-card-title>
+        <mat-card-title class="blocActionTitre">
+            <h5>Actions</h5>
+        </mat-card-title>
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions">Deployer</button>
-            <button fxFlex mat-raised-button class="btnActions">Redémarrer</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()">Deployer</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="restart()">Redémarrer</button>
         </div>
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions">Arrêter</button>
-            <button fxFlex mat-raised-button class="btnActions">Supprimer</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="stop()">Arrêter</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="delete()">Supprimer</button>
         </div>
     </mat-card-content>
 </mat-card>
 <mat-card class="blocAction">
     <div class="blocActionHeader">
-        <mat-card-title class="blocActionTitre"><h5>Outils</h5></mat-card-title>
+        <mat-card-title class="blocActionTitre">
+            <h5>Outils</h5>
+        </mat-card-title>
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
