@@ -37,4 +37,22 @@ export class PilotageComponent implements OnInit {
     this.paramsSelect = res.params;
     this.idServer = res.idServer;
   }
+
+  instanceEvent(ins: Instance) {
+    console.log(ins)
+    this.route.queryParams.subscribe(params => {
+      if (params.idApp !== undefined) {
+        this.appService.recupererApplication(params.idApp).subscribe(data => {
+          this.instanceSelect = null;
+          this.application = data;
+          console.log(data)
+          this.instanceSelect = ins;
+        },
+          error => {
+            console.log(error.error.message)
+          })
+      }
+
+    });
+  }
 }

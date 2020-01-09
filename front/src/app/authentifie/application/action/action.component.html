@@ -7,11 +7,14 @@
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
             <button fxFlex mat-raised-button class="btnActions" (click)="deployer()">Deployer</button>
-            <button fxFlex mat-raised-button class="btnActions" (click)="restart()">Redémarrer</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V'"
+                (click)="restart()">Redémarrer</button>
         </div>
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" (click)="stop()">Arrêter</button>
-            <button fxFlex mat-raised-button class="btnActions" (click)="delete()">Supprimer</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L'"
+                (click)="stop()">Arrêter</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V'"
+                (click)="delete()">Supprimer</button>
         </div>
     </mat-card-content>
 </mat-card>

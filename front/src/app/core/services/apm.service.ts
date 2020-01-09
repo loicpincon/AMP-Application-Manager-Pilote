@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
-import { Application } from 'src/app/authentifie/application/modele/Application';
+import { Application, Instance } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel } from 'src/app/authentifie/administration/modele/model';
 
 
@@ -94,16 +94,16 @@ export class ApmService {
     }
 
 
-    deployerApplication(app: string, ins: string, idServeur: number, version: string): Observable<Application> {
+    deployerApplication(app: string, ins: string, idServeur: number, version: string): Observable<Instance> {
         const uri = this.apiManagerService.genereUrl('Docker.creer').url;
         const body = { 'idApplicationCible': app, 'idInstanceCible': ins, 'idServeurCible': idServeur, 'version': version }
-        return this.httpClient.post<Application>(uri, body);
+        return this.httpClient.post<Instance>(uri, body);
     }
 
-    manageApplication(idApp: string, idServer: number, idContainer: string, action: string): Observable<Application> {
+    manageApplication(idApp: string, idServer: number, idContainer: string, action: string): Observable<Instance> {
         let params = new HttpParams().set('idApp', idApp).set('idServer', idServer + '').set('id', idContainer).set('action', action);
         const uri = this.apiManagerService.genereUrlWithParam('Docker.manage', params).url;
-        return this.httpClient.get<Application>(uri);
+        return this.httpClient.get<Instance>(uri);
     }
 
 }

@@ -56,6 +56,9 @@
 .listeInstances_btnOff{
     background-color: #dc3545;
 }
+.listeInstances_btnVide{
+    background-color: grey;
+}
 .env-InstanceNull{
     margin-top: 25px;
     text-align: center;

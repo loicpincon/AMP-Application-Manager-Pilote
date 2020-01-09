@@ -11,8 +11,8 @@
                 <application-livrable [livrables]="application.livrables"></application-livrable>
             </div>
             <div fxFlex>
-                <application-action [instance]="instanceSelect" [app]="application" [serveur]="idServer"
-                    *ngIf="instanceSelect"></application-action>
+                <application-action (instanceEvent)="instanceEvent($event)" [instance]="instanceSelect"
+                    [app]="application" [serveur]="idServer" *ngIf="instanceSelect"></application-action>
                 <application-parametre *ngIf="instanceSelect && paramsSelect" [params]="paramsSelect">
                 </application-parametre>
             </div>

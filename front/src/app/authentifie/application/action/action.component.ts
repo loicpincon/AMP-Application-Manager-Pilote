@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Instance, Application } from '../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
 @Component({
@@ -9,6 +9,9 @@ import { ApmService } from 'src/app/core/services/apm.service';
 export class ActionComponent implements OnInit {
 
   @Input() instance: Instance;
+
+  @Output() instanceEvent = new EventEmitter<Instance>();
+
 
   @Input() serveur: number;
 
@@ -21,7 +24,8 @@ export class ActionComponent implements OnInit {
 
   deployer() {
     this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, '0.0.0').subscribe(res => {
-
+      this.instance = res;
+      this.instanceEvent.emit(this.instance);
     }, error => {
 
     })
@@ -29,7 +33,8 @@ export class ActionComponent implements OnInit {
 
   stop() {
     this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'stop').subscribe(res => {
-
+      this.instance = res;
+      this.instanceEvent.emit(this.instance);
     }, error => {
 
     })
@@ -38,7 +43,8 @@ export class ActionComponent implements OnInit {
 
   restart() {
     this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'reload').subscribe(res => {
-
+      this.instance = res;
+      this.instanceEvent.emit(this.instance);
     }, error => {
 
     })
@@ -47,7 +53,8 @@ export class ActionComponent implements OnInit {
 
   delete() {
     this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'delete').subscribe(res => {
-
+      this.instance = res;
+      this.instanceEvent.emit(this.instance);
     }, error => {
 
     })

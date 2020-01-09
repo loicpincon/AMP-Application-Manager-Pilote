@@ -6,7 +6,7 @@
     </div>
     <mat-card-content class="contentInstance">
         <mat-accordion *ngIf="environnements; else envNull">
-            <mat-expansion-panel *ngFor="let env of environnements | keyvalue" hideToggle>
+            <mat-expansion-panel *ngFor="let env of environnements | keyvalue" hideToggle [expanded]="true">
                 <mat-expansion-panel-header class="env_header">
                     <mat-panel-title class="env_titre">
                         <span *ngIf="env.key==1">Développement</span>
@@ -15,9 +15,10 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div *ngIf="env.value.instances; else instanceNull" class="listeInstances">
-                    <button *ngFor="let instance of env.value.instances" mat-raised-button class="listeInstances_btnOn"
-                        (click)="selectInstance(instance,env.value.parametre,env.key)">{{instance.id}} -
-                        {{instance.libelle}}</button>
+                    <button *ngFor="let instance of env.value.instances"
+                        [ngClass]="{'listeInstances_btnOn': instance.etat=='L', 'listeInstances_btnOff':instance.etat=='S', 'listeInstances_btnVide':instance.etat=='V' }"
+                        mat-raised-button
+                        (click)="selectInstance(instance,env.value.parametre,env.key)">{{instance.libelle}}</button>
                 </div>
                 <ng-template #instanceNull>
                     <div class="env-InstanceNull">
