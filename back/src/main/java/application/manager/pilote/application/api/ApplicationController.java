@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.modele.Livrable;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
@@ -87,4 +90,13 @@ public class ApplicationController extends DefaultController {
 			@RequestBody Instance instance) {
 		return () -> ResponseEntity.ok(insService.ajouter(id, serveur, instance));
 	}
+
+	@PostMapping(path = "/{idApp}/versions")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<Livrable>> uploadFileVersion(@PathVariable String idApp,
+			@RequestParam("file") MultipartFile file, @RequestParam String version) {
+		return () -> ResponseEntity.ok(insService.uploadFileVersion(file, idApp, version));
+	}
+
 }

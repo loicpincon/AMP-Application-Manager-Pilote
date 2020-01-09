@@ -1,0 +1,1 @@
+exemple de requete curl pour inserer des livrables : curl -F file=@'av.jpg' http://localhost:8080/applications/30de978fdc8568354c0b56d9da48f69d2a3f5a834cffdf911e7aada0e61c7abb/versions
