@@ -53,6 +53,7 @@ export class livrables{
     id: string;
     nom: string;
     dateUpload: Date;
+    folder: Boolean;
 }
 /**
  * 

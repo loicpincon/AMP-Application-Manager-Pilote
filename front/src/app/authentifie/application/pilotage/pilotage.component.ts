@@ -21,6 +21,7 @@ export class PilotageComponent implements OnInit {
         this.appService.recupererApplication(params.idApp).subscribe(data =>{
           this.instanceSelect = null;
           this.application = data;
+          console.log(data)
         },
         error =>{
           console.log(error.error.message)

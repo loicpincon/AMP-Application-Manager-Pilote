@@ -11,6 +11,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ParametreComponent } from './parametre/parametre.component';
 import { ActionUserComponent } from './action-user/action-user.component';
+import { LivrableComponent } from './livrable/livrable.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ export class ApplicationRoutingModule { }
     CreationApplicationComponent,
     ActionComponent,
     ParametreComponent,
-    ActionUserComponent
+    ActionUserComponent,
+    LivrableComponent
   ],
   imports: [
     CommonModule,

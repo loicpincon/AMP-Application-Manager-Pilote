@@ -7,6 +7,7 @@
         <div fxLayout fxLayout.xs="column">
             <div fxFlex fxLayout="column">
                 <application-instance [environnements]="application.environnements" (instanceSelect)="instanceSelectEvent($event)"></application-instance>
+                <application-livrable></application-livrable>
             </div>
             <div fxFlex>
                 <application-action *ngIf="instanceSelect"></application-action>
