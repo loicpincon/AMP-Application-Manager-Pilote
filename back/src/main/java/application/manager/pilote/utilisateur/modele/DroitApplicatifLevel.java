@@ -29,5 +29,19 @@ public enum DroitApplicatifLevel {
 		this.delete = delete;
 		this.pilote = pilote;
 	}
+	
+	/**
+	 * Permet de verifier la presence d'un droit
+	 * @param level
+	 * @return
+	 */
+	public static Boolean isPresent(String level) {
+		for (DroitApplicatifLevel da : values()) {
+			if (da.name().equals(level)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
