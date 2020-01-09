@@ -110,8 +110,10 @@ public class InstanceService {
 		livrable.setNom(file.getName());
 		livrable.setPathtoFile("");
 		app.getLivrables().add(livrable);
+		String path = idApp + "/" + version + "/" + file.getOriginalFilename();
+		livrable.setPathtoFile(path);
 		appService.modifier(app);
-		writeFileToPath(file, idApp + "/" + version + "/" + file.getOriginalFilename());
+		writeFileToPath(file, path);
 		return livrable;
 	}
 
