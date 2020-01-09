@@ -5,19 +5,6 @@ import { MatDialog } from '@angular/material';
 import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
 import { Application } from '../../application/modele/Application';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  selected: string;
-}
-
-export interface Food {
-  value: string;
-  viewValue: string;
-}
-
-
 @Component({
   selector: 'administration-gestion-droits-applications',
   templateUrl: './gestion-droits-applications.component.html',
