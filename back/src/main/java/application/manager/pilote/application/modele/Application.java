@@ -1,6 +1,7 @@
 package application.manager.pilote.application.modele;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
@@ -37,7 +38,7 @@ public class Application extends BasicDataBean {
 	private String type;
 
 	private Map<Integer, Environnement> environnements;
-	
-	private List<Livrable> livrables;
+
+	private List<Livrable> livrables = new ArrayList<>();
 
 }
