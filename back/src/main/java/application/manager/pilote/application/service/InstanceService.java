@@ -108,7 +108,7 @@ public class InstanceService {
 		livrable.setDateUpload(new Date());
 		livrable.setFolder(false);
 		livrable.setId(new Date().toString());
-		livrable.setNom(file.getName());
+		livrable.setNom(version);
 		livrable.setPathtoFile("");
 		app.getLivrables().add(livrable);
 		String path = idApp + "/" + version + "/" + app.getBaseName();

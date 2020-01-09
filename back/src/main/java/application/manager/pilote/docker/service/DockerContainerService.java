@@ -97,6 +97,9 @@ public class DockerContainerService {
 		Instance ins = instanceService.consulter(app.getEnvironnements().get(server.getId()).getInstances(),
 				param.getIdInstanceCible());
 
+		if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
+			this.manage(app.getId(), server.getId(), ins.getId(), "delete");
+		}
 		String pathToFolderTemporaire = stringUtils.concat(
 				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
 				hasherService.randomInt());
@@ -117,19 +120,18 @@ public class DockerContainerService {
 			LOG.info(test);
 			CreateContainerResponse container = dockerClient.createContainerCmd(test)
 					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
-					.withPortBindings(getPortsBinds(server)).exec();
+					.withPortBindings(getPortsBinds(ins, server)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
 
-			if (ins.getContainerId() != null) {
-				ins.setContainerId(containerName);
-			}
+			ins.setContainerId(container.getId());
+
 			ins.setLibelle(param.getVersion());
 			ins.setEtat("L");
 			if (server.getDns() != null) {
-				ins.setUrl("http://" + server.getDns() + ":PORT");
+				ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
 			} else {
-				ins.setUrl("http://" + server.getIp() + ":PORT");
+				ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
 			}
 
 			appService.modifier(app);
@@ -138,8 +140,6 @@ public class DockerContainerService {
 		} catch (DockerException | InterruptedException e) {
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
-		} finally {
-
 		}
 	}
 
@@ -148,11 +148,13 @@ public class DockerContainerService {
 	 * @param serveur
 	 * @return
 	 */
-	private Ports getPortsBinds(Server serveur) {
+	private Ports getPortsBinds(Instance ins, Server serveur) {
 		Ports portBindings = new Ports();
 
 		ExposedPort expoPort = new ExposedPort(8080);
-		portBindings.bind(expoPort, Binding.bindPort(randomPortHelper.randomPort(serveur.getIp())));
+		Integer portHttp = randomPortHelper.randomPort(serveur.getIp());
+		ins.setPort(String.valueOf(portHttp));
+		portBindings.bind(expoPort, Binding.bindPort(portHttp));
 		return portBindings;
 	}
 
@@ -172,9 +174,10 @@ public class DockerContainerService {
 	 * 
 	 * @param containerId
 	 */
-	private void start(String containerId) {
+	private void start(Instance containerId) {
 		try {
-			dockerClient.startContainerCmd(containerId).exec();
+			dockerClient.startContainerCmd(containerId.getContainerId()).exec();
+			containerId.setEtat("L");
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -186,33 +189,39 @@ public class DockerContainerService {
 	 * @param action
 	 * @return
 	 */
-	public Container manage(String id, String action) {
+	public Instance manage(String app, Integer server, String id, String action) {
+
+		Application appli = appService.consulter(app);
+		Instance instance = instanceService.consulter(appli.getEnvironnements().get(server).getInstances(), id);
+
 		switch (action) {
 		case "start":
-			this.start(id);
+			this.start(instance);
 			break;
 		case "reload":
-			this.reload(id);
+			this.reload(instance);
 			break;
 		case "stop":
-			this.stop(id);
+			this.stop(instance);
 			break;
 		case "delete":
-			this.delete(id);
+			this.delete(instance);
 			break;
 		default:
 			throw new ApplicationException(400, "action inconnue");
 		}
-		return new Container();
+		appService.modifier(appli);
+		return instance;
 	}
 
 	/**
 	 * 
 	 * @param containerId
 	 */
-	private void stop(String containerId) {
+	private void stop(Instance containerId) {
 		try {
-			dockerClient.stopContainerCmd(containerId).exec();
+			dockerClient.stopContainerCmd(containerId.getContainerId()).exec();
+			containerId.setEtat("S");
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -222,9 +231,10 @@ public class DockerContainerService {
 	 * 
 	 * @param containerId
 	 */
-	private void reload(String containerId) {
+	private void reload(Instance containerId) {
 		try {
-			dockerClient.restartContainerCmd(containerId).exec();
+			dockerClient.restartContainerCmd(containerId.getContainerId()).exec();
+			containerId.setEtat("L");
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -232,19 +242,15 @@ public class DockerContainerService {
 
 	/**
 	 * 
-	 * @param containerId
+	 * @param instance
 	 */
-	public void delete(String containerId) {
-		try {
-			dockerClient.stopContainerCmd(containerId).exec();
-		} catch (DockerException e) {
-			throw new ApplicationException(400, e.getMessage());
-		}
-		String status = dockerClient.inspectContainerCmd(containerId).exec().getState().getStatus();
+	public void delete(Instance instance) {
+		String status = dockerClient.inspectContainerCmd(instance.getContainerId()).exec().getState().getStatus();
 		if (status != null && status.equals("running")) {
-			this.stop(containerId);
+			this.stop(instance);
 		}
-		dockerClient.removeContainerCmd(containerId).exec();
+		instance.setEtat("V");
+		dockerClient.removeContainerCmd(instance.getContainerId()).exec();
 	}
 
 	/**

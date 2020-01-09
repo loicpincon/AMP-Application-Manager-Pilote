@@ -54,11 +54,12 @@ public class DockerContainerController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(path = "/containers/{id}")
+	@GetMapping(path = "/application/{idApp}/{idServer}/containers/{id}")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<Container>> manage(@PathVariable String id, @RequestParam String action) {
-		return () -> ResponseEntity.ok(dockerService.manage(id, action));
+	public Callable<ResponseEntity<Instance>> manage(@PathVariable String idApp, @PathVariable Integer idServer,
+			@PathVariable String id, @RequestParam String action) {
+		return () -> ResponseEntity.ok(dockerService.manage(idApp, idServer, id, action));
 	}
 
 }

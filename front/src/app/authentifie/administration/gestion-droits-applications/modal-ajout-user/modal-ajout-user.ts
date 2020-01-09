@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { User, Right, UserTypes } from '../../modele/model';
+import { User, Right, UserTypes, DroitApplicatifLevel } from '../../modele/model';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,15 +10,15 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ModalAjoutUser implements OnInit {
 
-    displayedColumns: string[] = ['selectionner','id', 'nom', 'prenom', 'niveau'];
+    displayedColumns: string[] = ['selectionner', 'id', 'nom', 'prenom', 'niveau'];
     formulaire: FormGroup;
     users: User[];
     myControl = new FormControl();
-    types: Right[];
+    types: DroitApplicatifLevel[];
     selectedPerson: User;
 
-    constructor( 
-        private formBuilder: FormBuilder, 
+    constructor(
+        private formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<ModalAjoutUser>,
         private apmService: ApmService,
         @Inject(MAT_DIALOG_DATA) public data: UserTypes) { }
@@ -41,8 +41,8 @@ export class ModalAjoutUser implements OnInit {
             });
         })
 
-        
-        
+
+
     }
 
     onSearchChange(str) {
@@ -59,8 +59,8 @@ export class ModalAjoutUser implements OnInit {
         this.dialogRef.close();
     }
 
-    ajouterUtilisateur(){
+    ajouterUtilisateur() {
         console.log(this.selectedPerson)
     }
-    
+
 }
