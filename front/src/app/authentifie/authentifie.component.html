@@ -19,7 +19,7 @@
                 <div [routerLink]="['/secure/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
                         class="material-icons">
                         add
-                    </i>ajouter app</div>
+                    </i><span class="appSpanName">Ajouter app</span></div>
 
             </mat-expansion-panel>
 
@@ -48,7 +48,12 @@
                         Admin
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <a [routerLink]="['/secure/administration/gestion-droits']" (click)="menuApp.close()">Droits membres</a>
+                <div class="nameApp" (click)="loadAdmin()">
+                    <p>
+                        <i class="material-icons">verified_user</i> 
+                        Droits membres
+                    </p>
+                </div>
             </mat-expansion-panel>
         </mat-accordion>
     </mat-sidenav>

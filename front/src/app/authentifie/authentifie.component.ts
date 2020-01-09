@@ -55,7 +55,11 @@ export class AuthentifieComponent implements OnInit {
         })
     }
 
-
+    loadAdmin() {
+        //Navigue sur la page Application avec l'id de l'app
+        this._router.navigate(['/secure/administration/gestion-droits']);
+        this.sidenavService.sideNav.close();
+    }
 
 
 

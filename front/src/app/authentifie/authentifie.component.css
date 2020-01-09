@@ -37,6 +37,8 @@
 }
 .material-icons{
     vertical-align: middle;
+    position: relative;
+    top: -2px;
 }
 .appSpanName{
     margin: 5px;
