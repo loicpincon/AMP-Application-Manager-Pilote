@@ -6,6 +6,7 @@ export abstract class Application {
     name: string;
     type: string;
     environnements: Map<number, Environnement>;
+    livrables: Livrable[];
 }
 
 /**
