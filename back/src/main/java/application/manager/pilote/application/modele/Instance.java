@@ -21,6 +21,8 @@ public class Instance extends BasicDataBean {
 	private String id;
 
 	private String containerId;
+	
+	private String libelle;
 
 	private String url;
 
