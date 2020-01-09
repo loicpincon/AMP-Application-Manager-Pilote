@@ -22,3 +22,10 @@
     color: white;
     font-weight: 500;
 }
+.mat-elevation-z8 table{
+    width: 100% !important;
+    text-align: center;
+}
+.headerTab{
+    text-align: center;
+}

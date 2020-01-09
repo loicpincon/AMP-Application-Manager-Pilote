@@ -1,4 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { Livrable } from '../modele/Application';
 
 @Component({
   selector: 'application-livrable',
@@ -7,10 +9,19 @@ import { Component, OnInit} from '@angular/core';
 })
 export class LivrableComponent implements OnInit {
 
-
+  displayedColumns: string[] = ['Version', 'Date'];
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(){}
+  dataSource = new MatTableDataSource<Livrable>();
+  @Input() livrables: Livrable[];
 
-  ngOnInit(){
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator; 
+  }
+
+  ngOnChanges(){
+    this.dataSource.data = this.livrables;
+    console.log(this.livrables)
   }
 
 }

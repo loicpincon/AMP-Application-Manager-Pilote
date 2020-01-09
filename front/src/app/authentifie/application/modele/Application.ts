@@ -49,7 +49,7 @@ export class Instance {
 /**
  * 
  */
-export class livrables{
+export class Livrable{
     id: string;
     nom: string;
     dateUpload: Date;

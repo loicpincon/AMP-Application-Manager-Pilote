@@ -20,6 +20,5 @@ export class ParametreComponent implements OnInit {
 
   ngOnChanges(){
     this.dataSource.data = this.params;
-    console.log(this.params)
   }
 }
