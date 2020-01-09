@@ -4,7 +4,7 @@
     </div>
     <mat-card-content class="contentLivrable">
         <div *ngIf="livrables; else livrablesNull" class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="livrables">
           
               <ng-container matColumnDef="Version">
                 <th mat-header-cell *matHeaderCellDef class="headerTab"> Version </th>
