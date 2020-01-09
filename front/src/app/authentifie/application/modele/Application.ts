@@ -49,6 +49,14 @@ export class Instance {
 /**
  * 
  */
+export class livrables{
+    id: string;
+    nom: string;
+    dateUpload: Date;
+}
+/**
+ * 
+ */
 export class BashApplication extends Application {
     urlBatch: string;
 }
@@ -61,3 +69,10 @@ export class WarApplication extends Application {
     urlRepoNexs: string;
 }
 
+/**
+ * 
+ */
+export interface ParamsInstance{
+    is:Instance,
+    params:ParametreSeries
+}

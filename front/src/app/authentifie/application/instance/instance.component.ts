@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { Environnement, Instance } from '../modele/Application';
+import { Environnement, Instance, ParametreSeries, ParamsInstance } from '../modele/Application';
 
 @Component({
   selector: 'application-instance',
@@ -8,7 +8,7 @@ import { Environnement, Instance } from '../modele/Application';
 })
 export class InstanceComponent implements OnInit {
 
-  @Output() instanceSelect = new EventEmitter<Instance>();
+  @Output() instanceSelect = new EventEmitter<ParamsInstance>();
   @Input() environnements: Environnement[];
 
   constructor(){}
@@ -16,7 +16,7 @@ export class InstanceComponent implements OnInit {
   ngOnInit(){
   }
 
-  selectInstance(is: Instance) {
-    this.instanceSelect.emit(is);
+  selectInstance(is: Instance,params: ParametreSeries) {
+    this.instanceSelect.emit({is,params});
   }
 }

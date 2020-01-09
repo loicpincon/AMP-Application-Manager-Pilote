@@ -10,4 +10,5 @@ export class ActionComponent implements OnInit {
   selected = 'option1';
   ngOnInit(){
   }
+  
 }

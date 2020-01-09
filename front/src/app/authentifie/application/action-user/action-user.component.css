@@ -1,0 +1,32 @@
+.blocAction{
+    margin: 25px;
+    padding: 0px;
+    border-radius: 6px;
+}
+.blocActionHeader{
+    background-color: #bcd763;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+    text-align: center;
+}
+.blocActionTitre{
+    width: 100%;
+    text-align: center;
+}
+.contentAction{
+    padding: 16px;
+}
+.blocActionTitre h5{
+    margin: 0;
+    padding: 4px;
+    color: white;
+    font-weight: 500;
+}
+
+.mat-elevation-z8 table{
+    width: 100% !important;
+    text-align: center;
+}
+.headerTab{
+    text-align: center;
+}

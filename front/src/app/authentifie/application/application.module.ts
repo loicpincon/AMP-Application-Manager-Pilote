@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ParametreComponent } from './parametre/parametre.component';
+import { ActionUserComponent } from './action-user/action-user.component';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ export class ApplicationRoutingModule { }
     InstanceComponent,
     CreationApplicationComponent,
     ActionComponent,
-    ParametreComponent
+    ParametreComponent,
+    ActionUserComponent
   ],
   imports: [
     CommonModule,
