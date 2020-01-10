@@ -18,6 +18,7 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   applications: Application[];
   applicationEnCours: string;
   types: DroitApplicatifLevel[];
+  loader: boolean = false;
 
   constructor(private serviceApm: ApmService, public dialog: MatDialog) { }
 
@@ -72,12 +73,18 @@ export class GestionDroitsApplicationsComponent implements OnInit {
     });
   }
   supprimerUser(user: User){
+    this.loader = true
     this.serviceApm.supprimerDroitApplicatifs(this.applicationEnCours,user.token).subscribe(data=>{
-      console.log("suppression")
+      this.users = this.users.filter(obj => obj !== user)
+      this.loader = false
     },
     erreur =>{
       console.log(erreur)
+      this.loader = false
     })
+    
+
+
   }
 }
 

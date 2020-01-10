@@ -16,3 +16,15 @@ table {
 .iconLvlAcces{
   cursor: default;
 }
+.deleteIcon{
+  cursor: pointer;
+  color: #d02c2c;
+}
+.material-icons{
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+.loaderColonne{
+  text-align: -webkit-center;
+}
