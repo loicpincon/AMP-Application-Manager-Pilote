@@ -39,6 +39,7 @@ export class GestionDroitsApplicationsComponent implements OnInit {
     this.applicationEnCours = evt.value;
     this.serviceApm.recupererAllUserByApplications(evt.value).subscribe(users => {
       this.users = users;
+      console.log(this.users)
     })
   }
 
@@ -68,8 +69,10 @@ export class GestionDroitsApplicationsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed' + result);
-      result;
+      if(result){
+        this.users.push(result)
+        this.users = this.users.slice()
+      }
     });
   }
   supprimerUser(user: User){

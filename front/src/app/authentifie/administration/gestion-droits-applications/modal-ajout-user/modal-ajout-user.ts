@@ -17,6 +17,8 @@ export class ModalAjoutUser implements OnInit {
     types: DroitApplicatifLevel[];
     selectedPerson: User;
     applicationId: string;
+    loader: boolean = false;
+    canAdd: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -61,17 +63,36 @@ export class ModalAjoutUser implements OnInit {
         this.dialogRef.close();
     }
 
+    onAddClick(right: Right): void{
+        if(this.selectedPerson){
+            this.selectedPerson.rights = [right];
+            this.dialogRef.close(this.selectedPerson);
+        }
+    }
+    
+    radioChange(user: User){
+        this.canAdd = false;
+        console.log(user)
+        if(user.rights){
+            user.rights.forEach(right => {
+                if(right.applicationId === this.applicationId){
+                    this.canAdd = true;
+                }
+            })
+        }
+    }
+
     ajouterUtilisateur() {
         if(this.selectedPerson && this.selectedPerson.rights){
             this.selectedPerson.rights.forEach(right => {
                 if(right.applicationId === this.applicationId){
-                    console.log(right)
-                    console.log(this.selectedPerson.token)
+                    this.loader = true
                     this.apmService.ajouterDroitApplicatifs(right,this.selectedPerson.token).subscribe(rep=>{
-                        console.log("Insertion ok")
-                        this.onNoClick();
+                        this.loader = false
+                        this.onAddClick(right);
                     },
                     erreur =>{
+                        this.loader = false
                         console.log(erreur)
                     })
                 }
@@ -81,6 +102,9 @@ export class ModalAjoutUser implements OnInit {
 
     setRightsByUser(role:string,userSelect: User){
         let alreadyRight:boolean = false;
+        if(userSelect == this.selectedPerson){
+            this.canAdd = true
+        }
         var tmp: Right = {applicationId:this.applicationId,date:new Date(),level:role}
         this.users.forEach(user => {
             if(user === userSelect){
