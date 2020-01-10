@@ -147,6 +147,7 @@ public class UtilisateurService extends DefaultService {
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas pour cet user");
 
 		}
+		uRepo.save(us);
 	}
 
 }
