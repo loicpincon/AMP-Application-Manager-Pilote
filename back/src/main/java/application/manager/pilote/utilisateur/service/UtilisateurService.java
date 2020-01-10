@@ -2,6 +2,7 @@ package application.manager.pilote.utilisateur.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,7 +109,7 @@ public class UtilisateurService extends DefaultService {
 	private DroitApplicatif ajouterDroitUser(Utilisateur us, DroitApplicatif da, String level) {
 		Application app = appService.consulter(da.getApplicationId());
 		if (us.getRights() == null) {
-			us.setRights(new ArrayList<>());
+			us.setRights(new ArrayList<DroitApplicatif>());
 		}
 		for (DroitApplicatif droitU : us.getRights()) {
 			if (droitU.getApplicationId().equals(da.getApplicationId())) {
@@ -124,9 +125,18 @@ public class UtilisateurService extends DefaultService {
 
 	private void supprimerDroitUser(Utilisateur us, DroitApplicatif da) {
 		if (us.getRights() == null) {
-			us.setRights(new ArrayList<>());
+			us.setRights(new ArrayList<DroitApplicatif>());
 		}
 		Boolean find = false;
+		Iterator<DroitApplicatif> i = us.getRights().iterator();
+		while (i.hasNext()) {
+			DroitApplicatif s = i.next();
+			if (s.getApplicationId().equals(da.getApplicationId())) {
+				i.remove();
+				find = true;
+			}
+		}
+
 		for (DroitApplicatif droitU : us.getRights()) {
 			if (droitU.getApplicationId().equals(da.getApplicationId())) {
 				us.getRights().remove(droitU);
