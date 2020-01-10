@@ -78,4 +78,11 @@ public class SessionService {
 		userSessionRepo.deleteById(tokenUserHeader);
 		return null;
 	}
+	
+	public void isTokenUserValid(String token){
+		Optional<Utilisateur> user =  userRepo.findByToken(token);
+		if(!user.isPresent()){
+			throw new ApplicationException(UNAUTHORIZED, "L'utilisateur est inconnu");
+		}
+	}
 }

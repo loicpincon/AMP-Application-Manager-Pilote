@@ -2,5 +2,5 @@ package application.manager.pilote.session.modele;
 
 public enum SecuredLevel {
 
-	ADMIN, MEMBRE;
+	ADMIN, MEMBRE, UPLOAD_VERSION_APP;
 }
