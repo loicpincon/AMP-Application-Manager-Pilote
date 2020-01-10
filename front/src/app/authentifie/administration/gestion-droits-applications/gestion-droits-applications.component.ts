@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { DroitApplicatifLevel, User, UserTypesApp } from '../modele/model';
+import { DroitApplicatifLevel, User, UserTypesApp, Right } from '../modele/model';
 import { MatDialog } from '@angular/material';
 import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
 import { Application } from '../../application/modele/Application';
@@ -12,7 +12,7 @@ import { Application } from '../../application/modele/Application';
 })
 export class GestionDroitsApplicationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'nom', 'prenom', 'niveau'];
+  displayedColumns: string[] = ['id', 'nom', 'prenom', 'niveau', 'supprimer'];
   users: User[];
   user: User;
   applications: Application[];
@@ -50,6 +50,15 @@ export class GestionDroitsApplicationsComponent implements OnInit {
       }
     });
   }
+  changeRights(user: User,role :string){
+    var tmp: Right = {applicationId:this.applicationEnCours,date:new Date(),level:role}
+    this.serviceApm.ajouterDroitApplicatifs(tmp,user.token).subscribe(data=>{
+      console.log("Ajout succès")
+    },
+    erreur=>{
+      console.log(erreur)
+    })
+  }
 
   openModalAjoutUser() {
     const dialogRef = this.dialog.open(ModalAjoutUser, {
@@ -61,6 +70,14 @@ export class GestionDroitsApplicationsComponent implements OnInit {
       console.log('The dialog was closed' + result);
       result;
     });
+  }
+  supprimerUser(user: User){
+    this.serviceApm.supprimerDroitApplicatifs(this.applicationEnCours,user.token).subscribe(data=>{
+      console.log("suppression")
+    },
+    erreur =>{
+      console.log(erreur)
+    })
   }
 }
 

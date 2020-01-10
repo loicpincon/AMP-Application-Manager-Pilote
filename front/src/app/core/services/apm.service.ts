@@ -107,8 +107,15 @@ export class ApmService {
     }
 
     ajouterDroitApplicatifs(droit: Right,tokenUser: string): Observable<any> {
-        let params = new HttpParams().set('level', droit.level).set('id',tokenUser);
+        let params = new HttpParams().set('delete','false').set('level', droit.level).set('id',tokenUser);
         const body = {'applicationId': droit.applicationId}
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.ajouterDroitApplicatifs', params).url;
+        return this.httpClient.post<any>(uri, body);
+    }
+
+    supprimerDroitApplicatifs(applicationId: string,tokenUser: string): Observable<any> {
+        let params = new HttpParams().set('delete', 'true').set('id',tokenUser);
+        const body = {'applicationId': applicationId}
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.ajouterDroitApplicatifs', params).url;
         return this.httpClient.post<any>(uri, body);
     }

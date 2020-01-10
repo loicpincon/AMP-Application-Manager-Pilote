@@ -58,6 +58,8 @@ export class AuthentComponent implements OnInit {
           duration: 1500
         });
       })
+    }else{
+      console.log("non")
     }
 
   }

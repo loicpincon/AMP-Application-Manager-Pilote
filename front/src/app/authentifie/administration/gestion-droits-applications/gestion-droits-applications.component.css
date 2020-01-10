@@ -1,6 +1,10 @@
 table {
     width: 90%;
     margin: auto;
+    text-align: center;
+}
+.headerTab{
+  text-align: center;
 }
 .header{
   text-align: center;
