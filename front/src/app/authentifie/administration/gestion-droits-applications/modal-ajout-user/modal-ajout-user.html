@@ -35,7 +35,7 @@
             help
           </i></th>
         <td mat-cell *matCellDef="let element">
-          <mat-select [(value)]="types[0].id">
+          <mat-select (selectionChange)="setRightsByUser($event.value,element)">
             <mat-option *ngFor="let type of types" [value]="type.id">
               {{type.libelle}}
             </mat-option>

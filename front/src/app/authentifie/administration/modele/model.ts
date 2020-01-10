@@ -18,7 +18,8 @@ export class User {
     rights: Right[];
 }
 
-export interface UserTypes {
+export interface UserTypesApp {
     user: User[];
     types: DroitApplicatifLevel[];
+    applicationId: string;
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application, Instance } from 'src/app/authentifie/application/modele/Application';
-import { User, DroitApplicatifLevel } from 'src/app/authentifie/administration/modele/model';
+import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
 
 
 /**
@@ -104,6 +104,13 @@ export class ApmService {
         let params = new HttpParams().set('idApp', idApp).set('idServer', idServer + '').set('id', idContainer).set('action', action);
         const uri = this.apiManagerService.genereUrlWithParam('Docker.manage', params).url;
         return this.httpClient.get<Instance>(uri);
+    }
+
+    ajouterDroitApplicatifs(droit: Right,tokenUser: string): Observable<any> {
+        let params = new HttpParams().set('level', droit.level).set('id',tokenUser);
+        const body = {'applicationId': droit.applicationId}
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.ajouterDroitApplicatifs', params).url;
+        return this.httpClient.post<any>(uri, body);
     }
 
 }

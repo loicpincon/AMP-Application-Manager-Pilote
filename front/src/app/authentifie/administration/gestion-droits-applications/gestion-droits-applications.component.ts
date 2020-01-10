@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { DroitApplicatifLevel, User } from '../modele/model';
+import { DroitApplicatifLevel, User, UserTypesApp } from '../modele/model';
 import { MatDialog } from '@angular/material';
 import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
 import { Application } from '../../application/modele/Application';
@@ -54,7 +54,7 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   openModalAjoutUser() {
     const dialogRef = this.dialog.open(ModalAjoutUser, {
       width: '75%',
-      data: {user:this.users,types: this.types}
+      data: {user:this.users,types: this.types,applicationId:this.applicationEnCours}
     });
 
     dialogRef.afterClosed().subscribe(result => {
