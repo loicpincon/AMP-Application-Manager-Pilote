@@ -28,8 +28,6 @@ public class Utilisateur extends BasicDataBean {
 
 	private String prenom;
 
-	private List<String> roles;
-
 	private List<DroitApplicatif> rights;
 
 }
