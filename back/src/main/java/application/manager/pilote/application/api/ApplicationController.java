@@ -23,6 +23,7 @@ import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
 import application.manager.pilote.session.modele.Secured;
+import application.manager.pilote.session.modele.SecuredLevel;
 
 @RestController
 @RequestMapping("/applications")

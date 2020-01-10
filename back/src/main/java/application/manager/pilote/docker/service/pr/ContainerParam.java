@@ -1,8 +1,8 @@
 package application.manager.pilote.docker.service.pr;
 
-import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
 import lombok.Setter;
+import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter

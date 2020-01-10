@@ -1,12 +1,13 @@
 package application.manager.pilote.docker.modele;
 
-import org.springframework.data.annotation.Id;
-
-import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.springframework.data.annotation.Id;
+
+import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter

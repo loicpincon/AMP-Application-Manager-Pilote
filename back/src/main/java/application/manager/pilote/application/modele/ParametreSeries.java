@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
 import lombok.Setter;
+import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter

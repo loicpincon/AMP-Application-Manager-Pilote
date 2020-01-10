@@ -3,15 +3,16 @@ package application.manager.pilote.session.modele;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import application.manager.pilote.commun.modele.BasicDataBean;
-import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import org.springframework.data.annotation.Id;
+
+import application.manager.pilote.commun.modele.BasicDataBean;
+import application.manager.pilote.utilisateur.modele.DroitApplicatif;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter

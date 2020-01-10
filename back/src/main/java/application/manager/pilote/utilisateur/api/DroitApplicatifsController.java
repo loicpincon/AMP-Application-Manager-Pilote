@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +16,6 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.commun.modele.BasicDataBean;
 import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @RestController
 @RequestMapping("/droitapplicatifs")

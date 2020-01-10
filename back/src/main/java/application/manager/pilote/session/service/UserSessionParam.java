@@ -1,9 +1,9 @@
 package application.manager.pilote.session.service;
 
-import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
