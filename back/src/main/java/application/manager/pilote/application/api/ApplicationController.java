@@ -93,7 +93,7 @@ public class ApplicationController extends DefaultController {
 
 	@PostMapping(path = "/{idApp}/versions")
 	@ApiManager
-	@Secured
+	@Secured(level = SecuredLevel.UPLOAD_VERSION_APP)
 	public Callable<ResponseEntity<Livrable>> uploadFileVersion(@PathVariable String idApp,
 			@RequestParam("file") MultipartFile file, @RequestParam String version) {
 		return () -> ResponseEntity.ok(insService.uploadFileVersion(file, idApp, version));
