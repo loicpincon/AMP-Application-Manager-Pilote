@@ -34,6 +34,7 @@ export class PilotageComponent implements OnInit {
 
   instanceSelectEvent(res: ParamsInstance) {
     this.instanceSelect = res.is;
+    console.log(res)
     this.paramsSelect = res.params;
     this.idServer = res.idServer;
   }

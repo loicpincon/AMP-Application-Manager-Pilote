@@ -18,7 +18,7 @@
                     <button *ngFor="let instance of env.value.instances"
                         [ngClass]="{'listeInstances_btnOn': instance.etat=='L', 'listeInstances_btnOff':instance.etat=='S', 'listeInstances_btnVide':instance.etat=='V' }"
                         mat-raised-button
-                        (click)="selectInstance(instance,env.value.parametre,env.key)">{{instance.libelle}}</button>
+                        (click)="selectInstance(instance,env.value.parametres,env.key)">{{instance.libelle}}</button>
                 </div>
                 <ng-template #instanceNull>
                     <div class="env-InstanceNull">
