@@ -29,7 +29,6 @@ public class UtilisateurController {
 	private UtilisateurService userService;
 
 	/**
-	 * 
 	 * @return
 	 */
 	@PostMapping
@@ -40,31 +39,26 @@ public class UtilisateurController {
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	@PutMapping(path = "/{id}")
 	@ApiManager("modifier")
 	@Secured
-	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id,
-			@RequestBody Utilisateur utilisateur) {
+	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id, @RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.modifier(utilisateur));
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	@PostMapping(path = "/{id}/droitsApplicatifs")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<DroitApplicatif>> ajouterDroitApplicatifs(@PathVariable String id,
-			@RequestBody DroitApplicatif droit, @RequestParam(required = true) String level) {
-		return () -> ResponseEntity.ok(userService.ajouterDroitApplicatifs(id, droit, level));
+	public Callable<ResponseEntity<DroitApplicatif>> ajouterDroitApplicatifs(@PathVariable String id, @RequestBody DroitApplicatif droit, @RequestParam(required = false) String level, @RequestParam(required = false) Boolean delete) {
+		return () -> ResponseEntity.ok(userService.ajouterDroitApplicatifs(id, droit, level,delete));
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	@GetMapping(path = "/{id}")
@@ -75,14 +69,12 @@ public class UtilisateurController {
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	@GetMapping()
 	@ApiManager("recuperer")
 	@Secured
-	public Callable<ResponseEntity<List<Utilisateur>>> recuperer(@RequestParam(required = false) String idApp,
-			@RequestParam(required = false) String keyword) {
+	public Callable<ResponseEntity<List<Utilisateur>>> recuperer(@RequestParam(required = false) String idApp, @RequestParam(required = false) String keyword) {
 		return () -> ResponseEntity.ok(userService.recuperer(idApp, keyword));
 	}
 
