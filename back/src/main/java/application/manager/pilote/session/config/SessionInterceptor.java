@@ -23,6 +23,8 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 	private static final String X_TOKEN_UTILISATEUR = "X-TOKEN-UTILISATEUR";
 
+	private static final String X_TOKEN_UTILISATEUR_UPLOAD = "X-TOKEN-UTILISATEUR-UPLOAD";
+
 	@Autowired
 	private SessionService sessionService;
 
@@ -31,8 +33,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 	public Map<String, SecuredLevel> methods;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String controllerName = "";
 		String actionName = "";
 		if (handler instanceof HandlerMethod) {
@@ -41,12 +42,19 @@ public class SessionInterceptor implements HandlerInterceptor {
 			actionName = handlerMethod.getMethod().getName();
 			SecuredLevel levelToSecure = methods.get(handlerMethod.getMethod().toGenericString());
 			if (levelToSecure != null) {
-				LOG.debug("API securise : " + controllerName + "." + actionName + " avec niveau --> "
-						+ levelToSecure.name());
+				LOG.debug("API securise : " + controllerName + "." + actionName + " avec niveau --> " + levelToSecure.name());
 
 				if (levelToSecure == SecuredLevel.ADMIN) {
 					// TODO rajouter un cas de session avec admin
-				} else if (levelToSecure == SecuredLevel.MEMBRE) {
+				}
+				else if (levelToSecure == SecuredLevel.UPLOAD_VERSION_APP) {
+					String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR_UPLOAD);
+					if (tokenUserHeader == null) {
+						tokenUserHeader = "";
+					}
+					sessionService.isTokenUserValid(tokenUserHeader);
+				}
+				else if (levelToSecure == SecuredLevel.MEMBRE) {
 					String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR);
 					sessionService.getSession(tokenUserHeader);
 				}

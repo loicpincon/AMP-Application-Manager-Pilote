@@ -2,11 +2,12 @@ package application.manager.pilote.application.modele;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.data.annotation.Id;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter

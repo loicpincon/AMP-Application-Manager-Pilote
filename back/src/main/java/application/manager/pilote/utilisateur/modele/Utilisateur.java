@@ -2,11 +2,12 @@ package application.manager.pilote.utilisateur.modele;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.data.annotation.Id;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -27,8 +28,6 @@ public class Utilisateur extends BasicDataBean {
 	private String nom;
 
 	private String prenom;
-
-	private List<String> roles;
 
 	private List<DroitApplicatif> rights;
 

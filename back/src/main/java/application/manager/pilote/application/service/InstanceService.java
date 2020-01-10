@@ -72,7 +72,6 @@ public class InstanceService {
 	}
 
 	/**
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -86,7 +85,6 @@ public class InstanceService {
 	}
 
 	/**
-	 * 
 	 * @param instance
 	 * @return
 	 */
@@ -95,7 +93,6 @@ public class InstanceService {
 	}
 
 	/**
-	 * 
 	 * @param file
 	 * @param idApp
 	 * @param version
@@ -107,7 +104,7 @@ public class InstanceService {
 		Application app = appService.consulter(idApp);
 		livrable.setDateUpload(new Date());
 		livrable.setFolder(false);
-		livrable.setId(new Date().toString());
+		livrable.setId(hasher.randomInt().toString());
 		livrable.setNom(version);
 		livrable.setPathtoFile("");
 		app.getLivrables().add(livrable);
@@ -119,7 +116,6 @@ public class InstanceService {
 	}
 
 	/**
-	 * 
 	 * @param multipart
 	 * @param fileName
 	 * @throws IOException

@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import application.manager.pilote.commun.helper.PropertiesReader;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import application.manager.pilote.commun.helper.PropertiesReader;
 
 @Configuration
 public class ApplicationConfig {

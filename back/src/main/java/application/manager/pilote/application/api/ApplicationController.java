@@ -23,6 +23,7 @@ import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
 import application.manager.pilote.session.modele.Secured;
+import application.manager.pilote.session.modele.SecuredLevel;
 
 @RestController
 @RequestMapping("/applications")
@@ -93,7 +94,7 @@ public class ApplicationController extends DefaultController {
 
 	@PostMapping(path = "/{idApp}/versions")
 	@ApiManager
-	@Secured
+	@Secured(level = SecuredLevel.UPLOAD_VERSION_APP)
 	public Callable<ResponseEntity<Livrable>> uploadFileVersion(@PathVariable String idApp,
 			@RequestParam("file") MultipartFile file, @RequestParam String version) {
 		return () -> ResponseEntity.ok(insService.uploadFileVersion(file, idApp, version));

@@ -12,15 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.command.InspectContainerResponse;
-import com.github.dockerjava.api.exception.DockerException;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Ports;
-import com.github.dockerjava.api.model.Ports.Binding;
-import com.github.dockerjava.core.command.BuildImageResultCallback;
-
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.service.ApplicationService;
@@ -36,6 +27,15 @@ import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
+
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.exception.DockerException;
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.Ports.Binding;
+import com.github.dockerjava.core.command.BuildImageResultCallback;
 
 @Service
 public class DockerContainerService {

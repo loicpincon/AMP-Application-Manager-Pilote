@@ -2,6 +2,7 @@ package application.manager.pilote.utilisateur.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,6 @@ public class UtilisateurService extends DefaultService {
 	}
 
 	/**
-	 * 
 	 * @param idApp
 	 * @param keyword
 	 * @return
@@ -71,36 +71,45 @@ public class UtilisateurService extends DefaultService {
 				user.getRights().removeAll(listToRemove);
 			}
 			return list;
-		} else if (keyword != null) {
+		}
+		else if (keyword != null) {
 			return uRepo.findByNomOrPrenomOrLogin(keyword);
-		} else {
+		}
+		else {
 			return uRepo.findAll();
 		}
 	}
 
 	public Utilisateur ajouterDroit(String id, String idApplication, String level) {
 		Utilisateur us = consulter(id);
-		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).date(new Date())
-				.level(DroitApplicatifLevel.PROP).build(), level);
+		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).date(new Date()).level(DroitApplicatifLevel.PROP).build(), level);
 		return uRepo.save(us);
 	}
 
-	public DroitApplicatif ajouterDroitApplicatifs(String id, DroitApplicatif droit, String accessLevel) {
-		if (DroitApplicatifLevel.isPresent(accessLevel)) {
+	public DroitApplicatif ajouterDroitApplicatifs(String id, DroitApplicatif droit, String accessLevel, Boolean delete) {
+		if (delete) {
 			Utilisateur us = consulter(id);
-			DroitApplicatif droitU = ajouterDroitUser(us, droit, accessLevel);
-			uRepo.save(us);
-			return droitU;
+			supprimerDroitUser(us, droit);
+			return null;
 		}
 		else {
-			throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas");
+			if (accessLevel != null && DroitApplicatifLevel.isPresent(accessLevel)) {
+				Utilisateur us = consulter(id);
+				DroitApplicatif droitU = ajouterDroitUser(us, droit, accessLevel);
+				uRepo.save(us);
+				return droitU;
+			}
+			else {
+				throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas");
+			}
 		}
+
 	}
 
 	private DroitApplicatif ajouterDroitUser(Utilisateur us, DroitApplicatif da, String level) {
 		Application app = appService.consulter(da.getApplicationId());
 		if (us.getRights() == null) {
-			us.setRights(new ArrayList<>());
+			us.setRights(new ArrayList<DroitApplicatif>());
 		}
 		for (DroitApplicatif droitU : us.getRights()) {
 			if (droitU.getApplicationId().equals(da.getApplicationId())) {
@@ -112,6 +121,33 @@ public class UtilisateurService extends DefaultService {
 		LOG.debug("l'utilisateur a maintenant les droits de " + level + " sur l'application " + app.getName());
 		us.getRights().add(droitApplicatifHelper.setDroitApplicatif(da, level));
 		return da;
+	}
+
+	private void supprimerDroitUser(Utilisateur us, DroitApplicatif da) {
+		if (us.getRights() == null) {
+			us.setRights(new ArrayList<DroitApplicatif>());
+		}
+		Boolean find = false;
+		Iterator<DroitApplicatif> i = us.getRights().iterator();
+		while (i.hasNext()) {
+			DroitApplicatif s = i.next();
+			if (s.getApplicationId().equals(da.getApplicationId())) {
+				i.remove();
+				find = true;
+			}
+		}
+
+		for (DroitApplicatif droitU : us.getRights()) {
+			if (droitU.getApplicationId().equals(da.getApplicationId())) {
+				us.getRights().remove(droitU);
+				find = true;
+			}
+		}
+		if (!find) {
+			throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas pour cet user");
+
+		}
+		uRepo.save(us);
 	}
 
 }
