@@ -54,10 +54,12 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   }
   changeRights(user: User,role :string){
     var tmp: Right = {applicationId:this.applicationEnCours,date:new Date(),level:role}
+    this.loader = true
     this.serviceApm.ajouterDroitApplicatifs(tmp,user.token).subscribe(data=>{
-      console.log("Ajout succès")
+      this.loader = false
     },
     erreur=>{
+      this.loader = false
       console.log(erreur)
     })
   }
