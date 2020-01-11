@@ -17,7 +17,7 @@ const frRangeLabel = (page: number, pageSize: number, length: number) => {
 export function getFrPaginatorIntl() {
     const paginatorIntl = new MatPaginatorIntl();
     
-    paginatorIntl.itemsPerPageLabel = 'Objets par page:';
+    paginatorIntl.itemsPerPageLabel = 'Lignes par page:';
     paginatorIntl.firstPageLabel = 'Première page';
     paginatorIntl.previousPageLabel = 'Page précédente';
     paginatorIntl.nextPageLabel = 'Page suivante';

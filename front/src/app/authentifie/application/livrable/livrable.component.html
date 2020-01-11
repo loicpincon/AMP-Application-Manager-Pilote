@@ -5,8 +5,8 @@
     </mat-card-title>
   </div>
   <mat-card-content class="contentLivrable">
-    <div *ngIf="livrables; else livrablesNull" class="mat-elevation-z8">
-      <table mat-table [dataSource]="livrables">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="Version">
           <th mat-header-cell *matHeaderCellDef class="headerTab"> Version </th>
@@ -22,12 +22,11 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-    </div>
-    <ng-template #livrablesNull>
-      <div class="livrablesNull">
+      <div *ngIf="!dataSource.data.length" class="livrablesNull">
         Aucun livrable pour cette application
       </div>
-    </ng-template>
+
+      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+    </div>
   </mat-card-content>
 </mat-card>
