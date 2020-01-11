@@ -38,3 +38,8 @@
 .iconAdd:active{
     color: lightgray
 }
+.parametreNull{
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+}

@@ -34,7 +34,7 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <div *ngIf="!dataSource.data.length" class="livrablesNull">
+            <div *ngIf="!dataSource.data.length" class="historiqueNull">
               Aucun historique pour cette instance
             </div>
             <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>

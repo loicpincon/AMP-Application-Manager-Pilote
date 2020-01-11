@@ -20,7 +20,6 @@ export class ActionUserComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   ngOnChanges(){
-    console.log(this.instance.userActions)
     if(!this.instance.userActions){
       this.instance.userActions = new Array()
     }
