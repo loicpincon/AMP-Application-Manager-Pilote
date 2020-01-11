@@ -35,7 +35,7 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
-
+    //A supprimer
     recupererAllUserByLoginOrNomOrPrenom(keyword: string): Observable<User[]> {
         let params = new HttpParams().set('keyword', keyword);
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.recuperer', params).url;

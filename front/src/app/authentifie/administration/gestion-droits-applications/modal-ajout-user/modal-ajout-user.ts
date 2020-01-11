@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { User, Right, DroitApplicatifLevel, UserTypesApp } from '../../modele/model';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'administration-modal-ajout-user',
@@ -11,9 +10,7 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 export class ModalAjoutUser implements OnInit {
 
     displayedColumns: string[] = ['selectionner', 'id', 'nom', 'prenom', 'niveau'];
-    formulaire: FormGroup;
-    users: User[];
-    myControl = new FormControl();
+    dataSource = new MatTableDataSource<User>();
     types: DroitApplicatifLevel[];
     selectedPerson: User;
     applicationId: string;
@@ -21,7 +18,6 @@ export class ModalAjoutUser implements OnInit {
     canAdd: boolean = false;
 
     constructor(
-        private formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<ModalAjoutUser>,
         private apmService: ApmService,
         @Inject(MAT_DIALOG_DATA) public data: UserTypesApp) { }
@@ -29,34 +25,28 @@ export class ModalAjoutUser implements OnInit {
     ngOnInit(): void {
         this.types = this.data.types
         this.applicationId = this.data.applicationId
-        this.formulaire = this.formBuilder.group({
-            keywordSearch: null
-        });
-
-        this.formulaire.get('keywordSearch').valueChanges.subscribe(val => {
-            this.onSearchChange(val)
-        });
-
         this.apmService.recupererAllUser().subscribe(usersBd => {
-            this.users = usersBd.filter(obj => {
+            this.dataSource.data = usersBd.filter(obj => {
                 return !this.data.user.some(obj2 => {
                     return obj.token == obj2.token;
                 });
             });
+            this.dataSource.data.forEach(user =>{
+                user.rightApp = "DEV"
+                user.rights.forEach(right =>{
+                    if(right.applicationId == this.applicationId){
+                        user.rightApp = right.level;
+                    }
+                })
+            })
         })
 
 
 
     }
 
-    onSearchChange(str) {
-        this.apmService.recupererAllUserByLoginOrNomOrPrenom(str).subscribe(usersFind => {
-            this.users = usersFind.filter(obj => {
-                return !this.data.user.some(obj2 => {
-                    return obj.token == obj2.token;
-                });
-            });
-        })
+    onSearchChange(filtre: string) {
+        this.dataSource.filter = filtre.trim().toLowerCase();
     }
 
     onNoClick(): void {
@@ -71,8 +61,7 @@ export class ModalAjoutUser implements OnInit {
     }
     
     radioChange(user: User){
-        this.canAdd = false;
-        console.log(user)
+        this.canAdd = true;
         if(user.rights){
             user.rights.forEach(right => {
                 if(right.applicationId === this.applicationId){
@@ -83,44 +72,19 @@ export class ModalAjoutUser implements OnInit {
     }
 
     ajouterUtilisateur() {
-        if(this.selectedPerson && this.selectedPerson.rights){
-            this.selectedPerson.rights.forEach(right => {
-                if(right.applicationId === this.applicationId){
-                    this.loader = true
-                    this.apmService.ajouterDroitApplicatifs(right,this.selectedPerson.token).subscribe(rep=>{
-                        this.loader = false
-                        this.onAddClick(right);
-                    },
-                    erreur =>{
-                        this.loader = false
-                        console.log(erreur)
-                    })
-                }
+        if(this.selectedPerson){
+            var right: Right = {applicationId:this.applicationId,date:new Date(),level:this.selectedPerson.rightApp}
+            this.apmService.ajouterDroitApplicatifs(right,this.selectedPerson.token).subscribe(rep=>{
+                this.loader = false
+                this.onAddClick(right);
             });
         }
     }
 
     setRightsByUser(role:string,userSelect: User){
-        let alreadyRight:boolean = false;
-        if(userSelect == this.selectedPerson){
-            this.canAdd = true
-        }
-        var tmp: Right = {applicationId:this.applicationId,date:new Date(),level:role}
-        this.users.forEach(user => {
+        this.dataSource.data.forEach(user => {
             if(user === userSelect){
-                if(user.rights){
-                    user.rights.forEach((right,index) => {
-                        if(right.applicationId === this.applicationId){
-                            user.rights[index]= tmp
-                            alreadyRight = true;
-                        }
-                    });
-                    if(!alreadyRight){
-                        user.rights.push(tmp)
-                    }
-                }else{
-                    user.rights = [tmp]
-                }
+                user.rightApp = role
             }
         });
     }

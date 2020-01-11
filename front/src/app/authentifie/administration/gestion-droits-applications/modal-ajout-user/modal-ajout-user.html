@@ -1,11 +1,9 @@
-<form [formGroup]="formulaire">
-    <mat-form-field style="width: 100%;">
-        <input formControlName="keywordSearch" matInput placeholder="Rechercher par login, nom ou prénom">
-    </mat-form-field>
-</form>
+<mat-form-field>
+    <input matInput (keyup)="onSearchChange($event.target.value)" placeholder="Filter">
+</mat-form-field>
 
 <mat-radio-group [(ngModel)]="selectedPerson">
-<table mat-table [dataSource]="users" style="width: 100%;">
+<table mat-table [dataSource]="dataSource" style="width: 100%;">
     <ng-container matColumnDef="selectionner">
         <th mat-header-cell *matHeaderCellDef>Selectionner</th>
         <td mat-cell *matCellDef="let element">
@@ -33,11 +31,20 @@
     <ng-container matColumnDef="niveau">
         <th mat-header-cell *matHeaderCellDef> Niveau d'acces</th>
         <td mat-cell *matCellDef="let element">
-          <mat-select (selectionChange)="setRightsByUser($event.value,element)">
-            <mat-option *ngFor="let type of types" [value]="type.id">
-              {{type.libelle}}
-            </mat-option>
-          </mat-select>
+            <div *ngIf="element.rightApp; else noRightApp">
+                <mat-select (selectionChange)="setRightsByUser($event.value,element)" [value]="element.rightApp">
+                    <mat-option *ngFor="let type of types" [value]="type.id">
+                        {{type.libelle}}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <ng-template #noRightApp>
+                <mat-select (selectionChange)="setRightsByUser($event.value,element)">
+                    <mat-option *ngFor="let type of types" [value]="type.id">
+                        {{type.libelle}}
+                    </mat-option>
+                </mat-select>
+            </ng-template>
         </td>
       </ng-container>
 

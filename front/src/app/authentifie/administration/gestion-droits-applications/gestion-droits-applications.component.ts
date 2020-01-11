@@ -39,7 +39,6 @@ export class GestionDroitsApplicationsComponent implements OnInit {
     this.applicationEnCours = evt.value;
     this.serviceApm.recupererAllUserByApplications(evt.value).subscribe(users => {
       this.users = users;
-      console.log(this.users)
     })
   }
 

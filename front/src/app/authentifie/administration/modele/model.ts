@@ -16,6 +16,7 @@ export class User {
     nom: string;
     prenom: string;
     rights: Right[];
+    rightApp: string;
 }
 
 export interface UserTypesApp {
