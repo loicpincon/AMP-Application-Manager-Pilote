@@ -9,7 +9,6 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 })
 export class LivrableComponent implements OnInit {
 
-  //displayedColumns: string[] = ['Version', 'Date'];
   displayedColumns: string[] = ['Version', 'Date'];
   dataSource = new MatTableDataSource<Livrable>();
   constructor(){}

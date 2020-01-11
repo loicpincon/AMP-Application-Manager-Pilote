@@ -1,5 +1,6 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { Instance } from '../modele/Application';
+import { Component, OnInit, Input, ViewChild} from '@angular/core';
+import { Instance, UserAction } from '../modele/Application';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'application-action-user',
   templateUrl: './action-user.component.html',
@@ -11,9 +12,19 @@ export class ActionUserComponent implements OnInit {
 
   constructor(){}
 
+  dataSource = new MatTableDataSource<UserAction>();
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
   }
-
+  ngOnChanges(){
+    console.log(this.instance.userActions)
+    if(!this.instance.userActions){
+      this.instance.userActions = new Array()
+    }
+    this.dataSource.data = this.instance.userActions
+  }
 
 }
