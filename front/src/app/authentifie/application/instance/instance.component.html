@@ -6,7 +6,7 @@
     </div>
     <mat-card-content class="contentInstance">
         <mat-accordion *ngIf="environnements; else envNull">
-            <mat-expansion-panel *ngFor="let env of environnements | keyvalue" hideToggle [expanded]="true">
+            <mat-expansion-panel *ngFor="let env of environnements | keyvalue" hideToggle [expanded]="false">
                 <mat-expansion-panel-header class="env_header">
                     <mat-panel-title class="env_titre">
                         <span *ngIf="env.key==1">Développement</span>
