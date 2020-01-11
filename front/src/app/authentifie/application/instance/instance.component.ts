@@ -10,7 +10,7 @@ export class InstanceComponent implements OnInit {
 
   @Output() instanceSelect = new EventEmitter<ParamsInstance>();
   @Input() environnements: Environnement[];
-
+  instanceEnCours: Instance;
   constructor() { }
 
   ngOnInit() {
@@ -18,5 +18,6 @@ export class InstanceComponent implements OnInit {
 
   selectInstance(is: Instance, params: ParametreSeries, idServer: number) {
     this.instanceSelect.emit({ is, params, idServer });
+    this.instanceEnCours = is
   }
 }
