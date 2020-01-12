@@ -1,3 +1,11 @@
 .example-full-width {
     width: 100%;
   }
+
+  .example-80-width {
+    width: 80%;
+  }
+
+  .example-20-width {
+    width: 20%;
+  }

@@ -5,7 +5,7 @@
     <mat-select (selectionChange)="loadUserByApp($event)">
       <mat-optgroup label="Applications">
         <mat-option *ngFor="let app of applications" [value]="app.id">
-        {{app.name}}
+          {{app.name}}
         </mat-option>
       </mat-optgroup>
     </mat-select>
@@ -30,12 +30,14 @@
     </ng-container>
 
     <ng-container matColumnDef="niveau">
-      <th mat-header-cell *matHeaderCellDef class="headerTab"> Niveau d'acces <i class="material-icons iconLvlAcces" matTooltip="Correspond au rôle de l'utilisateur" matTooltipPosition="right">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Niveau d'acces <i class="material-icons iconLvlAcces"
+          matTooltip="Correspond au rôle de l'utilisateur" matTooltipPosition="right">
           help
         </i></th>
       <td mat-cell *matCellDef="let element" class="loaderColonne">
         <mat-spinner *ngIf="loader" [diameter]=30></mat-spinner>
-        <mat-select *ngIf="!loader" (selectionChange)="changeRights(element,$event.value)" [(value)]="element.rights[0].level">
+        <mat-select *ngIf="!loader" (selectionChange)="changeRights(element,$event.value)" name="elem-element"
+          [(value)]="element.rights[0].level">
           <mat-option *ngFor="let type of types" [value]="type.id">
             {{type.libelle}}
           </mat-option>
@@ -43,13 +45,14 @@
       </td>
     </ng-container>
 
-      <ng-container matColumnDef="supprimer">
-        <th mat-header-cell *matHeaderCellDef class="headerTab"> Options </th>
-        <td mat-cell *matCellDef="let element" class="loaderColonne">
-          <mat-spinner *ngIf="loader" [diameter]=20></mat-spinner>
-          <i *ngIf="!loader" class="material-icons deleteIcon" matTooltip="Supprimer l'utilisateur de l'application" (click)="supprimerUser(element)">delete_forever</i> 
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="supprimer">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Options </th>
+      <td mat-cell *matCellDef="let element" class="loaderColonne">
+        <mat-spinner *ngIf="loader" [diameter]=20></mat-spinner>
+        <i *ngIf="!loader" class="material-icons deleteIcon" matTooltip="Supprimer l'utilisateur de l'application"
+          (click)="supprimerUser(element)">delete_forever</i>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

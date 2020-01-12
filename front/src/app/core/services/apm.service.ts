@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
-import { Application, Instance } from 'src/app/authentifie/application/modele/Application';
+import { Application, Instance, Serveur, Dockerfile } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
 
 
@@ -72,6 +72,11 @@ export class ApmService {
         return this.httpClient.get<any>(uri);
     }
 
+    recupererServeur(): Observable<Serveur[]> {
+        const uri = this.apiManagerService.genereUrl('Server.recuperer').url;
+        return this.httpClient.get<Serveur[]>(uri);
+    }
+
     recupererTypeApplications(): Observable<string[]> {
         const uri = this.apiManagerService.genereUrl('ApplicationType.recuperer').url;
         return this.httpClient.get<string[]>(uri);
@@ -93,6 +98,17 @@ export class ApmService {
         return this.httpClient.post<Application>(uri, application);
     }
 
+    ajouterDockerFile(nom: string, file: string): Observable<Dockerfile> {
+        const body = { 'file': file, 'name': nom }
+        const uri = this.apiManagerService.genereUrl('Dockerfile.creer').url;
+        return this.httpClient.post<Dockerfile>(uri, body);
+    }
+
+    ajouterInstance(serveur: string, idApp: string): Observable<Instance> {
+        let params = new HttpParams().set('id', idApp).set('serveur', serveur);
+        const uri = this.apiManagerService.genereUrlWithParam('Application.ajouterInstance', params).url;
+        return this.httpClient.put<Instance>(uri, null);
+    }
 
     deployerApplication(app: string, ins: string, idServeur: number, version: string): Observable<Instance> {
         const uri = this.apiManagerService.genereUrl('Docker.creer').url;
@@ -106,16 +122,21 @@ export class ApmService {
         return this.httpClient.get<Instance>(uri);
     }
 
-    ajouterDroitApplicatifs(droit: Right,tokenUser: string): Observable<any> {
-        let params = new HttpParams().set('delete','false').set('level', droit.level).set('id',tokenUser);
-        const body = {'applicationId': droit.applicationId}
+    recupererDockerFile(): Observable<any[]> {
+        const uri = this.apiManagerService.genereUrl('Dockerfile.recuperer').url;
+        return this.httpClient.get<any[]>(uri);
+    }
+
+    ajouterDroitApplicatifs(droit: Right, tokenUser: string): Observable<any> {
+        let params = new HttpParams().set('delete', 'false').set('level', droit.level).set('id', tokenUser);
+        const body = { 'applicationId': droit.applicationId }
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.ajouterDroitApplicatifs', params).url;
         return this.httpClient.post<any>(uri, body);
     }
 
-    supprimerDroitApplicatifs(applicationId: string,tokenUser: string): Observable<any> {
-        let params = new HttpParams().set('delete', 'true').set('id',tokenUser);
-        const body = {'applicationId': applicationId}
+    supprimerDroitApplicatifs(applicationId: string, tokenUser: string): Observable<any> {
+        let params = new HttpParams().set('delete', 'true').set('id', tokenUser);
+        const body = { 'applicationId': applicationId }
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.ajouterDroitApplicatifs', params).url;
         return this.httpClient.post<any>(uri, body);
     }

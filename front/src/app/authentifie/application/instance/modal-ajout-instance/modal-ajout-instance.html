@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Ajouter une instance</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>environnement</mat-label>
+        <select [(ngModel)]="envChoisi" name="serveurs" matNativeControl required>
+            <option *ngFor="let serveur of serveurs" [value]="serveur.id">{{serveur.nom}}</option>
+        </select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button (click)="onOkClick()" cdkFocusInitial>Ajouter</button>
+</div>

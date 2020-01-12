@@ -7,6 +7,8 @@ export abstract class Application {
     type: string;
     environnements: Map<number, Environnement>;
     livrables: Livrable[];
+    dockerFileId: string;
+    baseName: string;
 }
 
 /**
@@ -79,3 +81,28 @@ export interface ParamsInstance {
     params: ParametreSeries
     idServer: number;
 }
+
+
+/**
+ * 
+ */
+export interface Serveur {
+    id: number,
+    nom: string;
+    ip: string;
+    dns: string;
+}
+
+
+
+/**
+ * 
+ */
+export interface Dockerfile {
+    id: number,
+    name: string;
+    file: string;
+    isPublic: boolean;
+}
+
+

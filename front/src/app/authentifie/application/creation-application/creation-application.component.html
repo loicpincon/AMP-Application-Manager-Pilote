@@ -12,6 +12,7 @@
             </mat-form-field>
 
 
+
         </div>
 
         <div class="col-sm-12">
@@ -35,10 +36,7 @@
             </div>
             <div class="col-sm-12" formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
                 <mat-form-field class="example-full-width">
-                    <input required matInput formControlName="versionWar" placeholder="Version WAR">
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                    <input required matInput formControlName="urlRepoNexus" placeholder="URL repository nexus">
+                    <input required formControlName="basename" matInput placeholder="base name">
                 </mat-form-field>
             </div>
             <div class="col-sm-12" formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
@@ -47,6 +45,28 @@
                 </mat-form-field>
             </div>
         </div>
+
+        <mat-form-field class="example-80-width">
+            <mat-label>DockerFile Template</mat-label>
+            <mat-select #dockerfile required formControlName="dockerfiles">
+                <mat-option *ngFor="let dk of dockerFiles" [value]="dk">
+                    {{dk.name}}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+        <div class="example-20-width" *ngIf="dockerfile.value">
+            <mat-checkbox formControlName="isUpdateCheck" class="example-margin">Modifier le template</mat-checkbox>
+        </div>
+
+
+        <mat-form-field class="example-full-width" *ngIf="dockerfile.value">
+            <textarea [disabled]="!formulaire.value.isUpdateCheck" style="width: 100%;"
+                formControlName="dockerfilesText" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="5" [value]="dockerfile.value.file" matInput></textarea>
+        </mat-form-field>
+
 
         <div class="col-sm-12">
             <button [disabled]="!formulaire.valid" mat-raised-button class="button" color="primary"
