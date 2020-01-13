@@ -12,22 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import application.manager.pilote.application.modele.Application;
-import application.manager.pilote.application.modele.Instance;
-import application.manager.pilote.application.service.ApplicationService;
-import application.manager.pilote.application.service.InstanceService;
-import application.manager.pilote.commun.exception.ApplicationException;
-import application.manager.pilote.commun.helper.PropertiesReader;
-import application.manager.pilote.commun.helper.RandomPortHelper;
-import application.manager.pilote.commun.helper.StringHelper;
-import application.manager.pilote.commun.service.HashService;
-import application.manager.pilote.docker.helper.DeployFileHelper;
-import application.manager.pilote.docker.mapper.ContainerMapper;
-import application.manager.pilote.docker.modele.Container;
-import application.manager.pilote.docker.service.pr.ContainerParam;
-import application.manager.pilote.server.modele.Server;
-import application.manager.pilote.server.service.ServerService;
-
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
@@ -36,6 +20,21 @@ import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
+
+import application.manager.pilote.application.modele.Application;
+import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.service.ApplicationService;
+import application.manager.pilote.application.service.InstanceService;
+import application.manager.pilote.commun.exception.ApplicationException;
+import application.manager.pilote.commun.helper.PropertiesReader;
+import application.manager.pilote.commun.helper.StringHelper;
+import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.docker.helper.DeployFileHelper;
+import application.manager.pilote.docker.mapper.ContainerMapper;
+import application.manager.pilote.docker.modele.Container;
+import application.manager.pilote.docker.service.pr.ContainerParam;
+import application.manager.pilote.server.modele.Server;
+import application.manager.pilote.server.service.ServerService;
 
 @Service
 public class DockerContainerService {
@@ -70,9 +69,6 @@ public class DockerContainerService {
 
 	@Autowired
 	private StringHelper stringUtils;
-
-	@Autowired
-	private RandomPortHelper randomPortHelper;
 
 	@Autowired
 	private InstanceService instanceService;
@@ -150,11 +146,8 @@ public class DockerContainerService {
 	 */
 	private Ports getPortsBinds(Instance ins, Server serveur) {
 		Ports portBindings = new Ports();
-
 		ExposedPort expoPort = new ExposedPort(8080);
-		Integer portHttp = randomPortHelper.randomPort(serveur.getIp());
-		ins.setPort(String.valueOf(portHttp));
-		portBindings.bind(expoPort, Binding.bindPort(portHttp));
+		portBindings.bind(expoPort, Binding.bindPort(Integer.valueOf(ins.getPort())));
 		return portBindings;
 	}
 

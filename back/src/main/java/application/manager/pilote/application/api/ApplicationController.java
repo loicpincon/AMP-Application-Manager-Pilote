@@ -87,9 +87,8 @@ public class ApplicationController extends DefaultController {
 	@PutMapping(path = "/{id}/{serveur}/instances")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<Instance>> ajouterInstance(@PathVariable String id, @PathVariable Integer serveur,
-			@RequestBody Instance instance) {
-		return () -> ResponseEntity.ok(insService.ajouter(id, serveur, instance));
+	public Callable<ResponseEntity<Instance>> ajouterInstance(@PathVariable String id, @PathVariable Integer serveur) {
+		return () -> ResponseEntity.ok(insService.ajouter(id, serveur));
 	}
 
 	@PostMapping(path = "/{idApp}/versions")

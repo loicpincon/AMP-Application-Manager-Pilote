@@ -19,6 +19,7 @@ import application.manager.pilote.application.modele.Livrable;
 import application.manager.pilote.application.repository.InstanceRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
+import application.manager.pilote.commun.helper.RandomPortHelper;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
@@ -43,6 +44,9 @@ public class InstanceService {
 	@Autowired
 	private PropertiesReader properties;
 
+	@Autowired
+	private RandomPortHelper randomPortHelper;
+
 	/**
 	 * Ajouter une instance a une application existante
 	 * 
@@ -51,7 +55,7 @@ public class InstanceService {
 	 * @param instance
 	 * @return
 	 */
-	public Instance ajouter(String id, Integer serveur, Instance instance) {
+	public Instance ajouter(String id, Integer serveur) {
 		Application app = appService.consulter(id);
 		Server server = servService.consulter(serveur);
 		if (app.getEnvironnements() == null) {
@@ -65,6 +69,10 @@ public class InstanceService {
 			app.getEnvironnements().put(server.getId(), env);
 
 		}
+		Instance instance = new Instance();
+		instance.setEtat("V");
+		instance.setLibelle("Espace disponible");
+		instance.setPort(randomPortHelper.randomPort().toString());
 		instance.setId(hasher.hash(id + server.getId() + new Date()));
 		env.getInstances().add(instance);
 		appService.modifier(app);
