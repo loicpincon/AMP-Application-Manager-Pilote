@@ -1,0 +1,16 @@
+.mat-elevation-z8 table{
+    width: 100% !important;
+    text-align: center;
+}
+.headerTab{
+    text-align: center;
+}
+.logsNull{
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+}
+.centerSpinner{
+    margin-top: 25px;
+    text-align: -webkit-center;
+}

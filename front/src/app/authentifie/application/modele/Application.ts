@@ -63,6 +63,15 @@ export class Livrable {
 /**
  * 
  */
+export class Log{
+    type: string;
+    timeStamp: string;
+    message: string;
+}
+
+/**
+ * 
+ */
 export class BashApplication extends Application {
     urlBatch: string;
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Instance, Application, ParametreSeries } from '../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
+import { MatDialog } from '@angular/material';
+import { dialogLogsInstanceComponent } from './dialog-logs-instance/dialog-logs-instance.component';
 @Component({
   selector: 'application-action',
   templateUrl: './action.component.html',
@@ -20,7 +22,7 @@ export class ActionComponent implements OnInit {
 
   paramSelectionne: ParametreSeries;
 
-  constructor(private apmService: ApmService,private dataShared: DataSharedService) { }
+  constructor(private apmService: ApmService,private dataShared: DataSharedService,public dialog: MatDialog) { }
   selected = 'option1';
 
   ngOnInit(){
@@ -70,6 +72,13 @@ export class ActionComponent implements OnInit {
     }, error => {
 
     })
+  }
+
+  consulterlesLogs() {
+    this.dialog.open(dialogLogsInstanceComponent, {
+      width: '75%',
+      data: this.instance
+    });
   }
 
 
