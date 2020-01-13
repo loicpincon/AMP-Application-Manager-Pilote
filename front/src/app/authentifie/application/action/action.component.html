@@ -8,13 +8,13 @@
         <div fxLayout fxLayout.xs="column">
             <button fxFlex mat-raised-button class="btnActions" (click)="deployer()"
                 [disabled]="paramSelectionne && !paramSelectionne.version || versionApplicationSelectionne && !versionApplicationSelectionne.nom">Deployer</button>
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' || instance.etat=='P'"
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' "
                 (click)="restart()">Redémarrer</button>
         </div>
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L' || instance.etat=='P'"
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L' "
                 (click)="stop()">Arrêter</button>
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' || instance.etat=='P'"
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' "
                 (click)="delete()">Supprimer</button>
         </div>
     </mat-card-content>
