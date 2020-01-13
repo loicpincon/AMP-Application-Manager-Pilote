@@ -62,4 +62,8 @@ export class dialogLogsInstanceComponent implements OnInit {
     console.log(regexp.test(filterValue))
   }
 
+  refreshLog() {
+
+  }
+
 }

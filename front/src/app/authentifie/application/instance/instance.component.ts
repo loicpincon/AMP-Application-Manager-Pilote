@@ -3,6 +3,7 @@ import { Environnement, Instance, ParametreSeries, ParamsInstance, Application }
 import { MatDialog } from '@angular/material';
 import { ModalAjoutInstance } from './modal-ajout-instance/modal-ajout-instance';
 import { ApmService } from 'src/app/core/services/apm.service';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
 
 @Component({
   selector: 'application-instance',
@@ -16,9 +17,10 @@ export class InstanceComponent implements OnInit {
   @Input() app: Application;
 
   instanceEnCours: Instance;
-  constructor(public dialog: MatDialog, private apmService: ApmService) { }
+  constructor(private dataShared: DataSharedService, public dialog: MatDialog, private apmService: ApmService) { }
 
   ngOnInit() {
+
   }
 
   selectInstance(is: Instance, params: ParametreSeries, idServer: number) {

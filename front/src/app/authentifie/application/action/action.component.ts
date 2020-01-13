@@ -4,6 +4,8 @@ import { ApmService } from 'src/app/core/services/apm.service';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { MatDialog } from '@angular/material';
 import { dialogLogsInstanceComponent } from './dialog-logs-instance/dialog-logs-instance.component';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 @Component({
   selector: 'application-action',
   templateUrl: './action.component.html',
@@ -27,6 +29,7 @@ export class ActionComponent implements OnInit {
   selected = 'option1';
 
   ngOnInit() {
+    this.listening();
     this.dataShared.currentParam.subscribe(async (param) => {
       this.paramSelectionne = await param;
     })
@@ -70,6 +73,7 @@ export class ActionComponent implements OnInit {
     this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'delete').subscribe(res => {
       this.instance = res;
       this.instanceEvent.emit(this.instance);
+
     }, error => {
 
     })
@@ -82,6 +86,30 @@ export class ActionComponent implements OnInit {
     });
   }
 
+  ws: any;
+
+  listening() {
+    //connect to stomp where stomp endpoint is exposed
+    let ws = new SockJS("http://localhost:8080/socket");
+    //let socket = new WebSocket("ws://localhost:8080/socket");
+    this.ws = Stomp.over(ws);
+    this.ws.debug = null
+    let that = this;
+    this.ws.connect({}, function (frame) {
+      that.ws.subscribe("/errors", function (message) {
+        alert("Error " + message.body);
+      });
+      that.ws.subscribe("/content/application", function (message) {
+        console.log(message.body)
+        var i: Instance = JSON.parse(message.body);
+        that.instanceEvent.emit(i);
+
+
+      });
+    }, function (error) {
+      alert("STOMP error " + error);
+    });
+  }
 
 
 }

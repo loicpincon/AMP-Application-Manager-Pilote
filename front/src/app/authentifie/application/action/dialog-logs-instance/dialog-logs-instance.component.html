@@ -2,9 +2,8 @@
   <mat-card-content>
     <div class="mat-elevation-z8">
       <div fxLayout fxLayout.xs="column">
-        <p>Filtrer par message :</p>
         <mat-form-field fxFlex fxFlexOffset="15px">
-          <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="Message">
+          <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="filtre message">
         </mat-form-field>
       </div>
       <div fxLayout fxLayout.xs="column">
@@ -16,13 +15,18 @@
         <mat-form-field fxFlex="25%" fxFlexOffset="15px">
           <input matInput [ngModel]="dateJourFin" maxlength="19" (keyup)="dateFilter($event.target.value)">
         </mat-form-field>
+
+        <div fxFlex="25%" fxFlexOffset="15px">
+          <button (click)="refreshLog()">Actualiser</button>
+        </div>
+
       </div>
-      <div class="table-scroll-y">
+      <div class="table-scroll-y  mat-elevation-z8">
 
         <table mat-table [dataSource]="dataSource">
 
           <ng-container matColumnDef="Version">
-            <th mat-header-cell *matHeaderCellDef class="headerTab"> Date </th>
+            <th mat-header-cell *matHeaderCellDef class="headerTab"> Timestamp </th>
             <td mat-cell class="content_tab" *matCellDef="let element"> {{element.timestamp}} </td>
           </ng-container>
 
@@ -31,7 +35,7 @@
             <td mat-cell class="content_tab" *matCellDef="let element"> {{element.message}} </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr style="height: 14px;" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>

@@ -16,12 +16,13 @@ export class PilotageComponent implements OnInit {
   idServer: number;
   instanceParams: ParametreSeries = null;
   application: Application = null;
-  paramDefault : string;
+  paramDefault: string;
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params.idApp !== undefined) {
-        this.appService.recupererApplication(params.idApp).subscribe(data => {
+    this.route.params.subscribe(params => {
+      console.log(params)
+      if (params['idApp'] !== undefined) {
+        this.appService.recupererApplication(params['idApp']).subscribe(data => {
           this.instanceSelect = null;
           this.application = data;
           console.log(data)
@@ -43,19 +44,10 @@ export class PilotageComponent implements OnInit {
 
   instanceEvent(ins: Instance) {
     console.log(ins)
-    this.route.queryParams.subscribe(params => {
-      if (params.idApp !== undefined) {
-        this.appService.recupererApplication(params.idApp).subscribe(data => {
-          this.instanceSelect = null;
-          this.application = data;
-          console.log(data)
-          this.instanceSelect = ins;
-        },
-          error => {
-            console.log(error.error.message)
-          })
-      }
+    if (this.instanceSelect.id == ins.id) {
+      this.instanceSelect.etat = ins.etat;
+    }
 
-    });
+
   }
 }

@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: '', component: ApplicationComponent, children: [
       {
-        path: 'pilotage', component: PilotageComponent
+        path: 'pilotage/:idApp', component: PilotageComponent
       },
       {
         path: 'creation', component: CreationApplicationComponent
@@ -64,7 +64,7 @@ export class ApplicationRoutingModule { }
     ModalAjoutInstance,
     dialogLogsInstanceComponent
   ],
-  providers : [
+  providers: [
     DataSharedService,
     DatePipe
   ]

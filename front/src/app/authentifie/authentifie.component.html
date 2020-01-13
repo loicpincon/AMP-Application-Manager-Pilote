@@ -15,7 +15,8 @@
                 </mat-expansion-panel-header>
 
                 <div *ngFor="let app of applications" (click)="loadApp(app.id)" class="nameApp">
-                    <i class="material-icons">apps</i><span class="appSpanName">{{app.name}}</span></div>
+                    <i class="material-icons">apps</i><span class="appSpanName">{{app.name}}</span>
+                </div>
                 <div [routerLink]="['/secure/application/creation']" class="nameApp" (click)="menuApp.close()"> <i
                         class="material-icons">
                         add

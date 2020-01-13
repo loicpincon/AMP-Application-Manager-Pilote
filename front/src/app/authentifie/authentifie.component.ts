@@ -35,12 +35,8 @@ export class AuthentifieComponent implements OnInit {
     }
 
     loadApp(id: string) {
-        const navigationExtras: NavigationExtras = {
-            queryParams: { idApp: id },
-            skipLocationChange: true
-        };
-        //Navigue sur la page Application avec l'id de l'app
-        this._router.navigate(['/'], navigationExtras);
+
+        this._router.navigate(['/secure/application/pilotage', id]);
         this.sidenavService.sideNav.close();
     }
 
