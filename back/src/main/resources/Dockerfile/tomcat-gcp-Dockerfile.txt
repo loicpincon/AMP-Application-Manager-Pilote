@@ -1,0 +1,9 @@
+FROM tomcat
+ARG path
+MAINTAINER loic
+RUN apt-get update && apt-get -y upgrade  
+RUN rm -rf /usr/local/tomcat/webapps/  
+WORKDIR /usr/local/tomcat    
+CMD ["catalina.sh", "run"]
+ADD TEST.war /usr/local/tomcat/webapps/ROOT.war
+ADD gcp.properties /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/gcp.properties
