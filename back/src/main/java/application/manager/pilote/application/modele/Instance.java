@@ -33,7 +33,7 @@ public class Instance extends BasicDataBean {
 
 	private String versionApplicationActuel;
 
-	private String versionParametresActuel = "0.0.0";
+	private String versionParametresActuel;
 
 	private List<UserAction> userActions;
 
