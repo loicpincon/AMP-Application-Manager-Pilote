@@ -133,7 +133,7 @@ public class DockerContainerService {
 			} else {
 				ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
 			}
-
+			ins.setVersionApplicationActuel(param.getVersion());
 			appService.modifier(app);
 
 			return ins;

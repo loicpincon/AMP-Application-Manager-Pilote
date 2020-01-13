@@ -31,6 +31,8 @@ public class Instance extends BasicDataBean {
 
 	private String etat;
 
+	private String versionApplicationActuel;
+
 	private List<UserAction> userActions;
 
 }
