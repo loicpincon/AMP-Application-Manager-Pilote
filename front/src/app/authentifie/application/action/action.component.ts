@@ -29,15 +29,9 @@ export class ActionComponent implements OnInit {
   ngOnInit() {
     this.dataShared.currentParam.subscribe(async (param) => {
       this.paramSelectionne = await param;
-      console.log(this.paramSelectionne)
-      console.log(this.paramSelectionne == null)
-      console.log(this.paramSelectionne.version)
     })
     this.dataShared.currentLivrable.subscribe(async (param) => {
       this.versionApplicationSelectionne = await param;
-      console.log(this.versionApplicationSelectionne)
-      console.log(this.versionApplicationSelectionne == null)
-      console.log(this.versionApplicationSelectionne.id)
     })
   }
 

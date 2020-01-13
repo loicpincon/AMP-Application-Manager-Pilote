@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Livrable } from '../modele/Application';
+import { Livrable, Instance } from '../modele/Application';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
@@ -19,12 +19,27 @@ export class LivrableComponent implements OnInit {
 
   @Input() livrables: Livrable[];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+  @Input() instance: Instance;
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
   }
   ngOnChanges() {
+    let availableVersion = false;
     this.dataSource.data = this.livrables
+    if(this.instance){
+      this.livrables.forEach(l => {
+        console.log(l.nom)
+        if (l.nom == this.instance.versionParametresActuel) {
+          this.selection.select(l)
+          this.dataShared.changeLivrable(l)
+          availableVersion = true;
+        }
+      })
+      if (!availableVersion) {
+        this.selection.clear()
+        this.dataShared.changeLivrable(new Livrable());
+      }
+    }
   }
 
   selectionLivrable(row: any) {
