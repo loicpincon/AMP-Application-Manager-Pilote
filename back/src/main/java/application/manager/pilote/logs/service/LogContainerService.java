@@ -29,22 +29,27 @@ public class LogContainerService {
 		final List<String> logs = new ArrayList<>();
 
 		LogContainerCmd logContainerCmd = dockerClient.logContainerCmd(containerId);
-		logContainerCmd.withStdOut(true).withStdErr(true);
+		//logContainerCmd.withStdOut(true).withStdErr(true);
 		//logContainerCmd.withSince(lastLogTime); // UNIX timestamp (integer) to filter logs. Specifying a timestamp will
 												// only output log-entries since that timestamp.
 		// logContainerCmd.withTail(4); // get only the last 4 log entries
 
 		logContainerCmd.withTimestamps(true);
+		
+		LogContainerResultCallback callback =new LogContainerResultCallback();
 
 		try {
 			logContainerCmd.exec(new LogContainerResultCallback() {
 
 				@Override
 				public void onNext(Frame item) {
+
 					logs.add(item.toString());
 				}
 			}).awaitCompletion();
 		}
+		
+		
 		catch (InterruptedException e) {
 			myLogger.severe("Interrupted Exception!" + e.getMessage());
 		}
