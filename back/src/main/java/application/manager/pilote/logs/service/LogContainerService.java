@@ -24,9 +24,9 @@ public class LogContainerService {
 
 	private static Logger myLogger = Logger.getLogger(nameOfLogger);
 
-	public List<String> getDockerLogs(String containerId) {
+	public List<LogMessage> getDockerLogs(String containerId) {
 
-		final List<String> logs = new ArrayList<>();
+		final List<LogMessage> logs = new ArrayList<>();
 
 		LogContainerCmd logContainerCmd = dockerClient.logContainerCmd(containerId);
 		logContainerCmd.withStdOut(true).withStdErr(true);
@@ -44,8 +44,11 @@ public class LogContainerService {
 
 				@Override
 				public void onNext(Frame item) {
-
-					logs.add(item.toString());
+					String logBrut = item.toString();
+					String type = logBrut.substring(0, 6);
+					String timestamp = logBrut.substring(9, 40);
+					String message = logBrut.substring(42, logBrut.length() - 1);
+					logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
 				}
 			}).awaitCompletion();
 		}
