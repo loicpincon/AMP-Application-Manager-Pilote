@@ -30,7 +30,7 @@ public class LogContainerService {
 
 		LogContainerCmd logContainerCmd = dockerClient.logContainerCmd(containerId);
 		logContainerCmd.withStdOut(true).withStdErr(true);
-		logContainerCmd.withSince(lastLogTime); // UNIX timestamp (integer) to filter logs. Specifying a timestamp will
+		//logContainerCmd.withSince(lastLogTime); // UNIX timestamp (integer) to filter logs. Specifying a timestamp will
 												// only output log-entries since that timestamp.
 		// logContainerCmd.withTail(4); // get only the last 4 log entries
 
