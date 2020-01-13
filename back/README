@@ -1,1 +1,2 @@
-exemple de requete curl pour inserer des livrables : curl -F file=@'av.jpg' http://localhost:8080/applications/30de978fdc8568354c0b56d9da48f69d2a3f5a834cffdf911e7aada0e61c7abb/versions
+MY_POM_VERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
+curl -F file=@'target/mobilite.war' -H 'X-TOKEN-UTILISATEUR-UPLOAD:AZERTYIOP' http://213.136.77.118:7001/amp/applications/fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436/versions?version=${MY_POM_VERSION}
