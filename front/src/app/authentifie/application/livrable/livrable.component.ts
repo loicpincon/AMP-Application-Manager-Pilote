@@ -29,7 +29,7 @@ export class LivrableComponent implements OnInit {
     if(this.instance){
       this.livrables.forEach(l => {
         console.log(l.nom)
-        if (l.nom == this.instance.versionParametresActuel) {
+        if (l.nom == this.instance.versionApplicationActuel) {
           this.selection.select(l)
           this.dataShared.changeLivrable(l)
           availableVersion = true;
