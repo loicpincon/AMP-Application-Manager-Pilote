@@ -45,10 +45,11 @@ public class LogContainerService {
 				@Override
 				public void onNext(Frame item) {
 					String logBrut = item.toString();
-					String type = logBrut.substring(0, 6);
-					String timestamp = logBrut.substring(9, 40);
-					String message = logBrut.substring(42, logBrut.length() - 1);
-					logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
+					String type = logBrut.length()+"";
+//					String timestamp = logBrut.substring(9, 39);
+//					String message = logBrut.substring(40, logBrut.length() - 1);
+					String message = logBrut;
+					logs.add(LogMessage.builder().type(type).message(message).build());
 				}
 			}).awaitCompletion();
 		}
