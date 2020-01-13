@@ -14,6 +14,7 @@ import { ActionUserComponent } from './action-user/action-user.component';
 import { LivrableComponent } from './livrable/livrable.component';
 import { ModalAjoutInstance } from './instance/modal-ajout-instance/modal-ajout-instance';
 import { BrowserModule } from '@angular/platform-browser';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
 
 const routes: Routes = [
   {
@@ -60,6 +61,9 @@ export class ApplicationRoutingModule { }
   entryComponents: [
     InstanceComponent,
     ModalAjoutInstance
+  ],
+  providers : [
+    DataSharedService
   ]
 })
 export class ApplicationModule { }

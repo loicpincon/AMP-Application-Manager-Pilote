@@ -47,6 +47,8 @@ export class Instance {
     url: string;
     etat: string;
     userActions: UserAction[];
+    versionApplicationActuel: string;
+    versionParametresActuel: string;
 }
 
 /**

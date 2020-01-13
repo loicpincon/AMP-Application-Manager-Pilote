@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Instance, Application } from '../modele/Application';
+import { Instance, Application, ParametreSeries } from '../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
 @Component({
   selector: 'application-action',
   templateUrl: './action.component.html',
@@ -17,18 +18,29 @@ export class ActionComponent implements OnInit {
 
   @Input() app: Application;
 
-  constructor(private apmService: ApmService) { }
+  paramSelectionne: ParametreSeries;
+
+  constructor(private apmService: ApmService,private dataShared: DataSharedService) { }
   selected = 'option1';
-  ngOnInit() {
+
+  ngOnInit(){
+    this.dataShared.currentParam.subscribe(async(param) => {
+      this.paramSelectionne = await param;
+      console.log(this.paramSelectionne)
+      console.log(this.paramSelectionne == null)
+      console.log(this.paramSelectionne.version)
+    })
   }
 
   deployer() {
-    this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, '0.0.0').subscribe(res => {
-      this.instance = res;
-      this.instanceEvent.emit(this.instance);
-    }, error => {
-
-    })
+    if(this.paramSelectionne.version){
+      this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, this.paramSelectionne.version).subscribe(res => {
+        this.instance = res;
+        this.instanceEvent.emit(this.instance);
+      }, error => {
+  
+      })
+    }
   }
 
   stop() {

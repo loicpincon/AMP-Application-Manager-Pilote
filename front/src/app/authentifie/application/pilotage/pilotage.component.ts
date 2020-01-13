@@ -14,8 +14,10 @@ export class PilotageComponent implements OnInit {
 
   instanceSelect: Instance = null;
   idServer: number;
-  paramsSelect: ParametreSeries = null;
+  instanceParams: ParametreSeries = null;
   application: Application = null;
+  paramDefault : string;
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params.idApp !== undefined) {
@@ -34,8 +36,8 @@ export class PilotageComponent implements OnInit {
 
   instanceSelectEvent(res: ParamsInstance) {
     this.instanceSelect = res.is;
-    console.log(res)
-    this.paramsSelect = res.params;
+    console.log(res.is)
+    this.instanceParams = res.params;
     this.idServer = res.idServer;
   }
 
