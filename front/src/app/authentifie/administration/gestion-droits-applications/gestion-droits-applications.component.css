@@ -28,3 +28,7 @@ table {
 .loaderColonne{
   text-align: -webkit-center;
 }
+
+.test{
+  background-color: red !important;
+}

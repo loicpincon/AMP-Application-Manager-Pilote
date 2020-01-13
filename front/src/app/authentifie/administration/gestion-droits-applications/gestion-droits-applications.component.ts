@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DroitApplicatifLevel, User, UserTypesApp, Right } from '../modele/model';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
 import { Application } from '../../application/modele/Application';
 
@@ -19,8 +19,9 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   applicationEnCours: string;
   types: DroitApplicatifLevel[];
   loader: boolean = false;
+  currentUserToReloadRight: User;
 
-  constructor(private serviceApm: ApmService, public dialog: MatDialog) { }
+  constructor(private serviceApm: ApmService, public dialog: MatDialog,private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.serviceApm.recupererUser(sessionStorage.getItem('USER_TOKEN')).subscribe(user => {
@@ -53,9 +54,14 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   }
   changeRights(user: User,role :string){
     var tmp: Right = {applicationId:this.applicationEnCours,date:new Date(),level:role}
+    this.currentUserToReloadRight = user;
     this.loader = true
     this.serviceApm.ajouterDroitApplicatifs(tmp,user.token).subscribe(data=>{
       this.loader = false
+      this._snackBar.open('Les droits de l\'utilisateur '+user.prenom+' '+user.nom+' ont été mis à jour','', {
+        duration: 2000,
+        panelClass: 'customSnackBar'
+      });
     },
     erreur=>{
       this.loader = false
