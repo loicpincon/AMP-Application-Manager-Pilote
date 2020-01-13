@@ -13,10 +13,10 @@ export class DataSharedService {
 
   constructor() { }
 
-  changeParam(message: ParametreSeries) {
-    this.paramSource.next(message)
-  }
-  changeLivrable(message: Livrable) {
-    this.livrableSource.next(message)
+  changeParam(param: ParametreSeries) {
+    this.paramSource.next(param)
+  } 
+  changeLivrable(livrable: Livrable) {
+    this.livrableSource.next(livrable)
   }
 }

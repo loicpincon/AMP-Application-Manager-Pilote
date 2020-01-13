@@ -9,16 +9,12 @@
       </div>
       <div fxLayout fxLayout.xs="column">
         <p>Filtrer par date :</p>
-        <mat-form-field fxFlex="15%" fxFlexOffset="15px">
-          <input matInput [matDatepicker]="dateDeb" placeholder="Date Début">
-          <mat-datepicker-toggle matSuffix [for]="dateDeb"></mat-datepicker-toggle>
-          <mat-datepicker #dateDeb></mat-datepicker>
+        <mat-form-field fxFlex="25%" fxFlexOffset="15px">
+          <input matInput [ngModel]="dateJourDeb" maxlength="19" (keyup)="dateFilter($event.target.value)">
         </mat-form-field>
         <p>jusqu'à</p>
-        <mat-form-field fxFlex="15%" fxFlexOffset="15px">
-          <input matInput [matDatepicker]="dateFin" placeholder="Date Fin">
-          <mat-datepicker-toggle matSuffix [for]="dateFin"></mat-datepicker-toggle>
-          <mat-datepicker #dateFin></mat-datepicker>
+        <mat-form-field fxFlex="25%" fxFlexOffset="15px">
+          <input matInput [ngModel]="dateJourFin" maxlength="19" (keyup)="dateFilter($event.target.value)">
         </mat-form-field>
       </div>
       <table mat-table [dataSource]="dataSource">

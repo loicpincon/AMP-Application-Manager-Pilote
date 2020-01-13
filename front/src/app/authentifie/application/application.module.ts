@@ -4,7 +4,7 @@ import { PilotageComponent } from './pilotage/pilotage.component';
 import { InstanceComponent } from './instance/instance.component';
 import { ActionComponent } from './action/action.component';
 import { CreationApplicationComponent } from './creation-application/creation-application.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/material.module';
@@ -65,7 +65,8 @@ export class ApplicationRoutingModule { }
     dialogLogsInstanceComponent
   ],
   providers : [
-    DataSharedService
+    DataSharedService,
+    DatePipe
   ]
 })
 export class ApplicationModule { }
