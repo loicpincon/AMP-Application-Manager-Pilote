@@ -3,7 +3,6 @@ package application.manager.pilote.docker.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -104,69 +103,56 @@ public class DockerContainerService {
 				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
 				hasherService.randomInt());
 
-//		Thread thread = new Thread() {
-//			public void run() {
-//				try {
-//					BuildImageResultCallback callback = new BuildImageResultCallback();
-//					File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
-//							dockerFileService.get(app.getDockerFileId()));
-//
-//					String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId()
-//							+ SLASH + param.getVersion() + SLASH + app.getBaseName();
-//
-//					File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
-//					FileUtils.copyFile(new File(pathToWar), copied);
-//
-//					String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("path", pathToWar).exec(callback)
-//							.awaitCompletion().awaitImageId();
-//					LOG.info(test);
-//					CreateContainerResponse container = dockerClient.createContainerCmd(test)
-//							.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
-//							.withPortBindings(getPortsBinds(ins, server)).exec();
-//
-//					dockerClient.startContainerCmd(container.getId()).exec();
-//
-//					ins.setContainerId(container.getId());
-//
-//					ins.setLibelle(param.getVersion());
-//					ins.setEtat("L");
-//					if (server.getDns() != null) {
-//						ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
-//					} else {
-//						ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
-//					}
-//					ins.setVersionApplicationActuel(param.getVersion());
-//					ins.setVersionParametresActuel("0.0.0");
-//					appService.modifier(app);
-//				} catch (DockerException | InterruptedException | IOException e) {
-//					Thread.currentThread().interrupt();
-//					throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
-//				}
-//			}
-//		};
-//		thread.start();
-
-		Thread thread = new Thread() {
+		new Thread() {
 			public void run() {
 				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+					BuildImageResultCallback callback = new BuildImageResultCallback();
+					File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
+							dockerFileService.get(app.getDockerFileId()));
+
+					String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId()
+							+ SLASH + param.getVersion() + SLASH + app.getBaseName();
+
+					File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
+					FileUtils.copyFile(new File(pathToWar), copied);
+
+					String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion()
+							.awaitImageId();
+					LOG.info(test);
+					CreateContainerResponse container = dockerClient.createContainerCmd(test)
+							.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
+							.withPortBindings(getPortsBinds(ins, server)).exec();
+
+					dockerClient.startContainerCmd(container.getId()).exec();
+
+					ins.setContainerId(container.getId());
+
+					ins.setLibelle(param.getVersion());
+					ins.setEtat("L");
+					if (server.getDns() != null) {
+						ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
+					} else {
+						ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
+					}
+					ins.setVersionApplicationActuel(param.getVersion());
+					ins.setVersionParametresActuel("0.0.0");
+					appService.modifier(app);
+					template.convertAndSend("/content/application", ins);
+					LOG.debug("fin du thread");
+				} catch (DockerException | InterruptedException | IOException e) {
+					ins.setEtat("S");
+					appService.modifier(app);
+					template.convertAndSend("/content/application", ins);
+					Thread.currentThread().interrupt();
+					throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
 				}
-				ins.setVersionApplicationActuel(param.getVersion());
-				ins.setLibelle(param.getVersion());
-				ins.setEtat("L");
-				ins.setVersionParametresActuel("0.0.0");
-				appService.modifier(app);
-				template.convertAndSend("/content/application", ins);
-				LOG.debug("fin du thread");
 			}
-		};
-		thread.start();
+		}.start();
 
 		LOG.debug("retourne au client");
 		ins.setEtat("P");
 		appService.modifier(app);
+		template.convertAndSend("/content/application", ins);
 		return ins;
 	}
 
@@ -195,7 +181,7 @@ public class DockerContainerService {
 	/**
 	 * @param containerId
 	 */
-	private void start(Instance containerId) {
+	private void startC(Instance containerId) {
 		try {
 			dockerClient.startContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("L");
@@ -213,31 +199,41 @@ public class DockerContainerService {
 
 		Application appli = appService.consulter(app);
 		Instance instance = instanceService.consulter(appli.getEnvironnements().get(server).getInstances(), id);
+		new Thread() {
+			@Override
+			public void run() {
+				switch (action) {
+				case "start":
+					startC(instance);
+					break;
+				case "reload":
+					reload(instance);
+					break;
+				case "stop":
+					stopC(instance);
+					break;
+				case "delete":
+					delete(instance);
+					break;
+				default:
+					throw new ApplicationException(400, "action inconnue");
+				}
+				appService.modifier(appli);
+				template.convertAndSend("/content/application", instance);
 
-		switch (action) {
-		case "start":
-			this.start(instance);
-			break;
-		case "reload":
-			this.reload(instance);
-			break;
-		case "stop":
-			this.stop(instance);
-			break;
-		case "delete":
-			this.delete(instance);
-			break;
-		default:
-			throw new ApplicationException(400, "action inconnue");
-		}
+			}
+		}.start();
+
+		instance.setEtat("P");
 		appService.modifier(appli);
+		template.convertAndSend("/content/application", instance);
 		return instance;
 	}
 
 	/**
 	 * @param containerId
 	 */
-	private void stop(Instance containerId) {
+	private void stopC(Instance containerId) {
 		try {
 			dockerClient.stopContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("S");
@@ -262,14 +258,14 @@ public class DockerContainerService {
 	 * @param instance
 	 */
 	public void delete(Instance instance) {
-//		String status = dockerClient.inspectContainerCmd(instance.getContainerId()).exec().getState().getStatus();
-//		if (status != null && status.equals("running")) {
-//			this.stop(instance);
-//		}
+		String status = dockerClient.inspectContainerCmd(instance.getContainerId()).exec().getState().getStatus();
+		if (status != null && status.equals("running")) {
+			this.stopC(instance);
+		}
 		instance.setVersionApplicationActuel(null);
 		instance.setVersionParametresActuel(null);
 		instance.setEtat("V");
-//		dockerClient.removeContainerCmd(instance.getContainerId()).exec();
+		dockerClient.removeContainerCmd(instance.getContainerId()).exec();
 	}
 
 	/**

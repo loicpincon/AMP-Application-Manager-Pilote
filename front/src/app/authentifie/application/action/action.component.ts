@@ -29,12 +29,14 @@ export class ActionComponent implements OnInit {
   selected = 'option1';
 
   ngOnInit() {
-    this.listening();
     this.dataShared.currentParam.subscribe(async (param) => {
       this.paramSelectionne = await param;
     })
     this.dataShared.currentLivrable.subscribe(async (param) => {
       this.versionApplicationSelectionne = await param;
+    })
+    this.dataShared.currentInstance.subscribe(async (param) => {
+      this.instance = await param;
     })
   }
 
@@ -86,30 +88,7 @@ export class ActionComponent implements OnInit {
     });
   }
 
-  ws: any;
 
-  listening() {
-    //connect to stomp where stomp endpoint is exposed
-    let ws = new SockJS("http://213.136.77.118:7001/ampapi/socket");
-    //let socket = new WebSocket("ws://localhost:8080/socket");
-    this.ws = Stomp.over(ws);
-    this.ws.debug = null
-    let that = this;
-    this.ws.connect({}, function (frame) {
-      that.ws.subscribe("/errors", function (message) {
-        alert("Error " + message.body);
-      });
-      that.ws.subscribe("/content/application", function (message) {
-        console.log(message.body)
-        var i: Instance = JSON.parse(message.body);
-        that.instanceEvent.emit(i);
-
-
-      });
-    }, function (error) {
-      alert("STOMP error " + error);
-    });
-  }
 
 
 }

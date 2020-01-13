@@ -6,14 +6,15 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()" [disabled]="paramSelectionne && !paramSelectionne.version || versionApplicationSelectionne && !versionApplicationSelectionne.nom">Deployer</button>
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V'"
+            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()"
+                [disabled]="paramSelectionne && !paramSelectionne.version || versionApplicationSelectionne && !versionApplicationSelectionne.nom">Deployer</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' || instance.etat=='P'"
                 (click)="restart()">Redémarrer</button>
         </div>
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L'"
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L' || instance.etat=='P'"
                 (click)="stop()">Arrêter</button>
-            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V'"
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' || instance.etat=='P'"
                 (click)="delete()">Supprimer</button>
         </div>
     </mat-card-content>
@@ -26,7 +27,7 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" >Joindre l'application</button>
+            <button fxFlex mat-raised-button class="btnActions">Joindre l'application</button>
             <button fxFlex mat-raised-button class="btnActions" (click)="consulterlesLogs()">Voir les logs</button>
         </div>
         <div fxLayout fxLayout.xs="column">

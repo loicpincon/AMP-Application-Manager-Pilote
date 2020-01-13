@@ -1,11 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { Application } from './application/modele/Application';
+import { Application, Instance } from './application/modele/Application';
 import { MatSidenav } from '@angular/material';
 import { Router, NavigationExtras } from '@angular/router';
 import { ApmService } from '../core/services/apm.service';
 import { SidenavService } from '../core/services/sideNav.service';
 import { FormControl } from '@angular/forms';
-
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 @Component({
     selector: 'app-secure-authent',
     templateUrl: './authentifie.component.html',
@@ -24,11 +25,13 @@ export class AuthentifieComponent implements OnInit {
     mode = new FormControl('side');
 
     ngOnInit() {
+
         this.sidenavService.sideNav = this.menuApp;
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
                 this.applications = apps;
+
             })
         })
 
@@ -56,6 +59,7 @@ export class AuthentifieComponent implements OnInit {
         this._router.navigate(['/secure/administration/gestion-droits']);
         this.sidenavService.sideNav.close();
     }
+
 
 
 
