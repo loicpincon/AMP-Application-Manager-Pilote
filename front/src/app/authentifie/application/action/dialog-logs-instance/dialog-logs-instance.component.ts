@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, ViewChild} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatPaginator } from '@angular/material';
 import { Instance, Log } from '../../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
@@ -12,25 +12,25 @@ export class dialogLogsInstanceComponent implements OnInit {
   displayedColumns: string[] = ['Version', 'Date'];
   dataSource = new MatTableDataSource<Log>();
   loader: boolean = false;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialogRef: MatDialogRef<dialogLogsInstanceComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Instance, private _apmService: ApmService ){}
+    @Inject(MAT_DIALOG_DATA) public data: Instance, private _apmService: ApmService) { }
 
-  ngOnInit(){
+  ngOnInit() {
 
     this.dataSource.paginator = this.paginator;
-    if(this.data.containerId){
-      
+    if (this.data.containerId) {
+
       this.loader = true;
-      this._apmService.recupererLogsInstance("e8e8dcadc079023a6248e41c435e14289045fa72c90a08d2b6d33c7065dc2fb6").subscribe(logs =>{
+      this._apmService.recupererLogsInstance(this.data.containerId).subscribe(logs => {
         this.dataSource.data = logs
         this.loader = false
       },
-      erreur =>{
-        this.loader = false;
-        console.log(erreur)
-      })
+        erreur => {
+          this.loader = false;
+          console.log(erreur)
+        })
       /*this._apmService.recupererLogsInstance(this.data.containerId).subscribe(logs =>{
         console.log(logs)
       },
@@ -39,7 +39,7 @@ export class dialogLogsInstanceComponent implements OnInit {
       })*/
     }
 
-     
+
   }
 
   fermer(): void {
@@ -47,11 +47,11 @@ export class dialogLogsInstanceComponent implements OnInit {
   }
 
   messageFiltrer(filterValue: string) {
-    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+    this.dataSource.filterPredicate = function (data, filter: string): boolean {
       return data.message.toLowerCase().includes(filter);
     };
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  
+
   }
 
 }

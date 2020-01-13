@@ -4,6 +4,7 @@
 }
 .headerTab{
     text-align: center;
+    width: 257px;
 }
 .logsNull{
     margin-top: 15px;
@@ -17,3 +18,20 @@
 .mat-form-field {
     font-size: 14px;
   }
+
+.content_tab{
+text-align: left;
+}
+
+.table-scroll-y{
+     height: 700px;
+  overflow: auto;
+}
+
+.mat-row:nth-child(even){
+    background-color:white;
+    }
+
+.mat-row:nth-child(odd){
+    background-color:#F0F0F0;
+    }

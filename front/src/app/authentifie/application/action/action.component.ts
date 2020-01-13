@@ -83,7 +83,7 @@ export class ActionComponent implements OnInit {
 
   consulterlesLogs() {
     this.dialog.open(dialogLogsInstanceComponent, {
-      width: '75%',
+      width: '95%',
       data: this.instance
     });
   }

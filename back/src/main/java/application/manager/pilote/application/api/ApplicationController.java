@@ -58,7 +58,7 @@ public class ApplicationController extends DefaultController {
 	public Callable<ResponseEntity<Application>> consulter(@PathVariable String idApp) {
 		return () -> ResponseEntity.ok(appService.consulter(idApp));
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -66,8 +66,9 @@ public class ApplicationController extends DefaultController {
 	@PutMapping(path = "/{idApp}/{idEnv}/parametres")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<ParametreSeries>> ajouterSerieParametre(@PathVariable String idApp,@PathVariable Integer idEnv,@RequestBody ParametreSeries param) {
-		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(idApp,idEnv,param));
+	public Callable<ResponseEntity<ParametreSeries>> ajouterSerieParametre(@PathVariable String idApp,
+			@PathVariable Integer idEnv, @RequestBody ParametreSeries param) {
+		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(idApp, idEnv, param));
 	}
 
 	/**
