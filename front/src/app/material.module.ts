@@ -32,11 +32,13 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatPaginatorIntl,
-  MAT_DIALOG_DEFAULT_OPTIONS
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatNativeDateModule
 } from '@angular/material';
 
 @NgModule({
   imports: [
+    MatNativeDateModule,
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,

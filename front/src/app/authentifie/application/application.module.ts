@@ -13,7 +13,8 @@ import { ParametreComponent } from './parametre/parametre.component';
 import { ActionUserComponent } from './action-user/action-user.component';
 import { LivrableComponent } from './livrable/livrable.component';
 import { ModalAjoutInstance } from './instance/modal-ajout-instance/modal-ajout-instance';
-import { BrowserModule } from '@angular/platform-browser';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
+import { dialogLogsInstanceComponent } from './action/dialog-logs-instance/dialog-logs-instance.component';
 
 const routes: Routes = [
   {
@@ -47,7 +48,8 @@ export class ApplicationRoutingModule { }
     ParametreComponent,
     ActionUserComponent,
     LivrableComponent,
-    ModalAjoutInstance
+    ModalAjoutInstance,
+    dialogLogsInstanceComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,11 @@ export class ApplicationRoutingModule { }
   ],
   entryComponents: [
     InstanceComponent,
-    ModalAjoutInstance
+    ModalAjoutInstance,
+    dialogLogsInstanceComponent
+  ],
+  providers : [
+    DataSharedService
   ]
 })
 export class ApplicationModule { }

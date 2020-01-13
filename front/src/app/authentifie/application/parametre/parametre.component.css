@@ -43,3 +43,11 @@
     text-align: center;
     font-style: italic;
 }
+
+.mat-row.hovered {
+    background: #eee;
+}
+
+.mat-row.highlighted {
+  background: #e0dddd;
+}

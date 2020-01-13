@@ -80,7 +80,6 @@ public class DockerContainerService {
 	private ApplicationService appService;
 
 	/**
-	 * 
 	 * @param dockerFile
 	 * @throws IOException
 	 */
@@ -90,33 +89,25 @@ public class DockerContainerService {
 		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());
 
-		Instance ins = instanceService.consulter(app.getEnvironnements().get(server.getId()).getInstances(),
-				param.getIdInstanceCible());
+		Instance ins = instanceService.consulter(app.getEnvironnements().get(server.getId()).getInstances(), param.getIdInstanceCible());
 
 		if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
 			this.manage(app.getId(), server.getId(), ins.getId(), "delete");
 		}
-		String pathToFolderTemporaire = stringUtils.concat(
-				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
-				hasherService.randomInt());
+		String pathToFolderTemporaire = stringUtils.concat(properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH, hasherService.randomInt());
 
 		try {
 			BuildImageResultCallback callback = new BuildImageResultCallback();
-			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
-					dockerFileService.get(app.getDockerFileId()));
+			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire, dockerFileService.get(app.getDockerFileId()));
 
-			String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId() + SLASH
-					+ param.getVersion() + SLASH + app.getBaseName();
+			String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId() + SLASH + param.getVersion() + SLASH + app.getBaseName();
 
 			File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
 			FileUtils.copyFile(new File(pathToWar), copied);
 
-			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("path", pathToWar).exec(callback)
-					.awaitCompletion().awaitImageId();
+			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("path", pathToWar).exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);
-			CreateContainerResponse container = dockerClient.createContainerCmd(test)
-					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
-					.withPortBindings(getPortsBinds(ins, server)).exec();
+			CreateContainerResponse container = dockerClient.createContainerCmd(test).withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName).withPortBindings(getPortsBinds(ins, server)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
 
@@ -126,21 +117,23 @@ public class DockerContainerService {
 			ins.setEtat("L");
 			if (server.getDns() != null) {
 				ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
-			} else {
+			}
+			else {
 				ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
 			}
-
+			ins.setVersionApplicationActuel(param.getVersion());
+			ins.setVersionParametresActuel("0.0.0");
 			appService.modifier(app);
 
 			return ins;
-		} catch (DockerException | InterruptedException e) {
+		}
+		catch (DockerException | InterruptedException e) {
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
 	/**
-	 * 
 	 * @param serveur
 	 * @return
 	 */
@@ -152,7 +145,6 @@ public class DockerContainerService {
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
 	public List<Container> getContainers() {
@@ -164,20 +156,19 @@ public class DockerContainerService {
 	}
 
 	/**
-	 * 
 	 * @param containerId
 	 */
 	private void start(Instance containerId) {
 		try {
 			dockerClient.startContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("L");
-		} catch (DockerException e) {
+		}
+		catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
 	}
 
 	/**
-	 * 
 	 * @param id
 	 * @param action
 	 * @return
@@ -188,53 +179,52 @@ public class DockerContainerService {
 		Instance instance = instanceService.consulter(appli.getEnvironnements().get(server).getInstances(), id);
 
 		switch (action) {
-		case "start":
-			this.start(instance);
-			break;
-		case "reload":
-			this.reload(instance);
-			break;
-		case "stop":
-			this.stop(instance);
-			break;
-		case "delete":
-			this.delete(instance);
-			break;
-		default:
-			throw new ApplicationException(400, "action inconnue");
+			case "start":
+				this.start(instance);
+				break;
+			case "reload":
+				this.reload(instance);
+				break;
+			case "stop":
+				this.stop(instance);
+				break;
+			case "delete":
+				this.delete(instance);
+				break;
+			default:
+				throw new ApplicationException(400, "action inconnue");
 		}
 		appService.modifier(appli);
 		return instance;
 	}
 
 	/**
-	 * 
 	 * @param containerId
 	 */
 	private void stop(Instance containerId) {
 		try {
 			dockerClient.stopContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("S");
-		} catch (DockerException e) {
+		}
+		catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
 	}
 
 	/**
-	 * 
 	 * @param containerId
 	 */
 	private void reload(Instance containerId) {
 		try {
 			dockerClient.restartContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("L");
-		} catch (DockerException e) {
+		}
+		catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
 	}
 
 	/**
-	 * 
 	 * @param instance
 	 */
 	public void delete(Instance instance) {
@@ -242,19 +232,21 @@ public class DockerContainerService {
 		if (status != null && status.equals("running")) {
 			this.stop(instance);
 		}
+		instance.setVersionApplicationActuel(null);
+		instance.setVersionParametresActuel(null);
 		instance.setEtat("V");
 		dockerClient.removeContainerCmd(instance.getContainerId()).exec();
 	}
 
 	/**
-	 * 
 	 * @param containerId
 	 * @return
 	 */
 	public InspectContainerResponse inspect(String containerId) {
 		try {
 			return dockerClient.inspectContainerCmd(containerId).exec();
-		} catch (DockerException e) {
+		}
+		catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
 	}

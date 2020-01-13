@@ -2,3 +2,13 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.customSnackBar{
+    background-color: #3ac569;
+    color: white;
+  }
+
+.customSnackBar span{
+    margin:auto;
+    text-align: center;
+  }

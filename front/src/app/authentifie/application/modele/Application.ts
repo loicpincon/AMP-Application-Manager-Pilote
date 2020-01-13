@@ -47,6 +47,8 @@ export class Instance {
     url: string;
     etat: string;
     userActions: UserAction[];
+    versionApplicationActuel: string;
+    versionParametresActuel: string;
 }
 
 /**
@@ -58,6 +60,15 @@ export class Livrable {
     dateUpload: Date;
     folder: Boolean;
 }
+/**
+ * 
+ */
+export class Log{
+    type: string;
+    timeStamp: string;
+    message: string;
+}
+
 /**
  * 
  */

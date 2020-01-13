@@ -6,7 +6,7 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()">Deployer</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()" [disabled]="paramSelectionne && !paramSelectionne.version">Deployer</button>
             <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V'"
                 (click)="restart()">Redémarrer</button>
         </div>
@@ -26,8 +26,8 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions">Joindre l'application</button>
-            <button fxFlex mat-raised-button class="btnActions">Voir les logs</button>
+            <button fxFlex mat-raised-button class="btnActions" >Joindre l'application</button>
+            <button fxFlex mat-raised-button class="btnActions" (click)="consulterlesLogs()">Voir les logs</button>
         </div>
         <div fxLayout fxLayout.xs="column">
             <button fxFlex mat-raised-button class="btnActions">Jenkins</button>
