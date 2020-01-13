@@ -14,3 +14,6 @@
     margin-top: 25px;
     text-align: -webkit-center;
 }
+.mat-form-field {
+    font-size: 14px;
+  }

@@ -1,6 +1,26 @@
 <mat-card>
     <mat-card-content>
-      <div class="mat-elevation-z8">
+      <div class="mat-elevation-z8" >
+        <div fxLayout fxLayout.xs="column">
+            <p>Filtrer par message :</p>
+            <mat-form-field fxFlex fxFlexOffset="15px">
+                <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="Message">
+            </mat-form-field>
+        </div>
+        <div fxLayout fxLayout.xs="column">
+            <p>Filtrer par date :</p>
+            <mat-form-field fxFlex="15%" fxFlexOffset="15px">
+                <input matInput [matDatepicker]="dateDeb" placeholder="Date Début">
+                <mat-datepicker-toggle matSuffix [for]="dateDeb"></mat-datepicker-toggle>
+                <mat-datepicker #dateDeb></mat-datepicker>
+            </mat-form-field>
+            <p>jusqu'à</p>
+            <mat-form-field fxFlex="15%" fxFlexOffset="15px">
+                <input matInput [matDatepicker]="dateFin" placeholder="Date Fin">
+                <mat-datepicker-toggle matSuffix [for]="dateFin"></mat-datepicker-toggle>
+                <mat-datepicker #dateFin></mat-datepicker>
+            </mat-form-field>
+        </div>
         <table mat-table [dataSource]="dataSource">
   
           <ng-container matColumnDef="Version">

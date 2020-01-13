@@ -18,8 +18,10 @@ export class dialogLogsInstanceComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Instance, private _apmService: ApmService ){}
 
   ngOnInit(){
+
     this.dataSource.paginator = this.paginator;
     if(this.data.containerId){
+      
       this.loader = true;
       this._apmService.recupererLogsInstance("e8e8dcadc079023a6248e41c435e14289045fa72c90a08d2b6d33c7065dc2fb6").subscribe(logs =>{
         this.dataSource.data = logs
@@ -42,6 +44,14 @@ export class dialogLogsInstanceComponent implements OnInit {
 
   fermer(): void {
     this.dialogRef.close();
+  }
+
+  messageFiltrer(filterValue: string) {
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+      return data.message.toLowerCase().includes(filter);
+    };
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  
   }
 
 }
