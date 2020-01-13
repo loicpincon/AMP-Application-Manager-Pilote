@@ -90,7 +90,7 @@ export class ActionComponent implements OnInit {
 
   listening() {
     //connect to stomp where stomp endpoint is exposed
-    let ws = new SockJS("http://localhost:8080/socket");
+    let ws = new SockJS("http://213.136.77.118:7001/ampapi/socket");
     //let socket = new WebSocket("ws://localhost:8080/socket");
     this.ws = Stomp.over(ws);
     this.ws.debug = null
