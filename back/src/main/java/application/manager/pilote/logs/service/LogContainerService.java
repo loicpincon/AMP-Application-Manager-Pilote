@@ -46,14 +46,14 @@ public class LogContainerService {
 				public void onNext(Frame item) {
 					String logBrut = item.toString();
 					if (logBrut.length() > 42) {
-						String type = logBrut.substring(0, 8);
-						String timestamp = logBrut.substring(9, 39);
-						String message = logBrut.substring(40, logBrut.length() - 2);
+						String type = logBrut.substring(0, 6);
+						String timestamp = logBrut.substring(8, 38);
+						String message = logBrut.substring(39, logBrut.length() - 1);
 						logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
 
 					}
 					else {
-						logs.add(LogMessage.builder().timestamp(logBrut.length() + "").type("ERROR").build());
+						logs.add(LogMessage.builder().message(logBrut).timestamp(logBrut.length() + "").type("ERROR").build());
 
 					}
 
