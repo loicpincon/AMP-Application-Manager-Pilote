@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import application.manager.pilote.application.modele.Application;
+import application.manager.pilote.application.modele.Environnement;
+import application.manager.pilote.application.modele.ParametreSeries;
 import application.manager.pilote.application.repository.ApplicationRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.service.DefaultService;
@@ -65,6 +67,14 @@ public class ApplicationService extends DefaultService {
 			return new ArrayList<>();
 		}
 
+	}
+
+	public ParametreSeries ajouterSerieParametre(String idApp, Integer idEnv, ParametreSeries param) {
+		Application app = consulter(idApp);
+		Environnement env = app.getEnvironnements().get(idEnv);
+		env.getParametres().add(param);
+		modifier(app);
+		return param;
 	}
 
 }

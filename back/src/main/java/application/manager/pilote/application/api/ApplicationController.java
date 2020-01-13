@@ -19,6 +19,7 @@ import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.Livrable;
+import application.manager.pilote.application.modele.ParametreSeries;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
@@ -56,6 +57,17 @@ public class ApplicationController extends DefaultController {
 	@Secured
 	public Callable<ResponseEntity<Application>> consulter(@PathVariable String idApp) {
 		return () -> ResponseEntity.ok(appService.consulter(idApp));
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@PutMapping(path = "/{idApp}/{idEnv}/parametres")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<ParametreSeries>> ajouterSerieParametre(@PathVariable String idApp,@PathVariable Integer idEnv,@RequestBody ParametreSeries param) {
+		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(idApp,idEnv,param));
 	}
 
 	/**
