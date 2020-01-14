@@ -133,8 +133,7 @@ public class InstanceService {
 	 * @throws IOException
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
-		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/"
-				+ fileName;
+		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
 		File f = new File(pathWithoutNameFile);
 		f.mkdirs();
 		LOG.debug(pathWithoutNameFile);
