@@ -140,6 +140,7 @@ public class InstanceService {
 		String pathToWrite = pathWithoutNameFile + "/" + fileName;
 		LOG.debug(pathToWrite);
 		File convFile = new File(pathToWrite);
+		convFile.createNewFile();
 		multipart.transferTo(convFile);
 	}
 
