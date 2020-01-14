@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
-import { Serveur } from '../../modele/Application';
+import { Serveur, Environnement } from '../../modele/Application';
 
 @Component({
     selector: 'modal-ajout-instance',
@@ -10,7 +10,7 @@ import { Serveur } from '../../modele/Application';
 })
 export class ModalAjoutInstance implements OnInit {
 
-    serveurs: Serveur[] = this.data.servers;
+    envs: Map<number, Environnement>;
     envChoisi: string;
     constructor(
         public dialogRef: MatDialogRef<ModalAjoutInstance>,
@@ -18,7 +18,7 @@ export class ModalAjoutInstance implements OnInit {
 
     loader: boolean = false;
     ngOnInit(): void {
-
+        this.envs = this.data.envs
     }
 
     close(): void {

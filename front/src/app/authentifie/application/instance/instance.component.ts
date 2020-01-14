@@ -37,13 +37,11 @@ export class InstanceComponent implements OnInit {
     this.apmService.recupererServeur().subscribe(serveurs => {
       const dialogRef = this.dialog.open(ModalAjoutInstance, {
         width: '250px',
-        data: { idApp: this.app.id, servers: serveurs }
+        data: { idApp: this.app.id, envs: this.environnements}
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result != undefined) {
-          console.log(typeof (this.environnements));
           Object.keys(this.environnements).forEach((key) => {
-            console.log(key);
             if (key === result.idServer) {
               this.environnements[key].instances.push(result.instance)
             }
