@@ -1,5 +1,6 @@
 package application.manager.pilote.application.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -119,10 +120,10 @@ public class InstanceService {
 		livrable.setNom(version);
 		livrable.setPathtoFile("");
 		app.getLivrables().add(livrable);
-		String path = idApp + "/" + version + "/" + app.getBaseName();
-		livrable.setPathtoFile(path);
+		String path = idApp + "/" + version;
+		livrable.setPathtoFile(path + "/" + app.getBaseName());
 		appService.modifier(app);
-		writeFileToPath(file, path);
+		writeFileToPath(file, path, app.getBaseName());
 		return livrable;
 	}
 
@@ -131,12 +132,16 @@ public class InstanceService {
 	 * @param fileName
 	 * @throws IOException
 	 */
-	private void writeFileToPath(MultipartFile multipart, String fileName) throws IOException {
+	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
 		// File convFile = new
 		// File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" +
 		// fileName);
 
 		InputStream is = multipart.getInputStream();
+		File directory = new File(path);
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
 
 		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName),
 				StandardCopyOption.REPLACE_EXISTING);
