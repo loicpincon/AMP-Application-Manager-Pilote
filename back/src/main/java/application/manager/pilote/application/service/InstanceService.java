@@ -145,6 +145,7 @@ public class InstanceService {
 
 	private File convert(MultipartFile file) throws IOException {
 		File convFile = new File(file.getOriginalFilename());
+		LOG.debug(file.getOriginalFilename());
 		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());
