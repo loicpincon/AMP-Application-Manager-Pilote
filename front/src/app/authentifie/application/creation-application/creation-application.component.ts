@@ -12,9 +12,7 @@ export class CreationApplicationComponent implements OnInit {
   typeApplication: string[];
   formulaire: FormGroup;
   dockerFiles: Dockerfile[];
-  isUpdateCheck = false;
   constructor(private apmService: ApmService, private formBuilder: FormBuilder) { }
-
   ngOnInit() {
     this.apmService.recupererTypeApplications().subscribe(typesApp => {
       this.typeApplication = typesApp;
@@ -27,7 +25,6 @@ export class CreationApplicationComponent implements OnInit {
       typeApp: '',
       dockerfiles: '',
       dockerfilesText: '',
-      isUpdateCheck: false,
       warApplication: new FormGroup({
         basename: new FormControl(''),
       }),
@@ -38,14 +35,18 @@ export class CreationApplicationComponent implements OnInit {
         versionNode: new FormControl('')
       })
     });
+    this.formulaire.controls['dockerfilesText'].disable()
   }
 
+  changeCheck(e){
+    if(e){
+      this.formulaire.controls['dockerfilesText'].enable()
+    }else{
+      this.formulaire.controls['dockerfilesText'].disable()
+    }
+  }
   onSubmit(customerData) {
-
-
-    console.log(this.formulaire.value);
-
-    if (this.formulaire.value.isUpdateCheck) {
+    if (this.formulaire.controls['dockerfilesText'].enabled) {
       this.apmService.ajouterDockerFile(this.formulaire.value.dockerfiles.name, this.formulaire.value.dockerfilesText).subscribe(dockerFile => {
         var body = this.buildBody(customerData);
         body.dockerFileId = dockerFile.id;
