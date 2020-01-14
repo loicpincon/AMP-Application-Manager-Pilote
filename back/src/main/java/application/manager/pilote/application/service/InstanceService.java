@@ -141,6 +141,20 @@ public class InstanceService {
 		byte[] bytes = file.getBytes();
 		Path path2 = Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName);
 		Files.write(path2, bytes);
+		
+		String pathName = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
+
+        Path ppath = Paths.get(pathName);
+
+        if (!Files.exists(ppath)) {
+            
+            Files.createDirectory(ppath);
+            LOG.debug("Directory created");
+        } else {
+            
+        	LOG.debug("Directory already exists");
+        }
+		
 
 //		File source = convert(multipart);
 //		
