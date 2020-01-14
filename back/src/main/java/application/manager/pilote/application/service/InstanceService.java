@@ -138,10 +138,10 @@ public class InstanceService {
 	 */
 	private void writeFileToPath(MultipartFile file, String path, String fileName) throws IOException {
 
-		byte[] bytes = file.getBytes();
-		Path path2 = Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName);
-		Files.write(path2, bytes);
-		
+//		byte[] bytes = file.getBytes();
+//		Path path2 = Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName);
+//		Files.write(path2, bytes);
+//		
 		String pathName = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
 
         Path ppath = Paths.get(pathName);
