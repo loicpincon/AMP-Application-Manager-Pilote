@@ -133,8 +133,10 @@ public class InstanceService {
 	 * @throws IOException
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
-		new File(path).mkdirs();
-		String pathToWrite = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName;
+		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/"
+				+ fileName;
+		new File(pathWithoutNameFile).mkdirs();
+		String pathToWrite = pathWithoutNameFile + "/" + fileName;
 		LOG.debug(pathToWrite);
 		File convFile = new File(pathToWrite);
 		multipart.transferTo(convFile);
