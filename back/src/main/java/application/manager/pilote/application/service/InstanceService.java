@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import application.manager.pilote.server.service.ServerService;
 
 @Service
 public class InstanceService {
+
+	protected static final Log LOG = LogFactory.getLog(InstanceService.class);
 
 	private static final String BASE_PATH_TO_APPLICATION_STOCK = "BASE_PATH_TO_APPLICATION_STOCK";
 
@@ -130,7 +134,9 @@ public class InstanceService {
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
 		new File(path).mkdirs();
-		File convFile = new File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName);
+		String pathToWrite = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName;
+		LOG.debug(pathToWrite);
+		File convFile = new File(pathToWrite);
 		convFile.mkdirs();
 		multipart.transferTo(convFile);
 	}
