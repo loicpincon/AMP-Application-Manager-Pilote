@@ -38,12 +38,12 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr style="height: 14px;" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-      </div>
-      <div class="centerSpinner">
-        <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
-      </div>
-      <div *ngIf="!loader && (!dataSource.data.length  || !data.containerId)" class="logsNull">
-        Aucun logs pour cette application
+        <div class="centerSpinner">
+          <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
+        </div>
+        <div *ngIf="!loader && (!dataSource.data.length  || !data.containerId)" class="logsNull">
+          Aucun logs pour cette application
+        </div>
       </div>
       <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
     </div>
