@@ -139,7 +139,7 @@ public class InstanceService {
 		InputStream is = multipart.getInputStream();
 
 		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName),
-				StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+				StandardCopyOption.REPLACE_EXISTING);
 
 	}
 
