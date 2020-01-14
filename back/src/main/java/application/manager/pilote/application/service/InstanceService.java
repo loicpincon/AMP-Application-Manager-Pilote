@@ -1,7 +1,10 @@
 package application.manager.pilote.application.service;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -129,9 +132,15 @@ public class InstanceService {
 	 * @throws IOException
 	 */
 	private void writeFileToPath(MultipartFile multipart, String fileName) throws IOException {
-		File convFile = new File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName);
-		convFile.mkdirs();
-		multipart.transferTo(convFile);
+		// File convFile = new
+		// File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" +
+		// fileName);
+
+		InputStream is = multipart.getInputStream();
+
+		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName),
+				StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+
 	}
 
 }
