@@ -134,10 +134,19 @@ public class InstanceService {
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
 		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
-		File dir = new File(pathWithoutNameFile);
-		dir.mkdirs();
-		dir.mkdir();
 
+		createDossierRecursif(pathWithoutNameFile);
+
+	}
+
+	/**
+	 * 
+	 * @param path
+	 */
+	private void createDossierRecursif(String path) {
+		if (!new File(path).exists()) {
+			new File(path).mkdirs();
+		}
 	}
 
 }
