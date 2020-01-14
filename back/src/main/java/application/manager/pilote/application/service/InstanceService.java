@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,9 +140,15 @@ public class InstanceService {
 		LOG.debug(pathWithoutNameFile);
 		String pathToWrite = pathWithoutNameFile + "/" + fileName;
 		LOG.debug(pathToWrite);
-		File convFile = new File(pathToWrite);
-		convFile.createNewFile();
-		multipart.transferTo(convFile);
+//		File convFile = new File(pathToWrite,multipart.getInputStream());
+//		convFile.createNewFile();
+//		multipart.transferTo(convFile);
+		File file = new File(pathToWrite);
+		file.mkdirs();
+		file.createNewFile();
+		// commons-io
+		FileUtils.copyInputStreamToFile(multipart.getInputStream(), file);
+
 	}
 
 }
