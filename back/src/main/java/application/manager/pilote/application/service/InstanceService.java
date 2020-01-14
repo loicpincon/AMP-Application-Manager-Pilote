@@ -1,11 +1,11 @@
 package application.manager.pilote.application.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +27,7 @@ import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
 import application.manager.pilote.commun.helper.RandomPortHelper;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.docker.helper.DeployFileHelper;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
 
@@ -136,43 +137,21 @@ public class InstanceService {
 	 * @param fileName
 	 * @throws IOException
 	 */
-	private void writeFileToPath(MultipartFile file, String path, String fileName) throws IOException {
+	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
+		// File convFile = new
+		// File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" +
+		// fileName);
 
-//		byte[] bytes = file.getBytes();
-//		Path path2 = Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName);
-//		Files.write(path2, bytes);
-//		
-		String pathName = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
+		InputStream is = multipart.getInputStream();
+		File directory = new File(path);
+		if (!directory.exists()) {
 
-        Path ppath = Paths.get(pathName);
+			directory.mkdirs();
+		}
 
-        if (!Files.exists(ppath)) {
-            
-            Files.createDirectory(ppath);
-            LOG.debug("Directory created");
-        } else {
-            
-        	LOG.debug("Directory already exists");
-        }
-		
+		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName),
+				StandardCopyOption.REPLACE_EXISTING);
 
-//		File source = convert(multipart);
-//		
-//		File f = new File(multipart.getOriginalFilename(),  multipart.getContentType(), multipart.getSize(),multipart.getBytes());
-//		Path sourcePath = source.toPath();
-//		File destFile = new File( properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path  );
-//		Path destPath = destFile.toPath();
-//		Files.copy(sourcePath, destPath);
-	}
-
-	private File convert(MultipartFile file) throws IOException {
-		File convFile = new File("/tmp/" + file.getOriginalFilename());
-		LOG.debug(file.getOriginalFilename());
-		convFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(convFile);
-		fos.write(file.getBytes());
-		fos.close();
-		return convFile;
 	}
 
 }
