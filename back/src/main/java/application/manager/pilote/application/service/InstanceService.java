@@ -1,11 +1,7 @@
 package application.manager.pilote.application.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -136,29 +132,14 @@ public class InstanceService {
 	 * @param fileName
 	 * @throws IOException
 	 */
-	private void writeFileToPath(MultipartFile file, String path, String fileName) throws IOException {
-
-		byte[] bytes = file.getBytes();
-		Path path2 = Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName);
-		Files.write(path2, bytes);
-
-//		File source = convert(multipart);
-//		
-//		File f = new File(multipart.getOriginalFilename(),  multipart.getContentType(), multipart.getSize(),multipart.getBytes());
-//		Path sourcePath = source.toPath();
-//		File destFile = new File( properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path  );
-//		Path destPath = destFile.toPath();
-//		Files.copy(sourcePath, destPath);
-	}
-
-	private File convert(MultipartFile file) throws IOException {
-		File convFile = new File("/tmp/" + file.getOriginalFilename());
-		LOG.debug(file.getOriginalFilename());
-		convFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(convFile);
-		fos.write(file.getBytes());
-		fos.close();
-		return convFile;
+	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
+		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/"
+				+ fileName;
+		new File(pathWithoutNameFile).mkdirs();
+		String pathToWrite = pathWithoutNameFile + "/" + fileName;
+		LOG.debug(pathToWrite);
+		File convFile = new File(pathToWrite);
+		multipart.transferTo(convFile);
 	}
 
 }
