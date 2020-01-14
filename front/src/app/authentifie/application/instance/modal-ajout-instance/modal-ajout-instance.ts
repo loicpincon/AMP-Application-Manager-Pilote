@@ -16,19 +16,26 @@ export class ModalAjoutInstance implements OnInit {
         public dialogRef: MatDialogRef<ModalAjoutInstance>,
         @Inject(MAT_DIALOG_DATA) public data: any, private apmService: ApmService) { }
 
+    loader: boolean = false;
     ngOnInit(): void {
 
     }
 
-
-    onNoClick(): void {
+    close(): void {
         this.dialogRef.close();
     }
-    onOkClick(): void {
-        console.log(this.envChoisi);
-        console.log(this.data.idApp);
-        this.apmService.ajouterInstance(this.envChoisi, this.data.idApp).subscribe(instance => {
-            this.dialogRef.close({ instance: instance, idServer: this.envChoisi });
-        })
+
+    ajouter(): void {
+        if(this.envChoisi){
+            this.loader = true
+            this.apmService.ajouterInstance(this.envChoisi, this.data.idApp).subscribe(instance => {
+                this.dialogRef.close({ instance: instance, idServer: this.envChoisi });
+                this.loader = false
+            },
+            erreur =>{
+                console.log(erreur)
+                this.loader = false;
+            })
+        }
     }
 }

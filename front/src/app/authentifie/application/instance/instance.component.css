@@ -12,13 +12,13 @@
 .blocInstanceTitre{
     width: 100%;
     text-align: center;
+    padding: 4px;
 }
 .contentInstance{
     padding: 16px;
 }
 .blocInstanceTitre h5{
     margin: 0;
-    padding: 4px;
     color: white;
     font-weight: 500;
 }
@@ -68,5 +68,14 @@
 }
 .listeInstances_btnIP{
     background-color: orange;
+}
 
+.iconAdd{
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+    color: white;
+}
+.iconAdd:active{
+    color: lightgray
 }
