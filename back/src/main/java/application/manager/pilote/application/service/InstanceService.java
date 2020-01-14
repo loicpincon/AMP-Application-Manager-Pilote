@@ -137,7 +137,6 @@ public class InstanceService {
 		String pathToWrite = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName;
 		LOG.debug(pathToWrite);
 		File convFile = new File(pathToWrite);
-		convFile.mkdirs();
 		multipart.transferTo(convFile);
 	}
 
