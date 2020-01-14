@@ -1,16 +1,17 @@
 package application.manager.pilote.application.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ import application.manager.pilote.server.service.ServerService;
 
 @Service
 public class InstanceService {
+
+	protected static final Log LOG = LogFactory.getLog(InstanceService.class);
 
 	private static final String BASE_PATH_TO_APPLICATION_STOCK = "BASE_PATH_TO_APPLICATION_STOCK";
 
@@ -133,19 +136,20 @@ public class InstanceService {
 	 * @throws IOException
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
-		// File convFile = new
-		// File(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" +
-		// fileName);
+		File source = convert(multipart);
+		Path sourcePath = source.toPath();
+		File destFile = new File( properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path  );
+		Path destPath = destFile.toPath();
+		Files.copy(sourcePath, destPath);
+	}
 
-		InputStream is = multipart.getInputStream();
-		File directory = new File(path);
-		if (!directory.exists()) {
-			directory.mkdir();
-		}
-
-		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName),
-				StandardCopyOption.REPLACE_EXISTING);
-
+	private File convert(MultipartFile file) throws IOException {
+		File convFile = new File(file.getOriginalFilename());
+		convFile.createNewFile();
+		FileOutputStream fos = new FileOutputStream(convFile);
+		fos.write(file.getBytes());
+		fos.close();
+		return convFile;
 	}
 
 }
