@@ -143,7 +143,7 @@ public class InstanceService {
 			directory.mkdir();
 		}
 
-		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + fileName),
+		Files.copy(is, Paths.get(properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/" + fileName),
 				StandardCopyOption.REPLACE_EXISTING);
 
 	}
