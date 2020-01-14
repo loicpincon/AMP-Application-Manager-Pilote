@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,19 +134,9 @@ public class InstanceService {
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
 		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
-		File f = new File(pathWithoutNameFile);
-		f.mkdirs();
-		LOG.debug(pathWithoutNameFile);
-		String pathToWrite = pathWithoutNameFile + "/" + fileName;
-		LOG.debug(pathToWrite);
-//		File convFile = new File(pathToWrite,multipart.getInputStream());
-//		convFile.createNewFile();
-//		multipart.transferTo(convFile);
-		File file = new File(pathToWrite);
-		file.mkdirs();
-		file.createNewFile();
-		// commons-io
-		FileUtils.copyInputStreamToFile(multipart.getInputStream(), file);
+		File dir = new File(pathWithoutNameFile);
+		dir.mkdirs();
+		dir.mkdir();
 
 	}
 
