@@ -93,7 +93,7 @@ export class ApmService {
     }
 
     ajouterApplication(application: Application): Observable<Application> {
-        let params = new HttpParams().set('idUser', localStorage.getItem('USER_TOKEN'));
+        let params = new HttpParams().set('idUser', sessionStorage.getItem('USER_TOKEN'));
         const uri = this.apiManagerService.genereUrlWithParam('Application.ajouter', params).url;
         return this.httpClient.post<Application>(uri, application);
     }

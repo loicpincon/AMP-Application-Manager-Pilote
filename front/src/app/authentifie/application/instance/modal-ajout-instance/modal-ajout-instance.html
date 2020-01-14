@@ -2,8 +2,12 @@
 <div mat-dialog-content>
     <mat-form-field>
         <mat-label>Environnement</mat-label>
-        <mat-select [(ngModel)]="envChoisi" name="serveurs" required>
-            <mat-option *ngFor="let serveur of serveurs" [value]="serveur.id">{{serveur.nom}}</mat-option>
+        <mat-select [(ngModel)]="envChoisi" name="envs" required>
+            <mat-option *ngFor="let env of envs | keyvalue" [value]="env.key">
+                <span *ngIf="env.key==1">Développement</span>
+                <span *ngIf="env.key==2">Recette Utilisateurs</span>
+                <span *ngIf="env.key==3">Production</span>
+            </mat-option>
         </mat-select>
     </mat-form-field>
 </div>
