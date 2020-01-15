@@ -46,7 +46,7 @@ export class ActionComponent implements OnInit {
   deployer() {
     console.log(this.instance)
     if (this.paramSelectionne.version && this.versionApplicationSelectionne.nom) {
-      this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, this.versionApplicationSelectionne.nom).subscribe(res => {
+      this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, this.versionApplicationSelectionne.nom, this.paramSelectionne.version).subscribe(res => {
         this.instance = res;
         this.instanceEvent.emit(this.instance);
       }, error => {

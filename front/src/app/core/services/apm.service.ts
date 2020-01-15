@@ -110,9 +110,9 @@ export class ApmService {
         return this.httpClient.put<Instance>(uri, null);
     }
 
-    deployerApplication(app: string, ins: string, idServeur: number, version: string): Observable<Instance> {
+    deployerApplication(app: string, ins: string, idServeur: number, version: string, versionParam: string): Observable<Instance> {
         const uri = this.apiManagerService.genereUrl('Docker.creer').url;
-        const body = { 'idApplicationCible': app, 'idInstanceCible': ins, 'idServeurCible': idServeur, 'version': version }
+        const body = { 'idApplicationCible': app, 'idInstanceCible': ins, 'idServeurCible': idServeur, 'version': version, 'versionParam': versionParam }
         return this.httpClient.post<Instance>(uri, body);
     }
 

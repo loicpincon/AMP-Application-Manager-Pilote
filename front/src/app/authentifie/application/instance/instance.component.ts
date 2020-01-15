@@ -26,6 +26,7 @@ export class InstanceComponent implements OnInit {
   selectInstance(is: Instance, params: ParametreSeries, idServer: number) {
     this.instanceSelect.emit({ is, params, idServer });
     this.instanceEnCours = is
+    console.log(is)
   }
 
   ajouterInstance() {
@@ -37,7 +38,7 @@ export class InstanceComponent implements OnInit {
     this.apmService.recupererServeur().subscribe(serveurs => {
       const dialogRef = this.dialog.open(ModalAjoutInstance, {
         width: '250px',
-        data: { idApp: this.app.id, envs: this.environnements}
+        data: { idApp: this.app.id, envs: this.environnements }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result != undefined) {
