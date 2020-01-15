@@ -23,6 +23,12 @@ export class ApmService {
         return this.httpClient.post<any>(uri, user);
     }
 
+    inscrireUser(login: string, nom: string, prenom: string, password): Observable<User> {
+        const user = { 'nom': nom, 'prenom': prenom, "login": login, "password": password }
+        const uri = this.apiManagerService.genereUrl('Utilisateur.ajouter').url;
+        return this.httpClient.post<User>(uri, user);
+    }
+
 
     recupererUser(token: string): Observable<any> {
         let params = new HttpParams().set('id', token);

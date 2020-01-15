@@ -35,8 +35,8 @@ export class AuthentComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _router: Router) { }
 
-  registerForm: boolean =false;
-  
+  registerForm: boolean = false;
+
   loader: boolean = false;
   formConnexion: FormGroup;
   formInscription: FormGroup;
@@ -88,19 +88,29 @@ export class AuthentComponent implements OnInit {
       })
     }
   }
-  inscription(f: FormGroup){
-    if (f.valid){
-      if(f.value.mdp == f.value.confirmationMdp){
+  inscription(f: FormGroup) {
+    if (f.valid) {
+      if (f.value.mdp == f.value.confirmationMdp) {
         console.log(f.value.login)
         console.log(f.value.mdp)
         console.log(f.value.confirmationMdp)
         console.log(f.value.nom)
         console.log(f.value.prenom)
+        this._apm.inscrireUser(f.value.login, f.value.nom, f.value.prenom, f.value.mdp).subscribe(user => {
+          this._apm.connecterUser(f.value.login, f.value.mdp).subscribe(session => {
+            sessionStorage.setItem('USER_TOKEN', session.token)
+            this._router.navigate(['/secure'])
+          }, error => {
+            console.error(error);
+          })
+        }, error => {
+          alert(error.error.message)
+        })
       }
     }
   }
 
-  switchFormToRegister(bool: boolean){
+  switchFormToRegister(bool: boolean) {
     this.registerForm = bool
   }
 
