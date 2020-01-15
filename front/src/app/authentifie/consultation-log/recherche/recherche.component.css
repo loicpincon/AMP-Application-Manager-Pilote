@@ -1,0 +1,36 @@
+.mat-elevation-z8 table{
+    width: 100% !important;
+}
+.containerTable{
+    max-height: 100%;
+    overflow: auto;
+}
+.headerTab{
+    text-align: center;
+}
+.logsNull{
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+}
+.centerSpinner{
+    margin-top: 25px;
+    text-align: -webkit-center;
+}
+.mat-form-field {
+    font-size: 14px;
+  }
+
+.matCard{
+    padding: 0;
+}
+td{
+    padding-left: 24px;
+}
+.mat-row:nth-child(even){
+    background-color:white;
+    }
+
+.mat-row:nth-child(odd){
+    background-color:#F0F0F0;
+    }

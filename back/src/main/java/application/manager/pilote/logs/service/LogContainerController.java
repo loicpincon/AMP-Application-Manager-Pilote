@@ -29,5 +29,15 @@ public class LogContainerController {
 	public Callable<ResponseEntity<List<LogMessage>>> recuperer(@PathVariable String idContainer) {
 		return () -> ResponseEntity.ok(dockerLogsService.getDockerLogs(idContainer));
 	}
+	
+	/**
+	 * @return
+	 */
+	@GetMapping()
+	@ApiManager
+	// @Secured
+	public Callable<ResponseEntity<List<LogMessage>>> recupererLogParUser() {
+		return () -> ResponseEntity.ok(dockerLogsService.recupererLogParUser());
+	}
 
 }

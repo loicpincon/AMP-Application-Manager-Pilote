@@ -56,7 +56,7 @@ export class ConsultationLogRoutingModule { }
 
     ],
     providers: [
-
+        DatePipe
     ]
 })
 export class ConsultationLogModule { }

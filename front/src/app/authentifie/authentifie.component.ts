@@ -7,6 +7,7 @@ import { SidenavService } from '../core/services/sideNav.service';
 import { FormControl } from '@angular/forms';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { User } from './administration/modele/model';
 @Component({
     selector: 'app-secure-authent',
     templateUrl: './authentifie.component.html',
@@ -19,7 +20,7 @@ export class AuthentifieComponent implements OnInit {
     applications: Application[];
     idApp: string;
 
-    user: any;
+    user: User;
     @ViewChild('menuApp', { static: true }) public menuApp: MatSidenav;
     constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) { }
 
@@ -73,6 +74,23 @@ export class AuthentifieComponent implements OnInit {
     goLogs() {
         this._router.navigate(['/secure/consulterlog']);
         this.sidenavService.sideNav.close();
+    }
+
+    verifierDroit() {
+
+        this.user.rights.forEach(right => {
+            if (right.applicationId == this.idApp && (right.level === "CP" || right.level === "PROP" || right.level === "EXPERT")) {
+                console.log('ok')
+                return true;
+            } else {
+                console.log(right.level)
+
+            }
+        })
+        console.log('non')
+
+        return false;
+
     }
 
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'consulter-log-dashboard-root',
-    template: 'HEy'
+    templateUrl: './dashboard.component.html'
 })
 export class DashboardLogComponent implements OnInit {
     ngOnInit(): void {
