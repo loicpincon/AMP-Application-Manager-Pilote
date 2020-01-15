@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application, Instance, Serveur, Dockerfile, Log } from 'src/app/authentifie/application/modele/Application';
-import { User, DroitApplicatifLevel, Right} from 'src/app/authentifie/administration/modele/model';
+import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
 
 
 /**
@@ -141,9 +141,9 @@ export class ApmService {
         return this.httpClient.post<any>(uri, body);
     }
 
-    recupererLogsInstance(idC: string): Observable<Log[]>{
-        let params = new HttpParams().set('idContainer',idC)
-        const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recuperer',params).url;
+    recupererLogsInstance(idC: string): Observable<Log[]> {
+        let params = new HttpParams().set('idContainer', idC)
+        const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recuperer', params).url;
         return this.httpClient.get<Log[]>(uri);
     }
 

@@ -2,17 +2,25 @@ package application.manager.pilote.docker.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.docker.modele.DockerFile;
 
@@ -61,24 +69,27 @@ public class DeployFileHelper {
 		}
 	}
 
-//	public void createGcpFile(String url, List<ItemParametreApplicatif> params) {
-//		try {
-//			String url_file = stringUtils.concat(url, WEB_INF_CLASSES_GCP_PROPERTIES);
-//			PrintWriter writer;
-//
-//			writer = new PrintWriter(url_file, "UTF-8");
-//
-//			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
-//			for (ItemParametreApplicatif p : params) {
-//				writer.println(stringUtils.concat(p.getCle(), EGAL, p.getValeur()));
-//				LOG.trace(stringUtils.concat(p.getCle(), EGAL, p.getValeur()));
-//			}
-//			writer.close();
-//		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-//			LOG.error(e);
-//			throw new ApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-//		}
-//	}
+	public void createGcpFile(String url, Map<String, String> params) {
+		try {
+			String urlFile = stringUtils.concat(url, WEB_INF_CLASSES_GCP_PROPERTIES);
+			PrintWriter writer;
+			writer = new PrintWriter(urlFile, "UTF-8");
+
+			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
+			Set<String> cles = params.keySet();
+			Iterator<String> it = cles.iterator();
+			while (it.hasNext()) {
+				String cle = it.next();
+				String valeur = params.get(cle);
+				writer.println(stringUtils.concat(cle, EGAL, valeur));
+				LOG.trace(stringUtils.concat(stringUtils.concat(cle, EGAL, valeur)));
+			}
+			writer.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			LOG.error(e);
+			throw new ApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
 
 	/**
 	 * 

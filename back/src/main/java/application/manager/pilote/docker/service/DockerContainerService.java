@@ -23,13 +23,16 @@ import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
 import application.manager.pilote.application.modele.Application;
+import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.modele.ParametreSeries;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.commun.service.ShellService;
 import application.manager.pilote.docker.helper.DeployFileHelper;
 import application.manager.pilote.docker.mapper.ContainerMapper;
 import application.manager.pilote.docker.modele.Container;
@@ -83,6 +86,9 @@ public class DockerContainerService {
 	@Autowired
 	private SimpMessagingTemplate template;
 
+	@Autowired
+	private ShellService shellService;
+
 	/**
 	 * @param dockerFile
 	 * @throws IOException
@@ -92,20 +98,28 @@ public class DockerContainerService {
 		String containerName = stringUtils.concat(param.getIdApplicationCible(), "-", param.getIdInstanceCible());
 		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());
-
-		Instance ins = instanceService.consulter(app.getEnvironnements().get(server.getId()).getInstances(),
-				param.getIdInstanceCible());
-
-		if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
-			this.manage(app.getId(), server.getId(), ins.getId(), "delete");
-		}
-		String pathToFolderTemporaire = stringUtils.concat(
-				properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
-				hasherService.randomInt());
+		Environnement envChoisi = app.getEnvironnements().get(server.getId());
+		Instance ins = instanceService.consulter(envChoisi.getInstances(), param.getIdInstanceCible());
 
 		new Thread() {
 			public void run() {
 				try {
+					ParametreSeries parametres = null;
+
+					for (ParametreSeries paramB : envChoisi.getParametres()) {
+						if (paramB.getVersion().equals(param.getVersionParam())) {
+							parametres = paramB;
+							break;
+						}
+					}
+
+					if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
+						manage(app.getId(), server.getId(), ins.getId(), "delete");
+					}
+					String pathToFolderTemporaire = stringUtils.concat(
+							properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT),
+							SLASH, hasherService.randomInt());
+
 					BuildImageResultCallback callback = new BuildImageResultCallback();
 					File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
 							dockerFileService.get(app.getDockerFileId()));
@@ -115,6 +129,17 @@ public class DockerContainerService {
 
 					File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
 					FileUtils.copyFile(new File(pathToWar), copied);
+
+					shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -xvf " + pathToFolderTemporaire
+							+ SLASH + app.getBaseName());
+					shellService.execute("rm -rf " + pathToFolderTemporaire + SLASH + app.getBaseName());
+
+					deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
+
+					shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -cf " + pathToFolderTemporaire
+							+ SLASH + "ROOT.war" + " .");
+
+					// CONSTRUCTION DU FICHIER DE PROPERTIES
 
 					String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion()
 							.awaitImageId();

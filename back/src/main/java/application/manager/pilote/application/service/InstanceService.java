@@ -2,6 +2,8 @@ package application.manager.pilote.application.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import application.manager.pilote.application.repository.InstanceRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
 import application.manager.pilote.commun.helper.RandomPortHelper;
+import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
@@ -50,6 +53,9 @@ public class InstanceService {
 
 	@Autowired
 	private RandomPortHelper randomPortHelper;
+
+	@Autowired
+	private StringHelper stringUtils;
 
 	/**
 	 * Ajouter une instance a une application existante
@@ -133,13 +139,22 @@ public class InstanceService {
 	 * @throws IOException
 	 */
 	private void writeFileToPath(MultipartFile multipart, String path, String fileName) throws IOException {
-		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path + "/"
-				+ fileName;
-		new File(pathWithoutNameFile).mkdirs();
-		String pathToWrite = pathWithoutNameFile + "/" + fileName;
-		LOG.debug(pathToWrite);
-		File convFile = new File(pathToWrite);
-		multipart.transferTo(convFile);
+		String pathWithoutNameFile = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + "/" + path;
+
+		createDossierRecursif(pathWithoutNameFile);
+		Files.copy(multipart.getInputStream(), Paths.get(stringUtils.concat(pathWithoutNameFile, "/", fileName)));
+		new File(stringUtils.concat(pathWithoutNameFile, "/", fileName));
+
+	}
+
+	/**
+	 * 
+	 * @param path
+	 */
+	private void createDossierRecursif(String path) {
+		if (!new File(path).exists()) {
+			new File(path).mkdirs();
+		}
 	}
 
 }

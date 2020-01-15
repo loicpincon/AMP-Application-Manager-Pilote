@@ -20,4 +20,6 @@ public class ContainerParam extends BasicDataBean {
 	private Integer idServeurCible;
 
 	private String version;
+	
+	private String versionParam;
 }
