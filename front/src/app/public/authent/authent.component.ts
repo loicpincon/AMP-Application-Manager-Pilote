@@ -1,11 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
 import { ApmService } from '../../core/services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { LoginUser } from 'src/app/core/modele/authent';
 
 @Component({
   selector: 'core-authent',
+  animations: [
+    trigger('loginRegister', [
+      state('login', style({
+      })),
+      state('register', style({
+        opacity: 0,
+        display: 'none',
+      })),
+      transition('login => register', [
+        animate('0.5s')
+      ]),
+      transition('register => login', [
+        animate('0.5s')
+      ]),
+    ]),
+  ],
   templateUrl: './authent.component.html',
   styleUrls: ['./authent.component.css']
 })
@@ -17,9 +35,12 @@ export class AuthentComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _router: Router) { }
 
+  registerForm: boolean =false;
+  
   loader: boolean = false;
   formConnexion: FormGroup;
-  itemCo: any = { 'login': null, 'mdp': null }
+  formInscription: FormGroup;
+  loginUser: LoginUser = new LoginUser;
   validationMessageMdp: string = "Le mot de passe est requis."
   validation_messages = {
     'login': [
@@ -40,8 +61,15 @@ export class AuthentComponent implements OnInit {
 
   createForm() {
     this.formConnexion = this._fb.group({
-      login: [this.itemCo.login, Validators.required],
-      mdp: [this.itemCo.mdp, Validators.required]
+      login: [this.loginUser.login, Validators.required],
+      mdp: [this.loginUser.mdp, Validators.required]
+    });
+    this.formInscription = this._fb.group({
+      login: '',
+      mdp: '',
+      confirmationMdp: '',
+      nom: '',
+      prenom: '',
     });
   }
   connexion(f: FormGroup) {
@@ -58,10 +86,22 @@ export class AuthentComponent implements OnInit {
           duration: 1500
         });
       })
-    }else{
-      console.log("non")
     }
+  }
+  inscription(f: FormGroup){
+    if (f.valid){
+      if(f.value.mdp == f.value.confirmationMdp){
+        console.log(f.value.login)
+        console.log(f.value.mdp)
+        console.log(f.value.confirmationMdp)
+        console.log(f.value.nom)
+        console.log(f.value.prenom)
+      }
+    }
+  }
 
+  switchFormToRegister(bool: boolean){
+    this.registerForm = bool
   }
 
 }

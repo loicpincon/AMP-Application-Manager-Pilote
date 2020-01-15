@@ -1,5 +1,5 @@
 <div class="login">
-	<mat-card class="card">
+	<mat-card class="card" [@loginRegister]="registerForm ? 'register' : 'login'">
 	  <div class="cardHeader">
 		<span class="titleHeader">Connexion au compte</span>
 	  </div>
@@ -26,10 +26,49 @@
 		</mat-card-content>
 		<div class="cardFooter">
 			<p>
-			<span class="noAccount">Pas encore de compte ?</span><br>Demandez à un admin
+			Pas encore de compte ? <span class="noAccount" (click)="switchFormToRegister(true)"> Cliquez ici !</span>
 			</p>
 		</div>
 	  </form>
 	</mat-card>
-  
+	<mat-card [@loginRegister]="!registerForm ? 'register' : 'login'" class="card">
+		<div class="cardHeader">
+		  <span class="titleHeader">Formulaire d'Inscription</span>
+		</div>
+		<form [formGroup]="formInscription" (ngSubmit)="inscription(formInscription)">
+		  <mat-card-content class="cardBody">
+			  <mat-form-field class="full-width-field">
+				  <input required matInput placeholder="Login" class="form-control" formControlName="login">
+				  <mat-icon matSuffix>account_box</mat-icon>
+			  </mat-form-field>
+			  <mat-form-field class="full-width-field">
+				  <input required matInput placeholder="Mot de passe" type="password" class="form-control" formControlName="mdp">
+				  <mat-icon matSuffix>vpn_key</mat-icon>
+			  </mat-form-field>
+			  <mat-form-field class="full-width-field">
+				<input required matInput placeholder="Confirmation Mdp" type="password" class="form-control" formControlName="confirmationMdp">
+				<mat-icon matSuffix>vpn_key</mat-icon>
+			</mat-form-field>
+			<mat-form-field class="full-width-field">
+				<input required matInput placeholder="Nom" class="form-control" formControlName="nom">
+				<mat-icon matSuffix>account_box</mat-icon>
+			</mat-form-field>
+			<mat-form-field class="full-width-field">
+				<input required matInput placeholder="Prénom" class="form-control" formControlName="prenom">
+				<mat-icon matSuffix>account_box</mat-icon>
+			</mat-form-field>
+			<mat-error *ngIf="formInscription.value.mdp != formInscription.value.confirmationMdp && formInscription.value.mdp != '' && formInscription.value.confirmationMdp !=''">La confirmation et le mot de passe doivent être identiques !</mat-error>
+			  <div class="btnSubmit">
+				  <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
+				  <button *ngIf="!loader" mat-raised-button type="submit" [disabled]="!formInscription.valid || (formInscription.value.mdp != formInscription.value.confirmationMdp && formInscription.value.mdp != '' && formInscription.value.confirmationMdp !='')" class="btn-block">S'inscrire</button>
+			  </div>
+		  </mat-card-content>
+		  <div class="cardFooter">
+			  <p>
+			  Vous possédez déjà un compte ? <span class="noAccount" (click)="switchFormToRegister(false)"> Cliquez ici !</span>
+			  </p>
+		  </div>
+		</form>
+	  </mat-card>
+	
   </div>
