@@ -36,6 +36,10 @@ export class UserAction {
     membre: string;
     date: Date;
     commentaire: string;
+    libelle: string;
+    version: string;
+    status: string;
+
 }
 
 /**
@@ -63,7 +67,7 @@ export class Livrable {
 /**
  * 
  */
-export class Log{
+export class Log {
     type: string;
     timeStamp: string;
     message: string;
