@@ -28,7 +28,6 @@ export class LivrableComponent implements OnInit {
     this.dataSource.data = this.livrables
     if(this.instance){
       this.livrables.forEach(l => {
-        console.log(l.nom)
         if (l.nom == this.instance.versionApplicationActuel) {
           this.selection.select(l)
           this.dataShared.changeLivrable(l)
@@ -43,7 +42,6 @@ export class LivrableComponent implements OnInit {
   }
 
   selectionLivrable(row: any) {
-    console.log(row)
     this.selection.toggle(row)
     if (!this.selection.isSelected(row)) {
       this.dataShared.changeLivrable(new Livrable());

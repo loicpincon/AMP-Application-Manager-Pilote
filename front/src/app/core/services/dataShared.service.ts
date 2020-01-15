@@ -23,6 +23,7 @@ export class DataSharedService {
     this.livrableSource.next(livrable)
   }
   changeInstance(ins: Instance) {
+    console.log(ins)
     this.instanceToDeploy.next(ins)
   }
 }

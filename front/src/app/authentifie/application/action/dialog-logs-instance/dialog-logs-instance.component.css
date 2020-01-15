@@ -4,7 +4,6 @@
 }
 .headerTab{
     text-align: center;
-    width: 257px;
 }
 .logsNull{
     margin-top: 15px;
@@ -19,15 +18,9 @@
     font-size: 14px;
   }
 
-.content_tab{
-text-align: left;
+.matCard{
+    padding: 0;
 }
-
-.table-scroll-y{
-     height: 700px;
-  overflow: auto;
-}
-
 .mat-row:nth-child(even){
     background-color:white;
     }

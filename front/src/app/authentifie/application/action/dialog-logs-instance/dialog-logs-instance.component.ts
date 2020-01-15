@@ -22,8 +22,9 @@ export class dialogLogsInstanceComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    if (this.data.containerId) {
+    console.log(this.data)
 
+    if (this.data.containerId) {
       this.loader = true;
       this._apmService.recupererLogsInstance(this.data.containerId).subscribe(logs => {
         this.dataSource.data = logs
