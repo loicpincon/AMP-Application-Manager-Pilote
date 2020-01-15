@@ -20,7 +20,7 @@ export class AuthentifieComponent implements OnInit {
 
     user: any;
     @ViewChild('menuApp', { static: true }) public menuApp: MatSidenav;
-    constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) { }
+    constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) {}
 
     mode = new FormControl('side');
 
@@ -30,15 +30,12 @@ export class AuthentifieComponent implements OnInit {
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
-                this.applications = apps;
-
+                this.applications =  apps;
             })
         })
-
     }
 
     loadApp(id: string) {
-
         this._router.navigate(['/secure/application/pilotage', id]);
         this.sidenavService.sideNav.close();
     }
@@ -58,6 +55,13 @@ export class AuthentifieComponent implements OnInit {
         //Navigue sur la page Application avec l'id de l'app
         this._router.navigate(['/secure/administration/gestion-droits']);
         this.sidenavService.sideNav.close();
+    }
+
+    openMenu(){
+        this.sidenavService.sideNav.open();
+        this.appService.recupererAllApplicationsByUser().subscribe(apps => {
+            this.applications =  apps;
+        })
     }
 
 

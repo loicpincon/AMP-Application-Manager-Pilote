@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { WarApplication, BashApplication, Dockerfile } from '../modele/Application';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'application-creation-application',
@@ -12,7 +14,7 @@ export class CreationApplicationComponent implements OnInit {
   typeApplication: string[];
   formulaire: FormGroup;
   dockerFiles: Dockerfile[];
-  constructor(private apmService: ApmService, private formBuilder: FormBuilder) { }
+  constructor(private _router: Router,private apmService: ApmService, private formBuilder: FormBuilder,private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.apmService.recupererTypeApplications().subscribe(typesApp => {
       this.typeApplication = typesApp;
@@ -25,6 +27,7 @@ export class CreationApplicationComponent implements OnInit {
       typeApp: '',
       dockerfiles: '',
       dockerfilesText: '',
+      check: false,
       warApplication: new FormGroup({
         basename: new FormControl(''),
       }),
@@ -51,8 +54,11 @@ export class CreationApplicationComponent implements OnInit {
         var body = this.buildBody(customerData);
         body.dockerFileId = dockerFile.id;
         this.apmService.ajouterApplication(body).subscribe(app => {
-          alert('Application ajoute');
-          this.formulaire.reset();
+          this._snackBar.open('Application ajoutée avec succès !','', {
+            duration: 2000,
+            panelClass: 'customSnackBar'
+          });
+          this._router.navigate(['/secure/application/pilotage',app.id]);
         }, error => {
           console.error(error);
         })
@@ -61,14 +67,15 @@ export class CreationApplicationComponent implements OnInit {
       var body = this.buildBody(customerData);
       body.dockerFileId = this.formulaire.value.dockerfiles.id;
       this.apmService.ajouterApplication(body).subscribe(app => {
-        alert('Application ajoute');
-        this.formulaire.reset();
+        this._snackBar.open('Application ajoutée avec succès !','', {
+          duration: 2000,
+          panelClass: 'customSnackBar'
+        });
+        this._router.navigate(['/secure/application/pilotage', app.id]);
       }, error => {
         console.error(error);
       })
     }
-
-
   }
 
 

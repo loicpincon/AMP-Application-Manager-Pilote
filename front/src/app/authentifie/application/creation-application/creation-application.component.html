@@ -47,7 +47,7 @@
                 </mat-select>
             </mat-form-field>
             <div *ngIf="dockerfile.value">
-                <mat-checkbox (change)="changeCheck($event.checked)">Modifier le template</mat-checkbox>
+                <mat-checkbox formControlName="check" (change)="changeCheck($event.checked)">Modifier le template</mat-checkbox>
             </div>
             <mat-form-field *ngIf="dockerfile.value" class="fullSize">
                 <textarea style="width: 100%;"
