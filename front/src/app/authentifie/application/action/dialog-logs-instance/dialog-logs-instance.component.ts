@@ -22,7 +22,6 @@ export class dialogLogsInstanceComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    console.log(this.data)
 
     if (this.data.containerId) {
       this.loader = true;

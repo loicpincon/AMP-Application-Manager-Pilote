@@ -1,6 +1,9 @@
 .mat-elevation-z8 table{
     width: 100% !important;
-    text-align: center;
+}
+.containerTable{
+    max-height: 56vh;
+    overflow: auto;
 }
 .headerTab{
     text-align: center;
@@ -20,6 +23,9 @@
 
 .matCard{
     padding: 0;
+}
+td{
+    padding-left: 24px;
 }
 .mat-row:nth-child(even){
     background-color:white;
