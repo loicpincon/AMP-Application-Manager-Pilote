@@ -2,6 +2,6 @@
  * 
  */
 export class LoginUser {
-    login : string;
+    login: string;
     mdp: string;
 }
