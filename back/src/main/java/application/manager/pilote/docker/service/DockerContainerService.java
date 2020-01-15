@@ -164,7 +164,7 @@ public class DockerContainerService {
 					appService.modifier(app);
 					template.convertAndSend("/content/application", ins);
 					LOG.debug("fin du thread");
-				} catch (DockerException | InterruptedException | IOException e) {
+				} catch (DockerException | InterruptedException | IOException | NullPointerException e) {
 					ins.setEtat("S");
 					appService.modifier(app);
 					template.convertAndSend("/content/application", ins);

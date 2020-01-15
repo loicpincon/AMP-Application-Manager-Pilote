@@ -29,6 +29,7 @@ export class ActionComponent implements OnInit {
   selected = 'option1';
 
   ngOnInit() {
+    console.log(this.instance);
     this.dataShared.currentParam.subscribe(async (param) => {
       this.paramSelectionne = await param;
     })
@@ -36,14 +37,16 @@ export class ActionComponent implements OnInit {
       this.versionApplicationSelectionne = await param;
     })
     this.dataShared.currentInstance.subscribe(async (param) => {
-      console.log(param)
-      this.instance = await param;
+      if (param.id != undefined) {
+        this.instance = await param;
+      }
     })
   }
 
   deployer() {
+    console.log(this.instance)
     if (this.paramSelectionne.version && this.versionApplicationSelectionne.nom) {
-      this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, this.versionApplicationSelectionne.nom).subscribe(res => {
+      this.apmService.deployerApplication(this.app.id, this.instance.id, this.serveur, this.versionApplicationSelectionne.nom, this.paramSelectionne.version).subscribe(res => {
         this.instance = res;
         this.instanceEvent.emit(this.instance);
       }, error => {
@@ -83,7 +86,6 @@ export class ActionComponent implements OnInit {
   }
 
   consulterlesLogs() {
-    console.log(this.instance)
     this.dialog.open(dialogLogsInstanceComponent, {
       width: '95%',
       data: this.instance
