@@ -4,7 +4,7 @@ import { ApmService } from '../../core/services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { LoginUser } from 'src/app/core/modele/authent';
+import { LoginUser } from '../../core/modele/Authent';
 
 @Component({
   selector: 'core-authent',
@@ -40,7 +40,7 @@ export class AuthentComponent implements OnInit {
   loader: boolean = false;
   formConnexion: FormGroup;
   formInscription: FormGroup;
-  loginUser: LoginUser = new LoginUser;
+  loginUser: LoginUser = new LoginUser();
   validationMessageMdp: string = "Le mot de passe est requis."
   validation_messages = {
     'login': [
