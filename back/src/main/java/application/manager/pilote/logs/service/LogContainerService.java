@@ -1,5 +1,6 @@
 package application.manager.pilote.logs.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class LogContainerService {
 
 	private static Logger myLogger = Logger.getLogger(nameOfLogger);
 
-	public List<LogMessage> getDockerLogs(String containerId) {
+	public List<LogMessage> getDockerLogs(String containerId) throws IOException {
 
 		final List<LogMessage> logs = new ArrayList<>();
 
@@ -67,7 +68,7 @@ public class LogContainerService {
 
 		lastLogTime = (int) (System.currentTimeMillis() / 1000) + 5; // assumes at least a 5 second wait between calls
 																		// to getDockerLogs
-
+		callback.close();
 		return logs;
 	}
 }
