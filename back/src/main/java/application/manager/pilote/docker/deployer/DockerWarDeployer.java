@@ -36,7 +36,7 @@ import application.manager.pilote.server.modele.Server;
 import lombok.Builder;
 
 @Builder
-public class DockerWarDeployer extends Thread {
+public class DockerWarDeployer extends DefaultDeployer {
 
 	private static final String BASE_PATH_TO_APPLICATION_STOCK = "BASE_PATH_TO_APPLICATION_STOCK";
 
@@ -92,7 +92,7 @@ public class DockerWarDeployer extends Thread {
 	 * @param serveur
 	 * @return
 	 */
-	private Ports getPortsBinds(Instance ins, Server serveur) {
+	private Ports getPortsBinds(Instance ins) {
 		Ports portBindings = new Ports();
 		ExposedPort expoPort = new ExposedPort(8080);
 		portBindings.bind(expoPort, Binding.bindPort(Integer.valueOf(ins.getPort())));
@@ -144,7 +144,7 @@ public class DockerWarDeployer extends Thread {
 			LOG.info(test);
 			CreateContainerResponse container = dockerClient.createContainerCmd(test)
 					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
-					.withPortBindings(getPortsBinds(ins, server)).exec();
+					.withPortBindings(getPortsBinds(ins)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
 
@@ -159,11 +159,14 @@ public class DockerWarDeployer extends Thread {
 			}
 			ins.setVersionApplicationActuel(param.getVersion());
 			ins.setVersionParametresActuel("0.0.0");
-			appService.modifier(app);
+			ins.getUserActions().add(traceAction("Deploy", "Succes", param.getVersion()));
 			template.convertAndSend("/content/application", ins);
 			LOG.debug("fin du thread");
+			appService.modifier(app);
+
 		} catch (DockerException | InterruptedException | IOException | NullPointerException e) {
 			ins.setEtat("S");
+			ins.getUserActions().add(traceAction("Deploy", "Echec", param.getVersion()));
 			appService.modifier(app);
 			template.convertAndSend("/content/application", ins);
 			Thread.currentThread().interrupt();

@@ -19,10 +19,12 @@ public class UserAction extends BasicDataBean {
 
 	private Date date;
 
+	private String libelle;
+
 	private String commentaire;
-	
+
 	private String version;
-	
+
 	private String status;
 
 }

@@ -18,6 +18,6 @@ public class Environnement extends BasicDataBean {
 
 	private List<ParametreSeries> parametres = new ArrayList<>();
 
-	private List<Instance> instances = new ArrayList<Instance>();
+	private List<Instance> instances = new ArrayList<>();
 
 }

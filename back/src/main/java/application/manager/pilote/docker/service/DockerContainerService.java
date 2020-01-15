@@ -2,6 +2,7 @@ package application.manager.pilote.docker.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -18,6 +19,7 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.ApplicationType;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
+import application.manager.pilote.application.modele.UserAction;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.exception.ApplicationException;
@@ -27,6 +29,7 @@ import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
+import application.manager.pilote.session.service.SessionService;
 
 @Service
 public class DockerContainerService {
@@ -50,6 +53,9 @@ public class DockerContainerService {
 
 	@Autowired
 	private SimpMessagingTemplate template;
+
+	@Autowired
+	private SessionService sessionService;
 
 	/**
 	 * @param dockerFile
@@ -125,6 +131,7 @@ public class DockerContainerService {
 				default:
 					throw new ApplicationException(400, "action inconnue");
 				}
+				instance.getUserActions().add(traceAction(action, "Success", instance.getVersionApplicationActuel()));
 				appService.modifier(appli);
 				template.convertAndSend("/content/application", instance);
 
@@ -135,6 +142,16 @@ public class DockerContainerService {
 		appService.modifier(appli);
 		template.convertAndSend("/content/application", instance);
 		return instance;
+	}
+
+	protected UserAction traceAction(String libelle, String status, String version) {
+		UserAction us = new UserAction();
+		us.setDate(new Date());
+		us.setLibelle(libelle);
+		us.setMembre(sessionService.getSession().getNom() + " " + sessionService.getSession().getPrenom());
+		us.setStatus(status);
+		us.setVersion(version);
+		return us;
 	}
 
 	/**
