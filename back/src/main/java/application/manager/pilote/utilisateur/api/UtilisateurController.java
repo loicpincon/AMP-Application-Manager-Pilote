@@ -33,7 +33,6 @@ public class UtilisateurController {
 	 */
 	@PostMapping
 	@ApiManager("ajouter")
-	@Secured
 	public Callable<ResponseEntity<Utilisateur>> ajouter(@RequestBody Utilisateur utilisateur) {
 		return () -> ResponseEntity.ok(userService.inserer(utilisateur));
 	}
