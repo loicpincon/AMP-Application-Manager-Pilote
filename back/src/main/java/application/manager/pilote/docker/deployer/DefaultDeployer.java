@@ -2,15 +2,12 @@ package application.manager.pilote.docker.deployer;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import application.manager.pilote.application.modele.UserAction;
-import application.manager.pilote.session.service.SessionService;
+import application.manager.pilote.session.modele.UserSession;
 
 public abstract class DefaultDeployer extends Thread {
 
-	@Autowired
-	private SessionService sessionService;
+	protected UserSession user;
 
 	@Override
 	public abstract void run();
@@ -19,10 +16,14 @@ public abstract class DefaultDeployer extends Thread {
 		UserAction us = new UserAction();
 		us.setDate(new Date());
 		us.setLibelle(libelle);
-		us.setMembre(sessionService.getSession().getNom() + " " + sessionService.getSession().getPrenom());
+		us.setMembre(user.getNom() + " " + user.getPrenom());
 		us.setStatus(status);
 		us.setVersion(version);
 		return us;
+	}
+
+	public void setUser(UserSession s) {
+		this.user = s;
 	}
 
 }

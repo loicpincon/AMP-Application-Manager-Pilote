@@ -29,6 +29,7 @@ import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
+import application.manager.pilote.session.modele.UserSession;
 import application.manager.pilote.session.service.SessionService;
 
 @Service
@@ -62,15 +63,17 @@ public class DockerContainerService {
 	 * @throws IOException
 	 */
 	public Instance createContainer(ContainerParam param) throws IOException {
-
+		UserSession userSesion = sessionService.getSession();
 		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());
 		Environnement envChoisi = app.getEnvironnements().get(server.getId());
 		Instance ins = instanceService.consulter(envChoisi.getInstances(), param.getIdInstanceCible());
 
 		if (app.getType().equals(ApplicationType.WAR)) {
-			DockerWarDeployer.builder().app(app).envChoisi(envChoisi).param(param).ins(ins).server(server).build()
-					.start();
+			DockerWarDeployer deployer = DockerWarDeployer.builder().app(app).envChoisi(envChoisi).param(param).ins(ins)
+					.server(server).build();
+			deployer.setUser(userSesion);
+			deployer.start();
 		}
 
 		LOG.debug("retourne au client");
@@ -109,7 +112,7 @@ public class DockerContainerService {
 	 * @return
 	 */
 	public Instance manage(String app, Integer server, String id, String action) {
-
+		UserSession userSesion = sessionService.getSession();
 		Application appli = appService.consulter(app);
 		Instance instance = instanceService.consulter(appli.getEnvironnements().get(server).getInstances(), id);
 		new Thread() {
@@ -131,7 +134,8 @@ public class DockerContainerService {
 				default:
 					throw new ApplicationException(400, "action inconnue");
 				}
-				instance.getUserActions().add(traceAction(action, "Success", instance.getVersionApplicationActuel()));
+				instance.getUserActions()
+						.add(traceAction(action, "Success", instance.getVersionApplicationActuel(), userSesion));
 				appService.modifier(appli);
 				template.convertAndSend("/content/application", instance);
 
@@ -144,11 +148,11 @@ public class DockerContainerService {
 		return instance;
 	}
 
-	protected UserAction traceAction(String libelle, String status, String version) {
+	protected UserAction traceAction(String libelle, String status, String version, UserSession userSesion) {
 		UserAction us = new UserAction();
 		us.setDate(new Date());
 		us.setLibelle(libelle);
-		us.setMembre(sessionService.getSession().getNom() + " " + sessionService.getSession().getPrenom());
+		us.setMembre(userSesion.getNom() + " " + userSesion.getPrenom());
 		us.setStatus(status);
 		us.setVersion(version);
 		return us;
