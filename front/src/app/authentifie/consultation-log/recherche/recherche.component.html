@@ -11,6 +11,38 @@
 
 
         <table class="example-full-width" cellspacing="0">
+            <tr colspan="7">
+                <td>
+                    <mat-form-field>
+                        <mat-label>Environnement</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let food of env" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Application</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let food of app" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Instance</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let food of instance" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
             <tr>
 
                 <td>
@@ -43,7 +75,7 @@
 
                 </td>
                 <td>
-                    <button mat-button mat-button style="background-color: green;"
+                    <button mat-button mat-button style="background-color:#3ac569"
                         (click)="refreshLog()">Actualiser</button>
 
                 </td>
