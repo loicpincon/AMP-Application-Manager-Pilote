@@ -34,3 +34,7 @@ td{
 .mat-row:nth-child(odd){
     background-color:#F0F0F0;
     }
+
+    .cell_date{
+        width: 157px;
+    }

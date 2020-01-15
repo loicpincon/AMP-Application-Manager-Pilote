@@ -5,30 +5,61 @@
 
 </div>
 <div class="containerTable mat-elevation-z8">
-    <div>
-        <button mat-button (click)="refreshLog()">Actualiser</button>
-    </div>
-    <div>
-        <mat-form-field>
-            <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="filtre message">
-        </mat-form-field>
-    </div>
-    <div>
-        <p>Filtrer par date :</p>
-        <mat-form-field>
-            <input matInput [ngModel]="dateJourDeb" maxlength="19" (keyup)="dateFilter($event.target.value)">
-            <p>jusqu'à</p>
 
-            <input matInput [ngModel]="dateJourFin" maxlength="19" (keyup)="dateFilter($event.target.value)">
 
-        </mat-form-field>
+    <div>
 
-        <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
+
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+
+                <td>
+                    <mat-form-field>
+
+                        <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="filtre message">
+                    </mat-form-field>
+
+                </td>
+
+                <td>
+                    <p>Filtrer par date :</p>
+
+                </td>
+                <td>
+                    <mat-form-field>
+
+                        <input matInput [ngModel]="dateJourDeb" maxlength="19"
+                            (keyup)="dateFilter($event.target.value)">
+                    </mat-form-field>
+
+                </td>
+                <td>Jusqu'a</td>
+                <td>
+                    <mat-form-field>
+
+                        <input matInput [ngModel]="dateJourFin" maxlength="19"
+                            (keyup)="dateFilter($event.target.value)">
+                    </mat-form-field>
+
+                </td>
+                <td>
+                    <button mat-button mat-button style="background-color: green;"
+                        (click)="refreshLog()">Actualiser</button>
+
+                </td>
+                <td>
+                    <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
+
+                </td>
+            </tr>
+        </table>
+
+
         <table mat-table [dataSource]="dataSource">
 
             <ng-container matColumnDef="Version">
                 <th mat-header-cell *matHeaderCellDef class="headerTab"> Timestamp </th>
-                <td mat-cell class="content_tab" *matCellDef="let element"> {{element.timestamp}} </td>
+                <td mat-cell class="content_tab cell_date" *matCellDef="let element"> {{element.timestamp}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Date">
@@ -46,5 +77,4 @@
             Aucun logs pour cette application
         </div>
     </div>
-    <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
 </div>
