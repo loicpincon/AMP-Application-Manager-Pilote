@@ -1,2 +1,16 @@
 MY_POM_VERSION=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
-curl -F file=@'target/mobilite.war' -H 'X-TOKEN-UTILISATEUR-UPLOAD:AZERTYIOP' http://213.136.77.118:7001/amp/applications/fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436/versions?version=${MY_POM_VERSION}
+curl -F file=@'TEST.war' -H 'X-TOKEN-UTILISATEUR-UPLOAD:AZERTYIOP' http://213.136.77.118:8888/amp/applications/fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436/versions?version=1.0.0
+
+
+/** 
+* Paste one or more documents here
+*/
+{
+    "_id": {
+        "$oid": "5e1eebc71c9d440000bdb388"
+    },
+    "name": "TestFinal1",
+    "file": "FROM tomcat \n ARG path \n MAINTAINER loic  \n  RUN apt-get update && apt-get -y upgrade \n RUN rm -rf /usr/local/tomcat/webapps/ \n WORKDIR /usr/local/tomcat \n  \n ADD ROOT.war /usr/local/tomcat/webapps/ROOT.war",
+    "isPublic": true,
+    "_class": "application.manager.pilote.docker.modele.DockerFile"
+}

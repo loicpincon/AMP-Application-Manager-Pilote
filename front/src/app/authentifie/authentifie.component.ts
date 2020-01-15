@@ -17,10 +17,11 @@ export class AuthentifieComponent implements OnInit {
     title = 'amp';
 
     applications: Application[];
+    idApp: string;
 
     user: any;
     @ViewChild('menuApp', { static: true }) public menuApp: MatSidenav;
-    constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) {}
+    constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) { }
 
     mode = new FormControl('side');
 
@@ -30,13 +31,14 @@ export class AuthentifieComponent implements OnInit {
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
             this.appService.recupererAllApplicationsByUser().subscribe(apps => {
-                this.applications =  apps;
+                this.applications = apps;
             })
         })
     }
 
     loadApp(id: string) {
         this._router.navigate(['/secure/application/pilotage', id]);
+        this.idApp = id;
         this.sidenavService.sideNav.close();
     }
 
@@ -57,12 +59,22 @@ export class AuthentifieComponent implements OnInit {
         this.sidenavService.sideNav.close();
     }
 
-    openMenu(){
+    openMenu() {
         this.sidenavService.sideNav.open();
         this.appService.recupererAllApplicationsByUser().subscribe(apps => {
-            this.applications =  apps;
+            this.applications = apps;
         })
     }
+
+    goConfiguration() {
+        console.log(this.idApp)
+    }
+
+    goLogs() {
+
+    }
+
+
 
 
 
