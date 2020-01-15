@@ -36,6 +36,7 @@ export class ActionComponent implements OnInit {
       this.versionApplicationSelectionne = await param;
     })
     this.dataShared.currentInstance.subscribe(async (param) => {
+      console.log(param)
       this.instance = await param;
     })
   }
@@ -82,6 +83,7 @@ export class ActionComponent implements OnInit {
   }
 
   consulterlesLogs() {
+    console.log(this.instance)
     this.dialog.open(dialogLogsInstanceComponent, {
       width: '95%',
       data: this.instance

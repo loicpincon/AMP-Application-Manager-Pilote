@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="matCard">
   <mat-card-content>
     <div class="mat-elevation-z8">
       <div fxLayout fxLayout.xs="column">
@@ -22,7 +22,6 @@
 
       </div>
       <div class="table-scroll-y  mat-elevation-z8">
-
         <table mat-table [dataSource]="dataSource">
 
           <ng-container matColumnDef="Version">
@@ -45,7 +44,7 @@
           Aucun logs pour cette application
         </div>
       </div>
-      <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>
