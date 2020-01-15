@@ -71,7 +71,8 @@ export class AuthentifieComponent implements OnInit {
     }
 
     goLogs() {
-
+        this._router.navigate(['/secure/consulterlog']);
+        this.sidenavService.sideNav.close();
     }
 
 

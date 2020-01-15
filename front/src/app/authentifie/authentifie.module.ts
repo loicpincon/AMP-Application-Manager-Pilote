@@ -8,6 +8,7 @@ import { ApplicationModule } from './application/application.module';
 import { AdministrationModule } from './administration/administration.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenUserHeaderInterceptor } from './interceptor/TokenUserHeaderInterceptor';
+import { ConsultationLogModule } from './consultation-log/consultation-log.module';
 
 
 
@@ -20,6 +21,9 @@ const routes: Routes = [
             },
             {
                 path: 'administration', loadChildren: './administration/administration.module#AdministrationModule'
+            },
+            {
+                path: 'consulterlog', loadChildren: './consultation-log/consultation-log.module#ConsultationLogModule'
             },
             {
                 path: '', redirectTo: 'application', pathMatch: 'full'
@@ -44,7 +48,8 @@ export class AuthentifieRoutingModule { }
         AuthentifieRoutingModule,
         MaterialModule,
         ApplicationModule,
-        AdministrationModule
+        AdministrationModule,
+        ConsultationLogModule
     ], providers: [
         {
             provide: HTTP_INTERCEPTORS,

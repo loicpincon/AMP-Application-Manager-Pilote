@@ -49,7 +49,7 @@ export class AppRoutingModule { }
     CoreModule,
     AuthentifieModule],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     LoaderService,
     SidenavService,
