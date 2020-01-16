@@ -1,5 +1,7 @@
 export interface InstanceLog {
     id: string;
+    libelle: string;
+    etat: string;
 }
 
 export interface AppLog {

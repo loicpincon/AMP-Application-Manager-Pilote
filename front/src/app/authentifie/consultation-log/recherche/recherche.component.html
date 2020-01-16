@@ -14,7 +14,15 @@
             <tr colspan="7">
                 <td>
                     <mat-form-field>
-                        <mat-label>Environnement</mat-label>
+
+                        <mat-label>
+
+                            <span>
+
+                                Environnement
+
+                            </span>
+                        </mat-label>
                         <mat-select (selectionChange)="envChange($event.value)">
                             <mat-option *ngFor="let food of env" [value]="food">
                                 {{food.libelle}}
