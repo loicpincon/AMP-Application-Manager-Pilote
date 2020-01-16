@@ -29,6 +29,7 @@ export class RechercheLogComponent implements OnInit {
     app: AppLog[];
 
     instance: InstanceLog[];
+    insSelect: InstanceLog;
 
     constructor(
         private _apmService: ApmService, private datePipe: DatePipe) { }
@@ -59,7 +60,7 @@ export class RechercheLogComponent implements OnInit {
 
     instanceChange(valeur) {
         this.dataSource.paginator = this.paginator;
-
+        this.insSelect = valeur;
         this.loader = true;
         this._apmService.recupererLogsInstance(valeur.id).subscribe(logs => {
             this.dataSource.data = logs

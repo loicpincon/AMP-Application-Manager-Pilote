@@ -95,10 +95,20 @@ public class LogContainerService {
 
 	public RechercheRessource recupererRechercheRessourceUser(String idUser) {
 		List<Application> apps = appService.recupererParUser(idUser);
+
+		//POUR TOUTES LES APPLIS
+			//POUR TOUS LES ENVS
+				//POUR TOUTES LES INSTANCES
+		
+		
 		RechercheRessource recherche = new RechercheRessource();
 		for (Application app : apps) {
+			
+			
 			Set<Integer> cles = app.getEnvironnements().keySet();
 			Iterator<Integer> it = cles.iterator();
+			
+			
 			while (it.hasNext()) {
 				Integer cle = it.next();
 				Server serveur = serverService.consulter(cle);
@@ -130,13 +140,9 @@ public class LogContainerService {
 				env2log.setLibelle(nameEnv);
 				recherche.getEnvs().add(env2log);
 			}
-
 			boolean isFindApp = false;
-
 			ApplicationLog app2log = null;
-
 			for (ApplicationLog app2logB : env2log.getApps()) {
-
 				if (app2logB.getId().equals(idAppp)) {
 					LOG.debug("je connais cette appli");
 					app2log = app2logB;
@@ -148,15 +154,14 @@ public class LogContainerService {
 				app2log = new ApplicationLog();
 				app2log.setId(idAppp);
 				app2log.setName(nameApp);
+				env2log.getApps().add(app2log);
 			}
-
 			InstanceLog il = new InstanceLog();
+			il.setEtat(idIstance.getEtat());
 			il.setId(idIstance.getContainerId());
 			il.setLibelle(idIstance.getLibelle());
 			app2log.getInstances().add(il);
-			env2log.getApps().add(app2log);
 		}
-
 	}
 
 }

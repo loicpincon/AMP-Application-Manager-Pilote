@@ -38,3 +38,22 @@ td{
     .cell_date{
         width: 157px;
     }
+
+    .instance_stop{
+        color: red;
+
+    }
+
+    .instance_vide{
+        color: grey;
+
+    }
+
+    .instance_progress{
+        color: orange;
+
+    }
+
+    .instance_run{
+        color: green;
+    }

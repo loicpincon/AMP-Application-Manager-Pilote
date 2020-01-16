@@ -37,10 +37,40 @@
                         <mat-label>Instance</mat-label>
                         <mat-select (selectionChange)="instanceChange($event.value)">
                             <mat-option *ngFor="let food of instance" [value]="food">
+
+
                                 {{food.libelle}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                </td>
+                <td>
+                    <div *ngIf="insSelect">
+                        <label *ngIf="insSelect.etat=='V'">
+                            <i class="material-icons instance_vide">
+                                offline_bolt
+                            </i>
+                            Vide
+                        </label>
+                        <label *ngIf="insSelect.etat=='L'">
+                            <i class="material-icons instance_run">
+                                offline_bolt
+                            </i>
+                            Demarrée
+                        </label>
+                        <label *ngIf="insSelect.etat=='S'">
+                            <i class="material-icons instance_stop">
+                                offline_bolt
+                            </i>
+                            Stoppée
+                        </label>
+                        <label *ngIf="insSelect.etat=='P'">
+                            <i class="material-icons instance_progress">
+                                offline_bolt
+                            </i>
+                            En cours de deploiment
+                        </label>
+                    </div>
                 </td>
             </tr>
             <tr>

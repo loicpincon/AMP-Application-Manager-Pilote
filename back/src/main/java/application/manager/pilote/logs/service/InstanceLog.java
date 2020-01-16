@@ -15,5 +15,6 @@ public class InstanceLog extends BasicDataBean {
 
 	private String id;
 	private String libelle;
+	private String etat;
 
 }
