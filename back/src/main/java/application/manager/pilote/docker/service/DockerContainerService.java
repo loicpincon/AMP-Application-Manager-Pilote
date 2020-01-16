@@ -62,7 +62,7 @@ public class DockerContainerService {
 	 * @param dockerFile
 	 * @throws IOException
 	 */
-	public Instance createContainer(ContainerParam param) throws IOException {
+	public Instance createContainer(ContainerParam param) {
 		UserSession userSesion = sessionService.getSession();
 		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());

@@ -165,6 +165,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 			appService.modifier(app);
 
 		} catch (DockerException | InterruptedException | IOException | NullPointerException e) {
+			LOG.error(e);
 			ins.setEtat("S");
 			ins.getUserActions().add(traceAction("Deploy", "Echec", param.getVersion()));
 			appService.modifier(app);

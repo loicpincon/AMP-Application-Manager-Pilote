@@ -1,7 +1,8 @@
 <mat-card fxFlex class="blocInstance">
     <div class="blocInstanceHeader">
         <mat-card-title class="blocInstanceTitre">
-            <a (click)="ajouterInstance()"><i class="material-icons iconAdd" matTooltip="Ajouter une instance">add</i></a>
+            <a (click)="ajouterInstance()"><i class="material-icons iconAdd"
+                    matTooltip="Ajouter une instance">add</i></a>
             <h5>Instances</h5>
         </mat-card-title>
     </div>
@@ -16,11 +17,19 @@
                         <span *ngIf="env.key==3">Production</span>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <div *ngIf="env.value.instances; else instanceNull" class="listeInstances">
-                    <button *ngFor="let instance of env.value.instances"
-                        [ngClass]="{'listeInstances_btnOn': instance.etat=='L','listeInstances_btnIP': instance.etat=='P', 'listeInstances_btnOff':instance.etat=='S', 'listeInstances_btnVide':instance.etat=='V','listeInstances_selectionnee': instance == instanceEnCours }"
-                        mat-raised-button
-                        (click)="selectInstance(instance,env.value.parametres,env.key)">{{instance.libelle}}</button>
+                <div *ngIf="env.value.instances; else instanceNull" class="listeInstances titleInstance">
+
+                    <table>
+                        <tr *ngFor="let instance of env.value.instances">
+                            <td style="text-align: center;"> <label>{{instance.libelle}}</label>
+                            </td>
+                            <td style="width: 100%;"><button
+                                    [ngClass]="{'listeInstances_btnOn': instance.etat=='L','listeInstances_btnIP': instance.etat=='P', 'listeInstances_btnOff':instance.etat=='S', 'listeInstances_btnVide':instance.etat=='V','listeInstances_selectionnee': instance == instanceEnCours }"
+                                    mat-raised-button
+                                    (click)="selectInstance(instance,env.value.parametres,env.key)">{{instance.versionApplicationActuel}}</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <ng-template #instanceNull>
                     <div class="env-InstanceNull">

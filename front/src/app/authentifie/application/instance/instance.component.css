@@ -79,3 +79,11 @@
 .iconAdd:active{
     color: lightgray
 }
+
+
+.titleInstance{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 16px;
+}

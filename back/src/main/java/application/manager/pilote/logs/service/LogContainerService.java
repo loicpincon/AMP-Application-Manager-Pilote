@@ -21,6 +21,8 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.service.ApplicationService;
+import application.manager.pilote.server.modele.Server;
+import application.manager.pilote.server.service.ServerService;
 import application.manager.pilote.session.service.SessionService;
 
 @Service
@@ -35,7 +37,7 @@ public class LogContainerService {
 	private ApplicationService appService;
 
 	@Autowired
-	private SessionService sessionService;
+	private ServerService serverService;
 
 	private int lastLogTime = (int) (System.currentTimeMillis() / 1000);
 
@@ -99,9 +101,11 @@ public class LogContainerService {
 			Iterator<Integer> it = cles.iterator();
 			while (it.hasNext()) {
 				Integer cle = it.next();
+				Server serveur = serverService.consulter(cle);
+
 				Environnement valeur = app.getEnvironnements().get(cle);
 				for (Instance i : valeur.getInstances()) {
-					addEnvLog(recherche, cle, "Name Of Serveur", app.getId(), app.getName(), i.getContainerId());
+					addEnvLog(recherche, cle, serveur.getNom(), app.getId(), app.getName(), i);
 				}
 			}
 		}
@@ -109,7 +113,7 @@ public class LogContainerService {
 	}
 
 	private void addEnvLog(RechercheRessource recherche, Integer idEnv, String nameEnv, String idAppp, String nameApp,
-			String idIstance) {
+			Instance idIstance) {
 		if (idIstance != null) {
 			EnvironnementLog env2log = null;
 			boolean isFind = false;
@@ -147,7 +151,8 @@ public class LogContainerService {
 			}
 
 			InstanceLog il = new InstanceLog();
-			il.setId(idIstance);
+			il.setId(idIstance.getContainerId());
+			il.setLibelle(idIstance.getLibelle());
 			app2log.getInstances().add(il);
 			env2log.getApps().add(app2log);
 		}
