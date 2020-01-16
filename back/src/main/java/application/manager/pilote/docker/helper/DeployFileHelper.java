@@ -31,8 +31,6 @@ public class DeployFileHelper {
 
 	private static final String DOCKERFILE = "Dockerfile";
 
-	private static final String WEB_INF_CLASSES_GCP_PROPERTIES = "/WEB-INF/classes/gcp.properties";
-
 	private static final String EGAL = "=";
 
 	@Autowired
@@ -71,7 +69,7 @@ public class DeployFileHelper {
 
 	public void createGcpFile(String url, Map<String, String> params) {
 		try {
-			String urlFile = stringUtils.concat(url, WEB_INF_CLASSES_GCP_PROPERTIES);
+			String urlFile = stringUtils.concat(url, "/gcp.properties");
 			PrintWriter writer;
 			writer = new PrintWriter(urlFile, "UTF-8");
 

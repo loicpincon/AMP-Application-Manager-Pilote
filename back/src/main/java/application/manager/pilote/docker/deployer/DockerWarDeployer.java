@@ -1,7 +1,9 @@
 package application.manager.pilote.docker.deployer;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -27,8 +29,8 @@ import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.commun.service.HashService;
-import application.manager.pilote.commun.service.ShellService;
 import application.manager.pilote.docker.helper.DeployFileHelper;
+import application.manager.pilote.docker.helper.ScriptPathHelper;
 import application.manager.pilote.docker.service.DockerContainerService;
 import application.manager.pilote.docker.service.DockerFileService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
@@ -73,7 +75,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 	private SimpMessagingTemplate template;
 
 	@Autowired
-	private ShellService shellService;
+	private ScriptPathHelper scriptPathHelper;
 
 	@Autowired
 	DockerContainerService dockerContainerService;
@@ -131,11 +133,27 @@ public class DockerWarDeployer extends DefaultDeployer {
 			FileUtils.copyFile(new File(pathToWar), copied);
 			deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
 
-			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -xvf " + pathToFolderTemporaire + SLASH
-					+ app.getBaseName());
-			shellService.execute("rm -rf " + pathToFolderTemporaire + SLASH + app.getBaseName());
-			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -cf " + pathToFolderTemporaire + SLASH
-					+ "ROOT.war" + " .");
+			ProcessBuilder pb = new ProcessBuilder(
+					"C:/Users/LoïcPinçon/workspaces/AMP-Application-Manager-Pilote/back/target/classes/script/windows/deploiement_war_gcp.bat",
+					pathToFolderTemporaire, pathToFolderTemporaire + SLASH + app.getBaseName(),
+					pathToFolderTemporaire + SLASH + "ROOT.war" + " .");
+
+			pb.start();
+			Process process = pb.start();
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				LOG.trace(line);
+			}
+
+			LOG.debug("Fin de la construction, debut de la creation de l'image");
+
+//			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -xvf " + pathToFolderTemporaire + SLASH
+//					+ app.getBaseName());
+//			shellService.execute("rm -rf " + pathToFolderTemporaire + SLASH + app.getBaseName());
+//			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -cf " + pathToFolderTemporaire + SLASH
+//					+ "ROOT.war" + " .");
 
 			// CONSTRUCTION DU FICHIER DE PROPERTIES
 

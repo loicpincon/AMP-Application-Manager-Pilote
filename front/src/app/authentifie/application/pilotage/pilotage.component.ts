@@ -82,6 +82,8 @@ export class PilotageComponent implements OnInit {
       console.log('c\'est mon instance')
       this.instanceSelect.etat = ins.etat;
       this.instanceSelect.userActions = ins.userActions;
+      this.instanceSelect.versionApplicationActuel = ins.versionApplicationActuel;
+      this.instanceSelect.versionParametresActuel = ins.versionParametresActuel;
       this.dataShared.changeInstance(ins)
     } else {
       var find = false;
