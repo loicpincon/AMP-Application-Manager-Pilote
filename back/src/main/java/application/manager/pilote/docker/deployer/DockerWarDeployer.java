@@ -133,8 +133,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 			FileUtils.copyFile(new File(pathToWar), copied);
 			deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
 
-			ProcessBuilder pb = new ProcessBuilder(
-					"C:/Users/LoïcPinçon/workspaces/AMP-Application-Manager-Pilote/back/target/classes/script/windows/deploiement_war_gcp.bat",
+			ProcessBuilder pb = new ProcessBuilder(scriptPathHelper.getPathOfFile("", "deploiement_war_gcp"),
 					pathToFolderTemporaire, pathToFolderTemporaire + SLASH + app.getBaseName(),
 					pathToFolderTemporaire + SLASH + "ROOT.war" + " .");
 
@@ -148,14 +147,6 @@ public class DockerWarDeployer extends DefaultDeployer {
 			}
 
 			LOG.debug("Fin de la construction, debut de la creation de l'image");
-
-//			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -xvf " + pathToFolderTemporaire + SLASH
-//					+ app.getBaseName());
-//			shellService.execute("rm -rf " + pathToFolderTemporaire + SLASH + app.getBaseName());
-//			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -cf " + pathToFolderTemporaire + SLASH
-//					+ "ROOT.war" + " .");
-
-			// CONSTRUCTION DU FICHIER DE PROPERTIES
 
 			String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);

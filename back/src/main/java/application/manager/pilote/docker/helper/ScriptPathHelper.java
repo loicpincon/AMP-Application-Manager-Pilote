@@ -29,8 +29,9 @@ public class ScriptPathHelper {
 		} else {
 			throw new ApplicationException(500, "Impossible de detecter l'os cible");
 		}
-		LOG.debug(pathRetour);
-		return pathRetour;
+		String realPath = getClass().getResource(pathRetour).getFile();
+		LOG.debug(realPath);
+		return realPath;
 	}
 
 }
