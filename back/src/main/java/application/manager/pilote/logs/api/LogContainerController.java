@@ -35,9 +35,14 @@ public class LogContainerController {
 	public Callable<ResponseEntity<List<LogMessage>>> recuperer(@PathVariable String idContainer,
 			@RequestParam(required = false) String debut, @RequestParam(required = false) String fin) {
 		return () -> {
-			Date debutD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(debut);
-			Date finD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(fin);
-
+			Date debutD = null;
+			Date finD = null;
+			if (debut != null) {
+				debutD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(debut);
+			}
+			if (fin != null) {
+				finD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(fin);
+			}
 			return ResponseEntity.ok(dockerLogsService.getDockerLogs(idContainer, debutD, finD));
 		};
 	}

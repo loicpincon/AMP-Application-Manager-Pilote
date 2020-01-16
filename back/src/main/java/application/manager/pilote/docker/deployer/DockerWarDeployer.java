@@ -115,6 +115,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 			if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
 				this.dockerContainerService.manage(app.getId(), server.getId(), ins.getId(), "delete");
 			}
+
 			String pathToFolderTemporaire = stringUtils.concat(
 					properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
 					hasherService.randomInt());
@@ -128,13 +129,11 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 			File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
 			FileUtils.copyFile(new File(pathToWar), copied);
+			deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
 
 			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -xvf " + pathToFolderTemporaire + SLASH
 					+ app.getBaseName());
 			shellService.execute("rm -rf " + pathToFolderTemporaire + SLASH + app.getBaseName());
-
-			deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
-
 			shellService.execute("cd " + pathToFolderTemporaire + " && exec jar -cf " + pathToFolderTemporaire + SLASH
 					+ "ROOT.war" + " .");
 

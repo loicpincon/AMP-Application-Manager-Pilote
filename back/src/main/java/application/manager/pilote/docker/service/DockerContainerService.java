@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,9 @@ public class DockerContainerService {
 	@Autowired
 	private SessionService sessionService;
 
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	/**
 	 * @param dockerFile
 	 * @throws IOException
@@ -73,10 +77,14 @@ public class DockerContainerService {
 			DockerWarDeployer deployer = DockerWarDeployer.builder().app(app).envChoisi(envChoisi).param(param).ins(ins)
 					.server(server).build();
 			deployer.setUser(userSesion);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
+
 			deployer.start();
 		}
 
 		LOG.debug("retourne au client");
+		ins.setVersionApplicationActuel(param.getVersion());
+		ins.setVersionParametresActuel(param.getVersionParam());
 		ins.setEtat("P");
 		appService.modifier(app);
 		template.convertAndSend("/content/application", ins);
