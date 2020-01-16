@@ -1,4 +1,4 @@
-package application.manager.pilote.logs.service;
+package application.manager.pilote.logs.modele;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;

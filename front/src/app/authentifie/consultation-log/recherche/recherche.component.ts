@@ -16,8 +16,8 @@ export class RechercheLogComponent implements OnInit {
     displayedColumns: string[] = ['Version', 'Date'];
     dataSource = new MatTableDataSource<Log>();
     loader: boolean = false;
-    dateJourDeb: string = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MM-yyyy')
-    dateJourFin: string = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MM-yyyy')
+    dateJourDeb: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
+    dateJourFin: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
     @ViewChild(MatPaginator, { static: true })
     paginator: MatPaginator;
@@ -82,18 +82,18 @@ export class RechercheLogComponent implements OnInit {
         this.dataSource.filter = filterValue.trim().toLowerCase();
 
     }
-
     dateFilter(filterValue: string) {
-        console.log(filterValue)
+        // console.log(filterValue)
         let regexp = new RegExp('(([01][0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]) (0[1-9]|[12]\\d|3[01])-(0[1-9]|1[0-2])-\\d{4})')
-        console.log(regexp.test(filterValue))
+        //      console.log(regexp.test(filterValue))
     }
 
     refreshLog() {
+        console.log(this.dateJourDeb)
         this.dataSource.paginator = this.paginator;
 
         this.loader = true;
-        this._apmService.recupererLogsInstance(this.idContainerTest).subscribe(logs => {
+        this._apmService.recupererLogsInstanceParDateDebutEtFin(this.idContainerTest, this.dateJourDeb, this.dateJourFin).subscribe(logs => {
             this.dataSource.data = logs
             console.log(logs)
             this.loader = false

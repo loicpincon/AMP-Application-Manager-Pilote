@@ -15,6 +15,9 @@ import { FormulaireLogInfo } from 'src/app/authentifie/consultation-log/modele/M
     providedIn: 'root'
 })
 export class ApmService {
+
+    moment = require('moment');
+
     constructor(private httpClient: HttpClient, private apiManagerService: ApiManagerService) {
     }
 
@@ -148,8 +151,18 @@ export class ApmService {
         return this.httpClient.post<any>(uri, body);
     }
 
+    recupererLogsInstanceParDateDebutEtFin(idC: string, debut: string, fin: string) {
+        let params = new HttpParams().set('idContainer', idC).set('debut', debut).set('fin', fin);
+        return this.recupererLogsInstanceAbstract(params);
+    }
+
+
     recupererLogsInstance(idC: string): Observable<Log[]> {
         let params = new HttpParams().set('idContainer', idC)
+        return this.recupererLogsInstanceAbstract(params);
+    }
+
+    private recupererLogsInstanceAbstract(params: HttpParams): Observable<Log[]> {
         const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recuperer', params).url;
         return this.httpClient.get<Log[]>(uri);
     }

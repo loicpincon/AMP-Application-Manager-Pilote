@@ -90,7 +90,7 @@
                 <td>
                     <mat-form-field>
 
-                        <input matInput [ngModel]="dateJourDeb" maxlength="19"
+                        <input matInput [(ngModel)]="dateJourDeb" maxlength="19"
                             (keyup)="dateFilter($event.target.value)">
                     </mat-form-field>
 
@@ -99,7 +99,7 @@
                 <td>
                     <mat-form-field>
 
-                        <input matInput [ngModel]="dateJourFin" maxlength="19"
+                        <input matInput [(ngModel)]="dateJourFin" maxlength="19"
                             (keyup)="dateFilter($event.target.value)">
                     </mat-form-field>
 

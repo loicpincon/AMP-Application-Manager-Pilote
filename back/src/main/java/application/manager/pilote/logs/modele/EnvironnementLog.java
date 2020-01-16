@@ -1,4 +1,4 @@
-package application.manager.pilote.logs.service;
+package application.manager.pilote.logs.modele;
 
 import java.util.ArrayList;
 import java.util.List;

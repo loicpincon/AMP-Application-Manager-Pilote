@@ -1,11 +1,13 @@
 package application.manager.pilote.logs.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,9 +23,13 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.service.ApplicationService;
+import application.manager.pilote.logs.modele.ApplicationLog;
+import application.manager.pilote.logs.modele.EnvironnementLog;
+import application.manager.pilote.logs.modele.InstanceLog;
+import application.manager.pilote.logs.modele.LogMessage;
+import application.manager.pilote.logs.modele.RechercheRessource;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
-import application.manager.pilote.session.service.SessionService;
 
 @Service
 public class LogContainerService {
@@ -39,56 +45,80 @@ public class LogContainerService {
 	@Autowired
 	private ServerService serverService;
 
-	private int lastLogTime = (int) (System.currentTimeMillis() / 1000);
-
-	private static String nameOfLogger = "dockertest.PrintContainerLog";
-
-	private static Logger myLogger = Logger.getLogger(nameOfLogger);
-
-	public List<LogMessage> getDockerLogs(String containerId) throws IOException {
+	public List<LogMessage> getDockerLogs(String containerId, Date debut, Date fin) throws IOException {
 
 		final List<LogMessage> logs = new ArrayList<>();
 
 		LogContainerCmd logContainerCmd = dockerClient.logContainerCmd(containerId);
 		logContainerCmd.withStdOut(true).withStdErr(true);
-		// logContainerCmd.withSince(lastLogTime); // UNIX timestamp (integer) to filter
-		// logs. Specifying a timestamp
-		// will
-		// only output log-entries since that timestamp.
+		if (debut != null) {
+			Integer timestamp = Math.abs(Integer.valueOf((int) debut.getTime()));
+			LOG.debug("auto : " + (int) (System.currentTimeMillis() / 1000));
+			LOG.debug("cherche par date debut : " + timestamp);
+			// logContainerCmd.withSince(timestamp);
+		}
 		// logContainerCmd.withTail(4); // get only the last 4 log entries
 
 		logContainerCmd.withTimestamps(true);
-
 		LogContainerResultCallback callback = new LogContainerResultCallback();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
 
 		try {
 			logContainerCmd.exec(new LogContainerResultCallback() {
 
+				@SuppressWarnings("unused")
 				@Override
 				public void onNext(Frame item) {
+
 					String logBrut = item.toString();
 					if (logBrut.length() > 42) {
-						String type = logBrut.substring(0, 6);
-						String timestamp = logBrut.substring(8, 38).substring(0, 19);
-						String message = logBrut.substring(39, logBrut.length() - 1);
-						logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
 
+						try {
+							String timestamp = logBrut.substring(8, 38).substring(0, 19);
+							Date dateLog = sdf.parse(timestamp);
+							LOG.debug("date de la log : " + dateLog.getTime());
+							LOG.debug("date saisie deb : " + debut.getTime());
+							LOG.debug("date saisie fin : " + fin.getTime());
+							LOG.debug("compare : "
+									+ (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()));
+
+							if (debut != null) {
+								if (fin != null) {
+									if (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()) {
+										LOG.debug("filtre debut et fin");
+
+										String type = logBrut.substring(0, 6);
+										String message = logBrut.substring(39, logBrut.length() - 1);
+										logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message)
+												.build());
+									}
+								} else {
+									if (dateLog.getTime() > debut.getTime()) {
+										String type = logBrut.substring(0, 6);
+										String message = logBrut.substring(39, logBrut.length() - 1);
+										logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message)
+												.build());
+									}
+								}
+							} else {
+								String type = logBrut.substring(0, 6);
+								String message = logBrut.substring(39, logBrut.length() - 1);
+								logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
+							}
+
+						} catch (ParseException e) {
+							LOG.error(e);
+						}
 					} else {
 						logs.add(LogMessage.builder().message(logBrut).timestamp(logBrut.length() + "").type("ERROR")
 								.build());
 
 					}
-
 				}
 			}).awaitCompletion();
+		} catch (InterruptedException e) {
+			LOG.error(e);
 		}
-
-		catch (InterruptedException e) {
-			myLogger.severe("Interrupted Exception!" + e.getMessage());
-		}
-
-		lastLogTime = (int) (System.currentTimeMillis() / 1000) + 5; // assumes at least a 5 second wait between calls
-																		// to getDockerLogs
 		callback.close();
 		return logs;
 	}
@@ -96,19 +126,16 @@ public class LogContainerService {
 	public RechercheRessource recupererRechercheRessourceUser(String idUser) {
 		List<Application> apps = appService.recupererParUser(idUser);
 
-		//POUR TOUTES LES APPLIS
-			//POUR TOUS LES ENVS
-				//POUR TOUTES LES INSTANCES
-		
-		
+		// POUR TOUTES LES APPLIS
+		// POUR TOUS LES ENVS
+		// POUR TOUTES LES INSTANCES
+
 		RechercheRessource recherche = new RechercheRessource();
 		for (Application app : apps) {
-			
-			
+
 			Set<Integer> cles = app.getEnvironnements().keySet();
 			Iterator<Integer> it = cles.iterator();
-			
-			
+
 			while (it.hasNext()) {
 				Integer cle = it.next();
 				Server serveur = serverService.consulter(cle);
