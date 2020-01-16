@@ -4,6 +4,7 @@ import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application, Instance, Serveur, Dockerfile, Log } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
+import { FormulaireLogInfo } from 'src/app/authentifie/consultation-log/modele/Model';
 
 
 /**
@@ -151,6 +152,12 @@ export class ApmService {
         let params = new HttpParams().set('idContainer', idC)
         const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recuperer', params).url;
         return this.httpClient.get<Log[]>(uri);
+    }
+
+    recupererInfoLogFormulaire(): Observable<FormulaireLogInfo> {
+        let params = new HttpParams().set('idUser', sessionStorage.getItem('USER_TOKEN'));
+        const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recupererInfoFormulaire', params).url;
+        return this.httpClient.get<FormulaireLogInfo>(uri);
     }
 
 }

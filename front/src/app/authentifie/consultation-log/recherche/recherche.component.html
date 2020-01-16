@@ -15,9 +15,9 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Environnement</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let food of env" [value]="food.value">
-                                {{food.viewValue}}
+                        <mat-select (selectionChange)="envChange($event.value)">
+                            <mat-option *ngFor="let food of env" [value]="food">
+                                {{food.libelle}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -25,9 +25,9 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Application</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let food of app" [value]="food.value">
-                                {{food.viewValue}}
+                        <mat-select (selectionChange)="appChange($event.value)">
+                            <mat-option *ngFor="let food of app" [value]="food">
+                                {{food.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -35,9 +35,9 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Instance</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let food of instance" [value]="food.value">
-                                {{food.viewValue}}
+                        <mat-select (selectionChange)="instanceChange($event.value)">
+                            <mat-option *ngFor="let food of instance" [value]="food">
+                                {{food.id}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

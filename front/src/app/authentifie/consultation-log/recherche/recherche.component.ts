@@ -4,6 +4,7 @@ import { Log, Instance } from '../../application/modele/Application';
 import { dialogLogsInstanceComponent } from '../../application/action/dialog-logs-instance/dialog-logs-instance.component';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DatePipe } from '@angular/common';
+import { EnvLog, AppLog, InstanceLog } from '../modele/Model';
 
 @Component({
     selector: 'consulter-log-recherche-root',
@@ -17,41 +18,61 @@ export class RechercheLogComponent implements OnInit {
     loader: boolean = false;
     dateJourDeb: string = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MM-yyyy')
     dateJourFin: string = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MM-yyyy')
-    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+    @ViewChild(MatPaginator, { static: true })
+    paginator: MatPaginator;
 
     idContainerTest = "fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436-e543fe83d3b244c8418a63c999c6fd264272121d8200fcfb7f02d61234bb598d";
 
-    env: any[] = [
-        { value: 'steak-0', viewValue: 'Dev' },
-        { value: 'pizza-1', viewValue: 'Recette' },
-        { value: 'tacos-2', viewValue: 'Prod' }
-    ];
+    env: EnvLog[];
 
-    app: any[] = [
-        { value: 'steak-0', viewValue: 'App n°1' },
-        { value: 'pizza-1', viewValue: 'App n°2' },
-        { value: 'tacos-2', viewValue: 'App n°3' }
-    ];
+    app: AppLog[];
 
-    instance: any[] = [
-        { value: 'steak-0', viewValue: '1' },
-        { value: 'pizza-1', viewValue: '2' },
-        { value: 'tacos-2', viewValue: '3' }
-    ];
+    instance: InstanceLog[];
 
     constructor(
         private _apmService: ApmService, private datePipe: DatePipe) { }
 
 
-
-
     ngOnInit() {
 
-
+        this._apmService.recupererInfoLogFormulaire().subscribe(infos => {
+            console.log(infos)
+            this.env = infos.envs;
+        })
 
     }
 
+    populateEnvironnement() {
 
+    }
+
+    envChange(valeur) {
+        console.log(valeur);
+        this.app = valeur.apps;
+    }
+
+    appChange(valeur) {
+        console.log(valeur);
+        this.instance = valeur.instances;
+    }
+
+    instanceChange(valeur) {
+        this.dataSource.paginator = this.paginator;
+
+        this.loader = true;
+        this._apmService.recupererLogsInstance(valeur.id).subscribe(logs => {
+            this.dataSource.data = logs
+            console.log(logs)
+            this.loader = false
+        },
+            erreur => {
+                this.dataSource.data = new Array();
+
+                this.loader = false;
+                console.log(erreur)
+            })
+    }
 
     messageFiltrer(filterValue: string) {
         this.dataSource.filterPredicate = function (data, filter: string): boolean {
