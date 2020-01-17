@@ -103,8 +103,6 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 	public void run() {
 		try {
-			String containerName = stringUtils.concat(param.getIdApplicationCible(), "-", param.getIdInstanceCible());
-
 			ParametreSeries parametres = null;
 
 			for (ParametreSeries paramB : envChoisi.getParametres()) {
@@ -151,12 +149,10 @@ public class DockerWarDeployer extends DefaultDeployer {
 			String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);
 			CreateContainerResponse container = dockerClient.createContainerCmd(test)
-					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(containerName)
+					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(ins.getId())
 					.withPortBindings(getPortsBinds(ins)).exec();
 
 			dockerClient.startContainerCmd(container.getId()).exec();
-
-			ins.setContainerId(containerName);
 			ins.setEtat("L");
 			if (server.getDns() != null) {
 				ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());

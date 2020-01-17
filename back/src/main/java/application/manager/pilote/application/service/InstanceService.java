@@ -81,10 +81,12 @@ public class InstanceService {
 		}
 		Instance instance = new Instance();
 		instance.setEtat("V");
+
 		instance.setLibelle(server.getNom() + "-" + (env.getInstances().size() + 1));
 		instance.setPort(randomPortHelper.randomPort().toString());
 		instance.setId(hasher.hash(id + server.getId() + new Date()));
 		env.getInstances().add(instance);
+		instance.setContainerId(instance.getId());
 		appService.modifier(app);
 		return instance;
 	}
