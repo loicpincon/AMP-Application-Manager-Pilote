@@ -10,5 +10,5 @@ cd $pathToFolderTemporaire"/extract"
 jar -xvf $pathToFolderTemporaireOldNAme
 cd $pathToFolderTemporaire
 cp "gcp.properties" "$pathToFolderTemporaire/extract/WEB-INF/classes/gcp.properties"
-sudo jar -cf $pathToFolderTemporaireWithNewFile "$pathToFolderTemporaire/extract"
+jar -cf $pathToFolderTemporaireWithNewFile "$pathToFolderTemporaire/extract"
 cd $mypath
