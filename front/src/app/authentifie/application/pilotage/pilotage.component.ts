@@ -71,6 +71,7 @@ export class PilotageComponent implements OnInit {
       });
     }, function (error) {
       console.error(error)
+      alert('connexion perdue ! merci de rafraichir')
     });
   }
 

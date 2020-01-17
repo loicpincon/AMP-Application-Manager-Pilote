@@ -4,10 +4,11 @@ pathToFolderTemporaire=$1
 pathToFolderTemporaireOldNAme=$2
 pathToFolderTemporaireWithNewFile=$3
 cd $pathToFolderTemporaire
-MKDIR $pathToFolderTemporaire"/extract"
+rm -rf "$pathToFolderTemporaire/extract"
+mkdir "$pathToFolderTemporaire/extract"
 cd $pathToFolderTemporaire"/extract"
-java -xvf $pathToFolderTemporaireOldNAme
+jar -xvf $pathToFolderTemporaireOldNAme
 cd $pathToFolderTemporaire
 cp "gcp.properties" "$pathToFolderTemporaire/extract/WEB-INF/classes/gcp.properties"
-java -cf $pathToFolderTemporaireWithNewFile "$pathToFolderTemporaire/extract"
+sudo jar -cf $pathToFolderTemporaireWithNewFile "$pathToFolderTemporaire/extract"
 cd $mypath

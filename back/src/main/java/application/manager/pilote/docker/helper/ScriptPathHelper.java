@@ -34,4 +34,10 @@ public class ScriptPathHelper {
 		return realPath;
 	}
 
+	public String getRelativePath(String def) {
+		String path = getClass().getResource(def).getFile();
+		LOG.debug("base path : " + path);
+		return path;
+	}
+
 }
