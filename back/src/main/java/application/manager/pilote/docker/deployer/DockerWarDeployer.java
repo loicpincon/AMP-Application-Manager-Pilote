@@ -143,7 +143,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 			String line;
 
 			while ((line = br.readLine()) != null) {
-				LOG.trace(line);
+				LOG.debug(line);
 			}
 
 			LOG.debug("Fin de la construction, debut de la creation de l'image");
