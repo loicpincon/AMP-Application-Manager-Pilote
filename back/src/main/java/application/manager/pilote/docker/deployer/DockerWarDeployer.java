@@ -156,9 +156,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 			dockerClient.startContainerCmd(container.getId()).exec();
 
-			ins.setContainerId(container.getId());
-
-			ins.setLibelle(param.getVersion());
+			ins.setContainerId(containerName);
 			ins.setEtat("L");
 			if (server.getDns() != null) {
 				ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
