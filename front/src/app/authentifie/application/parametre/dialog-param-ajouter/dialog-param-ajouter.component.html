@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Ajouter une serie en DEV</h1>
+<div mat-dialog-content>
+  <p>Numero de la version</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.version">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onOkClick()" cdkFocusInitial>Ok</button>
+</div>

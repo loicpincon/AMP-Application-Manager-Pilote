@@ -73,6 +73,7 @@ public class ApplicationService extends DefaultService {
 	public ParametreSeries ajouterSerieParametre(String idApp, Integer idEnv, ParametreSeries param) {
 		Application app = consulter(idApp);
 		Environnement env = app.getEnvironnements().get(idEnv);
+		param.setDerniereModification(new Date());
 		env.getParametres().add(param);
 		modifier(app);
 		return param;

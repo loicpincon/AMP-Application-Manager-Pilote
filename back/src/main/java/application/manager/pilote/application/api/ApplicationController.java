@@ -63,18 +63,6 @@ public class ApplicationController extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@PutMapping(path = "/{idApp}/{idEnv}/parametres")
-	@ApiManager
-	@Secured
-	public Callable<ResponseEntity<ParametreSeries>> ajouterSerieParametre(@PathVariable String idApp,
-			@PathVariable Integer idEnv, @RequestBody ParametreSeries param) {
-		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(idApp, idEnv, param));
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	@GetMapping(path = "/{idUser}/applications")
 	@ApiManager
 	@Secured
@@ -102,6 +90,18 @@ public class ApplicationController extends DefaultController {
 	@Secured
 	public Callable<ResponseEntity<Instance>> ajouterInstance(@PathVariable String id, @PathVariable Integer serveur) {
 		return () -> ResponseEntity.ok(insService.ajouter(id, serveur));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@PutMapping(path = "/{id}/{serveur}/parametres")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<ParametreSeries>> ajouterParametre(@PathVariable String id,
+			@PathVariable Integer serveur,@RequestBody ParametreSeries param) {
+		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(id, serveur, param));
 	}
 
 	@PostMapping(path = "/{idApp}/versions")

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
-import { Application, Instance, Serveur, Dockerfile, Log } from 'src/app/authentifie/application/modele/Application';
+import { Application, Instance, Serveur, Dockerfile, Log, ParametreSeries } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
 import { FormulaireLogInfo } from 'src/app/authentifie/consultation-log/modele/Model';
 
@@ -177,6 +177,13 @@ export class ApmService {
         let params = new HttpParams().set('idUser', sessionStorage.getItem('USER_TOKEN'));
         const uri = this.apiManagerService.genereUrlWithParam('DockerLog.recupererInfoFormulaire', params).url;
         return this.httpClient.get<FormulaireLogInfo>(uri);
+    }
+
+    ajouterSerieParametre(app, serveur, version): Observable<ParametreSeries> {
+        const body = { 'version': version }
+        let params = new HttpParams().set('id', app).set('serveur', serveur);
+        const uri = this.apiManagerService.genereUrlWithParam('Application.ajouterParametre', params).url;
+        return this.httpClient.put<ParametreSeries>(uri, body);
     }
 
 }

@@ -8,12 +8,14 @@
             <div fxFlex fxLayout="column">
                 <application-instance [app]="application" [environnements]="application.environnements"
                     (instanceSelect)="instanceSelectEvent($event)"></application-instance>
-                <application-livrable [instance]="instanceSelect" [livrables]="application.livrables"></application-livrable>
+                <application-livrable [instance]="instanceSelect" [livrables]="application.livrables">
+                </application-livrable>
             </div>
             <div fxFlex>
-                <application-action *ngIf="instanceSelect" (instanceEvent)="instanceEvent($event)" [instance]="instanceSelect"
-                    [app]="application" [serveur]="idServer"></application-action>
-                <application-parametre *ngIf="instanceSelect" [instance]="instanceSelect" [params]="instanceParams">
+                <application-action *ngIf="instanceSelect" (instanceEvent)="instanceEvent($event)"
+                    [instance]="instanceSelect" [app]="application" [serveur]="idServer"></application-action>
+                <application-parametre *ngIf="instanceSelect" [app]="application" [serveur]="idServer"
+                    [instance]="instanceSelect" [params]="instanceParams">
                 </application-parametre>
             </div>
         </div>

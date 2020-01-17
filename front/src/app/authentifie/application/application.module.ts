@@ -14,7 +14,7 @@ import { ActionUserComponent } from './action-user/action-user.component';
 import { LivrableComponent } from './livrable/livrable.component';
 import { ModalAjoutInstance } from './instance/modal-ajout-instance/modal-ajout-instance';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
-import { dialogLogsInstanceComponent } from './action/dialog-logs-instance/dialog-logs-instance.component';
+import { DialogAjouterSerieParamComponent } from './parametre/dialog-param-ajouter/dialog-param-ajouter.component';
 
 const routes: Routes = [
   {
@@ -49,7 +49,7 @@ export class ApplicationRoutingModule { }
     ActionUserComponent,
     LivrableComponent,
     ModalAjoutInstance,
-    dialogLogsInstanceComponent
+    DialogAjouterSerieParamComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +62,8 @@ export class ApplicationRoutingModule { }
   entryComponents: [
     InstanceComponent,
     ModalAjoutInstance,
-    dialogLogsInstanceComponent
+    ParametreComponent,
+    DialogAjouterSerieParamComponent
   ],
   providers: [
     DataSharedService,

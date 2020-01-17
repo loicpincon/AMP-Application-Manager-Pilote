@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ParametreSeries, Instance } from '../modele/Application';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { ParametreSeries, Instance, Application } from '../modele/Application';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
+import { DialogAjouterSerieParamComponent } from './dialog-param-ajouter/dialog-param-ajouter.component';
 @Component({
   selector: 'application-parametre',
   templateUrl: './parametre.component.html',
@@ -14,9 +15,11 @@ export class ParametreComponent implements OnInit {
   selection = new SelectionModel<ParametreSeries>(false, []);
 
 
-  constructor(private dataShared: DataSharedService) { }
+  constructor(private dataShared: DataSharedService, public dialog: MatDialog, private changeDetectorRefs: ChangeDetectorRef) { }
   @Input() params: ParametreSeries[];
   @Input() instance: Instance;
+  @Input() serveur: number;
+  @Input() app: Application;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -47,5 +50,18 @@ export class ParametreComponent implements OnInit {
     }
   }
 
+  ajouterSerie() {
+    const dialogRef = this.dialog.open(DialogAjouterSerieParamComponent, {
+      width: '20%',
+      data: { app: this.app.id, serveur: this.serveur, newSerie: null, version: null }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.params.push(result.data.newSerie)
+      this.changeDetectorRefs.detectChanges();
+
+    });
+  }
 
 }

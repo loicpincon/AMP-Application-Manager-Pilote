@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Log, Instance, Application, Serveur } from '../../application/modele/Application';
-import { dialogLogsInstanceComponent } from '../../application/action/dialog-logs-instance/dialog-logs-instance.component';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DatePipe } from '@angular/common';
 import { EnvLog, AppLog, InstanceLog } from '../modele/Model';
