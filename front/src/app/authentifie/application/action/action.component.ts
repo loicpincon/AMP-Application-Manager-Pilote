@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { dialogLogsInstanceComponent } from './dialog-logs-instance/dialog-logs-instance.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { Router } from '@angular/router';
 @Component({
   selector: 'application-action',
   templateUrl: './action.component.html',
@@ -25,7 +26,7 @@ export class ActionComponent implements OnInit {
   paramSelectionne: ParametreSeries;
   versionApplicationSelectionne: Livrable;
 
-  constructor(private apmService: ApmService, private dataShared: DataSharedService, public dialog: MatDialog) { }
+  constructor(private router: Router, private apmService: ApmService, private dataShared: DataSharedService, public dialog: MatDialog) { }
   selected = 'option1';
 
   ngOnInit() {
@@ -86,10 +87,15 @@ export class ActionComponent implements OnInit {
   }
 
   consulterlesLogs() {
-    this.dialog.open(dialogLogsInstanceComponent, {
-      width: '95%',
-      data: this.instance
-    });
+
+    this.router.navigate(['/secure/consulterlog/recherche'], { queryParams: { idServ: this.serveur, idApp: this.app.id, instance: this.instance.id } });
+
+    /*
+        this.dialog.open(dialogLogsInstanceComponent, {
+          width: '95%',
+          data: this.instance
+        });
+      */
   }
 
 

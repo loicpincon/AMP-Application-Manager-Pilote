@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Log, Instance } from '../../application/modele/Application';
+import { Log, Instance, Application, Serveur } from '../../application/modele/Application';
 import { dialogLogsInstanceComponent } from '../../application/action/dialog-logs-instance/dialog-logs-instance.component';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DatePipe } from '@angular/common';
 import { EnvLog, AppLog, InstanceLog } from '../modele/Model';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'consulter-log-recherche-root',
@@ -31,18 +32,60 @@ export class RechercheLogComponent implements OnInit {
     instance: InstanceLog[];
     insSelect: InstanceLog;
 
-    constructor(
+
+
+    serveurInSelect: EnvLog;
+    applicationInSelect: AppLog;
+    instanceInSelect: InstanceLog;
+
+
+
+    constructor(private route: ActivatedRoute,
         private _apmService: ApmService, private datePipe: DatePipe) { }
 
 
     ngOnInit() {
 
-        this._apmService.recupererInfoLogFormulaire().subscribe(infos => {
-            console.log(infos)
-            this.env = infos.envs;
-        })
+
+
+        this.route.queryParams
+            .subscribe(params => {
+                console.log(params.length);
+                this._apmService.recupererInfoLogFormulaire().subscribe(infos => {
+                    console.log(infos)
+                    this.env = infos.envs;
+                    if (params.idServ !== undefined) {
+                        this.env.forEach(env => {
+                            if (env.idEnv == params.idServ) {
+                                this.serveurInSelect = env;
+                                this.envChange(this.serveurInSelect);
+
+                                env.apps.forEach(app => {
+                                    if (app.id == params.idApp) {
+                                        this.applicationInSelect = app;
+                                        this.appChange(this.applicationInSelect);
+                                        console.log(app.instances)
+                                        app.instances.forEach(insta => {
+                                            if (params.instance == insta.id) {
+                                                this.instanceInSelect = insta;
+                                                return;
+                                            }
+                                        })
+                                        return;
+                                    }
+                                })
+                                return;
+                            }
+                        })
+                    }
+                })
+            });
+
+
 
     }
+
+
 
     populateEnvironnement() {
 

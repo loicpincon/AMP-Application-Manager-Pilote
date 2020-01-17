@@ -16,15 +16,11 @@
                     <mat-form-field>
 
                         <mat-label>
-                            <mat-spinner style="margin:0 10 ;" [diameter]="15"></mat-spinner>
-
                             <span>
-
                                 Environnement
-
                             </span>
                         </mat-label>
-                        <mat-select (selectionChange)="envChange($event.value)">
+                        <mat-select (selectionChange)="envChange($event.value)" [(ngModel)]="serveurInSelect">
                             <mat-option *ngFor="let food of env" [value]="food">
                                 {{food.libelle}}
                             </mat-option>
@@ -34,7 +30,7 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Application</mat-label>
-                        <mat-select (selectionChange)="appChange($event.value)">
+                        <mat-select (selectionChange)="appChange($event.value)" [(ngModel)]="applicationInSelect">
                             <mat-option *ngFor="let food of app" [value]="food">
                                 {{food.name}}
                             </mat-option>
@@ -44,9 +40,8 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Instance</mat-label>
-                        <mat-select (selectionChange)="instanceChange($event.value)">
+                        <mat-select (selectionChange)="instanceChange($event.value)" [(ngModel)]="instanceInSelect">
                             <mat-option *ngFor="let food of instance" [value]="food">
-
 
                                 {{food.libelle}}
                             </mat-option>

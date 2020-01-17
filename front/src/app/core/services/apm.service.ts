@@ -87,6 +87,12 @@ export class ApmService {
         return this.httpClient.get<Serveur[]>(uri);
     }
 
+    consulterServeur(id: string): Observable<Serveur> {
+        let params = new HttpParams().set('id', id);
+        const uri = this.apiManagerService.genereUrlWithParam('Server.consulter', params).url;
+        return this.httpClient.get<Serveur>(uri);
+    }
+
     recupererTypeApplications(): Observable<string[]> {
         const uri = this.apiManagerService.genereUrl('ApplicationType.recuperer').url;
         return this.httpClient.get<string[]>(uri);

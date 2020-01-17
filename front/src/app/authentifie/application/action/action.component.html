@@ -27,7 +27,8 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions">Joindre l'application</button>
+            <a fxFlex class="btnActions" mat-raised-button target="_BLANCK" href="{{instance.url}}">Joindre
+                l'application</a>
             <button fxFlex mat-raised-button class="btnActions" (click)="consulterlesLogs()">Voir les logs</button>
         </div>
         <div fxLayout fxLayout.xs="column">

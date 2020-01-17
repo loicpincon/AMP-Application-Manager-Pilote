@@ -41,7 +41,7 @@ public class ServerController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping(value = "/{id}")
+	@GetMapping(path = "/{id}")
 	@ApiManager("consulter")
 	@Secured
 	public Callable<ResponseEntity<Server>> consulter(@PathVariable Integer id) {
