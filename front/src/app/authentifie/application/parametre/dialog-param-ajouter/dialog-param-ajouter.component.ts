@@ -21,7 +21,7 @@ export class DialogAjouterSerieParamComponent implements OnInit {
 
   }
 
-  fermer(): void {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
