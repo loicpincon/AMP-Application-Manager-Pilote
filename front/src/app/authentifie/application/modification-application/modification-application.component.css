@@ -1,0 +1,37 @@
+.colonne{
+  text-align: center;
+}
+.title{
+  text-align: center;
+}
+.fullSize{
+  width: 100%;
+}
+.midSize{
+  width: 50%;
+  margin: auto;
+}
+.container form{
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+.inputTypeApp{
+  max-width: 100%;
+}
+
+
+.isPresent{
+  color: green;
+}
+
+.isNotPresent{
+  color: red;
+}
+
+.btnServeur{
+  min-width: 80%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin: 5px
+}

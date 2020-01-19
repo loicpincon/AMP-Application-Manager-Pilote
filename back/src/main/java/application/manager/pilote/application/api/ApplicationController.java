@@ -63,6 +63,17 @@ public class ApplicationController extends DefaultController {
 	 * 
 	 * @return
 	 */
+	@PutMapping(path = "/{idApp}")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<Application>> modifier(@PathVariable String idApp, @RequestBody Application app) {
+		return () -> ResponseEntity.ok(appService.modifier(idApp,app));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping(path = "/{idUser}/applications")
 	@ApiManager
 	@Secured

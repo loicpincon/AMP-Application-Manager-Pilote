@@ -16,6 +16,7 @@ import { ModalAjoutInstance } from './instance/modal-ajout-instance/modal-ajout-
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './parametre/dialog-param-ajouter/dialog-param-ajouter.component';
 import { ModifierParametreComponent } from './parametre/modifier-parametre-serie/modifier-parametre.component';
+import { ModificationApplicationComponent } from './modification-application/modification-application.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
       },
       {
         path: 'creation', component: CreationApplicationComponent
+      },
+      {
+        path: 'modification/:idApp', component: ModificationApplicationComponent
       },
       {
         path: 'parametres', component: ModifierParametreComponent
@@ -50,6 +54,7 @@ export class ApplicationRoutingModule { }
     CreationApplicationComponent,
     ActionComponent,
     ParametreComponent,
+    ModificationApplicationComponent,
     ActionUserComponent,
     LivrableComponent,
     ModalAjoutInstance,

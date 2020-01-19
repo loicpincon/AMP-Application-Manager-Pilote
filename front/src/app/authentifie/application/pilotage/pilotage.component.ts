@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Application, Instance, ParamsInstance, ParametreSeries } from '../modele/Application';
@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/core/services/dataShared.service';
   styleUrls: ['./pilotage.component.css']
 })
 export class PilotageComponent implements OnInit {
+
 
   constructor(private route: ActivatedRoute, private dataShared: DataSharedService, private appService: ApmService) { }
 

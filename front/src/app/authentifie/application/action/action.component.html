@@ -33,7 +33,7 @@
         </div>
         <div fxLayout fxLayout.xs="column">
             <button fxFlex mat-raised-button class="btnActions">Jenkins</button>
-            <button fxFlex mat-raised-button disabled class="btnActions">Plugin dispo</button>
+            <button fxFlex mat-raised-button (click)="configurer()" class="btnActions">Configuration</button>
         </div>
     </mat-card-content>
 </mat-card>

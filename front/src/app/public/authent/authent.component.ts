@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, Form, FormControl } from '@angular/forms';
 import { ApmService } from '../../core/services/apm.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
@@ -65,7 +65,10 @@ export class AuthentComponent implements OnInit {
       mdp: [this.loginUser.mdp, Validators.required]
     });
     this.formInscription = this._fb.group({
-      login: '',
+      login: new FormControl('', [
+        Validators.required,
+        Validators.email,
+      ]),
       mdp: '',
       confirmationMdp: '',
       nom: '',

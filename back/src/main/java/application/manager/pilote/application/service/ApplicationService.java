@@ -52,6 +52,12 @@ public class ApplicationService extends DefaultService {
 		return appInsert;
 	}
 
+	public Application modifier(String id, Application param) {
+		Application app = consulter(id);
+		app = param;
+		return appRepo.save(app);
+	}
+
 	public Application modifier(Application param) {
 		return appRepo.save(param);
 	}

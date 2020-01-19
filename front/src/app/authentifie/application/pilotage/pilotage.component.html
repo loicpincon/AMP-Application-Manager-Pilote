@@ -1,7 +1,8 @@
 <div *ngIf="application">
     <div class="header">
         <h3 class="text-center">{{application.name}}</h3>
-        <h4 class="text-center">[{{application.type}}]</h4>
+        <h4 class="text-center">Configurer</h4>
+
     </div>
     <div class="container">
         <div fxLayout fxLayout.xs="column">
@@ -10,13 +11,14 @@
                     (instanceSelect)="instanceSelectEvent($event)"></application-instance>
                 <application-livrable [instance]="instanceSelect" [livrables]="application.livrables">
                 </application-livrable>
+                <application-parametre *ngIf="instanceSelect" [app]="application" [serveur]="idServer"
+                    [instance]="instanceSelect" [params]="instanceParams">
+                </application-parametre>
             </div>
             <div fxFlex>
                 <application-action *ngIf="instanceSelect" (instanceEvent)="instanceEvent($event)"
                     [instance]="instanceSelect" [app]="application" [serveur]="idServer"></application-action>
-                <application-parametre *ngIf="instanceSelect" [app]="application" [serveur]="idServer"
-                    [instance]="instanceSelect" [params]="instanceParams">
-                </application-parametre>
+
             </div>
         </div>
         <div fxLayout fxLayout.xs="column" *ngIf="instanceSelect">

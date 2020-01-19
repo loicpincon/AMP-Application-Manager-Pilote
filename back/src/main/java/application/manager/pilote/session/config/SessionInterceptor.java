@@ -42,7 +42,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 			actionName = handlerMethod.getMethod().getName();
 			SecuredLevel levelToSecure = methods.get(handlerMethod.getMethod().toGenericString());
 			if (levelToSecure != null) {
-				LOG.debug("API securise : " + controllerName + "." + actionName + " avec niveau --> " + levelToSecure.name());
+				LOG.trace("API securise : " + controllerName + "." + actionName + " avec niveau --> " + levelToSecure.name());
 
 				if (levelToSecure == SecuredLevel.ADMIN) {
 					// TODO rajouter un cas de session avec admin
