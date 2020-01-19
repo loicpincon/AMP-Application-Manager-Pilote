@@ -20,6 +20,7 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.Livrable;
+import application.manager.pilote.application.modele.ParametreSeries;
 import application.manager.pilote.application.repository.InstanceRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;

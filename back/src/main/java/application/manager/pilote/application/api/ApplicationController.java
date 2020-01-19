@@ -96,12 +96,36 @@ public class ApplicationController extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@PutMapping(path = "/{id}/{serveur}/parametres")
+	@PutMapping(path = "/{id}/{serveur}/parametres/{version}")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<ParametreSeries>> modifierParametreSerie(@PathVariable String id,
+			@PathVariable Integer serveur, @PathVariable String version, @RequestBody ParametreSeries parametre) {
+		return () -> ResponseEntity.ok(appService.modifierParametreSerie(id, serveur, version, parametre));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@PostMapping(path = "/{id}/{serveur}/parametres")
 	@ApiManager
 	@Secured
 	public Callable<ResponseEntity<ParametreSeries>> ajouterParametre(@PathVariable String id,
-			@PathVariable Integer serveur,@RequestBody ParametreSeries param) {
+			@PathVariable Integer serveur, @RequestBody ParametreSeries param) {
 		return () -> ResponseEntity.ok(appService.ajouterSerieParametre(id, serveur, param));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/{id}/{serveur}/parametres/{version}")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<ParametreSeries>> consulterParametre(@PathVariable String id,
+			@PathVariable Integer serveur, @PathVariable String version) {
+		return () -> ResponseEntity.ok(appService.consulterSerieParametre(id, serveur, version));
 	}
 
 	@PostMapping(path = "/{idApp}/versions")

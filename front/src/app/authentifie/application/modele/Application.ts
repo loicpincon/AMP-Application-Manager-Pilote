@@ -25,8 +25,13 @@ export class Environnement {
 export class ParametreSeries {
     version: string;
     derniereModification: Date;
-    parametres: Map<string, string>;
+    parametres: StringMap;
     userActions: UserAction[];
+}
+
+
+export class StringMap {
+    [key: string]: string;
 }
 
 /**

@@ -4,6 +4,7 @@ import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './dialog-param-ajouter/dialog-param-ajouter.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'application-parametre',
   templateUrl: './parametre.component.html',
@@ -15,7 +16,7 @@ export class ParametreComponent implements OnInit {
   selection = new SelectionModel<ParametreSeries>(false, []);
 
 
-  constructor(private dataShared: DataSharedService, public dialog: MatDialog, private changeDetectorRefs: ChangeDetectorRef) { }
+  constructor(private router: Router, private dataShared: DataSharedService, public dialog: MatDialog, private changeDetectorRefs: ChangeDetectorRef) { }
   @Input() params: ParametreSeries[];
   @Input() instance: Instance;
   @Input() serveur: number;
@@ -62,6 +63,12 @@ export class ParametreComponent implements OnInit {
       this.changeDetectorRefs.detectChanges();
 
     });
+  }
+
+
+  listerParametre(version, edit) {
+    this.router.navigate(['/secure/application/parametres'], { queryParams: { serveur: this.serveur, idApp: this.app.id, edit: edit, versionParam: version } });
+
   }
 
 }

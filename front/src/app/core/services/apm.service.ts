@@ -183,7 +183,19 @@ export class ApmService {
         const body = { 'version': version }
         let params = new HttpParams().set('id', app).set('serveur', serveur);
         const uri = this.apiManagerService.genereUrlWithParam('Application.ajouterParametre', params).url;
-        return this.httpClient.put<ParametreSeries>(uri, body);
+        return this.httpClient.post<ParametreSeries>(uri, body);
+    }
+
+    modifierSerieParametre(app, serveur, parameteserie: ParametreSeries): Observable<ParametreSeries> {
+        let params = new HttpParams().set('id', app).set('serveur', serveur).set('version', parameteserie.version);
+        const uri = this.apiManagerService.genereUrlWithParam('Application.modifierParametreSerie', params).url;
+        return this.httpClient.put<ParametreSeries>(uri, parameteserie);
+    }
+
+    consulterSerieParametre(app, serveur, parameteserieversion: string): Observable<ParametreSeries> {
+        let params = new HttpParams().set('id', app).set('serveur', serveur).set('version', parameteserieversion);
+        const uri = this.apiManagerService.genereUrlWithParam('Application.modifierParametreSerie', params).url;
+        return this.httpClient.get<ParametreSeries>(uri);
     }
 
 }

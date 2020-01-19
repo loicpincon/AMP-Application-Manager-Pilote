@@ -79,4 +79,31 @@ public class ApplicationService extends DefaultService {
 		return param;
 	}
 
+	public ParametreSeries modifierParametreSerie(String id, Integer serveur, String version,
+			ParametreSeries parametre) {
+		Application app = consulter(id);
+		Environnement env = app.getEnvironnements().get(serveur);
+		for (ParametreSeries param : env.getParametres()) {
+			if (param.getVersion().equals(version)) {
+				param.setDerniereModification(new Date());
+				param.setParametres(parametre.getParametres());
+				modifier(app);
+				return param;
+
+			}
+		}
+		throw new ApplicationException(400, "Probleme pendant l'ajout des parametres");
+	}
+
+	public ParametreSeries consulterSerieParametre(String id, Integer serveur, String version) {
+		Application app = consulter(id);
+		Environnement env = app.getEnvironnements().get(serveur);
+		for (ParametreSeries param : env.getParametres()) {
+			if (param.getVersion().equals(version)) {
+				return param;
+			}
+		}
+		throw new ApplicationException(400, "Probleme pendant la consultation des parametres");
+	}
+
 }

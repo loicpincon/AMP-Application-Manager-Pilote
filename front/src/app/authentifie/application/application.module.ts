@@ -15,6 +15,7 @@ import { LivrableComponent } from './livrable/livrable.component';
 import { ModalAjoutInstance } from './instance/modal-ajout-instance/modal-ajout-instance';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './parametre/dialog-param-ajouter/dialog-param-ajouter.component';
+import { ModifierParametreComponent } from './parametre/modifier-parametre-serie/modifier-parametre.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,9 @@ const routes: Routes = [
       },
       {
         path: 'creation', component: CreationApplicationComponent
+      },
+      {
+        path: 'parametres', component: ModifierParametreComponent
       },
       {
         path: '', redirectTo: 'pilotage', pathMatch: 'full'
@@ -49,7 +53,8 @@ export class ApplicationRoutingModule { }
     ActionUserComponent,
     LivrableComponent,
     ModalAjoutInstance,
-    DialogAjouterSerieParamComponent
+    DialogAjouterSerieParamComponent,
+    ModifierParametreComponent
   ],
   imports: [
     CommonModule,
