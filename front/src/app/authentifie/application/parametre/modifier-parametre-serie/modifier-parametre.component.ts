@@ -63,4 +63,15 @@ export class ModifierParametreComponent implements OnInit {
         })
 
     }
+
+    ajouterParam() {
+        let cleTemp = this.series[this.series.length - 1].cle;
+        if (cleTemp != undefined && cleTemp != "") {
+            console.log('ajout')
+            this.series.push(new SerieParametre());
+            this.dataSource.data = this.series;
+        } else {
+            console.log("complete dabord le premier rigolo")
+        }
+    }
 }

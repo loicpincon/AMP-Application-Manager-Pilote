@@ -171,7 +171,6 @@ public class LogContainerService {
 			ApplicationLog app2log = null;
 			for (ApplicationLog app2logB : env2log.getApps()) {
 				if (app2logB.getId().equals(idAppp)) {
-					LOG.debug("je connais cette appli");
 					app2log = app2logB;
 					isFindApp = true;
 					break;
