@@ -1,0 +1,54 @@
+.btnMenu{
+    width: 100%;
+}
+.btnMenuAction{
+    
+}
+.headerBandeau{
+    background-color: #3ac569;
+    color: white;
+    height: auto;
+}
+.container{
+    height: 100vh;
+}
+.separator{
+    border: 1px solid #3ac569;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.mat-expansion-panel-spacing{
+    margin: 0;
+}
+.nameApp{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 16px;
+}
+.nameApp:hover{
+    cursor: pointer;
+    color: grey;
+}
+.mat-sidenav {
+    width: 200px;
+}
+.sidebar-header{
+    text-align: center;
+}
+.material-icons{
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+.appSpanName{
+    margin: 5px;
+}
+.titlePanel{
+   color: #3ac569;
+}
+.headerPanel{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}

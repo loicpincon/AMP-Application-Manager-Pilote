@@ -1,0 +1,39 @@
+<mat-card class="blocAction">
+    <div class="blocActionHeader">
+        <mat-card-title class="blocActionTitre">
+            <h5>Actions</h5>
+        </mat-card-title>
+    </div>
+    <mat-card-content class="contentAction">
+        <div fxLayout fxLayout.xs="column">
+            <button fxFlex mat-raised-button class="btnActions" (click)="deployer()"
+                [disabled]="paramSelectionne && !paramSelectionne.version || versionApplicationSelectionne && !versionApplicationSelectionne.nom">Deployer</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' "
+                (click)="restart()">Redémarrer</button>
+        </div>
+        <div fxLayout fxLayout.xs="column">
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat!='L' "
+                (click)="stop()">Arrêter</button>
+            <button fxFlex mat-raised-button class="btnActions" [disabled]="instance.etat=='V' "
+                (click)="delete()">Supprimer</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+<mat-card class="blocAction">
+    <div class="blocActionHeader">
+        <mat-card-title class="blocActionTitre">
+            <h5>Outils</h5>
+        </mat-card-title>
+    </div>
+    <mat-card-content class="contentAction">
+        <div fxLayout fxLayout.xs="column">
+            <a fxFlex class="btnActions" mat-raised-button target="_BLANCK" href="{{instance.url}}">Joindre
+                l'application</a>
+            <button fxFlex mat-raised-button class="btnActions" (click)="consulterlesLogs()">Voir les logs</button>
+        </div>
+        <div fxLayout fxLayout.xs="column">
+            <button fxFlex mat-raised-button class="btnActions">Jenkins</button>
+            <button fxFlex mat-raised-button (click)="configurer()" class="btnActions">Configuration</button>
+        </div>
+    </mat-card-content>
+</mat-card>

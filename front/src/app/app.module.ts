@@ -1,26 +1,70 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { NgModule, APP_INITIALIZER, Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu'
-import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
+import { LoaderService } from './core/services/loader.service';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { SidenavService } from './core/services/sideNav.service';
+import { CoreModule } from './core/core.module';
+import { AuthentifieModule } from './authentifie/authentifie.module';
+import { Routes, RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AuthGuardService as AuthGuard } from './core/services/auth-guard.service';
+
+const routes: Routes = [
+  {
+    path: 'secure', loadChildren: './authentifie/authentifie.module#AuthentifieModule', canLoad: [AuthGuard]
+  },
+  {
+    path: 'unsecure', loadChildren: './public/public.module#PublicModule'
+  },
+  {
+    path: '**', redirectTo: 'secure'
+  }
+];
+
+@Component({
+  selector: 'app-root',
+  template: '<router-outlet></router-outlet>'
+})
+export class AppComponent {
+
+
+}
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatButtonModule
+    HttpClientModule,
+    AppRoutingModule,
+    CoreModule,
+    AuthentifieModule],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    LoaderService,
+    SidenavService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: apiMapLoaderConfigFactory,
+      deps: [ApiMapLoaderConfig],
+      multi: true
+    },
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+
+
+

@@ -1,0 +1,53 @@
+.blocParametre{
+    margin: 25px;
+    padding: 0px;
+    border-radius: 6px;
+}
+.blocParametreHeader{
+    background-color: #bcd763;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+    text-align: center;
+}
+.blocParametreTitre{
+    width: 100%;
+    text-align: center;
+    padding: 4px;
+}
+.contentParametre{
+    padding: 16px;
+}
+.blocParametreTitre h5{
+    margin: 0;
+    color: white;
+    font-weight: 500;
+}
+.mat-elevation-z8 table{
+    width: 100% !important;
+    text-align: center;
+}
+.headerTab{
+    text-align: center;
+}
+.iconAdd{
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+    color: white;
+}
+.iconAdd:active{
+    color: lightgray
+}
+.parametreNull{
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+}
+
+.mat-row.hovered {
+    background: #eee;
+}
+
+.mat-row.highlighted {
+  background: #e0dddd;
+}

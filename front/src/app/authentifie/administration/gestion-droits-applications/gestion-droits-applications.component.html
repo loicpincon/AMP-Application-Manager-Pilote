@@ -1,0 +1,62 @@
+<div class="header">
+  <h2>Gestion des privileges</h2>
+  <mat-form-field>
+    <mat-label>Choisir une application</mat-label>
+    <mat-select (selectionChange)="loadUserByApp($event)">
+      <mat-optgroup label="Applications">
+        <mat-option *ngFor="let app of applications" [value]="app.id">
+          {{app.name}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+
+  <table mat-table [dataSource]="users" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="headerTab">Identifiant</th>
+      <td mat-cell *matCellDef="let element"> {{element.login}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Prénom </th>
+      <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="niveau">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Niveau d'acces <i class="material-icons iconLvlAcces"
+          matTooltip="Correspond au rôle de l'utilisateur" matTooltipPosition="right">
+          help
+        </i></th>
+      <td mat-cell *matCellDef="let element" class="loaderColonne">
+        <mat-spinner *ngIf="loader && currentUserToReloadRight == element" [diameter]=30></mat-spinner>
+        <mat-select *ngIf="currentUserToReloadRight != element && loader || !loader" (selectionChange)="changeRights(element,$event.value)" name="elem-element"
+          [(value)]="element.rights[0].level">
+          <mat-option *ngFor="let type of types" [value]="type.id">
+            {{type.libelle}}
+          </mat-option>
+        </mat-select>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="supprimer">
+      <th mat-header-cell *matHeaderCellDef class="headerTab"> Options </th>
+      <td mat-cell *matCellDef="let element" class="loaderColonne">
+        <i class="material-icons deleteIcon" matTooltip="Supprimer l'utilisateur de l'application"
+          (click)="supprimerUser(element)">delete_forever</i>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<div class="footer">
+  <button mat-raised-button *ngIf="applicationEnCours" (click)="openModalAjoutUser()">Ajouter un utilisateur</button>
+</div>

@@ -1,0 +1,146 @@
+<div class="mat-elevation-z8">
+
+
+
+
+</div>
+<div class="containerTable mat-elevation-z8">
+
+
+    <div>
+
+
+        <table class="example-full-width" cellspacing="0">
+            <tr colspan="7">
+                <td>
+                    <mat-form-field>
+
+                        <mat-label>
+                            <span>
+                                Environnement
+                            </span>
+                        </mat-label>
+                        <mat-select (selectionChange)="envChange($event.value)" [(ngModel)]="serveurInSelect">
+                            <mat-option *ngFor="let food of env" [value]="food">
+                                {{food.libelle}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Application</mat-label>
+                        <mat-select (selectionChange)="appChange($event.value)" [(ngModel)]="applicationInSelect">
+                            <mat-option *ngFor="let food of app" [value]="food">
+                                {{food.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Instance</mat-label>
+                        <mat-select (selectionChange)="instanceChange($event.value)" [(ngModel)]="instanceInSelect">
+                            <mat-option *ngFor="let food of instance" [value]="food">
+
+                                {{food.libelle}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <div *ngIf="insSelect">
+                        <label *ngIf="insSelect.etat=='V'">
+                            <i class="material-icons instance_vide">
+                                offline_bolt
+                            </i>
+                            Vide
+                        </label>
+                        <label *ngIf="insSelect.etat=='L'">
+                            <i class="material-icons instance_run">
+                                offline_bolt
+                            </i>
+                            Demarrée
+                        </label>
+                        <label *ngIf="insSelect.etat=='S'">
+                            <i class="material-icons instance_stop">
+                                offline_bolt
+                            </i>
+                            Stoppée
+                        </label>
+                        <label *ngIf="insSelect.etat=='P'">
+                            <i class="material-icons instance_progress">
+                                offline_bolt
+                            </i>
+                            En cours de deploiment
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <mat-form-field>
+
+                        <input matInput (keyup)="messageFiltrer($event.target.value)" placeholder="filtre message">
+                    </mat-form-field>
+
+                </td>
+
+                <td>
+                    <p>Filtrer par date :</p>
+
+                </td>
+                <td>
+                    <mat-form-field>
+
+                        <input matInput [(ngModel)]="dateJourDeb" maxlength="19"
+                            (keyup)="dateFilter($event.target.value)">
+                    </mat-form-field>
+
+                </td>
+                <td>Jusqu'a</td>
+                <td>
+                    <mat-form-field>
+
+                        <input matInput [(ngModel)]="dateJourFin" maxlength="19"
+                            (keyup)="dateFilter($event.target.value)">
+                    </mat-form-field>
+
+                </td>
+                <td>
+                    <button mat-button mat-button style="background-color:#3ac569"
+                        (click)="refreshLog()">Actualiser</button>
+
+                </td>
+                <td>
+                    <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[50]" showFirstLastButtons></mat-paginator>
+
+                </td>
+            </tr>
+        </table>
+
+
+        <table mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="Version">
+                <th mat-header-cell *matHeaderCellDef class="headerTab cell_date"> Timestamp </th>
+                <td mat-cell class="content_tab cell_date" *matCellDef="let element"> {{element.timestamp}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Date">
+                <th mat-header-cell *matHeaderCellDef class="headerTab"> Message </th>
+                <td mat-cell class="content_tab" *matCellDef="let element"> {{element.message}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr style="height: 14px;" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="centerSpinner">
+            <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
+        </div>
+        <div *ngIf="!loader && (!dataSource.data.length  || !idContainerTest)" class="logsNull">
+            Aucun logs pour cette application
+        </div>
+    </div>
+</div>

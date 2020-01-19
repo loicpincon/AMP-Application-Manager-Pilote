@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Ajouter une instance</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Environnement</mat-label>
+        <mat-select [(ngModel)]="envChoisi" name="envs" required>
+            <mat-option *ngFor="let env of envs | keyvalue" [value]="env.key">
+                <span *ngIf="env.key==1">Développement</span>
+                <span *ngIf="env.key==2">Recette Utilisateurs</span>
+                <span *ngIf="env.key==3">Production</span>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Annuler</button>
+    <mat-spinner *ngIf="loader" [diameter]=20></mat-spinner>
+    <button *ngIf="!loader" mat-button (click)="ajouter()" [disabled]="!envChoisi" cdkFocusInitial>Ajouter</button>
+</div>

@@ -1,0 +1,21 @@
+.colonne{
+  text-align: center;
+}
+.title{
+  text-align: center;
+}
+.fullSize{
+  width: 100%;
+}
+.midSize{
+  width: 50%;
+  margin: auto;
+}
+.container form{
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+.inputTypeApp{
+  max-width: 100%;
+}

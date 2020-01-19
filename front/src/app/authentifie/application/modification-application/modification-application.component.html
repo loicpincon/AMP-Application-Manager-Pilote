@@ -1,0 +1,21 @@
+<div class="container" *ngIf="application">
+    <div class="title">
+        <h1>Configurer</h1>
+    </div>
+    <div>
+        <h2>Type d'environnement</h2>
+
+
+        <div *ngFor="let ser of allServer">
+
+
+            <button id="btn_{{ser.id}}" type="button" (click)="changePosition(ser)"
+                [ngClass]="{'isPresent': activeDansApp(ser), 'isNotPresent': !activeDansApp(ser)}"
+                class="btn btnServeur">{{ser.nom}}</button>
+            <input [checked]="activeDansApp(ser)" class="form-check-input" type="checkbox" id="ser.id" value="ser.id"
+                hidden>
+
+        </div>
+
+    </div>
+</div>

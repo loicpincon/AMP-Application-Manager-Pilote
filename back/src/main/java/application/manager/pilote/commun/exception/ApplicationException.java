@@ -4,24 +4,24 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import java.util.Date;
 
+import lombok.Getter;
+
 import org.springframework.http.HttpStatus;
 
 import application.manager.pilote.commun.modele.Retour;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
 public class ApplicationException extends RuntimeException {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8131465557308920951L;
 
-	private HttpStatus status = INTERNAL_SERVER_ERROR;
+	private final HttpStatus status;
 
 	public ApplicationException() {
 		super();
+		this.status = INTERNAL_SERVER_ERROR;
 	}
 
 	/**
@@ -30,6 +30,7 @@ public class ApplicationException extends RuntimeException {
 	 */
 	public ApplicationException(String message) {
 		super(message);
+		this.status = INTERNAL_SERVER_ERROR;
 	}
 
 	/**

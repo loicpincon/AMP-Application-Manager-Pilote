@@ -12,6 +12,14 @@ import application.manager.pilote.commun.helper.PropertiesReader;
 @Configuration
 public class MongoDbConfig {
 
+	private static final String MONGO_COLLECTION = "MONGO_COLLECTION";
+	private static final String MONGO_USER = "MONGO_USER";
+	private static final String MONGO_SECRET = "MONGO_PASSWORD";
+	private static final String MONGO_SERVER_PRIMARY = "MONGO_SERVER_PRIMARY";
+	private static final String MONGO_SERVER_SECONDARY_REPLICA = "MONGO_SERVER_SECONDARY_REPLICA";
+	private static final String MONGO_SERVER_SECONDARY = "MONGO_SERVER_SECONDARY";
+	private static final String MONGO_PORT = "MONGO_PORT";
+
 	@Autowired
 	private PropertiesReader properties;
 
@@ -19,30 +27,29 @@ public class MongoDbConfig {
 	public MongoDbFactory mongoDbFactory() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("mongodb://");
-		sb.append(properties.getProperty("MONGO_USER"));
+		sb.append(properties.getProperty(MONGO_USER));
 		sb.append(":");
-		sb.append(properties.getProperty("MONGO_PASSWORD"));
+		sb.append(properties.getProperty(MONGO_SECRET));
 		sb.append("@");
-		sb.append(properties.getProperty("MONGO_SERVER_PRIMARY"));
+		sb.append(properties.getProperty(MONGO_SERVER_PRIMARY));
 		sb.append(":");
-		sb.append(properties.getProperty("MONGO_PORT"));
+		sb.append(properties.getProperty(MONGO_PORT));
 		sb.append(",");
-		sb.append(properties.getProperty("MONGO_SERVER_SECONDARY"));
+		sb.append(properties.getProperty(MONGO_SERVER_SECONDARY));
 		sb.append(":");
-		sb.append(properties.getProperty("MONGO_PORT"));
+		sb.append(properties.getProperty(MONGO_PORT));
 		sb.append(",");
-		sb.append(properties.getProperty("MONGO_SERVER_SECONDARY_REPLICA"));
+		sb.append(properties.getProperty(MONGO_SERVER_SECONDARY_REPLICA));
 		sb.append(":");
-		sb.append(properties.getProperty("MONGO_PORT"));
+		sb.append(properties.getProperty(MONGO_PORT));
 		sb.append("/");
-		sb.append(properties.getProperty("MONGO_COLLECTION"));
+		sb.append(properties.getProperty(MONGO_COLLECTION));
 		sb.append("?ssl=true&replicaSet=mobilite-shard-0&authSource=admin&retryWrites=true&w=majority");
 		return new SimpleMongoClientDbFactory(sb.toString());
 	}
 
 	@Bean
 	public MongoTemplate mongoTemplate() {
-		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
-		return mongoTemplate;
+		return new MongoTemplate(mongoDbFactory());
 	}
 }

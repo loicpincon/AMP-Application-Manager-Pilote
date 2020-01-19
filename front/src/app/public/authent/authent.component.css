@@ -1,0 +1,60 @@
+.login{
+    height: 100%;
+    display: flex;
+    background-color: #f4f5f9;
+}
+.card{
+    margin: 0 auto;
+    width: 400px;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0;
+    text-align: center;
+}
+.cardHeader{
+    background-color: #3ac569;
+    color: white;
+    padding: .75rem 1.25rem;
+}
+.titleHeader{
+    font-size: 1.75rem;
+}
+.full-width-field{
+    width: 200px;
+    font-size: 1rem;
+}
+.cardBody{
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 2.5rem;
+}
+.btn-block{
+    background-color: #bcd763;
+    color: white;
+}
+.cardFooter{
+    padding: .75rem 1.25rem;
+    font-size: 14px;
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+.cardFooter p{
+    font-size: 12px;
+    color: #3ac569;
+}
+.noAccount{
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.noAccount:active{
+    color: #3ac5698f
+}
+.btnSubmit{
+    margin-top: 25px;
+    text-align: -webkit-center;
+
+}
+.mat-icon {
+    vertical-align: middle;
+    color: #bcd763;
+}

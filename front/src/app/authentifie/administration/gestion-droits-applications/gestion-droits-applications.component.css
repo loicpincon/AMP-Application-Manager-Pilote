@@ -1,0 +1,30 @@
+table {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+.headerTab{
+  text-align: center;
+}
+.header{
+  text-align: center;
+}
+.footer{
+  text-align: center;
+  margin-top: 50px;
+}
+.iconLvlAcces{
+  cursor: default;
+}
+.deleteIcon{
+  cursor: pointer;
+  color: #d02c2c;
+}
+.material-icons{
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+.loaderColonne{
+  text-align: -webkit-center;
+}
