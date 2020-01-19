@@ -24,6 +24,12 @@ export class ModifierParametreComponent implements OnInit {
     serieEnCours: ParametreSeries;
     series: SerieParametre[] = new Array();
 
+
+    idApp: string;
+    idServ: string;
+    versionParam: string;
+
+
     constructor(private router: Router, private route: ActivatedRoute, private apmService: ApmService) {
 
     }
@@ -32,16 +38,22 @@ export class ModifierParametreComponent implements OnInit {
         this.route.queryParams
             .subscribe(params => {
                 this.isEditOption = params.edit;
-
+                this.idServ = params.serveur;
+                this.idApp = params.idApp;
+                this.versionParam = params.versionParam;
                 this.apmService.consulterSerieParametre(params.idApp, params.serveur, params.versionParam).subscribe(params => {
                     this.serieEnCours = params;
-                    Object.keys(params.parametres).forEach((key) => {
-                        let serie = new SerieParametre();
-                        serie.cle = key;
-                        serie.valeur = params.parametres[key];
-                        this.series.push(serie);
-                        this.dataSource.data = this.series;
-                    })
+                    let serie = new SerieParametre();
+
+                    if (params.parametres != undefined) {
+                        Object.keys(params.parametres).forEach((key) => {
+                            serie.cle = key;
+                            serie.valeur = params.parametres[key];
+                            this.series.push(serie);
+                        })
+                    }
+                    this.dataSource.data = this.series;
+
                 })
             });
 
@@ -58,20 +70,27 @@ export class ModifierParametreComponent implements OnInit {
         })
         this.serieEnCours.parametres = mapParam;
         console.log(this.serieEnCours)
-        this.apmService.modifierSerieParametre('fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436', 1, this.serieEnCours).subscribe(retour => {
+        this.apmService.modifierSerieParametre(this.idApp, this.idServ, this.serieEnCours).subscribe(retour => {
 
         })
 
     }
 
     ajouterParam() {
-        let cleTemp = this.series[this.series.length - 1].cle;
-        if (cleTemp != undefined && cleTemp != "") {
+        let cleTemp = this.series[this.series.length - 1];
+        if (cleTemp != undefined) {
+            if (cleTemp.cle != undefined && cleTemp.cle != "") {
+                console.log('ajout')
+                this.series.push(new SerieParametre());
+                this.dataSource.data = this.series;
+            } else {
+                console.log("complete dabord le premier rigolo")
+            }
+        } else {
             console.log('ajout')
             this.series.push(new SerieParametre());
             this.dataSource.data = this.series;
-        } else {
-            console.log("complete dabord le premier rigolo")
         }
+
     }
 }

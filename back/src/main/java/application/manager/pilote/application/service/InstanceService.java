@@ -84,6 +84,7 @@ public class InstanceService {
 		instance.setEtat("V");
 
 		instance.setLibelle(server.getNom() + "-" + (env.getInstances().size() + 1));
+		instance.setVersionApplicationActuel("Espace Vide");
 		instance.setPort(randomPortHelper.randomPort().toString());
 		instance.setId(hasher.hash(id + server.getId() + new Date()));
 		env.getInstances().add(instance);
