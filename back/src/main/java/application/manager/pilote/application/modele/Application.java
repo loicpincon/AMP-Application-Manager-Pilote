@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
+import application.manager.pilote.docker.modele.DockerFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ public class Application extends BasicDataBean {
 
 	private Map<Integer, Environnement> environnements = new HashMap<>();
 
-	private Integer dockerFileId;
+	private DockerFile dockerfile;
 
 	private String baseName;
 

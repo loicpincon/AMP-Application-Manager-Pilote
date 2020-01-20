@@ -122,8 +122,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 					hasherService.randomInt());
 
 			BuildImageResultCallback callback = new BuildImageResultCallback();
-			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
-					dockerFileService.get(app.getDockerFileId()));
+			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire, app.getDockerfile());
 
 			String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId() + SLASH
 					+ param.getVersion() + SLASH + app.getBaseName();

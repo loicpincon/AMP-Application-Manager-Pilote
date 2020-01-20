@@ -25,7 +25,7 @@ export class CreationApplicationComponent implements OnInit {
     this.formulaire = this.formBuilder.group({
       name: '',
       typeApp: '',
-      dockerfiles: '',
+      dockerfiles: null,
       dockerfilesText: '',
       check: false,
       basename: '',
@@ -50,39 +50,25 @@ export class CreationApplicationComponent implements OnInit {
     }
   }
   onSubmit(customerData) {
-    if (this.formulaire.controls['dockerfilesText'].enabled) {
-      this.apmService.ajouterDockerFile(this.formulaire.value.dockerfiles.name, this.formulaire.value.dockerfilesText).subscribe(dockerFile => {
-        var body = this.buildBody(customerData);
-        body.dockerFileId = dockerFile.id;
-        this.apmService.ajouterApplication(body).subscribe(app => {
-          this._snackBar.open('Application ajoutée avec succès !', '', {
-            duration: 2000,
-            panelClass: 'customSnackBar'
-          });
-          this._router.navigate(['/secure/application/pilotage', app.id]);
-        }, error => {
-          console.error(error);
-        })
-      })
-    } else {
-      var body = this.buildBody(customerData);
-      body.dockerFileId = this.formulaire.value.dockerfiles.id;
-      this.apmService.ajouterApplication(body).subscribe(app => {
-        this._snackBar.open('Application ajoutée avec succès !', '', {
-          duration: 2000,
-          panelClass: 'customSnackBar'
-        });
-        this._router.navigate(['/secure/application/pilotage', app.id]);
-      }, error => {
-        console.error(error);
-      })
-    }
+    var body = this.buildBody(customerData);
+    this.apmService.ajouterApplication(body).subscribe(app => {
+      this._snackBar.open('Application ajoutée avec succès !', '', {
+        duration: 2000,
+        panelClass: 'customSnackBar'
+      });
+      this._router.navigate(['/secure/application/pilotage', app.id]);
+    }, error => {
+      console.error(error);
+    })
+
+    console.log(body)
   }
 
 
   buildBody(data) {
     console.log(data);
     var app;
+
     if (data.typeApp === "NODEJS") {
       app = null;
     } else if (data.typeApp === "WAR") {
@@ -95,6 +81,8 @@ export class CreationApplicationComponent implements OnInit {
     }
     app.name = data.name;
     app.type = data.typeApp;
+    app.dockerfile = data.dockerfiles;
+    app.baseName = data.basename;
     console.log(app);
     return app;
   }
