@@ -145,11 +145,10 @@ public class DockerWarDeployer extends DefaultDeployer {
 			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("basename", app.getBaseName())
 					.exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);
-			CreateContainerResponse container = dockerClient.createContainerCmd(test)
-					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(ins.getId())
-					.withPortBindings(getPortsBinds(ins)).exec();
+			dockerClient.createContainerCmd(test).withName(param.getIdInstanceCible()).withPublishAllPorts(true)
+					.withName(ins.getId()).withPortBindings(getPortsBinds(ins)).exec();
 
-			dockerClient.startContainerCmd(container.getId()).exec();
+			dockerClient.startContainerCmd(ins.getContainerId()).exec();
 			ins.setEtat("L");
 			if (server.getDns() != null) {
 				ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());

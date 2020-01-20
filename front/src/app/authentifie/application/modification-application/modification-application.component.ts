@@ -32,6 +32,7 @@ export class ModificationApplicationComponent implements OnInit {
       console.log(params)
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
+          console.log(app)
           this.application = app;
           this.formulaire = this.formBuilder.group({
             name: new FormControl(app.name),

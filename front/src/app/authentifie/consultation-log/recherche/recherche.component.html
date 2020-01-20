@@ -139,7 +139,7 @@
         <div class="centerSpinner">
             <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
         </div>
-        <div *ngIf="!loader && (!dataSource.data.length  || !idContainerTest)" class="logsNull">
+        <div *ngIf="!loader && (!dataSource.data.length  )" class="logsNull">
             Aucun logs pour cette application
         </div>
     </div>
