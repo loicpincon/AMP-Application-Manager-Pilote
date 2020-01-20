@@ -14,7 +14,7 @@ export class CreationApplicationComponent implements OnInit {
   typeApplication: string[];
   formulaire: FormGroup;
   dockerFiles: Dockerfile[];
-  constructor(private _router: Router,private apmService: ApmService, private formBuilder: FormBuilder,private _snackBar: MatSnackBar) { }
+  constructor(private _router: Router, private apmService: ApmService, private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.apmService.recupererTypeApplications().subscribe(typesApp => {
       this.typeApplication = typesApp;
@@ -28,8 +28,9 @@ export class CreationApplicationComponent implements OnInit {
       dockerfiles: '',
       dockerfilesText: '',
       check: false,
+      basename: '',
       warApplication: new FormGroup({
-        basename: new FormControl(''),
+        nomFichierProperties: new FormControl(''),
       }),
       bashApplication: new FormGroup({
         urlBatch: new FormControl('')
@@ -41,10 +42,10 @@ export class CreationApplicationComponent implements OnInit {
     this.formulaire.controls['dockerfilesText'].disable()
   }
 
-  changeCheck(e){
-    if(e){
+  changeCheck(e) {
+    if (e) {
       this.formulaire.controls['dockerfilesText'].enable()
-    }else{
+    } else {
       this.formulaire.controls['dockerfilesText'].disable()
     }
   }
@@ -54,11 +55,11 @@ export class CreationApplicationComponent implements OnInit {
         var body = this.buildBody(customerData);
         body.dockerFileId = dockerFile.id;
         this.apmService.ajouterApplication(body).subscribe(app => {
-          this._snackBar.open('Application ajoutée avec succès !','', {
+          this._snackBar.open('Application ajoutée avec succès !', '', {
             duration: 2000,
             panelClass: 'customSnackBar'
           });
-          this._router.navigate(['/secure/application/pilotage',app.id]);
+          this._router.navigate(['/secure/application/pilotage', app.id]);
         }, error => {
           console.error(error);
         })
@@ -67,7 +68,7 @@ export class CreationApplicationComponent implements OnInit {
       var body = this.buildBody(customerData);
       body.dockerFileId = this.formulaire.value.dockerfiles.id;
       this.apmService.ajouterApplication(body).subscribe(app => {
-        this._snackBar.open('Application ajoutée avec succès !','', {
+        this._snackBar.open('Application ajoutée avec succès !', '', {
           duration: 2000,
           panelClass: 'customSnackBar'
         });

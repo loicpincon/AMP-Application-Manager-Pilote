@@ -5,18 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import org.springframework.data.annotation.Id;
-
-import application.manager.pilote.commun.modele.BasicDataBean;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import application.manager.pilote.commun.modele.BasicDataBean;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @AllArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({ @Type(name = ApplicationType.BASH, value = BashApplication.class),
-		@Type(name = ApplicationType.WAR, value = WarApplication.class) })
+		@Type(name = ApplicationType.WAR, value = WarApplication.class),
+		@Type(name = ApplicationType.NODEJS, value = NodeJsApplication.class) })
 public class Application extends BasicDataBean {
 
 	/**
@@ -41,9 +41,9 @@ public class Application extends BasicDataBean {
 
 	private Map<Integer, Environnement> environnements = new HashMap<>();
 
-	private String baseName;
-
 	private Integer dockerFileId;
+
+	private String baseName;
 
 	private List<Livrable> livrables = new ArrayList<>();
 
