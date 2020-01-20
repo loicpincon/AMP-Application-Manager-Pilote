@@ -69,9 +69,8 @@ public class DeployFileHelper {
 
 	public void createGcpFile(String url, Map<String, String> params) {
 		try {
-			String urlFile = stringUtils.concat(url, "/gcp.properties");
 			PrintWriter writer;
-			writer = new PrintWriter(urlFile, "UTF-8");
+			writer = new PrintWriter(url, "UTF-8");
 
 			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
 			Set<String> cles = params.keySet();
