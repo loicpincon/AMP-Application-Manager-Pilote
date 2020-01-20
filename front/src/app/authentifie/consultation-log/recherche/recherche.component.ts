@@ -16,7 +16,7 @@ export class RechercheLogComponent implements OnInit {
     displayedColumns: string[] = ['Version', 'Date'];
     dataSource = new MatTableDataSource<Log>();
     loader: boolean = false;
-    dateJourDeb: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
+    dateJourDeb: string = this.datePipe.transform(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd HH:mm:ss')
     dateJourFin: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
     @ViewChild(MatPaginator, { static: true })
@@ -76,9 +76,10 @@ export class RechercheLogComponent implements OnInit {
                             }
                         })
                     }
+                    this.refreshLog();
+
                 })
             });
-
 
 
     }
