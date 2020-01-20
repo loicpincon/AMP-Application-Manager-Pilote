@@ -37,7 +37,8 @@ public class ApplicationConfig {
 			shell.execute("chmod -R a+x " + path);
 		} else if (SystemUtils.IS_OS_WINDOWS) {
 			LOG.debug("Positionnement des droits d'execution sur le batch");
-			String path = pathHelper.getRelativePath("/script/unix/");
+			String path = pathHelper.getRelativePath("/script/windows/");
+			LOG.debug(path);
 		}
 	}
 
