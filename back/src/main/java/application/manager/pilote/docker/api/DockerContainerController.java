@@ -37,6 +37,17 @@ public class DockerContainerController {
 	@ApiManager
 	@Secured
 	public Callable<ResponseEntity<List<Container>>> recuperer() {
+		return () -> ResponseEntity.ok(dockerService.getInstances());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/containers")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<List<com.github.dockerjava.api.model.Container>>> recupererContainers() {
 		return () -> ResponseEntity.ok(dockerService.getContainers());
 	}
 
