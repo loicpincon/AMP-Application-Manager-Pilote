@@ -19,6 +19,10 @@ export class ModificationApplicationComponent implements OnInit {
 
   idNewServer: number[] = new Array();
 
+  formulaire: FormGroup;
+
+  typeApplication: string [];
+
   constructor(private route: ActivatedRoute, private _router: Router, private apmService: ApmService, private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -27,21 +31,41 @@ export class ModificationApplicationComponent implements OnInit {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
           this.application = app;
           console.log(app)
+          this.formulaire = this.formBuilder.group({
+            name: new FormControl(app.name),
+            typeApp: new FormControl(app.type),
+            dockerfiles: '',
+            dockerfilesText: '',
+            check: false,
+            warApplication: new FormGroup({
+              basename: new FormControl(app.baseName),
+            }),
+            bashApplication: new FormGroup({
+              urlBatch: new FormControl('')
+            }),
+            nodeJsApplication: new FormGroup({
+              versionNode: new FormControl('')
+            })
+          });
         })
 
         this.apmService.recupererServeur().subscribe(serveurs => {
           this.allServer = serveurs;
         })
 
+        this.apmService.recupererTypeApplications().subscribe(typesApp => {
+          this.typeApplication = typesApp;
+        })
+
       }
     });
-
-
-
-
-
   }
-  activeDansApp(serveur: Serveur) {
+
+
+  
+
+
+  /*activeDansApp(serveur: Serveur) {
     var find = false;
     if (this.application.environnements != null) {
       Object.keys(this.application.environnements).forEach((key) => {
@@ -81,7 +105,7 @@ export class ModificationApplicationComponent implements OnInit {
       this.ajouterEnvironnement(serveur)
     }
     console.log(this.idNewServer)
-  }
+  }*/
 
 
 }

@@ -9,7 +9,7 @@ export const environment = {
   urlServeurSocketBase: 'http://213.136.77.118:8888/ampapi/socket',
   urlServeurBase: 'http://213.136.77.118:8888/ampapi/api/map',
 
-  // urlServeurSocketBase: 'http://213.136.77.118:8888/amp/socket',
+  //urlServeurSocketBase: 'http://213.136.77.118:8888/amp/socket',
   //urlServeurBase: 'http://213.136.77.118:7001/amp/api/map',
 
 };
