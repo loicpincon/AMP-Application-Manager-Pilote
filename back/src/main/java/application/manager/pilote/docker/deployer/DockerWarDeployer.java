@@ -20,7 +20,6 @@ import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
-import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.ParametreSeries;
@@ -33,7 +32,6 @@ import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.docker.helper.DeployFileHelper;
 import application.manager.pilote.docker.helper.ScriptPathHelper;
 import application.manager.pilote.docker.service.DockerContainerService;
-import application.manager.pilote.docker.service.DockerFileService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.server.modele.Server;
 import lombok.Builder;
@@ -53,9 +51,6 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 	@Autowired
 	private DockerClient dockerClient;
-
-	@Autowired
-	private DockerFileService dockerFileService;
 
 	@Autowired
 	private DeployFileHelper deployfileHelper;
