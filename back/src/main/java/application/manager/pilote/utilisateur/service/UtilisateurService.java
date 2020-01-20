@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.commun.exception.ApplicationException;
+import application.manager.pilote.commun.mail.MailService;
 import application.manager.pilote.commun.service.DefaultService;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.utilisateur.helper.DroitApplicatifHelper;
@@ -35,6 +36,9 @@ public class UtilisateurService extends DefaultService {
 
 	@Autowired
 	private DroitApplicatifHelper droitApplicatifHelper;
+
+	@Autowired
+	private MailService mailService;
 
 	public Utilisateur inserer(Utilisateur u) {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
@@ -71,35 +75,33 @@ public class UtilisateurService extends DefaultService {
 				user.getRights().removeAll(listToRemove);
 			}
 			return list;
-		}
-		else if (keyword != null) {
+		} else if (keyword != null) {
 			return uRepo.findByNomOrPrenomOrLogin(keyword);
-		}
-		else {
+		} else {
 			return uRepo.findAll();
 		}
 	}
 
 	public Utilisateur ajouterDroit(String id, String idApplication, String level) {
 		Utilisateur us = consulter(id);
-		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).date(new Date()).level(DroitApplicatifLevel.PROP).build(), level);
+		ajouterDroitUser(us, DroitApplicatif.builder().applicationId(idApplication).date(new Date())
+				.level(DroitApplicatifLevel.PROP).build(), level);
 		return uRepo.save(us);
 	}
 
-	public DroitApplicatif ajouterDroitApplicatifs(String id, DroitApplicatif droit, String accessLevel, Boolean delete) {
+	public DroitApplicatif ajouterDroitApplicatifs(String id, DroitApplicatif droit, String accessLevel,
+			Boolean delete) {
 		if (delete) {
 			Utilisateur us = consulter(id);
 			supprimerDroitUser(us, droit);
 			return null;
-		}
-		else {
+		} else {
 			if (accessLevel != null && DroitApplicatifLevel.isPresent(accessLevel)) {
 				Utilisateur us = consulter(id);
 				DroitApplicatif droitU = ajouterDroitUser(us, droit, accessLevel);
 				uRepo.save(us);
 				return droitU;
-			}
-			else {
+			} else {
 				throw new ApplicationException(HttpStatus.BAD_REQUEST, "Ce droit n'existe pas");
 			}
 		}
@@ -114,10 +116,17 @@ public class UtilisateurService extends DefaultService {
 		for (DroitApplicatif droitU : us.getRights()) {
 			if (droitU.getApplicationId().equals(da.getApplicationId())) {
 				LOG.debug("l'utilisateur possede deja les droits");
+				mailService.sendMail(us.getLogin(), "Droit sur l'application : " + app.getName(),
+						"Vos droits ont évolués, vous avez maintenant les droits de "
+								+ DroitApplicatifLevel.valueOf(level).getLibelle() + " sur l'application "
+								+ app.getName());
 				return droitApplicatifHelper.setDroitApplicatif(droitU, level);
 			}
 		}
 
+		mailService.sendMail(us.getLogin(), "Droit sur l'application : " + app.getName(),
+				"vous avez maintenant les droits de " + DroitApplicatifLevel.valueOf(level).getLibelle()
+						+ " sur l'application " + app.getName());
 		LOG.debug("l'utilisateur a maintenant les droits de " + level + " sur l'application " + app.getName());
 		us.getRights().add(droitApplicatifHelper.setDroitApplicatif(da, level));
 		return da;

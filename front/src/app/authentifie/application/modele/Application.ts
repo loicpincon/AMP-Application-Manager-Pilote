@@ -95,6 +95,12 @@ export class WarApplication extends Application {
 /**
  * 
  */
+export class NodeJsApplication extends Application {
+}
+
+/**
+ * 
+ */
 export interface ParamsInstance {
     is: Instance,
     params: ParametreSeries

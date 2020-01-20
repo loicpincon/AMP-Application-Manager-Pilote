@@ -4,7 +4,7 @@
 
 
 </div>
-<div class="containerTable mat-elevation-z8">
+<div class=" mat-elevation-z8">
 
 
     <div>
@@ -125,7 +125,8 @@
 
             <ng-container matColumnDef="Version">
                 <th mat-header-cell *matHeaderCellDef class="headerTab cell_date"> Timestamp </th>
-                <td mat-cell class="content_tab cell_date" *matCellDef="let element"> {{element.timestamp}} </td>
+                <td mat-cell class="content_tab cell_date" *matCellDef="let element">
+                    {{element.timestamp | date:'yyyy-MM-dd HH:mm:ss'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Date">
@@ -139,8 +140,8 @@
         <div class="centerSpinner">
             <mat-spinner *ngIf="loader" [diameter]=40></mat-spinner>
         </div>
-        <div *ngIf="!loader && (!dataSource.data.length  || !idContainerTest)" class="logsNull">
-            Aucun logs pour cette application
+        <div *ngIf="!loader && (!dataSource.data.length  )" class="logsNull">
+            Aucun logs pour cette application dans cet interval de temps
         </div>
     </div>
 </div>

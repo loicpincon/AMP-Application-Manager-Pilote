@@ -75,8 +75,8 @@ public class DockerContainerService {
 		Instance ins = instanceService.consulter(envChoisi.getInstances(), param.getIdInstanceCible());
 
 		if (app.getType().equals(ApplicationType.WAR)) {
-			DockerWarDeployer deployer = DockerWarDeployer.builder().app((WarApplication) app).envChoisi(envChoisi).param(param).ins(ins)
-					.server(server).build();
+			DockerWarDeployer deployer = DockerWarDeployer.builder().app((WarApplication) app).envChoisi(envChoisi)
+					.param(param).ins(ins).server(server).build();
 			deployer.setUser(userSesion);
 			applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
 
@@ -95,12 +95,20 @@ public class DockerContainerService {
 	/**
 	 * @return
 	 */
-	public List<Container> getContainers() {
+	public List<Container> getInstances() {
 		List<Container> retour = new ArrayList<>();
 		for (com.github.dockerjava.api.model.Container container : dockerClient.listContainersCmd().exec()) {
 			retour.add(this.containerMapper.mapFrom(container));
 		}
 		return retour;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<com.github.dockerjava.api.model.Container> getContainers() {
+		return dockerClient.listContainersCmd().exec();
+
 	}
 
 	/**

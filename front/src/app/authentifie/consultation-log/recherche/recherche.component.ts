@@ -16,13 +16,12 @@ export class RechercheLogComponent implements OnInit {
     displayedColumns: string[] = ['Version', 'Date'];
     dataSource = new MatTableDataSource<Log>();
     loader: boolean = false;
-    dateJourDeb: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
+    dateJourDeb: string = this.datePipe.transform(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd HH:mm:ss')
     dateJourFin: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
     @ViewChild(MatPaginator, { static: true })
     paginator: MatPaginator;
 
-    idContainerTest = "fef806bb579120a1a5340c23361117c395633d28b74d9c7a8b79cb265c38d436-e543fe83d3b244c8418a63c999c6fd264272121d8200fcfb7f02d61234bb598d";
 
     env: EnvLog[];
 
@@ -77,9 +76,10 @@ export class RechercheLogComponent implements OnInit {
                             }
                         })
                     }
+                    this.refreshLog();
+
                 })
             });
-
 
 
     }
@@ -135,7 +135,7 @@ export class RechercheLogComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
 
         this.loader = true;
-        this._apmService.recupererLogsInstanceParDateDebutEtFin(this.idContainerTest, this.dateJourDeb, this.dateJourFin).subscribe(logs => {
+        this._apmService.recupererLogsInstanceParDateDebutEtFin(this.instanceInSelect.id, this.dateJourDeb, this.dateJourFin).subscribe(logs => {
             this.dataSource.data = logs
             console.log(logs)
             this.loader = false

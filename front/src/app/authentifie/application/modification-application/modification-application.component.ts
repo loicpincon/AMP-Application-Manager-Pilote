@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, Application, Serveur } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication } from '../modele/Application';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -32,25 +32,29 @@ export class ModificationApplicationComponent implements OnInit {
       console.log(params)
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
-          this.application = app;
           console.log(app)
+          this.application = app;
           this.formulaire = this.formBuilder.group({
             name: new FormControl(app.name),
             typeApp: new FormControl(app.type),
-            dockerfiles: '',
-            dockerfilesText: '',
-            check: false,
-            warApplication: new FormGroup({
-              basename: new FormControl(app.baseName),
-            }),
-            bashApplication: new FormGroup({
-              urlBatch: new FormControl('')
-            }),
-            nodeJsApplication: new FormGroup({
-              versionNode: new FormControl('')
-            })
+            dockerfilesText: new FormControl(app.dockerfile.file),
+            basename: new FormControl(app.baseName),
           });
+
+
+          if (this.application.type == "WAR") {
+            this.initFormWarApplication(this.application as WarApplication);
+          } else if (this.application.type == "BASH") {
+            this.initFormBashApplication(this.application as BashApplication);
+          } else if (this.application.type == "NODEJS") {
+            this.initFormNodeJsApplication(this.application as NodeJsApplication);
+
+          }
+
+
         })
+
+
 
         this.apmService.recupererServeur().subscribe(serveurs => {
           this.allServer = serveurs;
@@ -59,11 +63,6 @@ export class ModificationApplicationComponent implements OnInit {
         this.apmService.recupererTypeApplications().subscribe(typesApp => {
           this.typeApplication = typesApp;
         })
-
-        this.apmService.recupererDockerFile().subscribe(dks => {
-          this.dockerFiles = dks;
-        })
-
       }
     });
   }
@@ -71,6 +70,28 @@ export class ModificationApplicationComponent implements OnInit {
   onSubmit(value) {
 
   }
+
+  initFormWarApplication(war: WarApplication) {
+    this.formulaire.addControl('warApplication', new FormGroup({
+      nomFichierProperties: new FormControl(war.nomFichierProperties),
+    }))
+
+  }
+
+  initFormBashApplication(war: BashApplication) {
+    this.formulaire.addControl('bashApplication', new FormGroup({
+      urlBatch: new FormControl(war.urlBatch),
+    }))
+
+  }
+
+  initFormNodeJsApplication(war: NodeJsApplication) {
+    this.formulaire.addControl('nodeJsApplication', new FormGroup({
+      // nomFichierProperties: new FormControl(war.nomFichierProperties),
+    }))
+
+  }
+
 
   changeCheck(e) {
     if (e) {

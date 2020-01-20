@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" *ngIf="formulaire">
     <div class="title">
-        <h1>Ajouter une nouvelle application</h1>
+        <h1>Configurer l'application</h1>
     </div>
     <form *ngIf="application" [formGroup]="formulaire" (ngSubmit)="onSubmit(formulaire.value)">
         <div class="colonne">
@@ -18,15 +18,17 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <mat-form-field class="inputTypeApp">
+                    <input required formControlName="basename" matInput placeholder="Base name">
+                </mat-form-field>
+
                 <div fxFlex="50%" *ngIf="formulaire.value.typeApp">
                     <div formGroupName="nodeJsApplication" *ngIf="formulaire.value.typeApp=='NODEJS'">
-                        <mat-form-field class="inputTypeApp">
-                            <input required matInput formControlName="versionNode" placeholder="Version node JS">
-                        </mat-form-field>
+
                     </div>
                     <div formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
                         <mat-form-field class="inputTypeApp">
-                            <input required formControlName="basename" matInput placeholder="Base name">
+                            <input required formControlName="nomFichierProperties" matInput placeholder="Base name">
                         </mat-form-field>
                     </div>
                     <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
@@ -38,26 +40,14 @@
             </div>
         </div>
         <div class="colonne">
-            <mat-form-field class="midSize">
-                <mat-label>DockerFile Template</mat-label>
-                <mat-select #dockerfile required formControlName="dockerfiles">
-                    <mat-option *ngFor="let dk of dockerFiles" [value]="dk">
-                        {{dk.name}}
-                    </mat-option>
-                </mat-select>
+            <mat-form-field class="fullSize">
+                <textarea style="width: 100%;" formControlName="dockerfilesText" cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" [(value)]="formulaire.value.dockerfilesText"
+                    matInput></textarea>
             </mat-form-field>
-            <div *ngIf="dockerfile.value">
-                <mat-checkbox formControlName="check" (change)="changeCheck($event.checked)">Modifier le template</mat-checkbox>
-            </div>
-            <mat-form-field *ngIf="dockerfile.value" class="fullSize">
-                <textarea style="width: 100%;"
-                    formControlName="dockerfilesText" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="5" [value]="dockerfile.value.file" matInput></textarea>
-            </mat-form-field>
-        </div> 
+        </div>
         <div>
-            <button [disabled]="!formulaire.valid" mat-raised-button color="primary"
-                type="submit">Ajouter</button>
+            <button [disabled]="!formulaire.valid" mat-raised-button color="primary" type="submit">Modifier</button>
         </div>
     </form>
 </div>

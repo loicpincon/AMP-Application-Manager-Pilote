@@ -1,5 +1,8 @@
 package application.manager.pilote.docker.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +32,13 @@ public class ScriptPathHelper {
 		} else {
 			throw new ApplicationException(500, "Impossible de detecter l'os cible");
 		}
-		String realPath = getClass().getResource(pathRetour).getFile();
+		String realPath = null;
+		try {
+			realPath = URLDecoder.decode(getClass().getResource(pathRetour).getFile(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		LOG.debug(realPath);
 		return realPath;
 	}
