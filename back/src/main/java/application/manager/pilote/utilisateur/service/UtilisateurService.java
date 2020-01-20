@@ -116,6 +116,9 @@ public class UtilisateurService extends DefaultService {
 		for (DroitApplicatif droitU : us.getRights()) {
 			if (droitU.getApplicationId().equals(da.getApplicationId())) {
 				LOG.debug("l'utilisateur possede deja les droits");
+				mailService.sendMail(us.getLogin(), "Droit sur l'application : " + app.getName(),
+						"Vos droits ont évolués, vous avez maintenant les droits de " + level + " sur l'application "
+								+ app.getName());
 				return droitApplicatifHelper.setDroitApplicatif(droitU, level);
 			}
 		}
