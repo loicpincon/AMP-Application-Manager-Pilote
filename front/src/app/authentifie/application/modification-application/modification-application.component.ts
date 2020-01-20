@@ -30,15 +30,16 @@ export class ModificationApplicationComponent implements OnInit {
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
           this.application = app;
+          
           console.log(app)
+          console.log(app.dockerfile.file)
           this.formulaire = this.formBuilder.group({
             name: new FormControl(app.name),
             typeApp: new FormControl(app.type),
-            dockerfiles: '',
-            dockerfilesText: '',
-            check: false,
+            dockerfilesText: new FormControl(app.dockerfile.file),
+            baseName: new FormControl(app.baseName),
             warApplication: new FormGroup({
-              basename: new FormControl(app.baseName),
+              nomFichierProperties: new FormControl(app),
             }),
             bashApplication: new FormGroup({
               urlBatch: new FormControl('')
@@ -46,7 +47,7 @@ export class ModificationApplicationComponent implements OnInit {
             nodeJsApplication: new FormGroup({
               versionNode: new FormControl('')
             })
-          });
+          });       
         })
 
         this.apmService.recupererServeur().subscribe(serveurs => {
@@ -56,7 +57,6 @@ export class ModificationApplicationComponent implements OnInit {
         this.apmService.recupererTypeApplications().subscribe(typesApp => {
           this.typeApplication = typesApp;
         })
-
       }
     });
   }
