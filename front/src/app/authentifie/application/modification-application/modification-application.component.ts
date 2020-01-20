@@ -33,25 +33,20 @@ export class ModificationApplicationComponent implements OnInit {
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
           this.application = app;
-
-          console.log(app)
-          console.log(app.dockerfile.file)
           this.formulaire = this.formBuilder.group({
             name: new FormControl(app.name),
             typeApp: new FormControl(app.type),
             dockerfilesText: new FormControl(app.dockerfile.file),
-            baseName: new FormControl(app.baseName),
-            warApplication: new FormGroup({
-              nomFichierProperties: new FormControl(app),
-            }),
-            bashApplication: new FormGroup({
-              urlBatch: new FormControl('')
-            }),
-            nodeJsApplication: new FormGroup({
-              versionNode: new FormControl('')
-            })
+            basename: new FormControl(app.baseName),
           });
+
+
+          if (this.application.type == "WAR") {
+            this.initFormWarApplication(this.application as WarApplication);
+          }
         })
+
+
 
         this.apmService.recupererServeur().subscribe(serveurs => {
           this.allServer = serveurs;
@@ -67,6 +62,14 @@ export class ModificationApplicationComponent implements OnInit {
   onSubmit(value) {
 
   }
+
+  initFormWarApplication(war: WarApplication) {
+    this.formulaire.addControl('warApplication', new FormGroup({
+      nomFichierProperties: new FormControl(war.nomFichierProperties),
+    }))
+
+  }
+
 
   changeCheck(e) {
     if (e) {
