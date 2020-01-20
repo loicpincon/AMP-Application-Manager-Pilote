@@ -7,7 +7,7 @@ export abstract class Application {
     type: string;
     environnements: Map<number, Environnement>;
     livrables: Livrable[];
-    dockerFileId: string;
+    dockerfile: Dockerfile;
     baseName: string;
 }
 
@@ -89,8 +89,7 @@ export class BashApplication extends Application {
  * 
  */
 export class WarApplication extends Application {
-    versionWar: string;
-    urlRepoNexs: string;
+    nomFichierProperties: string;
 }
 
 /**

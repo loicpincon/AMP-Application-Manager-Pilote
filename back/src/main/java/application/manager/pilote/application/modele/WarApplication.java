@@ -16,8 +16,6 @@ public class WarApplication extends Application {
 	 */
 	private static final long serialVersionUID = 520547287758028728L;
 
-	private String versionWar;
-
-	private String urlRepoNexus;
+	private String nomFichierProperties;
 
 }
