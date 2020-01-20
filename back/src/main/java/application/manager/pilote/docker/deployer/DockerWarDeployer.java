@@ -129,7 +129,8 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 			File copied = new File(pathToFolderTemporaire + SLASH + app.getBaseName());
 			FileUtils.copyFile(new File(pathToWar), copied);
-			deployfileHelper.createGcpFile(pathToFolderTemporaire, parametres.getParametres());
+			deployfileHelper.createGcpFile(pathToFolderTemporaire + "/" + app.getNomFichierProperties(),
+					parametres.getParametres());
 
 			ProcessBuilder pb = new ProcessBuilder(scriptPathHelper.getPathOfFile("", "deploiement_war_gcp"),
 					pathToFolderTemporaire, pathToFolderTemporaire + SLASH + app.getBaseName(),

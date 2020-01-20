@@ -21,7 +21,10 @@ export class ModificationApplicationComponent implements OnInit {
 
   formulaire: FormGroup;
 
-  typeApplication: string [];
+  typeApplication: string[];
+
+  dockerFiles: Dockerfile[];
+
 
   constructor(private route: ActivatedRoute, private _router: Router, private apmService: ApmService, private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
   ngOnInit() {
@@ -30,7 +33,7 @@ export class ModificationApplicationComponent implements OnInit {
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
           this.application = app;
-          
+
           console.log(app)
           console.log(app.dockerfile.file)
           this.formulaire = this.formBuilder.group({
@@ -47,7 +50,7 @@ export class ModificationApplicationComponent implements OnInit {
             nodeJsApplication: new FormGroup({
               versionNode: new FormControl('')
             })
-          });       
+          });
         })
 
         this.apmService.recupererServeur().subscribe(serveurs => {
@@ -61,8 +64,17 @@ export class ModificationApplicationComponent implements OnInit {
     });
   }
 
+  onSubmit(value) {
 
-  
+  }
+
+  changeCheck(e) {
+    if (e) {
+      this.formulaire.controls['dockerfilesText'].enable()
+    } else {
+      this.formulaire.controls['dockerfilesText'].disable()
+    }
+  }
 
 
   /*activeDansApp(serveur: Serveur) {
