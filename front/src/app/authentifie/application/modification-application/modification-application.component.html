@@ -1,21 +1,63 @@
-<div class="container" *ngIf="application">
+<div class="container">
     <div class="title">
-        <h1>Configurer</h1>
+        <h1>Ajouter une nouvelle application</h1>
     </div>
-    <div>
-        <h2>Type d'environnement</h2>
-
-
-        <div *ngFor="let ser of allServer">
-
-
-            <button id="btn_{{ser.id}}" type="button" (click)="changePosition(ser)"
-                [ngClass]="{'isPresent': activeDansApp(ser), 'isNotPresent': !activeDansApp(ser)}"
-                class="btn btnServeur">{{ser.nom}}</button>
-            <input [checked]="activeDansApp(ser)" class="form-check-input" type="checkbox" id="ser.id" value="ser.id"
-                hidden>
-
+    <form *ngIf="application" [formGroup]="formulaire" (ngSubmit)="onSubmit(formulaire.value)">
+        <div class="colonne">
+            <mat-form-field class="midSize">
+                <input required formControlName="name" matInput placeholder="Nom application">
+            </mat-form-field>
         </div>
-
-    </div>
+        <div flexLayout class="colonne">
+            <div class="midSize">
+                <mat-form-field fxFlex="50%">
+                    <mat-label>Type application</mat-label>
+                    <mat-select required formControlName="typeApp" [(value)]="formulaire.value.typeApp">
+                        <mat-option *ngFor="let type of typeApplication" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div fxFlex="50%" *ngIf="formulaire.value.typeApp">
+                    <div formGroupName="nodeJsApplication" *ngIf="formulaire.value.typeApp=='NODEJS'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required matInput formControlName="versionNode" placeholder="Version node JS">
+                        </mat-form-field>
+                    </div>
+                    <div formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required formControlName="basename" matInput placeholder="Base name">
+                        </mat-form-field>
+                    </div>
+                    <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required matInput formControlName="urlBatch" placeholder="URL Batch">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="colonne">
+            <mat-form-field class="midSize">
+                <mat-label>DockerFile Template</mat-label>
+                <mat-select #dockerfile required formControlName="dockerfiles">
+                    <mat-option *ngFor="let dk of dockerFiles" [value]="dk">
+                        {{dk.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="dockerfile.value">
+                <mat-checkbox formControlName="check" (change)="changeCheck($event.checked)">Modifier le template</mat-checkbox>
+            </div>
+            <mat-form-field *ngIf="dockerfile.value" class="fullSize">
+                <textarea style="width: 100%;"
+                    formControlName="dockerfilesText" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="5" [value]="dockerfile.value.file" matInput></textarea>
+            </mat-form-field>
+        </div> 
+        <div>
+            <button [disabled]="!formulaire.valid" mat-raised-button color="primary"
+                type="submit">Ajouter</button>
+        </div>
+    </form>
 </div>

@@ -16,8 +16,6 @@ import { FormulaireLogInfo } from 'src/app/authentifie/consultation-log/modele/M
 })
 export class ApmService {
 
-    moment = require('moment');
-
     constructor(private httpClient: HttpClient, private apiManagerService: ApiManagerService) {
     }
 

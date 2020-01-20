@@ -29,7 +29,7 @@ export class CreationApplicationComponent implements OnInit {
       dockerfilesText: '',
       check: false,
       warApplication: new FormGroup({
-        basename: new FormControl(''),
+        nomFichierProperties: new FormControl(''),
       }),
       bashApplication: new FormGroup({
         urlBatch: new FormControl('')
@@ -86,8 +86,7 @@ export class CreationApplicationComponent implements OnInit {
       app = null;
     } else if (data.typeApp === "WAR") {
       app = new WarApplication();
-      app.versionWar = data.warApplication.versionWar;
-      app.urlRepoNexus = data.warApplication.urlRepoNexus;
+      app.nomFichierProperties = data.warApplication.nomFichierProperties
     } else if (data.typeApp === "BASH") {
       app = new BashApplication();
       app.urlBatch = data.bashApplication.urlBatch;

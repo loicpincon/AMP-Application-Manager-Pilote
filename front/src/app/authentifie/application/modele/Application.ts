@@ -89,8 +89,7 @@ export class BashApplication extends Application {
  * 
  */
 export class WarApplication extends Application {
-    versionWar: string;
-    urlRepoNexs: string;
+    nomFichierProperties: string;
 }
 
 /**

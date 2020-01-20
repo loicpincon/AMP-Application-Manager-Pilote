@@ -26,7 +26,7 @@
                     </div>
                     <div formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
                         <mat-form-field class="inputTypeApp">
-                            <input required formControlName="basename" matInput placeholder="Base name">
+                            <input required formControlName="nomFichierProperties" matInput placeholder="Nom du properties">
                         </mat-form-field>
                     </div>
                     <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
