@@ -24,6 +24,7 @@ import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.ParametreSeries;
+import application.manager.pilote.application.modele.WarApplication;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.PropertiesReader;
@@ -84,7 +85,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 	ContainerParam param;
 
-	Application app;
+	WarApplication app;
 
 	Server server;
 
@@ -121,8 +122,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 					hasherService.randomInt());
 
 			BuildImageResultCallback callback = new BuildImageResultCallback();
-			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire,
-					dockerFileService.get(app.getDockerFileId()));
+			File dockerFile = deployfileHelper.createDockerFile(pathToFolderTemporaire, app.getDockerfile());
 
 			String pathToWar = properties.getProperty(BASE_PATH_TO_APPLICATION_STOCK) + SLASH + app.getId() + SLASH
 					+ param.getVersion() + SLASH + app.getBaseName();
@@ -146,7 +146,8 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 			LOG.debug("Fin de la construction, debut de la creation de l'image");
 
-			String test = dockerClient.buildImageCmd(dockerFile).exec(callback).awaitCompletion().awaitImageId();
+			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("basename", app.getBaseName())
+					.exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);
 			CreateContainerResponse container = dockerClient.createContainerCmd(test)
 					.withName(param.getIdInstanceCible()).withPublishAllPorts(true).withName(ins.getId())

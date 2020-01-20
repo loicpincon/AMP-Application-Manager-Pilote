@@ -7,6 +7,12 @@
             <mat-form-field class="midSize">
                 <input required formControlName="name" matInput placeholder="Nom application">
             </mat-form-field>
+
+        </div>
+        <div class="colonne">
+            <mat-form-field class="midSize">
+                <input required formControlName="basename" matInput placeholder="Base name">
+            </mat-form-field>
         </div>
         <div flexLayout class="colonne">
             <div class="midSize">
@@ -26,7 +32,8 @@
                     </div>
                     <div formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
                         <mat-form-field class="inputTypeApp">
-                            <input required formControlName="nomFichierProperties" matInput placeholder="Nom du properties">
+                            <input required formControlName="nomFichierProperties" matInput
+                                placeholder="Nom fichier properties racine">
                         </mat-form-field>
                     </div>
                     <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
@@ -47,17 +54,17 @@
                 </mat-select>
             </mat-form-field>
             <div *ngIf="dockerfile.value">
-                <mat-checkbox formControlName="check" (change)="changeCheck($event.checked)">Modifier le template</mat-checkbox>
+                <mat-checkbox formControlName="check" (change)="changeCheck($event.checked)">Modifier le template
+                </mat-checkbox>
             </div>
             <mat-form-field *ngIf="dockerfile.value" class="fullSize">
-                <textarea style="width: 100%;"
-                    formControlName="dockerfilesText" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="5" [value]="dockerfile.value.file" matInput></textarea>
+                <textarea style="width: 100%;" formControlName="dockerfilesText" cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" [value]="dockerfile.value.file"
+                    matInput></textarea>
             </mat-form-field>
-        </div> 
+        </div>
         <div>
-            <button [disabled]="!formulaire.valid" mat-raised-button color="primary"
-                type="submit">Ajouter</button>
+            <button [disabled]="!formulaire.valid" mat-raised-button color="primary" type="submit">Ajouter</button>
         </div>
     </form>
 </div>

@@ -14,7 +14,7 @@ export class CreationApplicationComponent implements OnInit {
   typeApplication: string[];
   formulaire: FormGroup;
   dockerFiles: Dockerfile[];
-  constructor(private _router: Router,private apmService: ApmService, private formBuilder: FormBuilder,private _snackBar: MatSnackBar) { }
+  constructor(private _router: Router, private apmService: ApmService, private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.apmService.recupererTypeApplications().subscribe(typesApp => {
       this.typeApplication = typesApp;
@@ -25,9 +25,10 @@ export class CreationApplicationComponent implements OnInit {
     this.formulaire = this.formBuilder.group({
       name: '',
       typeApp: '',
-      dockerfiles: '',
+      dockerfiles: null,
       dockerfilesText: '',
       check: false,
+      basename: '',
       warApplication: new FormGroup({
         nomFichierProperties: new FormControl(''),
       }),
@@ -41,47 +42,33 @@ export class CreationApplicationComponent implements OnInit {
     this.formulaire.controls['dockerfilesText'].disable()
   }
 
-  changeCheck(e){
-    if(e){
+  changeCheck(e) {
+    if (e) {
       this.formulaire.controls['dockerfilesText'].enable()
-    }else{
+    } else {
       this.formulaire.controls['dockerfilesText'].disable()
     }
   }
   onSubmit(customerData) {
-    if (this.formulaire.controls['dockerfilesText'].enabled) {
-      this.apmService.ajouterDockerFile(this.formulaire.value.dockerfiles.name, this.formulaire.value.dockerfilesText).subscribe(dockerFile => {
-        var body = this.buildBody(customerData);
-        body.dockerFileId = dockerFile.id;
-        this.apmService.ajouterApplication(body).subscribe(app => {
-          this._snackBar.open('Application ajoutée avec succès !','', {
-            duration: 2000,
-            panelClass: 'customSnackBar'
-          });
-          this._router.navigate(['/secure/application/pilotage',app.id]);
-        }, error => {
-          console.error(error);
-        })
-      })
-    } else {
-      var body = this.buildBody(customerData);
-      body.dockerFileId = this.formulaire.value.dockerfiles.id;
-      this.apmService.ajouterApplication(body).subscribe(app => {
-        this._snackBar.open('Application ajoutée avec succès !','', {
-          duration: 2000,
-          panelClass: 'customSnackBar'
-        });
-        this._router.navigate(['/secure/application/pilotage', app.id]);
-      }, error => {
-        console.error(error);
-      })
-    }
+    var body = this.buildBody(customerData);
+    this.apmService.ajouterApplication(body).subscribe(app => {
+      this._snackBar.open('Application ajoutée avec succès !', '', {
+        duration: 2000,
+        panelClass: 'customSnackBar'
+      });
+      this._router.navigate(['/secure/application/pilotage', app.id]);
+    }, error => {
+      console.error(error);
+    })
+
+    console.log(body)
   }
 
 
   buildBody(data) {
     console.log(data);
     var app;
+
     if (data.typeApp === "NODEJS") {
       app = null;
     } else if (data.typeApp === "WAR") {
@@ -93,6 +80,8 @@ export class CreationApplicationComponent implements OnInit {
     }
     app.name = data.name;
     app.type = data.typeApp;
+    app.dockerfile = data.dockerfiles;
+    app.baseName = data.basename;
     console.log(app);
     return app;
   }
