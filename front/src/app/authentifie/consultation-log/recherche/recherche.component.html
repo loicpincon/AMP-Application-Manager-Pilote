@@ -4,7 +4,7 @@
 
 
 </div>
-<div class="containerTable mat-elevation-z8">
+<div class=" mat-elevation-z8">
 
 
     <div>
@@ -125,7 +125,8 @@
 
             <ng-container matColumnDef="Version">
                 <th mat-header-cell *matHeaderCellDef class="headerTab cell_date"> Timestamp </th>
-                <td mat-cell class="content_tab cell_date" *matCellDef="let element"> {{element.timestamp}} </td>
+                <td mat-cell class="content_tab cell_date" *matCellDef="let element">
+                    {{element.timestamp | date:'yyyy-MM-dd HH:mm:ss'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Date">
