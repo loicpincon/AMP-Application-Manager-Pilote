@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "buildprod": "ng build --prod --base-href /amp/ --deploy-url /amp/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
