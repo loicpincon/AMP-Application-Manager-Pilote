@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -13,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
@@ -145,8 +146,15 @@ public class DockerWarDeployer extends DefaultDeployer {
 			String test = dockerClient.buildImageCmd(dockerFile).withBuildArg("basename", app.getBaseName())
 					.exec(callback).awaitCompletion().awaitImageId();
 			LOG.info(test);
-			dockerClient.createContainerCmd(test).withName(param.getIdInstanceCible()).withPublishAllPorts(true)
-					.withName(ins.getId()).withPortBindings(getPortsBinds(ins)).exec();
+
+			Map<String, String> labels = new HashMap<>();
+			labels.put("ID_APP", app.getId());
+			labels.put("ID_ENV", server.getId().toString());
+			labels.put("VERSION_APP", param.getVersion());
+			labels.put("VERSION_PARAM", param.getVersionParam());
+
+			dockerClient.createContainerCmd(test).withName(param.getIdInstanceCible()).withLabels(labels)
+					.withPublishAllPorts(true).withName(ins.getId()).withPortBindings(getPortsBinds(ins)).exec();
 
 			dockerClient.startContainerCmd(ins.getContainerId()).exec();
 			ins.setEtat("L");

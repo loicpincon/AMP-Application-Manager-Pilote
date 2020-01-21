@@ -107,7 +107,7 @@ public class DockerContainerService {
 	 * @return
 	 */
 	public List<com.github.dockerjava.api.model.Container> getContainers() {
-		return dockerClient.listContainersCmd().exec();
+		return dockerClient.listContainersCmd().withShowAll(true).exec();
 
 	}
 
@@ -180,7 +180,7 @@ public class DockerContainerService {
 	 */
 	private void stopC(Instance containerId) {
 		try {
-			dockerClient.stopContainerCmd(containerId.getContainerId()).exec();
+			dockerClient.pauseContainerCmd(containerId.getContainerId()).exec();
 			containerId.setEtat("S");
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
@@ -223,6 +223,10 @@ public class DockerContainerService {
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
+	}
+
+	public InspectContainerResponse getContainer(String id) {
+		return dockerClient.inspectContainerCmd(id).exec();
 	}
 
 }

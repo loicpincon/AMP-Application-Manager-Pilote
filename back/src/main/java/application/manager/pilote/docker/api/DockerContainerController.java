@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
+
 import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.docker.modele.Container;
+import application.manager.pilote.docker.service.ApplicationPodsService;
 import application.manager.pilote.docker.service.DockerContainerService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.session.modele.Secured;
@@ -28,6 +31,9 @@ public class DockerContainerController {
 
 	@Autowired
 	private DockerContainerService dockerService;
+
+	@Autowired
+	private ApplicationPodsService applicationPodService;
 
 	/**
 	 * 
@@ -44,11 +50,34 @@ public class DockerContainerController {
 	 * 
 	 * @return
 	 */
+	@GetMapping(path = "/{idApp}/{idServer}/containers")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<List<Instance>>> recupererContainersParId(@PathVariable String idApp,
+			@PathVariable Integer idServer) {
+		return () -> ResponseEntity.ok(applicationPodService.recupererInstanceParAppEtEnv(idApp, idServer));
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping(path = "/containers")
 	@ApiManager
 	@Secured
 	public Callable<ResponseEntity<List<com.github.dockerjava.api.model.Container>>> recupererContainers() {
 		return () -> ResponseEntity.ok(dockerService.getContainers());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/containers/{id}")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<InspectContainerResponse>> recupererContainersParId(@PathVariable String id) {
+		return () -> ResponseEntity.ok(dockerService.inspect(id));
 	}
 
 	/**
