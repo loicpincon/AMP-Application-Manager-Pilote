@@ -28,6 +28,10 @@ export class AuthentifieComponent implements OnInit {
 
     ngOnInit() {
 
+        this.appService.recupererInfoApp().subscribe(infos => {
+            this.appInfo = infos;
+        })
+
         this.sidenavService.sideNav = this.menuApp;
         this.appService.recupererSession().subscribe(user => {
             this.user = user;
