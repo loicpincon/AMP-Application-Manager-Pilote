@@ -44,7 +44,7 @@ public class MongoDbConfig {
 		sb.append(properties.getProperty(MONGO_PORT));
 		sb.append("/");
 		sb.append(properties.getProperty(MONGO_COLLECTION));
-		sb.append("?ssl=true&replicaSet=mobilite-shard-0&authSource=admin&retryWrites=true&w=majority");
+		sb.append("?ssl=true&authSource=admin&retryWrites=true&w=majority");
 		return new SimpleMongoClientDbFactory(sb.toString());
 	}
 
