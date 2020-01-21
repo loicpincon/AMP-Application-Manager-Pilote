@@ -1,5 +1,6 @@
-package application.manager.pilote.commun.modele;
+package application.manager.pilote.applicationinfo.modele;
 
+import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
 import lombok.Setter;
 

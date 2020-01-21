@@ -1,4 +1,4 @@
-package application.manager.pilote.commun.service;
+package application.manager.pilote.applicationinfo.service;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.stereotype.Service;
 
-import application.manager.pilote.commun.modele.ApplicationInfoRessource;
+import application.manager.pilote.applicationinfo.modele.ApplicationInfoRessource;
 
 @Service
 public class ApplicationInfoService {

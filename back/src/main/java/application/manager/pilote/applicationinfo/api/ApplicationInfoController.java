@@ -1,4 +1,4 @@
-package application.manager.pilote.commun.api;
+package application.manager.pilote.applicationinfo.api;
 
 import java.util.concurrent.Callable;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.manager.pilote.apimanager.modele.ApiManager;
+import application.manager.pilote.applicationinfo.modele.ApplicationInfoRessource;
+import application.manager.pilote.applicationinfo.service.ApplicationInfoService;
 import application.manager.pilote.commun.controller.DefaultController;
-import application.manager.pilote.commun.modele.ApplicationInfoRessource;
-import application.manager.pilote.commun.service.ApplicationInfoService;
 import application.manager.pilote.session.modele.Secured;
 
 @RestController
