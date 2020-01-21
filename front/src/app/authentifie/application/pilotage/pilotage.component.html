@@ -1,6 +1,8 @@
 <div *ngIf="application">
     <div class="header">
-        <h3 class="text-center">{{application.name}}</h3>
+        <h3>{{application.name}}</h3>
+        <a (click)="configurer()"><i class="material-icons iconConf"
+            matTooltip="Configurer l'application">build</i></a>
     </div>
     <div class="container">
         <div fxLayout fxLayout.xs="column">

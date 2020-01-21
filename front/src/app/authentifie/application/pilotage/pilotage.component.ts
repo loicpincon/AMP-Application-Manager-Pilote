@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Application, Instance, ParamsInstance, ParametreSeries } from '../modele/Application';
 import * as Stomp from 'stompjs';
@@ -14,7 +14,7 @@ import { DataSharedService } from 'src/app/core/services/dataShared.service';
 export class PilotageComponent implements OnInit {
 
 
-  constructor(private route: ActivatedRoute, private dataShared: DataSharedService, private appService: ApmService) { }
+  constructor(private route: ActivatedRoute,private router : Router, private dataShared: DataSharedService, private appService: ApmService) { }
 
   instanceSelect: Instance = null;
   idServer: number;
@@ -104,4 +104,10 @@ export class PilotageComponent implements OnInit {
       }
     }
   }
+
+  
+  configurer() {
+    this.router.navigate(['/secure/application/modification', this.application.id]);
+  }
+
 }

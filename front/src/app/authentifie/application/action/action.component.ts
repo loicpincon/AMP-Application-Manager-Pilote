@@ -92,9 +92,4 @@ export class ActionComponent implements OnInit {
 
   }
 
-  configurer() {
-    this.router.navigate(['/secure/application/modification', this.app.id]);
-
-  }
-
 }
