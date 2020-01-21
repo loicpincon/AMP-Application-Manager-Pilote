@@ -28,6 +28,7 @@ export class AuthentifieComponent implements OnInit {
     mode = new FormControl('side');
 
     ngOnInit() {
+
         this.appService.recupererInfoApp().subscribe(infos => {
             this.appInfo = infos;
         })

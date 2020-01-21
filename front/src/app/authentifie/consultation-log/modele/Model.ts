@@ -22,5 +22,4 @@ export interface FormulaireLogInfo {
 
 export interface ApplicationInformation {
     version: string;
-
 }
