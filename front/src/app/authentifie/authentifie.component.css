@@ -52,3 +52,8 @@
 .headerPanel{
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
+
+.versionText{
+        font-size: 9px;
+        color:#5ccb81;
+}
