@@ -1,7 +1,8 @@
 <mat-card class="blocParametre">
   <div class="blocParametreHeader">
     <mat-card-title class="blocParametreTitre">
-      <a (click)="ajouterSerie()"><i class="material-icons iconAdd">add</i></a>
+      <a (click)="ajouterSerie()"><i matTooltip="ajouter une serie de parametres"
+          class="material-icons iconAdd">add</i></a>
       <h5>Paramètres Applicatifs {{selection[0]}}</h5>
     </mat-card-title>
   </div>
@@ -14,14 +15,20 @@
       </ng-container>
 
       <ng-container matColumnDef="Consulter">
-        <th mat-header-cell *matHeaderCellDef class="headerTab"> Consulter </th>
+        <th mat-header-cell *matHeaderCellDef class="headerTab"> Consulter <i class="material-icons iconLvlAcces"
+            matTooltip="consulter les parametres" matTooltipPosition="right">
+            help
+          </i> </th>
         <td mat-cell *matCellDef="let element"> <i (click)="listerParametre(element.version,false)"
             class="material-icons"> menu_book
           </i></td>
       </ng-container>
 
       <ng-container matColumnDef="Modifier">
-        <th mat-header-cell *matHeaderCellDef class="headerTab"> Modifier </th>
+        <th mat-header-cell *matHeaderCellDef class="headerTab"> Modifier <i class="material-icons iconLvlAcces"
+            matTooltip="modifier les parametres" matTooltipPosition="right">
+            help
+          </i></th>
         <td mat-cell *matCellDef="let element"> <i class="material-icons"
             (click)="listerParametre(element.version,true)"> create </i>
         </td>

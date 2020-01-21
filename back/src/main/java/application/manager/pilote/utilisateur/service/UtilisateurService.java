@@ -42,6 +42,9 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur inserer(Utilisateur u) {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
+		if (uRepo.trouverParEmail(u.getEmail()).isPresent()) {
+			throw new ApplicationException(400, "Le mail est déjà utilisé");
+		}
 		return uRepo.insert(u);
 	}
 
