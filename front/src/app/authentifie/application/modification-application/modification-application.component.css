@@ -1,15 +1,8 @@
-.colonne{
-  text-align: center;
-}
 .title{
   text-align: center;
 }
 .fullSize{
   width: 100%;
-}
-.midSize{
-  width: 50%;
-  margin: auto;
 }
 .container form{
   max-width: 800px;
@@ -34,4 +27,10 @@
   margin-left: 20%;
   margin-right: 20%;
   margin: 5px
+}
+.env{
+  margin: 10px;
+}
+.btnDesactive{
+  background: lightgrey;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement } from '../modele/Application';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class ModificationApplicationComponent implements OnInit {
 
   application: Application;
 
-  allServer: Serveur[];
+  allServer: Serveur[] = new Array();
 
   idNewServer: number[] = new Array();
 
@@ -29,10 +29,8 @@ export class ModificationApplicationComponent implements OnInit {
   constructor(private route: ActivatedRoute, private _router: Router, private apmService: ApmService, private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log(params)
       if (params['idApp'] !== undefined) {
         this.apmService.recupererApplication(params['idApp']).subscribe((app) => {
-          console.log(app)
           this.application = app;
           this.formulaire = this.formBuilder.group({
             name: new FormControl(app.name),
@@ -57,10 +55,22 @@ export class ModificationApplicationComponent implements OnInit {
           } else if (this.application.type == "NODEJS") {
             this.initFormNodeJsApplication(this.application as NodeJsApplication);
           }
+          let tmp : string[] = new Array()
+          
+
+          this.apmService.recupererServeur().subscribe(serveurs => {
+            serveurs.forEach(serv=>{
+              serv.etat = false
+              Object.keys(app.environnements).forEach((key) => {
+                if(serv.id.toString() == key){
+                  serv.etat = true
+                }
+                })
+              this.allServer.push(serv)
+            })
+          })
         })
-        this.apmService.recupererServeur().subscribe(serveurs => {
-          this.allServer = serveurs;
-        })
+        
 
         this.apmService.recupererTypeApplications().subscribe(typesApp => {
           this.typeApplication = typesApp;
@@ -69,13 +79,20 @@ export class ModificationApplicationComponent implements OnInit {
     });
   }
 
+  switchEtatEnv(env,bool){
+    this.allServer.forEach(serv=>{
+      if(serv.id === env.id){
+        serv.etat = bool
+      }
+    })
+  }
+
   onSubmit(value) {
     if(this.formulaire.valid){
       let appTmp: any;
       switch(value.typeApp){
         case "WAR":{
           appTmp = new WarApplication();
-          console.log(value)
           appTmp.nomFichierProperties = value.warApplication.nomFichierProperties
           break;
         }
@@ -97,12 +114,23 @@ export class ModificationApplicationComponent implements OnInit {
       appTmp.id = this.application.id
       appTmp.environnements = this.application.environnements
       appTmp.livrables = this.application.livrables
-
+      let evt = new Environnement()
+      this.allServer.forEach(item => {
+        if(item.etat){
+          if(this.application.environnements[item.id]){
+            evt[item.id] = this.application.environnements[item.id]
+          }else{
+            evt[item.id] = new Environnement()
+          }
+        }
+      })
+      appTmp.environnements = evt
       this.apmService.modifierApplication(appTmp).subscribe(data =>{
         this._snackBar.open('Application modifiée avec succès !', '', {
           duration: 2000,
           panelClass: 'customSnackBar'
         });
+        this._router.navigate(['/secure/application/pilotage', appTmp.id]);
       }, error=>{
         console.log(error)
       })
@@ -112,10 +140,10 @@ export class ModificationApplicationComponent implements OnInit {
         panelClass: 'errorSnackBar'
       });
     }
+
   }
 
   selectType(type: string){
-    console.log(type)
     switch(type){
       case "WAR":{
         this.formulaire.controls['bashApplication'].disable()
@@ -158,49 +186,5 @@ export class ModificationApplicationComponent implements OnInit {
       this.formulaire.controls['dockerfilesText'].disable()
     }
   }
-
-
-  /*activeDansApp(serveur: Serveur) {
-    var find = false;
-    if (this.application.environnements != null) {
-      Object.keys(this.application.environnements).forEach((key) => {
-        if (serveur.id.toString() == key) {
-          find = true;
-        }
-      })
-    }
-
-    return find;
-  }
-
-
-  ajouterEnvironnement(serveur) {
-    this.idNewServer.push(serveur.id)
-    //this.application.environnements[serveur.id] = null;
-  }
-
-  retirerEnvironnement(serveur) {
-    const index: number = this.idNewServer.indexOf(serveur.id);
-    if (index !== -1) {
-      this.idNewServer.splice(index, 1);
-    }
-    //delete this.application.environnements[serveur.id];
-  }
-
-  changePosition(serveur) {
-    let body = document.getElementById('btn_' + serveur.id);
-
-    if (this.idNewServer.indexOf(serveur.id) !== -1) {
-      body.classList.remove("isPresent");
-      body.classList.add("isNotPresent");
-      this.retirerEnvironnement(serveur)
-    } else {
-      body.classList.add("isPresent");
-      body.classList.remove("isNotPresent");
-      this.ajouterEnvironnement(serveur)
-    }
-    console.log(this.idNewServer)
-  }*/
-
 
 }

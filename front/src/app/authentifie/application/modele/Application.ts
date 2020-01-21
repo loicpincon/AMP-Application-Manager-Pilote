@@ -116,6 +116,7 @@ export interface Serveur {
     nom: string;
     ip: string;
     dns: string;
+    etat: boolean;
 }
 
 
