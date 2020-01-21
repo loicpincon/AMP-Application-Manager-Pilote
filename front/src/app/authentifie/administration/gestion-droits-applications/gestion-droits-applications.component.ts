@@ -12,7 +12,7 @@ import { Application } from '../../application/modele/Application';
 })
 export class GestionDroitsApplicationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'nom', 'prenom', 'niveau', 'supprimer'];
+  displayedColumns: string[] = ['id', 'nom', 'prenom', 'niveau'];
   users: User[];
   user: User;
   applications: Application[];
@@ -20,6 +20,7 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   types: DroitApplicatifLevel[];
   loader: boolean = false;
   currentUserToReloadRight: User;
+  adminRight: boolean = false;
 
   constructor(private serviceApm: ApmService, public dialog: MatDialog,private _snackBar: MatSnackBar) { }
 
@@ -36,10 +37,24 @@ export class GestionDroitsApplicationsComponent implements OnInit {
   }
 
   loadUserByApp(evt) {
+    if(this.displayedColumns.includes('supprimer')){
+      this.displayedColumns.pop()
+    }
     this.users = null;
     this.applicationEnCours = evt.value;
     this.serviceApm.recupererAllUserByApplications(evt.value).subscribe(users => {
       this.users = users;
+      this.adminRight = false;
+      users.forEach(user=>{
+        if(user.token == this.user.token){
+          user.rights.forEach(right=>{
+            if(right.level == "PROP"){
+              this.adminRight = true;
+              this.displayedColumns.push('supprimer')
+            }
+          })
+        }
+      })
     })
   }
 
