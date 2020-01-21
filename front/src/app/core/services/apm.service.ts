@@ -19,7 +19,6 @@ export class ApmService {
     constructor(private httpClient: HttpClient, private apiManagerService: ApiManagerService) {
     }
 
-
     recupererInfoApp(): Observable<ApplicationInformation> {
         const uri = this.apiManagerService.genereUrl('Information.recuperer').url;
         return this.httpClient.get<ApplicationInformation>(uri);

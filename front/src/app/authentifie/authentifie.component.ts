@@ -20,6 +20,7 @@ export class AuthentifieComponent implements OnInit {
 
     applications: Application[];
     idApp: string;
+
     appInfo: ApplicationInformation;
     user: User;
     @ViewChild('menuApp', { static: true }) public menuApp: MatSidenav;
