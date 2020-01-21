@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { User } from './administration/modele/model';
+import { ApplicationInformation } from './consultation-log/modele/Model';
 @Component({
     selector: 'app-secure-authent',
     templateUrl: './authentifie.component.html',
@@ -20,6 +21,7 @@ export class AuthentifieComponent implements OnInit {
     applications: Application[];
     idApp: string;
 
+    appInfo: ApplicationInformation;
     user: User;
     @ViewChild('menuApp', { static: true }) public menuApp: MatSidenav;
     constructor(private _router: Router, private appService: ApmService, private sidenavService: SidenavService) { }
