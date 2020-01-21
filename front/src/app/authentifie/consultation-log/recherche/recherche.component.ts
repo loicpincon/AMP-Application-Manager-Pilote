@@ -43,9 +43,6 @@ export class RechercheLogComponent implements OnInit {
 
 
     ngOnInit() {
-
-
-
         this.route.queryParams
             .subscribe(params => {
                 console.log(params.length);
