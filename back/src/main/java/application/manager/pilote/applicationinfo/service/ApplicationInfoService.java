@@ -17,6 +17,10 @@ public class ApplicationInfoService {
 
 	protected static final Log LOG = LogFactory.getLog(ApplicationInfoService.class);
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ApplicationInfoRessource get() {
 		ApplicationInfoRessource appinfo = new ApplicationInfoRessource();
 		appinfo.setVersion(getPomVersion());
