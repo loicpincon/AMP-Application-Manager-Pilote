@@ -20,7 +20,6 @@ export class InstanceComponent implements OnInit {
   constructor(private dataShared: DataSharedService, public dialog: MatDialog, private apmService: ApmService) { }
 
   ngOnInit() {
-
   }
 
   selectInstance(is: Instance, params: ParametreSeries, idServer: number) {
