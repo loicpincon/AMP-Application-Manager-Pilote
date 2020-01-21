@@ -19,3 +19,8 @@ export interface EnvLog {
 export interface FormulaireLogInfo {
     envs: EnvLog[];
 }
+
+export interface ApplicationInformation {
+    version: string;
+
+}
