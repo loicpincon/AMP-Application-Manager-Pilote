@@ -12,7 +12,7 @@
 	</parent>
 	<groupId>application.manager</groupId>
 	<artifactId>pilote</artifactId>
-	<version>0.0.64</version>
+	<version>0.0.64-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>AMP-Application Manager Pilote</name>
 	<description>Application Manager Pilote</description>
@@ -26,6 +26,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+			<version>3.3.9</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -115,7 +120,23 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
