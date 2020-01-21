@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  urlServeurBase: window.location.origin + '/amp/api/map',
-  urlServeurSocketBase: window.location.origin + '/amp/socket'
+  urlServeurBase: window.location.origin + '/api/map',
+  urlServeurSocketBase: window.location.origin + '/socket'
 };

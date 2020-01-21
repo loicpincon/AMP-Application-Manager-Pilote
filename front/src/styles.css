@@ -8,7 +8,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: white;
   }
 
+.errorSnackBar{
+  background-color: #e64c41;
+  color: white;
+}
+
 .customSnackBar span{
     margin:auto;
     text-align: center;
   }
+.errorSnackBar span{
+  margin:auto;
+  text-align: center;
+}
