@@ -15,7 +15,7 @@ export class InstanceComponent implements OnInit {
   @Output() instanceSelect = new EventEmitter<ParamsInstance>();
   @Input() environnements: Map<number, Environnement>;
   @Input() app: Application;
-
+  
   instanceEnCours: Instance;
   constructor(private dataShared: DataSharedService, public dialog: MatDialog, private apmService: ApmService) { }
 
@@ -34,6 +34,9 @@ export class InstanceComponent implements OnInit {
   }
 
 
+  getSizeMap(){
+    return Object.keys(this.environnements).length
+  }
   openDialog(): void {
     this.apmService.recupererServeur().subscribe(serveurs => {
       const dialogRef = this.dialog.open(ModalAjoutInstance, {
