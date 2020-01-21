@@ -4,7 +4,7 @@ import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application, Instance, Serveur, Dockerfile, Log, ParametreSeries } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
-import { FormulaireLogInfo, ApplicationInformation } from 'src/app/authentifie/consultation-log/modele/Model';
+import { FormulaireLogInfo } from 'src/app/authentifie/consultation-log/modele/Model';
 
 
 /**
@@ -17,12 +17,6 @@ import { FormulaireLogInfo, ApplicationInformation } from 'src/app/authentifie/c
 export class ApmService {
 
     constructor(private httpClient: HttpClient, private apiManagerService: ApiManagerService) {
-    }
-
-
-    recupererInfoApp(): Observable<ApplicationInformation> {
-        const uri = this.apiManagerService.genereUrl('Information.recuperer').url;
-        return this.httpClient.get<ApplicationInformation>(uri);
     }
 
     connecterUser(login: string, pass: string): Observable<any> {
