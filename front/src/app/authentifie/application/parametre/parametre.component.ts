@@ -60,6 +60,7 @@ export class ParametreComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       this.params.push(result.data.newSerie)
+      this.dataSource.data = this.params
       this.changeDetectorRefs.detectChanges();
 
     });

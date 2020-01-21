@@ -27,6 +27,15 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	 * @param password
 	 * @return
 	 */
+	@Query("{'email' : ?0}")
+	Optional<Utilisateur> trouverParEmail(String email);
+
+	/**
+	 * 
+	 * @param login
+	 * @param password
+	 * @return
+	 */
 	@Query("{'token' : ?0}")
 	Optional<Utilisateur> findByToken(String token);
 
