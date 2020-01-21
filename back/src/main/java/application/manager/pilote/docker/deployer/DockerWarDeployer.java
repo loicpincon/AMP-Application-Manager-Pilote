@@ -87,17 +87,6 @@ public class DockerWarDeployer extends DefaultDeployer {
 
 	Instance ins;
 
-	/**
-	 * @param serveur
-	 * @return
-	 */
-	private Ports getPortsBinds(Instance ins) {
-		Ports portBindings = new Ports();
-		ExposedPort expoPort = new ExposedPort(8080);
-		portBindings.bind(expoPort, Binding.bindPort(Integer.valueOf(ins.getPort())));
-		return portBindings;
-	}
-
 	public void run() {
 		try {
 			ParametreSeries parametres = null;
@@ -153,6 +142,7 @@ public class DockerWarDeployer extends DefaultDeployer {
 			labels.put("VERSION_APP", param.getVersion());
 			labels.put("VERSION_PARAM", param.getVersionParam());
 
+	dockerClient.updateContainerCmd("").			
 			dockerClient.createContainerCmd(test).withName(param.getIdInstanceCible()).withLabels(labels)
 					.withPublishAllPorts(true).withName(ins.getId()).withPortBindings(getPortsBinds(ins)).exec();
 

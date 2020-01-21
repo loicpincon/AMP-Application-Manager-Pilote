@@ -33,7 +33,7 @@ public class ApplicationPodsService {
 		Server server = serverSevice.consulter(idEnv);
 		List<com.github.dockerjava.api.model.Container> containers = dockerService.getContainers();
 		for (com.github.dockerjava.api.model.Container container : containers) {
-			LOG.debug(container.getId());
+			LOG.trace(container.getId());
 			if (checkLabelPresence(container.getLabels().get(ID_APP), idApp)
 					&& checkLabelPresence(container.getLabels().get(ID_ENV), idEnv.toString())) {
 				instances.add(mapFrom(container, server));
@@ -43,7 +43,7 @@ public class ApplicationPodsService {
 	}
 
 	private Boolean checkLabelPresence(String label, String cond) {
-		LOG.debug(label + " : " + cond);
+		LOG.trace(label + " : " + cond);
 		return label != null && label.equals(cond);
 	}
 
@@ -54,7 +54,9 @@ public class ApplicationPodsService {
 		i.setEtat(setEtatToContainer(containerInspect.getState()));
 		i.setId(container.getId());
 		i.setLibelle(container.getStatus());
-		i.setPort(container.getPorts()[0].getPublicPort().toString());
+		if (container.getPorts().length > 0) {
+			i.setPort(container.getPorts()[0].getPublicPort().toString());
+		}
 		i.setUrl("http://" + server.getIp() + ":" + i.getPort());
 		i.setVersionApplicationActuel(container.getLabels().get("VERSION_APP"));
 		i.setVersionParametresActuel(container.getLabels().get("VERSION_PARAM"));

@@ -44,9 +44,16 @@ public class ScriptPathHelper {
 	}
 
 	public String getRelativePath(String def) {
-		String path = getClass().getResource(def).getFile();
-		LOG.debug("base path : " + path);
-		return path;
+		String path;
+		try {
+			path = URLDecoder.decode(getClass().getResource(def).getFile(), "UTF-8");
+			LOG.debug("base path : " + path);
+			return path;
+		} catch (UnsupportedEncodingException e) {
+			LOG.error(e);
+			throw new ApplicationException(500, "Probleme de chemin de fichier : " + def);
+		}
+
 	}
 
 }

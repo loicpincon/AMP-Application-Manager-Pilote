@@ -2,8 +2,10 @@ package application.manager.pilote.application.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import application.manager.pilote.application.repository.ApplicationRepository;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.service.DefaultService;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.docker.service.ApplicationPodsService;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import application.manager.pilote.utilisateur.modele.Utilisateur;
 import application.manager.pilote.utilisateur.service.UtilisateurService;
@@ -32,10 +35,21 @@ public class ApplicationService extends DefaultService {
 	@Autowired
 	private UtilisateurService userService;
 
+	@Autowired
+	private ApplicationPodsService podsService;
+
 	public Application consulter(String id) {
 		Optional<Application> appOpt = appRepo.findById(id);
 		if (!appOpt.isPresent()) {
 			throw new ApplicationException(HttpStatus.NOT_FOUND, "application non trouve");
+		}
+		Application app = appOpt.get();
+		Set<Integer> cles = app.getEnvironnements().keySet();
+		Iterator<Integer> it = cles.iterator();
+		while (it.hasNext()) {
+			Integer cle = it.next();
+			Environnement valeur = app.getEnvironnements().get(cle);
+			valeur.setInstances(podsService.recupererInstanceParAppEtEnv(app.getId(), cle));
 		}
 		return appOpt.get();
 	}

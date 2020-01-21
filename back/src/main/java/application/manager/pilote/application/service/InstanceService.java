@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,7 @@ import application.manager.pilote.commun.helper.PropertiesReader;
 import application.manager.pilote.commun.helper.RandomPortHelper;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.commun.service.HashService;
+import application.manager.pilote.docker.deployer.EmptyContainerDeployer;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
 
@@ -56,6 +58,9 @@ public class InstanceService {
 
 	@Autowired
 	private StringHelper stringUtils;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	/**
 	 * Ajouter une instance a une application existante
@@ -89,6 +94,13 @@ public class InstanceService {
 		env.getInstances().add(instance);
 		instance.setContainerId(instance.getId());
 		appService.modifier(app);
+
+		LOG.debug("Debut de l'ajout du nouveau container");
+		EmptyContainerDeployer deployer = EmptyContainerDeployer.builder().app(app).server(server).instance(instance)
+				.build();
+		applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
+		deployer.start();
+
 		return instance;
 	}
 

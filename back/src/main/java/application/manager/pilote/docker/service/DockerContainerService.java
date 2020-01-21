@@ -63,6 +63,14 @@ public class DockerContainerService {
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	@Autowired
+	private ApplicationPodsService applicationPodService;
+
+	public Instance createEmptyContainer() {
+
+		return null;
+	}
+
 	/**
 	 * @param dockerFile
 	 * @throws IOException
@@ -72,7 +80,10 @@ public class DockerContainerService {
 		Application app = appService.consulter(param.getIdApplicationCible());
 		Server server = serveurService.consulter(param.getIdServeurCible());
 		Environnement envChoisi = app.getEnvironnements().get(server.getId());
-		Instance ins = instanceService.consulter(envChoisi.getInstances(), param.getIdInstanceCible());
+
+		Instance ins = instanceService.consulter(
+				applicationPodService.recupererInstanceParAppEtEnv(app.getId(), server.getId()),
+				param.getIdInstanceCible());
 
 		if (app.getType().equals(ApplicationType.WAR)) {
 			DockerWarDeployer deployer = DockerWarDeployer.builder().app((WarApplication) app).envChoisi(envChoisi)
