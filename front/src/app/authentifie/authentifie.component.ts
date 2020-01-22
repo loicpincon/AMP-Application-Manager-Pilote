@@ -66,7 +66,6 @@ export class AuthentifieComponent implements OnInit {
     }
 
     loadAdmin() {
-        //Navigue sur la page Application avec l'id de l'app
         this._router.navigate(['/secure/administration/gestion-droits']);
         this.sidenavService.sideNav.close();
     }
@@ -80,18 +79,14 @@ export class AuthentifieComponent implements OnInit {
 
 
     verifierDroit() {
-
         this.user.rights.forEach(right => {
             if (right.applicationId == this.idApp && (right.level === "CP" || right.level === "PROP" || right.level === "EXPERT")) {
                 console.log('ok')
                 return true;
             } else {
                 console.log(right.level)
-
             }
         })
-        console.log('non')
-
         return false;
 
     }
