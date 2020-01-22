@@ -207,4 +207,17 @@ export class ApmService {
         return this.httpClient.get<ParametreSeries>(uri);
     }
 
+    getImageProfil(id): string {
+        const params = new HttpParams().set('id', id);
+        return this.apiManagerService.genereUrlWithParam('Utilisateur.getImage', params).url;
+    }
+    uploadimage(idClient, fileToUpload: File): Observable<any> {
+        var fd = new FormData();
+        fd.append('file', fileToUpload);
+        const params = new HttpParams().set('id', idClient);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.uploadImage', params).url;
+        return this.httpClient.put(uri, fd);
+    }
+
+
 }
