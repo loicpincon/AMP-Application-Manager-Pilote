@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum DroitApplicatifLevel {
 
-	DEV("Developpeur", true, false, false, false, false), EXPERT("Expert technique", true, true, false, true, true),
-	CP("Chef de projet", true, true, false, false, false), PROP("proprietaire", true, true, true, true, true);
+	DEV("Développeur", true, false, false, false, false), EXPERT("Expert technique", true, true, false, true, true),
+	CP("Chef de projet", true, true, false, false, false), PROP("Propriétaire", true, true, true, true, true);
 
 	private String libelle;
 
