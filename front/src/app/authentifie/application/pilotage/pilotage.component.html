@@ -8,7 +8,7 @@
             <div fxFlex fxLayout="column">
                 <application-instance [app]="application" [environnements]="application.environnements"
                     (instanceSelect)="instanceSelectEvent($event)"></application-instance>
-                <application-administration></application-administration>
+                <application-administration [app]="application"></application-administration>
 
                 <application-livrable [instance]="instanceSelect" [livrables]="application.livrables">
                 </application-livrable>

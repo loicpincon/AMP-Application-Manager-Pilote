@@ -6,8 +6,8 @@
     </div>
     <mat-card-content class="contentAction">
         <div fxLayout fxLayout.xs="column">
-            <button fxFlex mat-raised-button class="btnActions">Gestion membres</button>
-            <button fxFlex mat-raised-button class="btnActions">Creer jonctions</button>
+            <button fxFlex mat-raised-button (click)="gestionMembres()" class="btnActions">Gestion membres</button>
+            <button fxFlex mat-raised-button class="btnActions" disabled>Creer jonctions</button>
         </div>
         <div fxLayout fxLayout.xs="column">
             <button fxFlex mat-raised-button class="btnActions" disabled>espace dispo</button>
