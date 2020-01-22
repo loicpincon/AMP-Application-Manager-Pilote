@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserProfile } from '../../administration/modele/model';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ApmService } from 'src/app/core/services/apm.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 
 
@@ -36,17 +35,17 @@ export class UtilisateurProfilComponent implements OnInit {
         })
     }
 
-    activerModifProfil(){
+    activerModifProfil() {
         this.formulaire.controls['nom'].enable()
         this.formulaire.controls['prenom'].enable()
         this.modif = true;
     }
-    annulerProfil(){
+    annulerProfil() {
         this.modif = false;
         this.formulaire.controls['nom'].disable()
         this.formulaire.controls['prenom'].disable()
     }
-    modifierProfil(v){
+    modifierProfil(v) {
         console.log(v)
     }
     //Simulation du click pour ouvrir le fileInput
