@@ -1,0 +1,24 @@
+.header h3,h4{
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: .5rem;
+    margin-top: 0;
+}
+.header{
+    text-align: center;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin: 25px auto auto;
+}
+.blocApp{
+    margin: 25px;
+}
+.iconConf{
+    margin-left: 15px;
+    cursor: pointer;
+}
+.iconConf:active{
+    color: #7b7272
+}

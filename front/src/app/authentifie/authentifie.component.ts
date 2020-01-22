@@ -92,7 +92,10 @@ export class AuthentifieComponent implements OnInit {
     }
 
 
-
+    loadDocker() {
+        this._router.navigate(['/secure/docker']);
+        this.sidenavService.sideNav.close();
+    }
 
 
 

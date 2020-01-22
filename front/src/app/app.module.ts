@@ -10,6 +10,7 @@ import { AuthentifieModule } from './authentifie/authentifie.module';
 import { Routes, RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuardService as AuthGuard } from './core/services/auth-guard.service';
+import { ChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ export class AppRoutingModule { }
     HttpClientModule,
     AppRoutingModule,
     CoreModule,
+    ChartsModule,
     AuthentifieModule],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -9,6 +9,8 @@ import { AdministrationModule } from './administration/administration.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenUserHeaderInterceptor } from './interceptor/TokenUserHeaderInterceptor';
 import { ConsultationLogModule } from './consultation-log/consultation-log.module';
+import { UtilisateurModule } from './utilisateur/utilisateur.module';
+import { ManagementDockerModule } from './management-docker/management-docker.module';
 
 
 
@@ -29,7 +31,10 @@ const routes: Routes = [
                 path: 'utilisateur', loadChildren: './utilisateur/utilisateur.module#UtilisateurModule'
             },
             {
-                path: '', redirectTo: 'application', pathMatch: 'full'
+                path: 'docker', loadChildren: './management-docker/management-docker.module#ManagementDockerModule'
+            },
+            {
+                path: '', redirectTo: 'docker', pathMatch: 'full'
             }
         ]
     }
@@ -52,7 +57,9 @@ export class AuthentifieRoutingModule { }
         MaterialModule,
         ApplicationModule,
         AdministrationModule,
-        ConsultationLogModule
+        ConsultationLogModule,
+        ManagementDockerModule,
+        UtilisateurModule
     ], providers: [
         {
             provide: HTTP_INTERCEPTORS,
