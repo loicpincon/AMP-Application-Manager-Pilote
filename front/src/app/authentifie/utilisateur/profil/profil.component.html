@@ -1,8 +1,19 @@
 <div class="container" *ngIf="formulaire">
+
+
+
     <form [formGroup]="formulaire" (ng-submit)="modifierProfil(formulaire.value)">
-        <div class="bannerImage">
-            <img src="https://www.w3schools.com/w3images/avatar2.png" class="imgprofil" alt="Avatar">
+
+
+        <div class="headerProfil">
+            <div class="block">
+                <img id="imageProfil" [src]="urlPhoto" />
+                <div *ngIf="!consult" class="text-block" (click)="ouvrirFileSearch()">
+                    <p>Changer mon image</p>
+                </div>
+            </div>
         </div>
+
 
         <table cellspacing="0">
             <tr>
@@ -11,21 +22,21 @@
                         <input matInput placeholder="Nom" class="form-control" formControlName="nom">
                     </mat-form-field>
                 </td>
-                
+
             </tr>
             <tr>
                 <td>
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Prénom" class="form-control" formControlName="prenom">
                     </mat-form-field>
-                </td>            
+                </td>
             </tr>
             <tr>
                 <td>
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Email" class="form-control" formControlName="email">
                     </mat-form-field>
-                </td>                
+                </td>
                 </tr>
         </table>
         <div>
@@ -36,3 +47,4 @@
 
     </form>
 </div>
+<input hidden type="file" id="fileProfil" (change)="changementImage($event.target.files)" accept="image/*">
