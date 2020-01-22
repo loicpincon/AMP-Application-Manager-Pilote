@@ -1,0 +1,34 @@
+.blocAction{
+    margin: 25px;
+    padding: 0px;
+    border-radius: 6px;
+}
+.blocActionHeader{
+    background-color: #bcd763;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+    text-align: center;
+}
+.blocActionTitre{
+    width: 100%;
+    text-align: center;
+}
+.contentAction{
+    padding: 16px;
+}
+.blocActionTitre h5{
+    margin: 0;
+    padding: 4px;
+    color: white;
+    font-weight: 500;
+}
+.btnActions{
+    margin: 5px;
+    background-color: #e6e6e6;
+}
+@media screen and (min-width: 600px) {
+    .btnActions{
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }  
+}
