@@ -7,7 +7,7 @@ class DroitApplicatifLevelTest {
 
 	@Test
 	void test() {
-		Assert.assertTrue(DroitApplicatifLevel.valueOf("DEV").getLibelle().equals("Developpeur"));
+		Assert.assertTrue(DroitApplicatifLevel.valueOf("DEV").getLibelle().equals("Développeur"));
 	}
 
 }
