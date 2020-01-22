@@ -62,6 +62,27 @@ export class DockerFileComponent implements OnInit {
     }
 
 
+    deleteDK(dk: Dockerfile) {
+        this.apmService.supprimerDockerFile(dk).subscribe(dkr => {
+            this._snackBar.open('suppression effectuée !', '', {
+                duration: 2000,
+                panelClass: 'customSnackBar'
+            });
+
+
+            // get index of object with id:37
+            var removeIndex = this.dockerfiles.map(function (item) { return item.id; }).indexOf(dk.id);
+
+            // remove object
+            this.dockerfiles.splice(removeIndex, 1);
+
+
+            this.dataSource.data = this.dockerfiles
+            this.changeDetectorRefs.detectChanges();
+        })
+    }
+
+
     createDK() {
         this.formulaire = this.formBuilder.group({
             id: new FormControl({ value: '', disabled: true }),

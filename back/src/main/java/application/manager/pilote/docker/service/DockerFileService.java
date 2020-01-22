@@ -47,4 +47,9 @@ public class DockerFileService {
 		return dockerFileRepo.save(param);
 	}
 
+	public Object supprimer(Integer id) {
+		dockerFileRepo.deleteById(id);
+		return null;
+	}
+
 }

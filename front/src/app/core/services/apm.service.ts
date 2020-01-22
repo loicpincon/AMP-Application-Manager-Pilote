@@ -223,5 +223,11 @@ export class ApmService {
         return this.httpClient.put<Dockerfile>(uri, dockerfile);
     }
 
+    supprimerDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
+        const params = new HttpParams().set('id', dockerfile.id + '');
+        const uri = this.apiManagerService.genereUrlWithParam('Dockerfile.supprimer', params).url;
+        return this.httpClient.delete<Dockerfile>(uri);
+    }
+
 
 }
