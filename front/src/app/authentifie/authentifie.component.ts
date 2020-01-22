@@ -73,14 +73,6 @@ export class AuthentifieComponent implements OnInit {
         })
     }
 
-    goConfiguration() {
-        console.log(this.idApp)
-    }
-
-    goLogs() {
-        this._router.navigate(['/secure/consulterlog']);
-        this.sidenavService.sideNav.close();
-    }
 
     verifierDroit() {
 

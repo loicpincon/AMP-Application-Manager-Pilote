@@ -25,7 +25,20 @@
 
             </mat-expansion-panel>
 
+            <mat-expansion-panel>
+                <mat-expansion-panel-header class="headerPanel">
+                    <mat-panel-title class="titlePanel">
+                        LOG
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
 
+
+                <div [routerLink]="['/secure/consulterlog/dashboard']" class="nameApp" (click)="menuApp.close()"> <span
+                        class="appSpanName">Dashboard</span></div>
+                <div [routerLink]="['/secure/consulterlog/recherche']" class="nameApp" (click)="menuApp.close()"> <span
+                        class="appSpanName">Recherche</span></div>
+
+            </mat-expansion-panel>
 
             <mat-expansion-panel>
                 <mat-expansion-panel-header class="headerPanel">
@@ -46,9 +59,6 @@
         <mat-toolbar *ngIf="user" class="headerBandeau">
             <div class="btnMenu">
                 <button mat-button (click)="openMenu()">Afficher menu</button>
-            </div>
-            <div class="btnMenuAction">
-                <button (click)="goLogs()" mat-button>Logs</button>
             </div>
             <div class="containerLeft" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
