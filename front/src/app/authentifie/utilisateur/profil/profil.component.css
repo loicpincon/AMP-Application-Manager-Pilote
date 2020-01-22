@@ -1,0 +1,40 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  td {
+    padding-right: 8px;
+  }
+
+  .imgprofil {
+    border-radius: 50%;
+    width: 20%;
+  }
+
+  .colonne{
+    text-align: center;
+  }
+  .title{
+    text-align: center;
+  }
+  .fullSize{
+    width: 100%;
+  }
+  .midSize{
+    width: 50%;
+    margin: auto;
+  }
+  .container form{
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+  }
+  .inputTypeApp{
+    max-width: 100%;
+  }

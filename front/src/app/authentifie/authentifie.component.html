@@ -63,7 +63,8 @@
             <div class="containerLeft" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
                 <mat-menu #menuUser="matMenu">
-                    <button disabled mat-menu-item>Mon profil</button>
+                    <button [routerLink]="['/secure/utilisateur']" (click)="menuApp.close()" mat-menu-item>Mon
+                        profil</button>
                     <button mat-menu-item (click)="deconnexion()">Se déconnecter</button>
                 </mat-menu>
             </div>

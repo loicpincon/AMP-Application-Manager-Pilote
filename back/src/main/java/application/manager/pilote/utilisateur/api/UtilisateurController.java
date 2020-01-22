@@ -44,7 +44,7 @@ public class UtilisateurController {
 	@ApiManager("modifier")
 	@Secured
 	public Callable<ResponseEntity<Utilisateur>> modifier(@PathVariable String id, @RequestBody Utilisateur utilisateur) {
-		return () -> ResponseEntity.ok(userService.modifier(utilisateur));
+		return () -> ResponseEntity.ok(userService.modifier(id,utilisateur));
 	}
 
 	/**
