@@ -78,12 +78,12 @@ public class ApplicationService extends DefaultService {
 	}
 
 	public ParametreSeries ajouterSerieParametre(String idApp, Integer idEnv, ParametreSeries param) {
+		if (param.getVersion() == null || param.getVersion().equals("")) {
+			throw new ApplicationException(400, "Le nom de la version ne peut etre nul");
+		}
 		Application app = consulter(idApp);
 		Environnement env = app.getEnvironnements().get(idEnv);
 		param.setDerniereModification(new Date());
-		if(param.getVersion() == null || param.getVersion().equals("")) {
-			throw new ApplicationException(400, "Le nom de la version ne peut etre nul");
-		}
 		env.getParametres().add(param);
 		modifier(app);
 		return param;
