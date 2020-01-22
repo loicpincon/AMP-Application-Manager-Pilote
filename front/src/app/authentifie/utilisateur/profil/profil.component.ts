@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { UserProfile } from '../../administration/modele/model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { ApmService } from 'src/app/core/services/apm.service';
 
 
 @Component({
