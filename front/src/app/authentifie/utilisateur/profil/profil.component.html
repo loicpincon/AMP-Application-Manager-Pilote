@@ -3,9 +3,17 @@
 
 
     <form [formGroup]="formulaire" class="example-form">
-        <div class="example-full-width">
-            <img src="{{urlPhoto}}" class="imgprofil" alt="Avatar">
+
+
+        <div class="headerProfil">
+            <div class="block">
+                <img id="imageProfil" [src]="urlPhoto" />
+                <div *ngIf="!consult" class="text-block" (click)="ouvrirFileSearch()">
+                    <p>Changer mon image</p>
+                </div>
+            </div>
         </div>
+
 
         <table class="example-full-width" cellspacing="0">
             <tr>
@@ -28,3 +36,4 @@
 
     </form>
 </div>
+<input hidden type="file" id="fileProfil" (change)="changementImage($event.target.files)" accept="image/*">

@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UtilisateurProfilComponent } from './profil/profil.component';
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ export class UtilisateurRoutingModule { }
     ],
     imports: [
         CommonModule,
+        Ng2ImgMaxModule,
         FormsModule,
         UtilisateurRoutingModule,
         ReactiveFormsModule,
