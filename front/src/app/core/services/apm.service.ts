@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
 import { Application, Instance, Serveur, Dockerfile, Log, ParametreSeries } from 'src/app/authentifie/application/modele/Application';
-import { User, DroitApplicatifLevel, Right } from 'src/app/authentifie/administration/modele/model';
+import { User, DroitApplicatifLevel, Right, UserProfile } from 'src/app/authentifie/administration/modele/model';
 import { FormulaireLogInfo, ApplicationInformation } from 'src/app/authentifie/consultation-log/modele/Model';
 
 

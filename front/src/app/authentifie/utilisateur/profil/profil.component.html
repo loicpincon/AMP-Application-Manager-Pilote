@@ -1,29 +1,37 @@
 <div class="container" *ngIf="formulaire">
-
-
-
-    <form [formGroup]="formulaire" class="example-form">
-        <div class="example-full-width">
+    <form [formGroup]="formulaire" (ng-submit)="modifierProfil(formulaire.value)">
+        <div class="bannerImage">
             <img src="https://www.w3schools.com/w3images/avatar2.png" class="imgprofil" alt="Avatar">
         </div>
 
-        <table class="example-full-width" cellspacing="0">
+        <table cellspacing="0">
             <tr>
                 <td>
                     <mat-form-field class="example-full-width">
-                        <input formControlName="nom" matInput>
+                        <input matInput placeholder="Nom" class="form-control" formControlName="nom">
                     </mat-form-field>
                 </td>
+                
+            </tr>
+            <tr>
                 <td>
                     <mat-form-field class="example-full-width">
-                        <input formControlName="prenom" matInput>
+                        <input matInput placeholder="Prénom" class="form-control" formControlName="prenom">
                     </mat-form-field>
-                </td>
+                </td>            
             </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Email" class="form-control" formControlName="email">
+                    </mat-form-field>
+                </td>                
+                </tr>
         </table>
         <div>
-            <button [disabled]="!formulaire.valid" *ngIf="!consult" mat-raised-button color="primary"
-                type="submit">Modifier</button>
+            <button *ngIf="!modif" mat-raised-button (click)="activerModifProfil()">Modifier mon profil</button>
+            <button *ngIf="modif" mat-raised-button (click)="annulerProfil()">Annuler</button>
+            <button *ngIf="modif" type="submit" [disabled]="!formulaire.valid" mat-raised-button>Valider</button>
         </div>
 
     </form>
