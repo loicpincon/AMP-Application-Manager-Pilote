@@ -3,11 +3,11 @@
     max-width: 500px;
     width: 100%;
   }
-  
+
   .example-full-width {
     width: 100%;
   }
-  
+
   td {
     padding-right: 8px;
   }
@@ -39,6 +39,22 @@
     max-width: 100%;
   }
 
+.bannerImage{
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+table{
+  width: 50%;
+  margin: auto;
+
+}
+
+  button{
+    color: white;
+    background: #3ac569;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
   .headerProfil{
     padding-top: 25px;
     text-align: center;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../administration/modele/model';
+import { UserProfile } from '../../administration/modele/model';
+import { ApmService } from 'src/app/core/services/apm.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
@@ -12,9 +13,9 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 })
 export class UtilisateurProfilComponent implements OnInit {
 
-    user: User;
+    user: UserProfile;
     formulaire: FormGroup;
-    consult: boolean = true;
+    modif: boolean = false;
     urlPhoto: string;
     constructor(private apmservice: ApmService, private ng2ImgMax: Ng2ImgMaxService
         , private formBuilder: FormBuilder) { }
@@ -25,14 +26,29 @@ export class UtilisateurProfilComponent implements OnInit {
 
         this.apmservice.recupererUser(sessionStorage.getItem('USER_TOKEN')).subscribe(us => {
             this.user = us;
+            console.log(us)
             this.formulaire = this.formBuilder.group({
-                nom: new FormControl({ value: this.user.nom, disabled: this.consult }, Validators.required),
-                prenom: new FormControl({ value: this.user.prenom, disabled: this.consult }, Validators.required)
+                nom: new FormControl({ value: this.user.nom, disabled: !this.modif }, Validators.required),
+                prenom: new FormControl({ value: this.user.prenom, disabled: !this.modif }, Validators.required),
+                email: new FormControl({ value: this.user.email, disabled: true }, Validators.required)
 
             });
         })
     }
 
+    activerModifProfil(){
+        this.formulaire.controls['nom'].enable()
+        this.formulaire.controls['prenom'].enable()
+        this.modif = true;
+    }
+    annulerProfil(){
+        this.modif = false;
+        this.formulaire.controls['nom'].disable()
+        this.formulaire.controls['prenom'].disable()
+    }
+    modifierProfil(v){
+        console.log(v)
+    }
     //Simulation du click pour ouvrir le fileInput
     ouvrirFileSearch() {
         document.getElementById("fileProfil").click();

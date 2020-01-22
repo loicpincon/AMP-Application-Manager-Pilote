@@ -17,6 +17,17 @@ export class User {
     prenom: string;
     rights: Right[];
     rightApp: string;
+    email: string;
+}
+
+export class UserProfile {
+    login: string;
+    password: string;
+    token: string;
+    nom: string;
+    prenom: string;
+    rights: Right[];
+    email: string;
 }
 
 export interface UserTypesApp {
