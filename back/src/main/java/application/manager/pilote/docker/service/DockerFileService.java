@@ -43,4 +43,8 @@ public class DockerFileService {
 		return dockerFile;
 	}
 
+	public DockerFile modifier(DockerFile param) {
+		return dockerFileRepo.save(param);
+	}
+
 }

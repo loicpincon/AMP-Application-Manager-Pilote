@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,4 +46,16 @@ public class DockerFileController {
 	public Callable<ResponseEntity<DockerFile>> creer(@RequestBody DockerFileParam param) {
 		return () -> ResponseEntity.ok(dockerFileService.insert(param));
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@PutMapping
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<DockerFile>> modifier(@RequestBody DockerFile param) {
+		return () -> ResponseEntity.ok(dockerFileService.modifier(param));
+	}
+
 }

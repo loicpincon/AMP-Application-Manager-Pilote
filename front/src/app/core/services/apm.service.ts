@@ -123,10 +123,9 @@ export class ApmService {
         return this.httpClient.put<Application>(uri, application);
     }
 
-    ajouterDockerFile(nom: string, file: string): Observable<Dockerfile> {
-        const body = { 'file': file, 'name': nom }
+    ajouterDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
         const uri = this.apiManagerService.genereUrl('Dockerfile.creer').url;
-        return this.httpClient.post<Dockerfile>(uri, body);
+        return this.httpClient.post<Dockerfile>(uri, dockerfile);
     }
 
     ajouterInstance(serveur: string, idApp: string): Observable<Instance> {
@@ -217,6 +216,11 @@ export class ApmService {
         const params = new HttpParams().set('id', idClient);
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.uploadImage', params).url;
         return this.httpClient.put(uri, fd);
+    }
+
+    modifierDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
+        const uri = this.apiManagerService.genereUrl('Dockerfile.modifier').url;
+        return this.httpClient.put<Dockerfile>(uri, dockerfile);
     }
 
 
