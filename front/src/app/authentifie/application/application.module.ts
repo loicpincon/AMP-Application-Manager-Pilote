@@ -18,6 +18,7 @@ import { DialogAjouterSerieParamComponent } from './parametre/dialog-param-ajout
 import { ModifierParametreComponent } from './parametre/modifier-parametre-serie/modifier-parametre.component';
 import { ModificationApplicationComponent } from './modification-application/modification-application.component';
 import { DialogConsulterSerieParamComponent } from './parametre/dialog-param-consulter/dialog-param-consulter.component';
+import { AdministrationApplicationComponent } from './administration/administration.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,7 @@ export class ApplicationRoutingModule { }
 
 @NgModule({
   declarations: [
+    AdministrationApplicationComponent,
     ApplicationComponent,
     PilotageComponent,
     InstanceComponent,
