@@ -34,7 +34,7 @@ const routes: Routes = [
                 path: 'docker', loadChildren: './management-docker/management-docker.module#ManagementDockerModule'
             },
             {
-                path: '', redirectTo: 'docker', pathMatch: 'full'
+                path: '', redirectTo: 'application', pathMatch: 'full'
             }
         ]
     }
