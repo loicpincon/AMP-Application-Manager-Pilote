@@ -5,13 +5,14 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './dialog-param-ajouter/dialog-param-ajouter.component';
 import { Router } from '@angular/router';
+import { DialogConsulterSerieParamComponent } from './dialog-param-consulter/dialog-param-consulter.component';
 @Component({
   selector: 'application-parametre',
   templateUrl: './parametre.component.html',
   styleUrls: ['./parametre.component.css']
 })
 export class ParametreComponent implements OnInit {
-  displayedColumns: string[] = ['Version', 'Consulter', 'Modifier'];
+  displayedColumns: string[] = ['Version', 'Consulter', 'Options'];
   dataSource = new MatTableDataSource<ParametreSeries>();
   selection = new SelectionModel<ParametreSeries>(false, []);
 
@@ -53,23 +54,35 @@ export class ParametreComponent implements OnInit {
 
   ajouterSerie() {
     const dialogRef = this.dialog.open(DialogAjouterSerieParamComponent, {
-      width: '20%',
+      width: '300px',
       data: { app: this.app.id, serveur: this.serveur, newSerie: null, version: null }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
-      this.params.push(result.data.newSerie)
-      this.dataSource.data = this.params
-      this.changeDetectorRefs.detectChanges();
-
+      if(result != undefined){
+        this.params.push(result.data.newSerie)
+        this.dataSource.data = this.params
+        this.changeDetectorRefs.detectChanges();
+      }
     });
   }
 
+  afficherParametre(){
+    const dialogRef = this.dialog.open(DialogConsulterSerieParamComponent, {
+      width: '300px',
+      data: { app: this.app.id, serveur: this.serveur, newSerie: null, version: null }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined){
+        this.params.push(result.data.newSerie)
+        this.dataSource.data = this.params
+        this.changeDetectorRefs.detectChanges();
+      }
+    });
+  }
   listerParametre(version, edit) {
     this.router.navigate(['/secure/application/parametres'], { queryParams: { serveur: this.serveur, idApp: this.app.id, edit: edit, versionParam: version } });
-
   }
 
 }

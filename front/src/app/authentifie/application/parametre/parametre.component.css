@@ -51,3 +51,14 @@
 .mat-row.highlighted {
   background: #e0dddd;
 }
+
+.optIcon{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.material-icons{
+    cursor: pointer;
+}
+.material-icons:hover{
+    transform: scale(1.1);
+}

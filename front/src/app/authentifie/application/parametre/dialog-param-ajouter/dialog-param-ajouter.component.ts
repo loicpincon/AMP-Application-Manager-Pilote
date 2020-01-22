@@ -6,31 +6,27 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'application-parametre-ajouter',
   templateUrl: './dialog-param-ajouter.component.html',
-  styleUrls: ['./dialog-param-ajouter.component.css']
 })
 export class DialogAjouterSerieParamComponent implements OnInit {
 
 
   constructor(public dialogRef: MatDialogRef<DialogAjouterSerieParamComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private _apmService: ApmService, private datePipe: DatePipe) { }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any, private _apmService: ApmService) { }
 
   ngOnInit() {
-
-
-
-
   }
 
-  onNoClick(): void {
+  close(): void {
     this.dialogRef.close();
   }
 
-  onOkClick() {
-    this._apmService.ajouterSerieParametre(this.data.app, this.data.serveur, this.data.version).subscribe(serie => {
-      this.data.newSerie = serie;
-      this.dialogRef.close({ event: 'close', data: this.data });
-
-    })
+  ajouter() {
+    if(this.data.version){
+      this._apmService.ajouterSerieParametre(this.data.app, this.data.serveur, this.data.version).subscribe(serie => {
+        this.data.newSerie = serie;
+        this.dialogRef.close({ event: 'close', data: this.data });
+      })
+    }
   }
 
 

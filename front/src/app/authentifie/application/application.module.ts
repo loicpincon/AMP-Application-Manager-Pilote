@@ -17,6 +17,7 @@ import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './parametre/dialog-param-ajouter/dialog-param-ajouter.component';
 import { ModifierParametreComponent } from './parametre/modifier-parametre-serie/modifier-parametre.component';
 import { ModificationApplicationComponent } from './modification-application/modification-application.component';
+import { DialogConsulterSerieParamComponent } from './parametre/dialog-param-consulter/dialog-param-consulter.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ export class ApplicationRoutingModule { }
     LivrableComponent,
     ModalAjoutInstance,
     DialogAjouterSerieParamComponent,
+    DialogConsulterSerieParamComponent,
     ModifierParametreComponent
   ],
   imports: [
@@ -73,7 +75,8 @@ export class ApplicationRoutingModule { }
     InstanceComponent,
     ModalAjoutInstance,
     ParametreComponent,
-    DialogAjouterSerieParamComponent
+    DialogAjouterSerieParamComponent,
+    DialogConsulterSerieParamComponent
   ],
   providers: [
     DataSharedService,

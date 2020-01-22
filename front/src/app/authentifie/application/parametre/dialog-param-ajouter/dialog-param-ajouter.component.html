@@ -1,11 +1,10 @@
 <h1 mat-dialog-title>Ajouter une serie en DEV</h1>
 <div mat-dialog-content>
-  <p>Numero de la version</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.version">
+    <input matInput [(ngModel)]="data.version" placeholder="Numéro de la version" class="form-control">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button (click)="onOkClick()" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="close()">Annuler</button>
+  <button [disabled]="!data.version" mat-button (click)="ajouter()" cdkFocusInitial>Ajouter</button>
 </div>
