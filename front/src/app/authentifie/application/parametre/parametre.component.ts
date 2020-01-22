@@ -67,10 +67,10 @@ export class ParametreComponent implements OnInit {
     });
   }
 
-  afficherParametre(){
+  afficherParametre(version){
     const dialogRef = this.dialog.open(DialogConsulterSerieParamComponent, {
       width: '300px',
-      data: { app: this.app.id, serveur: this.serveur, newSerie: null, version: null }
+      data: { serveur: this.serveur, idApp: this.app.id, versionParam: version }
     });
 
     dialogRef.afterClosed().subscribe(result => {
