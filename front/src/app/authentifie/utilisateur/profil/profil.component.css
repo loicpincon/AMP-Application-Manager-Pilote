@@ -38,3 +38,79 @@
   .inputTypeApp{
     max-width: 100%;
   }
+
+  .headerProfil{
+    padding-top: 25px;
+    text-align: center;
+}
+.headerProfil img{
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+}
+.inputNom{
+    border: 0;
+    border-bottom: 1px solid grey;
+    margin-right: 5px;
+    max-width: 110px;
+}
+.inputPrenom{
+    border: 0;
+    border-bottom: 1px solid grey;
+    margin-right: 5px;
+    max-width: 110px;
+}
+.inputMail{
+    border: 0;
+    border-bottom: 1px solid grey;
+    max-width: 240px;
+}
+.inputAge{
+    border: 0;
+    border-bottom: 1px solid grey;
+    max-width: 240px;
+    min-width: 40px;
+}
+.footerBtn{
+    text-align: center;
+}
+.blockForm{
+    text-align: center;
+}
+.blockFormEdit{
+    color: grey;
+    font-weight: bold;
+    margin-top: 1em;
+}
+.block{
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 0 auto;
+}
+.headerProfil :active{
+    background-color: black;
+    color: white;
+}
+.loader{
+    padding-top: 50%;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: #0000005e;
+}
+.text-block {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: white;
+  }
+.contentProfil p{
+    text-align: center;
+    color: grey;
+    font-weight: bold;
+}
