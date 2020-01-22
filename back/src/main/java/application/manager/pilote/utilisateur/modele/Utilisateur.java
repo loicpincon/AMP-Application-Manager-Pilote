@@ -2,7 +2,10 @@ package application.manager.pilote.utilisateur.modele;
 
 import java.util.List;
 
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
@@ -31,5 +34,8 @@ public class Utilisateur extends BasicDataBean {
 	private String prenom;
 
 	private List<DroitApplicatif> rights;
+
+	@JsonIgnore
+	private Binary image;
 
 }

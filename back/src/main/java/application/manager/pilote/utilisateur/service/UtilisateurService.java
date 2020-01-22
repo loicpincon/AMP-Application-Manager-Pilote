@@ -1,14 +1,19 @@
 package application.manager.pilote.utilisateur.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.io.IOUtils;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.service.ApplicationService;
@@ -44,6 +49,11 @@ public class UtilisateurService extends DefaultService {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
 		if (uRepo.trouverParEmail(u.getEmail()).isPresent()) {
 			throw new ApplicationException(400, "Le mail est déjà utilisé");
+		}
+		try {
+			u.setImage(new Binary(IOUtils.toByteArray(getClass().getResource("/img/avatar.png"))));
+		} catch (IOException e) {
+			LOG.error(e);
 		}
 		return uRepo.insert(u);
 	}
@@ -171,6 +181,12 @@ public class UtilisateurService extends DefaultService {
 
 		}
 		uRepo.save(us);
+	}
+
+	public Utilisateur setPhotoToMembre(String token, MultipartFile file) throws IOException {
+		Utilisateur m = consulter(token);
+		m.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+		return uRepo.save(m);
 	}
 
 }
