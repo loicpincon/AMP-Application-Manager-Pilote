@@ -8,11 +8,13 @@ export class DataSharedService {
   private paramSource = new BehaviorSubject<ParametreSeries>(new ParametreSeries());
   private livrableSource = new BehaviorSubject<Livrable>(new Livrable());
   private instanceToDeploy = new BehaviorSubject<Instance>(new Instance());
+  private urlPhoto = new BehaviorSubject<string>("");
 
 
   currentParam = this.paramSource.asObservable();
   currentLivrable = this.livrableSource.asObservable();
   currentInstance = this.instanceToDeploy.asObservable();
+  currentUrlPhoto = this.urlPhoto.asObservable();
 
   constructor() { }
 
@@ -25,5 +27,10 @@ export class DataSharedService {
   changeInstance(ins: Instance) {
     console.log(ins)
     this.instanceToDeploy.next(ins)
+  }
+
+  changeUrlPhoto(url: string) {
+    console.log(url)
+    this.urlPhoto.next(url)
   }
 }

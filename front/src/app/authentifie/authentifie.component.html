@@ -61,7 +61,9 @@
                 <button mat-button (click)="openMenu()">Afficher menu</button>
             </div>
             <div class="containerLeft" *ngIf="user">
-                <button mat-button [matMenuTriggerFor]="menuUser">{{user.nom}} {{user.prenom}}</button>
+                <button mat-button [matMenuTriggerFor]="menuUser">
+                    {{user.nom}} {{user.prenom}} <img id="imageProfil" class="iconProfilMenu" [src]="urlPhoto" />
+                </button>
                 <mat-menu #menuUser="matMenu">
                     <button [routerLink]="['/secure/utilisateur']" (click)="menuApp.close()" mat-menu-item>Mon
                         profil</button>

@@ -57,3 +57,10 @@
     font-size: 11px;
     color:#5ccb81;
 }
+
+.iconProfilMenu{
+    height: 2.5em;
+    border-radius: 50%;
+    width: 2.5em;
+    vertical-align: top!important;
+}

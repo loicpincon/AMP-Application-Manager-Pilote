@@ -3,6 +3,7 @@ import { UserProfile } from '../../administration/modele/model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { ApmService } from 'src/app/core/services/apm.service';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class UtilisateurProfilComponent implements OnInit {
         private apmservice: ApmService,
         private ng2ImgMax: Ng2ImgMaxService,
         private formBuilder: FormBuilder,
-        private zone: NgZone) { }
+        private zone: NgZone,
+        private dataShared: DataSharedService) { }
 
     ngOnInit(): void {
         this.urlPhoto = this.apmservice.getImageProfil(sessionStorage.getItem('USER_TOKEN'));
@@ -59,6 +61,8 @@ export class UtilisateurProfilComponent implements OnInit {
                 result => {
                     this.apmservice.uploadimage(sessionStorage.getItem('USER_TOKEN'), result).subscribe(data => {
                         this.zone.run(() => { console.log("passe dans la zone"); this.urlPhoto = ""; this.urlPhoto = this.apmservice.getImageProfil(this.user.token) + "?" + new Date(); });
+                        this.dataShared.changeUrlPhoto(this.apmservice.getImageProfil(this.user.token) + "?" + new Date())
+
                     })
                 },
                 error => {
