@@ -88,7 +88,7 @@ public class UtilisateurController {
 		return () -> ResponseEntity.ok(userService.recuperer(idApp, keyword));
 	}
 
-	@PostMapping(path = "/{id}/image")
+	@PutMapping(path = "/{id}/image")
 	@ApiManager("uploadImage")
 	public Callable<ResponseEntity<?>> multiUploadFileModel(@PathVariable String id,
 			@RequestParam("file") MultipartFile file) {
