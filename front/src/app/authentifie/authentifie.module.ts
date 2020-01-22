@@ -26,6 +26,9 @@ const routes: Routes = [
                 path: 'consulterlog', loadChildren: './consultation-log/consultation-log.module#ConsultationLogModule'
             },
             {
+                path: 'utilisateur', loadChildren: './utilisateur/utilisateur.module#UtilisateurModule'
+            },
+            {
                 path: '', redirectTo: 'application', pathMatch: 'full'
             }
         ]
