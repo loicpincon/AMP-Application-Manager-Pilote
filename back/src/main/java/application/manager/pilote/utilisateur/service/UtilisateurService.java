@@ -52,6 +52,17 @@ public class UtilisateurService extends DefaultService {
 		return uRepo.save(utilisateur);
 	}
 
+	public Utilisateur modifier(String id, Utilisateur utilisateur) {
+		Utilisateur us = consulter(id);
+		if (uRepo.trouverParEmail(utilisateur.getEmail()).isPresent()) {
+			throw new ApplicationException(400, "Le mail est déjà utilisé");
+		}
+		us.setEmail(utilisateur.getEmail());
+		us.setNom(utilisateur.getNom());
+		us.setPrenom(utilisateur.getPrenom());
+		return uRepo.save(us);
+	}
+
 	public Utilisateur consulter(String token) {
 		Optional<Utilisateur> uOpt = uRepo.findByToken(token);
 		if (!uOpt.isPresent()) {
