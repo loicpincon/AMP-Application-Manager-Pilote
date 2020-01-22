@@ -1,0 +1,25 @@
+table{
+    width: 100%;
+    text-align: center;
+}
+table th{
+    text-align: center;
+}
+.paramNull{
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+}
+.loaderColonne{
+    padding-top: 20px;
+    text-align: -webkit-center;
+  }
+.dialogContent{
+    overflow-y: hidden;
+}
+h1{
+    text-align: center;
+}
+.btnFermer{
+    margin: auto;
+}

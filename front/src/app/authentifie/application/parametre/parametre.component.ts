@@ -69,7 +69,7 @@ export class ParametreComponent implements OnInit {
 
   afficherParametre(version){
     const dialogRef = this.dialog.open(DialogConsulterSerieParamComponent, {
-      width: '300px',
+      width: '80%',
       data: { serveur: this.serveur, idApp: this.app.id, versionParam: version }
     });
 
