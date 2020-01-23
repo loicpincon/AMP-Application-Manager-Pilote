@@ -80,6 +80,12 @@ export class ApmService {
         return this.httpClient.get<User[]>(uri);
     }
 
+    modifierUtilisateur(utilisateur: User): Observable<User> {
+        let params = new HttpParams().set('id', utilisateur.token);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.modifier', params).url;
+        return this.httpClient.put<User>(uri, utilisateur);
+    }
+
     recupererSession(): Observable<any> {
         const uri = this.apiManagerService.genereUrl('Session.consulter').url;
         return this.httpClient.get<any>(uri);

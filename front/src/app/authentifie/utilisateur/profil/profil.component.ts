@@ -1,8 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { UserProfile } from '../../administration/modele/model';
+import { UserProfile, User } from '../../administration/modele/model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class UtilisateurProfilComponent implements OnInit {
         private apmservice: ApmService,
         private ng2ImgMax: Ng2ImgMaxService,
         private formBuilder: FormBuilder,
-        private zone: NgZone) { }
+        private zone: NgZone,
+        private _snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.urlPhoto = this.apmservice.getImageProfil(sessionStorage.getItem('USER_TOKEN'));
@@ -29,7 +31,7 @@ export class UtilisateurProfilComponent implements OnInit {
             this.formulaire = this.formBuilder.group({
                 nom: new FormControl({ value: this.user.nom, disabled: !this.modif }, Validators.required),
                 prenom: new FormControl({ value: this.user.prenom, disabled: !this.modif }, Validators.required),
-                email: new FormControl({ value: this.user.email, disabled: true }, Validators.required)
+                email: new FormControl({ value: this.user.email, disabled: !this.modif }, Validators.required)
             });
         })
     }
@@ -37,15 +39,33 @@ export class UtilisateurProfilComponent implements OnInit {
     activerModifProfil() {
         this.formulaire.controls['nom'].enable()
         this.formulaire.controls['prenom'].enable()
+        this.formulaire.controls['email'].enable()
         this.modif = true;
     }
     annulerProfil() {
         this.modif = false;
         this.formulaire.controls['nom'].disable()
         this.formulaire.controls['prenom'].disable()
+        this.formulaire.controls['email'].disable()
+
     }
     modifierProfil(v) {
-        console.log(v)
+        let u = new User();
+        u.nom = v.nom;
+        u.email = v.email;
+        u.prenom = v.prenom;
+        u.token = this.user.token;
+        console.log(u)
+
+        this.apmservice.modifierUtilisateur(u).subscribe(us => {
+            console.log(us);
+            this.annulerProfil();
+            this._snackBar.open('Profil modifié avec succès !', '', {
+                duration: 2000,
+                panelClass: 'customSnackBar'
+            });
+        })
+
     }
 
     ouvrirFileSearch() {
