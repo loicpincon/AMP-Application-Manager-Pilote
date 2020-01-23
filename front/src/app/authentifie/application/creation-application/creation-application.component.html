@@ -36,6 +36,22 @@
                                 placeholder="Nom fichier properties racine">
                         </mat-form-field>
                     </div>
+                    <div formGroupName="angularApplication" *ngIf="formulaire.value.typeApp=='ANGULAR'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required formControlName="versionAngular" matInput placeholder="Version Angular">
+                        </mat-form-field>
+
+                        <mat-form-field class="inputTypeApp">
+
+                            <input required formControlName="isBuilder" matInput
+                                placeholder="L'application est elle build">
+                        </mat-form-field>
+                        <mat-form-field class="inputTypeApp">
+
+                            <input required formControlName="baseLocation" matInput
+                                placeholder="Emplacement des sources">
+                        </mat-form-field>
+                    </div>
                     <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
                         <mat-form-field class="inputTypeApp">
                             <input required matInput formControlName="urlBatch" placeholder="URL Batch">
