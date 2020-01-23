@@ -123,6 +123,12 @@ export class ApmService {
         return this.httpClient.put<Application>(uri, application);
     }
 
+    modifierUtilisateur(user: User): Observable<User> {
+        let params = new HttpParams().set('id', user.token);
+        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.modifier', params).url;
+        return this.httpClient.put<User>(uri, user);
+    }
+
     ajouterDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
         const uri = this.apiManagerService.genereUrl('Dockerfile.creer').url;
         return this.httpClient.post<Dockerfile>(uri, dockerfile);
