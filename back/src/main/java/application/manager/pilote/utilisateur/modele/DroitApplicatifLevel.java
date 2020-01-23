@@ -29,9 +29,10 @@ public enum DroitApplicatifLevel {
 		this.delete = delete;
 		this.pilote = pilote;
 	}
-	
+
 	/**
 	 * Permet de verifier la presence d'un droit
+	 * 
 	 * @param level
 	 * @return
 	 */

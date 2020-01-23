@@ -59,7 +59,7 @@ export class ParametreComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result != undefined){
+      if (result != undefined) {
         this.params.push(result.data.newSerie)
         this.dataSource.data = this.params
         this.changeDetectorRefs.detectChanges();
@@ -67,14 +67,14 @@ export class ParametreComponent implements OnInit {
     });
   }
 
-  afficherParametre(version){
+  afficherParametre(version) {
     const dialogRef = this.dialog.open(DialogConsulterSerieParamComponent, {
-      width: '300px',
+      width: '80%',
       data: { serveur: this.serveur, idApp: this.app.id, versionParam: version }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result != undefined){
+      if (result != undefined) {
         this.params.push(result.data.newSerie)
         this.dataSource.data = this.params
         this.changeDetectorRefs.detectChanges();
@@ -83,6 +83,10 @@ export class ParametreComponent implements OnInit {
   }
   listerParametre(version, edit) {
     this.router.navigate(['/secure/application/parametres'], { queryParams: { serveur: this.serveur, idApp: this.app.id, edit: edit, versionParam: version } });
+  }
+
+  supprimerParametre(version, edit) {
+
   }
 
 }

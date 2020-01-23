@@ -1,9 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { UserProfile, User } from '../../administration/modele/model';
+import { UserProfile } from '../../administration/modele/model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ApmService } from 'src/app/core/services/apm.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
-import { MatSnackBar } from '@angular/material';
+import { ApmService } from 'src/app/core/services/apm.service';
+import { DataSharedService } from 'src/app/core/services/dataShared.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class UtilisateurProfilComponent implements OnInit {
         private ng2ImgMax: Ng2ImgMaxService,
         private formBuilder: FormBuilder,
         private zone: NgZone,
-        private _snackBar: MatSnackBar) { }
+        private dataShared: DataSharedService) { }
 
     ngOnInit(): void {
         this.urlPhoto = this.apmservice.getImageProfil(sessionStorage.getItem('USER_TOKEN'));
@@ -31,7 +31,7 @@ export class UtilisateurProfilComponent implements OnInit {
             this.formulaire = this.formBuilder.group({
                 nom: new FormControl({ value: this.user.nom, disabled: !this.modif }, Validators.required),
                 prenom: new FormControl({ value: this.user.prenom, disabled: !this.modif }, Validators.required),
-                email: new FormControl({ value: this.user.email, disabled: !this.modif }, Validators.required)
+                email: new FormControl({ value: this.user.email, disabled: true }, Validators.required)
             });
         })
     }
@@ -39,15 +39,12 @@ export class UtilisateurProfilComponent implements OnInit {
     activerModifProfil() {
         this.formulaire.controls['nom'].enable()
         this.formulaire.controls['prenom'].enable()
-        this.formulaire.controls['email'].enable()
         this.modif = true;
     }
     annulerProfil() {
         this.modif = false;
         this.formulaire.controls['nom'].disable()
         this.formulaire.controls['prenom'].disable()
-        this.formulaire.controls['email'].disable()
-
     }
     modifierProfil(v) {
         let u = new User();
@@ -84,6 +81,8 @@ export class UtilisateurProfilComponent implements OnInit {
                 result => {
                     this.apmservice.uploadimage(sessionStorage.getItem('USER_TOKEN'), result).subscribe(data => {
                         this.zone.run(() => { console.log("passe dans la zone"); this.urlPhoto = ""; this.urlPhoto = this.apmservice.getImageProfil(this.user.token) + "?" + new Date(); });
+                        this.dataShared.changeUrlPhoto(this.apmservice.getImageProfil(this.user.token) + "?" + new Date())
+
                     })
                 },
                 error => {
