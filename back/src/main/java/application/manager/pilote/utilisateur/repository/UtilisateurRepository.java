@@ -28,7 +28,7 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
 	 * @return
 	 */
 	@Query("{'email' : ?0}")
-	Optional<Utilisateur> trouverParEmail(String email);
+	List<Utilisateur> trouverParEmail(String email);
 
 	/**
 	 * 
