@@ -124,8 +124,8 @@ export interface Serveur {
 /**
  * 
  */
-export interface Dockerfile {
-    id: number,
+export class Dockerfile {
+    id: number;
     name: string;
     file: string;
     isPublic: boolean;

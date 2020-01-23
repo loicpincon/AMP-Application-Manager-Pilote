@@ -21,8 +21,6 @@ import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.mail.MailService;
 import application.manager.pilote.commun.service.DefaultService;
 import application.manager.pilote.commun.service.HashService;
-import application.manager.pilote.session.service.SessionService;
-import application.manager.pilote.session.service.UserSessionParam;
 import application.manager.pilote.utilisateur.helper.DroitApplicatifHelper;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
@@ -47,14 +45,11 @@ public class UtilisateurService extends DefaultService {
 	@Autowired
 	private MailService mailService;
 
-	@Autowired
-	private SessionService sessionService;
-
 	public Utilisateur inserer(Utilisateur u) {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
-		if (!uRepo.trouverParEmail(u.getEmail()).isEmpty()) {
-			throw new ApplicationException(400, "Le mail est déjà utilisé");
-		}
+//		if (uRepo.trouverParEmail(u.getEmail()).isPresent()) {
+//			throw new ApplicationException(400, "Le mail est déjà utilisé");
+//		}
 		try {
 			u.setImage(new Binary(IOUtils.toByteArray(getClass().getResource("/img/avatar.png"))));
 		} catch (IOException e) {
@@ -69,17 +64,12 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur modifier(String id, Utilisateur utilisateur) {
 		Utilisateur us = consulter(id);
-		if (!uRepo.trouverParEmail(utilisateur.getEmail()).isEmpty() && !us.getEmail().equals(utilisateur.getEmail())) {
+		if (uRepo.trouverParEmail(utilisateur.getEmail()).isPresent()) {
 			throw new ApplicationException(400, "Le mail est déjà utilisé");
 		}
 		us.setEmail(utilisateur.getEmail());
 		us.setNom(utilisateur.getNom());
 		us.setPrenom(utilisateur.getPrenom());
-		sessionService.deconnexion(us.getToken());
-		UserSessionParam param = new UserSessionParam();
-		param.setLogin(us.getLogin());
-		param.setPassword(us.getPassword());
-		sessionService.connexion(param);
 		return uRepo.save(us);
 	}
 

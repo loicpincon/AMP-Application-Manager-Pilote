@@ -80,12 +80,6 @@ export class ApmService {
         return this.httpClient.get<User[]>(uri);
     }
 
-    modifierUtilisateur(utilisateur: User): Observable<User> {
-        let params = new HttpParams().set('id', utilisateur.token);
-        const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.modifier', params).url;
-        return this.httpClient.put<User>(uri, utilisateur);
-    }
-
     recupererSession(): Observable<any> {
         const uri = this.apiManagerService.genereUrl('Session.consulter').url;
         return this.httpClient.get<any>(uri);
@@ -129,10 +123,9 @@ export class ApmService {
         return this.httpClient.put<Application>(uri, application);
     }
 
-    ajouterDockerFile(nom: string, file: string): Observable<Dockerfile> {
-        const body = { 'file': file, 'name': nom }
+    ajouterDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
         const uri = this.apiManagerService.genereUrl('Dockerfile.creer').url;
-        return this.httpClient.post<Dockerfile>(uri, body);
+        return this.httpClient.post<Dockerfile>(uri, dockerfile);
     }
 
     ajouterInstance(serveur: string, idApp: string): Observable<Instance> {
@@ -223,6 +216,17 @@ export class ApmService {
         const params = new HttpParams().set('id', idClient);
         const uri = this.apiManagerService.genereUrlWithParam('Utilisateur.uploadImage', params).url;
         return this.httpClient.put(uri, fd);
+    }
+
+    modifierDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
+        const uri = this.apiManagerService.genereUrl('Dockerfile.modifier').url;
+        return this.httpClient.put<Dockerfile>(uri, dockerfile);
+    }
+
+    supprimerDockerFile(dockerfile: Dockerfile): Observable<Dockerfile> {
+        const params = new HttpParams().set('id', dockerfile.id + '');
+        const uri = this.apiManagerService.genereUrlWithParam('Dockerfile.supprimer', params).url;
+        return this.httpClient.delete<Dockerfile>(uri);
     }
 
 

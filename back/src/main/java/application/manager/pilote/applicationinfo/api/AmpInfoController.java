@@ -17,7 +17,7 @@ import application.manager.pilote.session.modele.Secured;
 @RestController
 @RequestMapping("/api/infos")
 @ApiManager("Information")
-public class ApplicationInfoController extends DefaultController {
+public class AmpInfoController extends DefaultController {
 
 	@Autowired
 	private ApplicationInfoService appInfoService;

@@ -1,18 +1,18 @@
 <h1 mat-dialog-title>Consultation</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="dialogContent">
   <table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="Cle">
         <th mat-header-cell *matHeaderCellDef class="headerTab"> Clé </th>
         <td mat-cell *matCellDef="let element">
-          <input type="text" [(ngModel)]="element.cle" />
+          {{element.cle}}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="Valeur">
         <th mat-header-cell *matHeaderCellDef class="headerTab"> Valeur </th>
         <td mat-cell *matCellDef="let element">
-          <input type="text" [(ngModel)]="element.valeur" />
+          {{element.valeur}}
         </td>
     </ng-container>
 
@@ -20,8 +20,15 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;">
 
     </tr>
-</table>
+  </table>
+  <div class="loaderColonne">
+    <mat-spinner *ngIf="loader" [diameter]=30></mat-spinner>
+
+  </div>
+  <div *ngIf="!dataSource.data.length && !loader" class="paramNull">
+    Aucun paramètre pour cette version
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="close()">Annuler</button>
+  <button class="btnFermer" mat-button (click)="close()">Fermer</button>
 </div>
