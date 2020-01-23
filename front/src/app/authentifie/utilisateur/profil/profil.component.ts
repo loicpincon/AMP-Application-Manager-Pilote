@@ -33,7 +33,7 @@ export class UtilisateurProfilComponent implements OnInit {
             this.formulaire = this.formBuilder.group({
                 nom: new FormControl({ value: this.user.nom, disabled: !this.modif }, Validators.required),
                 prenom: new FormControl({ value: this.user.prenom, disabled: !this.modif }, Validators.required),
-                email: new FormControl({ value: this.user.email, disabled: true }, Validators.required)
+                email: new FormControl({ value: this.user.email, disabled: !this.modif }, Validators.required)
             });
         })
     }
@@ -41,12 +41,14 @@ export class UtilisateurProfilComponent implements OnInit {
     activerModifProfil() {
         this.formulaire.controls['nom'].enable()
         this.formulaire.controls['prenom'].enable()
+        this.formulaire.controls['email'].enable()
         this.modif = true;
     }
     annulerProfil() {
         this.modif = false;
         this.formulaire.controls['nom'].disable()
         this.formulaire.controls['prenom'].disable()
+        this.formulaire.controls['email'].disable()
     }
     modifierProfil(v) {
         let u = new User();

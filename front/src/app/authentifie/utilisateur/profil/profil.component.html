@@ -1,5 +1,5 @@
 <div class="container" *ngIf="formulaire">
-    <form [formGroup]="formulaire" (ng-submit)="modifierProfil(formulaire.value)">
+    <form [formGroup]="formulaire" (ngSubmit)="modifierProfil(formulaire.value)">
         <div class="headerProfil">
             <div class="block">
                 <img id="imageProfil" [src]="urlPhoto" />
