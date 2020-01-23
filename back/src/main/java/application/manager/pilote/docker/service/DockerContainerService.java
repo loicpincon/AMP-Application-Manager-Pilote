@@ -80,7 +80,7 @@ public class DockerContainerService {
 			deployer = DockerWarDeployer.builder().app(app).envChosi(envChoisi).param(param).ins(ins).server(server)
 					.build();
 		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
-			deployer = AngularAppDeployer.builder().app(app).ins(ins).build();
+			deployer = AngularAppDeployer.builder().app(app).server(server).ins(ins).build();
 		} else {
 			throw new ApplicationException(400, "Impossible de deployer ce type d'application : " + app.getType());
 		}

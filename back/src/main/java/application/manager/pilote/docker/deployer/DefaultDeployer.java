@@ -101,14 +101,15 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	}
 
 	protected String genererCheminTemporaire() {
-		if (pathFolderTemporaire == null) {
-			pathFolderTemporaire = stringUtils.concat(
-					properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
-					hasherService.randomInt());
-			LOG.debug("Chemin temporaire : " + pathFolderTemporaire);
-			new File(pathFolderTemporaire).mkdirs();
-		}
-		return pathFolderTemporaire;
+//		if (pathFolderTemporaire == null) {
+//			pathFolderTemporaire = stringUtils.concat(
+//					properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
+//					hasherService.randomInt());
+//			LOG.debug("Chemin temporaire : " + pathFolderTemporaire);
+//			new File(pathFolderTemporaire).mkdirs();
+//		}
+//		return pathFolderTemporaire;
+		return "C:\\Users\\LoïcPinçon\\Desktop\\DockerFile\\148578267";
 	}
 
 	/**

@@ -70,17 +70,12 @@ public class LogContainerService {
 				public void onNext(Frame item) {
 
 					String logBrut = item.toString();
+					LOG.debug(logBrut);
 					if (logBrut.length() > 42) {
 
 						try {
 							String timestamp = logBrut.substring(8, 38).substring(0, 19);
 							Date dateLog = sdf.parse(timestamp);
-							LOG.debug("date de la log : " + dateLog.getTime());
-							LOG.debug("date saisie deb : " + debut.getTime());
-							LOG.debug("date saisie fin : " + fin.getTime());
-							LOG.debug("compare : "
-									+ (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()));
-
 							if (debut != null) {
 								if (fin != null) {
 									if (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()) {
