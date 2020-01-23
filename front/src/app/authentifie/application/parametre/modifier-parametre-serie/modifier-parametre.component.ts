@@ -93,7 +93,6 @@ export class ModifierParametreComponent implements OnInit {
         if(this.valid){
             let mapParam = new StringMap();
             this.series.forEach(elem => {
-                console.log(elem)
                 mapParam[elem.cle] = elem.valeur;
             })
             this.serieEnCours.parametres = mapParam;
