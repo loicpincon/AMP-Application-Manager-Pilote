@@ -47,7 +47,27 @@ export class UtilisateurProfilComponent implements OnInit {
         this.formulaire.controls['prenom'].disable()
     }
     modifierProfil(v) {
-        console.log(v)
+        let u = new User();
+        u.nom = v.nom;
+        u.email = v.email;
+        u.prenom = v.prenom;
+        u.token = this.user.token;
+        console.log(u)
+
+        this.apmservice.modifierUtilisateur(u).subscribe(us => {
+            console.log(us);
+            this.annulerProfil();
+            this._snackBar.open('Profil modifié avec succès !', '', {
+                duration: 2000,
+                panelClass: 'customSnackBar'
+            });
+        }, error => {
+            this._snackBar.open('Echec  : ' + error.error.message, '', {
+                duration: 5000,
+                panelClass: 'customSnackBar'
+            });
+        })
+
     }
 
     ouvrirFileSearch() {
