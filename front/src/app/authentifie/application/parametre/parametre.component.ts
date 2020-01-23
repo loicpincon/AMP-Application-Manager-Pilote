@@ -6,6 +6,7 @@ import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './dialog-param-ajouter/dialog-param-ajouter.component';
 import { Router } from '@angular/router';
 import { DialogConsulterSerieParamComponent } from './dialog-param-consulter/dialog-param-consulter.component';
+import { ModifierParametreComponent } from './modifier-parametre-serie/modifier-parametre.component';
 @Component({
   selector: 'application-parametre',
   templateUrl: './parametre.component.html',
@@ -81,12 +82,16 @@ export class ParametreComponent implements OnInit {
       }
     });
   }
-  listerParametre(version, edit) {
-    this.router.navigate(['/secure/application/parametres'], { queryParams: { serveur: this.serveur, idApp: this.app.id, edit: edit, versionParam: version } });
-  }
+  listerParametre(version) {
+    const dialogRef = this.dialog.open(ModifierParametreComponent, {
+      width: '100%',
+      data: { serveur: this.serveur, idApp: this.app.id, versionParam: version }
+    });
+ }
 
-  supprimerParametre(version, edit) {
-
+  supprimerParametre(version) {
+    console.log(version)
+    console.log(this.params)
   }
 
 }

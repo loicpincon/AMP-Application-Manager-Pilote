@@ -201,6 +201,9 @@ export class ApmService {
     }
 
     modifierSerieParametre(app, serveur, parameteserie: ParametreSeries): Observable<ParametreSeries> {
+        console.log(app)
+        console.log(serveur)
+        console.log(parameteserie)
         let params = new HttpParams().set('id', app).set('serveur', serveur).set('version', parameteserie.version);
         const uri = this.apiManagerService.genereUrlWithParam('Application.modifierParametreSerie', params).url;
         return this.httpClient.put<ParametreSeries>(uri, parameteserie);

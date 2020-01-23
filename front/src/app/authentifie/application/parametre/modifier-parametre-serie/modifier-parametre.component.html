@@ -1,32 +1,43 @@
-<div class="mat-elevation-z8">
-    <button mat-raised-button (click)="ajouterParam()" class="btnActions">+</button>
+<h1 mat-dialog-title>Modification de la version {{data.versionParam}}</h1>
+<div class="btnAddParam">
+    <button mat-raised-button (click)="ajouterParam()" class="btnActions">Ajouter un paramètre</button>
+</div>
+<div mat-dialog-content class="dialogContent">
     <table mat-table [dataSource]="dataSource">
-
         <ng-container matColumnDef="Cle">
-            <th mat-header-cell *matHeaderCellDef class="headerTab"> Cle </th>
-            <td mat-cell *matCellDef="let element"><input type="text" [(ngModel)]="element.cle" /> </td>
-        </ng-container>
-
-        <ng-container *ngIf="isEditOption" matColumnDef="Valeur">
-            <th mat-header-cell *matHeaderCellDef class="headerTab"> Valeur </th>
-            <td mat-cell *matCellDef="let element"><input type="text" [(ngModel)]="element.valeur" />
+            <th mat-header-cell *matHeaderCellDef class="headerTab"> Clé </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput (keyup)="setValidForm('Cle',$event.target.value,element)" (change)="paramChange('Cle',element,$event.target.value)" value="{{element.cle}}" />
+                </mat-form-field>
             </td>
-
         </ng-container>
 
-        <ng-container *ngIf="!isEditOption" matColumnDef="Valeur">
+        <ng-container matColumnDef="Valeur">
             <th mat-header-cell *matHeaderCellDef class="headerTab"> Valeur </th>
-            <td mat-cell *matCellDef="let element"> {{element.valeur}} </td>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput (keyup)="setValidForm('Valeur',$event.target.value,element)" (change)="paramChange('Valeur',element,$event.target.value)" value="{{element.valeur}}" />
+                </mat-form-field>
+            </td>
         </ng-container>
 
+        <ng-container matColumnDef="Supprimer">
+            <th mat-header-cell *matHeaderCellDef class="headerTab"> Supprimer </th>
+            <td mat-cell *matCellDef="let element">
+                <i (click)="supprimerParam(element)" class="material-icons iconDelete">delete_forever</i>
+            </td>
+        </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-
         </tr>
     </table>
     <div fxLayout fxLayout.xs="column">
-        <button fxFlex mat-raised-button (click)="modiferSerie()" class="btnActions">Enregister</button>
-        <button fxFlex mat-raised-button class="btnActions">Retour</button>
+        
     </div>
+</div>
+<div mat-dialog-actions class="footerBtn">
+    <button fxFlex mat-button [disabled]="!valid" (click)="modiferSerie()" class="btnActions">Enregister</button>
+    <button fxFlex mat-button (click)="backToApp()" class="btnActions">Retour</button>
 </div>
