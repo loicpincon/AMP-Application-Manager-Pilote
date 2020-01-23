@@ -21,10 +21,11 @@ import application.manager.pilote.application.modele.ApplicationType;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.UserAction;
-import application.manager.pilote.application.modele.WarApplication;
 import application.manager.pilote.application.service.ApplicationService;
 import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.exception.ApplicationException;
+import application.manager.pilote.docker.deployer.AngularAppDeployer;
+import application.manager.pilote.docker.deployer.DefaultDeployer;
 import application.manager.pilote.docker.deployer.DockerWarDeployer;
 import application.manager.pilote.docker.mapper.ContainerMapper;
 import application.manager.pilote.docker.modele.Container;
@@ -74,14 +75,18 @@ public class DockerContainerService {
 		Environnement envChoisi = app.getEnvironnements().get(server.getId());
 		Instance ins = instanceService.consulter(envChoisi.getInstances(), param.getIdInstanceCible());
 
+		DefaultDeployer<? extends Application> deployer = null;
 		if (app.getType().equals(ApplicationType.WAR)) {
-			DockerWarDeployer deployer = DockerWarDeployer.builder().app((WarApplication) app).envChoisi(envChoisi)
-					.param(param).ins(ins).server(server).build();
-			deployer.setUser(userSesion);
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
-
-			deployer.start();
+			deployer = DockerWarDeployer.builder().app(app).envChosi(envChoisi).param(param).ins(ins).server(server)
+					.build();
+		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
+			deployer = AngularAppDeployer.builder().app(app).server(server).ins(ins).build();
+		} else {
+			throw new ApplicationException(400, "Impossible de deployer ce type d'application : " + app.getType());
 		}
+		deployer.setUser(userSesion);
+		applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
+		deployer.start();
 
 		LOG.debug("retourne au client");
 		ins.setVersionApplicationActuel(param.getVersion());

@@ -25,7 +25,8 @@ import lombok.Setter;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({ @Type(name = ApplicationType.BASH, value = BashApplication.class),
 		@Type(name = ApplicationType.WAR, value = WarApplication.class),
-		@Type(name = ApplicationType.NODEJS, value = NodeJsApplication.class) })
+		@Type(name = ApplicationType.NODEJS, value = NodeJsApplication.class),
+		@Type(name = ApplicationType.ANGULAR, value = AngularApplication.class) })
 public class Application extends BasicDataBean {
 
 	/**

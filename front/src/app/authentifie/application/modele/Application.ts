@@ -98,6 +98,12 @@ export class WarApplication extends Application {
 export class NodeJsApplication extends Application {
 }
 
+export class AngularApplication extends Application {
+    versionAngular: string;
+    isBuilder: boolean;
+    baseLocation: string;
+}
+
 /**
  * 
  */

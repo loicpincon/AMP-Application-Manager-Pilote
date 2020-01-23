@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, AngularApplication } from '../modele/Application';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -37,6 +37,12 @@ export class CreationApplicationComponent implements OnInit {
       }),
       nodeJsApplication: new FormGroup({
         versionNode: new FormControl('')
+      })
+      ,
+      angularApplication: new FormGroup({
+        versionAngular: new FormControl(''),
+        isBuilder: new FormControl(''),
+        baseLocation: new FormControl('')
       })
     });
     this.formulaire.controls['dockerfilesText'].disable()
@@ -77,6 +83,11 @@ export class CreationApplicationComponent implements OnInit {
     } else if (data.typeApp === "BASH") {
       app = new BashApplication();
       app.urlBatch = data.bashApplication.urlBatch;
+    } else if (data.typeApp === "ANGULAR") {
+      app = new AngularApplication();
+      app.versionAngular = data.angularApplication.versionAngular;
+      app.isBuilder = data.angularApplication.isBuilder;
+      app.baseLocation = data.angularApplication.baseLocation;
     }
     app.name = data.name;
     app.type = data.typeApp;

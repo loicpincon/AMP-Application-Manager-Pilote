@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication } from '../modele/Application';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -38,13 +38,18 @@ export class ModificationApplicationComponent implements OnInit {
             dockerfilesText: new FormControl(app.dockerfile.file),
             basename: new FormControl(app.baseName),
             bashApplication: new FormGroup({
-              urlBatch: new FormControl({value:'', disabled: true}),
+              urlBatch: new FormControl({ value: '', disabled: true }),
             }),
             warApplication: new FormGroup({
-              nomFichierProperties: new FormControl({value:'', disabled: true}),
+              nomFichierProperties: new FormControl({ value: '', disabled: true }),
             }),
             nodeJsApplication: new FormGroup({
-              version: new FormControl({value:'', disabled: true}),
+              version: new FormControl({ value: '', disabled: true }),
+            }),
+            angularApplication: new FormGroup({
+              versionAngular: new FormControl({ value: '', disabled: true }),
+              isBuilder: new FormControl({ value: '', disabled: true }),
+              baseLocation: new FormControl({ value: '', disabled: true })
             })
           });
           this.selectType(this.application.type)
@@ -54,23 +59,25 @@ export class ModificationApplicationComponent implements OnInit {
             this.initFormBashApplication(this.application as BashApplication);
           } else if (this.application.type == "NODEJS") {
             this.initFormNodeJsApplication(this.application as NodeJsApplication);
+          } else if (this.application.type == "ANGULAR") {
+            this.initFormAngularApplication(this.application as AngularApplication);
           }
-          let tmp : string[] = new Array()
-          
+          let tmp: string[] = new Array()
+
 
           this.apmService.recupererServeur().subscribe(serveurs => {
-            serveurs.forEach(serv=>{
+            serveurs.forEach(serv => {
               serv.etat = false
               Object.keys(app.environnements).forEach((key) => {
-                if(serv.id.toString() == key){
+                if (serv.id.toString() == key) {
                   serv.etat = true
                 }
-                })
+              })
               this.allServer.push(serv)
             })
           })
         })
-        
+
 
         this.apmService.recupererTypeApplications().subscribe(typesApp => {
           this.typeApplication = typesApp;
@@ -79,33 +86,41 @@ export class ModificationApplicationComponent implements OnInit {
     });
   }
 
-  switchEtatEnv(env,bool){
-    this.allServer.forEach(serv=>{
-      if(serv.id === env.id){
+  switchEtatEnv(env, bool) {
+    this.allServer.forEach(serv => {
+      if (serv.id === env.id) {
         serv.etat = bool
       }
     })
   }
 
   onSubmit(value) {
-    if(this.formulaire.valid){
+    if (this.formulaire.valid) {
       let appTmp: any;
-      switch(value.typeApp){
-        case "WAR":{
+      switch (value.typeApp) {
+        case "WAR": {
           appTmp = new WarApplication();
           appTmp.nomFichierProperties = value.warApplication.nomFichierProperties
           break;
         }
-        case "BASH":{
+        case "BASH": {
           appTmp = new BashApplication();
           appTmp.urlBatch = value.bashApplication.urlBatch
           break;
         }
-        case "NODEJS":{
+        case "NODEJS": {
           appTmp = new NodeJsApplication();
           break;
         }
+        case "ANGULAR": {
+          appTmp = new AngularApplication();
+          appTmp.versionAngular = value.angularApplication.versionAngular
+          appTmp.isBuilder = value.angularApplication.isBuilder
+          appTmp.baseLocation = value.angularApplication.baseLocation
+          break;
+        }
       }
+      console.log(appTmp)
       appTmp.baseName = value.basename
       appTmp.type = value.typeApp
       appTmp.name = value.name
@@ -116,25 +131,25 @@ export class ModificationApplicationComponent implements OnInit {
       appTmp.livrables = this.application.livrables
       let evt = new Environnement()
       this.allServer.forEach(item => {
-        if(item.etat){
-          if(this.application.environnements[item.id]){
+        if (item.etat) {
+          if (this.application.environnements[item.id]) {
             evt[item.id] = this.application.environnements[item.id]
-          }else{
+          } else {
             evt[item.id] = new Environnement()
           }
         }
       })
       appTmp.environnements = evt
-      this.apmService.modifierApplication(appTmp).subscribe(data =>{
+      this.apmService.modifierApplication(appTmp).subscribe(data => {
         this._snackBar.open('Application modifiée avec succès !', '', {
           duration: 2000,
           panelClass: 'customSnackBar'
         });
         this._router.navigate(['/secure/application/pilotage', appTmp.id]);
-      }, error=>{
+      }, error => {
         console.log(error)
       })
-    }else{
+    } else {
       this._snackBar.open('Le formulaire n\'est pas valide !', '', {
         duration: 2000,
         panelClass: 'errorSnackBar'
@@ -143,22 +158,32 @@ export class ModificationApplicationComponent implements OnInit {
 
   }
 
-  selectType(type: string){
-    switch(type){
-      case "WAR":{
+  selectType(type: string) {
+    switch (type) {
+      case "WAR": {
         this.formulaire.controls['bashApplication'].disable()
         this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['warApplication'].enable()
+        this.formulaire.controls['angularApplication'].disable()
         break;
       }
-      case "BASH":{
+      case "BASH": {
         this.formulaire.controls['bashApplication'].enable()
         this.formulaire.controls['warApplication'].disable()
         this.formulaire.controls['nodeJsApplication'].disable()
+        this.formulaire.controls['angularApplication'].disable()
         break;
       }
-      case "NODEJS":{
+      case "NODEJS": {
         this.formulaire.controls['nodeJsApplication'].enable()
+        this.formulaire.controls['bashApplication'].disable()
+        this.formulaire.controls['warApplication'].disable()
+        this.formulaire.controls['angularApplication'].disable()
+        break;
+      }
+      case "ANGULAR": {
+        this.formulaire.controls['angularApplication'].enable()
+        this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['bashApplication'].disable()
         this.formulaire.controls['warApplication'].disable()
         break;
@@ -167,12 +192,19 @@ export class ModificationApplicationComponent implements OnInit {
   }
 
   initFormWarApplication(war: WarApplication) {
-    this.formulaire.controls['warApplication'].setValue({nomFichierProperties:war.nomFichierProperties})
+    this.formulaire.controls['warApplication'].setValue({ nomFichierProperties: war.nomFichierProperties })
   }
 
   initFormBashApplication(war: BashApplication) {
-    this.formulaire.controls['bashApplicationtion'].setValue({urlBatch:war.urlBatch})
+    this.formulaire.controls['bashApplicationtion'].setValue({ urlBatch: war.urlBatch })
   }
+
+  initFormAngularApplication(war: AngularApplication) {
+    this.formulaire.controls['angularApplication'].patchValue({ versionAngular: war.versionAngular })
+    this.formulaire.controls['angularApplication'].patchValue({ isBuilder: war.isBuilder })
+    this.formulaire.controls['angularApplication'].patchValue({ baseLocation: war.baseLocation })
+  }
+
 
   initFormNodeJsApplication(war: NodeJsApplication) {
 
