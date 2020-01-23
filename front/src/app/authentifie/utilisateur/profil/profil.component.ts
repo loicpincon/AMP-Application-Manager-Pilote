@@ -65,7 +65,7 @@ export class UtilisateurProfilComponent implements OnInit {
                 panelClass: 'customSnackBar'
             });
         }, error => {
-            this._snackBar.open('Echec : ' + error.error.message, '', {
+            this._snackBar.open('Echec  : ' + error.error.message, '', {
                 duration: 5000,
                 panelClass: 'customSnackBar'
             });
