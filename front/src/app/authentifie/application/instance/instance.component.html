@@ -24,7 +24,7 @@
                             </td>
                             <td style="width: 100%;"><button
                                     [ngClass]="{'listeInstances_btnOn': instance.etat=='L','listeInstances_btnIP': instance.etat=='P', 'listeInstances_btnOff':instance.etat=='S', 'listeInstances_btnVide':instance.etat=='V','listeInstances_selectionnee': instance == instanceEnCours }"
-                                    mat-raised-button
+                                    [class.spinner]="instance.etat=='P'" mat-raised-button
                                     (click)="selectInstance(instance,env.value.parametres,env.key)">{{instance.versionApplicationActuel}}</button>
                             </td>
                         </tr>

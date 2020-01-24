@@ -71,7 +71,7 @@
 
                 <div>
                     <mat-checkbox class="example-margin" formControlName="isPublic"
-                        [(ngModel)]="formulaire.value.isPublic">Checked</mat-checkbox>
+                        [(ngModel)]="formulaire.value.isPublic">Public</mat-checkbox>
                 </div>
 
                 <div>
@@ -83,8 +83,8 @@
                 </div>
                 <div>
                     <button [disabled]="!formulaire.valid" mat-raised-button color="primary"
-                        type="submit">Ajouter</button>
-                    <button mat-raised-button color="green" (click)="annulerForm()">annuler</button>
+                        type="submit">Enregistrer</button>
+                    <button mat-raised-button color="green" (click)="annulerForm()">Annuler</button>
                 </div>
             </form>
         </div>
