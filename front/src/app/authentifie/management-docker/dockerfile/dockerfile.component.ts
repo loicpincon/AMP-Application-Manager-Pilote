@@ -49,7 +49,7 @@ export class DockerFileComponent implements OnInit {
             nom: dk.name,
             isPublic: dk.isPublic,
             dockerfilesText: dk.file,
-            check: false
+            exposedPort: dk.exposedPortInside
         })
         this.edit = true;
     }
@@ -68,15 +68,8 @@ export class DockerFileComponent implements OnInit {
                 duration: 2000,
                 panelClass: 'customSnackBar'
             });
-
-
-            // get index of object with id:37
             var removeIndex = this.dockerfiles.map(function (item) { return item.id; }).indexOf(dk.id);
-
-            // remove object
             this.dockerfiles.splice(removeIndex, 1);
-
-
             this.dataSource.data = this.dockerfiles
             this.changeDetectorRefs.detectChanges();
         })
@@ -89,7 +82,7 @@ export class DockerFileComponent implements OnInit {
             nom: null,
             isPublic: null,
             dockerfilesText: null,
-            check: false
+            exposedPort: null
         })
         this.create = true;
     }
@@ -103,16 +96,20 @@ export class DockerFileComponent implements OnInit {
         body.name = customerData.nom;
         body.isPublic = customerData.isPublic;
         body.file = customerData.dockerfilesText
-
+        body.exposedPortInside = customerData.exposedPort;
 
         if (this.edit) {
             this.apmService.modifierDockerFile(body).subscribe(dk => {
+                var removeIndex = this.dockerfiles.map(function (item) { return item.id; }).indexOf(dk.id);
+                this.dockerfiles[removeIndex] = dk;
+                this.dataSource.data = this.dockerfiles
+                this.changeDetectorRefs.detectChanges();
                 this._snackBar.open('Modification enregistrée !', '', {
                     duration: 2000,
                     panelClass: 'customSnackBar'
                 });
-
-
+                this.formulaire = null
+                this.edit = false;
             })
 
         }

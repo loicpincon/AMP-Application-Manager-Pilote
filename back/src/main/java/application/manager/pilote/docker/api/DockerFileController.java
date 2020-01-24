@@ -45,7 +45,7 @@ public class DockerFileController {
 	@PostMapping
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<DockerFile>> creer(@RequestBody DockerFileParam param) {
+	public Callable<ResponseEntity<DockerFile>> creer(@RequestBody DockerFile param) {
 		return () -> ResponseEntity.ok(dockerFileService.insert(param));
 	}
 

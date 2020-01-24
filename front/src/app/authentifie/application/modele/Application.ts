@@ -135,6 +135,7 @@ export class Dockerfile {
     name: string;
     file: string;
     isPublic: boolean;
+    exposedPortInside: number;
 }
 
 

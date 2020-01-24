@@ -1,6 +1,9 @@
 package application.manager.pilote.docker.deployer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,10 +16,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageCmd;
+import com.github.dockerjava.api.exception.DockerException;
+import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.Ports.Binding;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
 
 import application.manager.pilote.application.modele.Application;
+import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.UserAction;
 import application.manager.pilote.application.service.ApplicationService;
@@ -27,11 +34,11 @@ import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.docker.helper.DeployFileHelper;
 import application.manager.pilote.docker.helper.ScriptPathHelper;
 import application.manager.pilote.docker.service.DockerContainerService;
+import application.manager.pilote.docker.service.pr.ContainerParam;
+import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.session.modele.UserSession;
 
 public abstract class DefaultDeployer<E extends Application> extends Thread {
-
-	protected static final Log LOG = LogFactory.getLog(DefaultDeployer.class);
 
 	protected static final String BASE_PATH_TO_APPLICATION_STOCK = "BASE_PATH_TO_APPLICATION_STOCK";
 
@@ -68,6 +75,8 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	@Autowired
 	protected DockerContainerService dockerContainerService;
 
+	protected Log logger;
+
 	private String pathFolderTemporaire;
 
 	protected UserSession user;
@@ -76,16 +85,34 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 
 	protected Instance ins;
 
-	protected DefaultDeployer(E app, Instance ins) {
+	protected Server server;
+
+	protected Environnement envChoisi;
+
+	protected ContainerParam param;
+
+	protected DefaultDeployer(E app, Instance ins, Server server, Environnement env, ContainerParam param) {
+		this.logger = LogFactory.getLog(getClass());
 		this.app = app;
 		this.ins = ins;
+		this.server = server;
+		this.envChoisi = env;
+		this.param = param;
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public abstract void run();
 
-	protected abstract Ports getPortsBinds(Instance ins);
-
+	/**
+	 * 
+	 * @param libelle
+	 * @param status
+	 * @param version
+	 * @return
+	 */
 	protected UserAction traceAction(String libelle, String status, String version) {
 		UserAction us = new UserAction();
 		us.setDate(new Date());
@@ -96,16 +123,24 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 		return us;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 */
 	public void setUser(UserSession s) {
 		this.user = s;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected String genererCheminTemporaire() {
 		if (pathFolderTemporaire == null) {
 			pathFolderTemporaire = stringUtils.concat(
 					properties.getPropertyOrElse(BASE_PATH_TO_DOCKERFILE, BASE_PATH_TO_DOCKERFILE_DEFAULT), SLASH,
 					hasherService.randomInt());
-			LOG.debug("Chemin temporaire : " + pathFolderTemporaire);
+			logger.debug("Chemin temporaire : " + pathFolderTemporaire);
 			new File(pathFolderTemporaire).mkdirs();
 		}
 		return pathFolderTemporaire;
@@ -119,44 +154,117 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 		return new BuildImageResultCallback();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected File createDockerFile() {
 		return deployfileHelper.createDockerFile(genererCheminTemporaire(), app.getDockerfile());
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected BuildImageCmd buildImageDocker() {
-		LOG.debug("Fin de la construction, debut de la creation de l'image");
+		logger.debug("Fin de la construction, debut de la creation de l'image");
 		return dockerClient.buildImageCmd(createDockerFile());
 	}
 
+	/**
+	 * 
+	 * @param buildArgs
+	 * @return
+	 */
 	protected BuildImageCmd buildImageDocker(Map<String, String> buildArgs) {
-		LOG.debug("Fin de la construction, debut de la creation de l'image avec " + buildArgs.size() + " parametres");
+		logger.debug(
+				"Fin de la construction, debut de la creation de l'image avec " + buildArgs.size() + " parametres");
 		BuildImageCmd command = dockerClient.buildImageCmd(createDockerFile());
 		Set<String> cles = buildArgs.keySet();
 		Iterator<String> it = cles.iterator();
 		while (it.hasNext()) {
 			String cle = it.next();
-			LOG.debug(cle + " : " + buildArgs.get(cle));
+			logger.debug(cle + " : " + buildArgs.get(cle));
 			command.withBuildArg(cle, buildArgs.get(cle));
 		}
 		return command;
 	}
 
+	/**
+	 * 
+	 * @param params
+	 */
 	protected void createContainer(Map<String, String> params) {
 		try {
-			LOG.debug("Construction de l'image");
+			if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
+				this.dockerContainerService.manage(app.getId(), server.getId(), ins.getId(), "delete");
+			}
+			logger.debug("Construction de l'image");
 			String imageId = buildImageDocker(params).exec(getCallBackBuildImage()).awaitCompletion().awaitImageId();
-			LOG.debug("Fin de la construction, debut de la creation du container");
+			logger.debug("Fin de la construction, debut de la creation du container");
 			dockerClient.createContainerCmd(imageId).withPublishAllPorts(true).withName(ins.getId())
-					.withPortBindings(getPortsBinds(ins)).exec();
-			LOG.debug("Fin de la  creation du container");
-			LOG.debug("Lancement du container avec identifiant : " + ins.getContainerId());
-
+					.withPortBindings(getPortsBinds()).exec();
+			logger.debug("Fin de la  creation du container");
+			logger.debug("Lancement du container avec identifiant : " + ins.getContainerId());
 			dockerClient.startContainerCmd(ins.getContainerId()).exec();
-		} catch (InterruptedException e) {
-			LOG.error(e);
+			updateInfosInstance("L", "Deploy", "Success");
+		} catch (DockerException | InterruptedException e) {
+			logger.error(e);
+			updateInfosInstance("S", "Deploy", "Echec");
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(500, "Impossible de constuire le container : " + e.getMessage());
+		}
+	}
+
+	/**
+	 * 
+	 * @param etat
+	 * @param appVersion
+	 * @param paramVersion
+	 * @param action
+	 * @param etatLibelle
+	 * @param message
+	 */
+	protected void updateInfosInstance(String etat, String action, String etatLibelle) {
+		ins.setEtat(etat);
+		if (server.getDns() != null) {
+			ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
+		} else {
+			ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
+		}
+		ins.setVersionApplicationActuel(param.getVersion());
+		ins.setVersionParametresActuel(param.getVersionParam());
+		ins.getUserActions().add(traceAction(action, etatLibelle, param.getVersion()));
+		template.convertAndSend("/content/application", ins);
+		logger.debug("fin du thread avec le statut : " + etatLibelle);
+		appService.modifier(app);
+	}
+
+	/**
+	 * @param serveur
+	 * @return
+	 */
+	protected Ports getPortsBinds() {
+		Ports portBindings = new Ports();
+		ExposedPort expoPort = new ExposedPort(app.getDockerfile().getExposedPortInside());
+		portBindings.bind(expoPort, Binding.bindPort(Integer.valueOf(ins.getPort())));
+		return portBindings;
+	}
+
+	protected void executionScript(String... command) {
+		try {
+			ProcessBuilder pb = new ProcessBuilder(command);
+			pb.start();
+			Process process = pb.start();
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
+			while ((line = br.readLine()) != null) {
+				logger.debug(line);
+			}
+		} catch (IOException e) {
+			logger.error(e);
+			throw new ApplicationException(400, "Probleme durant le script de deploiement");
 		}
 	}
 

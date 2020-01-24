@@ -10,7 +10,6 @@ import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.service.HashService;
 import application.manager.pilote.docker.modele.DockerFile;
 import application.manager.pilote.docker.repository.DockerFileRepository;
-import application.manager.pilote.docker.service.pr.DockerFileParam;
 
 @Service
 public class DockerFileService {
@@ -33,14 +32,9 @@ public class DockerFileService {
 		return dockerFile.get();
 	}
 
-	public DockerFile insert(DockerFileParam param) {
-		DockerFile dockerFile = new DockerFile();
+	public DockerFile insert(DockerFile dockerFile) {
 		dockerFile.setId(hasherService.randomInt());
-		dockerFile.setName(param.getName());
-		dockerFile.setFile(param.getFile());
-		dockerFile.setIsPublic(param.getIsPublic());
-		dockerFileRepo.insert(dockerFile);
-		return dockerFile;
+		return dockerFileRepo.insert(dockerFile);
 	}
 
 	public DockerFile modifier(DockerFile param) {
