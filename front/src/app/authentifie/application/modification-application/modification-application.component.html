@@ -44,6 +44,16 @@
                                     <input required formControlName="baseLocation" matInput
                                         placeholder="Emplacement des sources">
                                 </mat-form-field>
+                                <mat-form-field class="inputTypeApp">
+
+                                    <input required formControlName="userProprietaire" matInput
+                                        placeholder="Utilisateur proprietaire">
+                                </mat-form-field>
+                                <mat-form-field class="inputTypeApp">
+
+                                    <input required formControlName="nomRepository" matInput
+                                        placeholder="Nom repository">
+                                </mat-form-field>
                             </div>
                             <div formGroupName="nodeJsApplication" *ngIf="formulaire.value.typeApp=='NODEJS'">
 

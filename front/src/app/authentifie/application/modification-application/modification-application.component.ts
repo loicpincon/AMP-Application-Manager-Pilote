@@ -49,7 +49,9 @@ export class ModificationApplicationComponent implements OnInit {
             angularApplication: new FormGroup({
               versionAngular: new FormControl({ value: '', disabled: true }),
               isBuilder: new FormControl({ value: '', disabled: true }),
-              baseLocation: new FormControl({ value: '', disabled: true })
+              baseLocation: new FormControl({ value: '', disabled: true }),
+              userProprietaire: new FormControl({ value: '', disabled: true }),
+              nomRepository: new FormControl({ value: '', disabled: true })
             })
           });
           this.selectType(this.application.type)
@@ -117,6 +119,9 @@ export class ModificationApplicationComponent implements OnInit {
           appTmp.versionAngular = value.angularApplication.versionAngular
           appTmp.isBuilder = value.angularApplication.isBuilder
           appTmp.baseLocation = value.angularApplication.baseLocation
+          appTmp.userProprietaire = value.angularApplication.userProprietaire
+          appTmp.nomRepository = value.angularApplication.nomRepository
+
           break;
         }
       }
@@ -203,6 +208,9 @@ export class ModificationApplicationComponent implements OnInit {
     this.formulaire.controls['angularApplication'].patchValue({ versionAngular: war.versionAngular })
     this.formulaire.controls['angularApplication'].patchValue({ isBuilder: war.isBuilder })
     this.formulaire.controls['angularApplication'].patchValue({ baseLocation: war.baseLocation })
+    this.formulaire.controls['angularApplication'].patchValue({ userProprietaire: war.userProprietaire })
+    this.formulaire.controls['angularApplication'].patchValue({ nomRepository: war.nomRepository })
+
   }
 
 

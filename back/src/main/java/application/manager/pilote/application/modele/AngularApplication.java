@@ -18,4 +18,8 @@ public class AngularApplication extends Application {
 
 	private String baseLocation;
 
+	private String userProprietaire;
+
+	private String nomRepository;
+
 }

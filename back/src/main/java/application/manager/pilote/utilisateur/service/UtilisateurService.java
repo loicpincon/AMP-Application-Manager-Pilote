@@ -47,9 +47,10 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur inserer(Utilisateur u) {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
-//		if (uRepo.trouverParEmail(u.getEmail()).isPresent()) {
-//			throw new ApplicationException(400, "Le mail est déjà utilisé");
-//		}
+		List<Utilisateur> options = uRepo.trouverParEmail(u.getEmail());
+		if (!options.isEmpty() && search(options, u.getLogin())) {
+			throw new ApplicationException(400, "Le mail est déjà utilisé");
+		}
 		try {
 			u.setImage(new Binary(IOUtils.toByteArray(getClass().getResource("/img/avatar.png"))));
 		} catch (IOException e) {
@@ -64,13 +65,23 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur modifier(String id, Utilisateur utilisateur) {
 		Utilisateur us = consulter(id);
-		if (uRepo.trouverParEmail(utilisateur.getEmail()).isPresent()) {
+		List<Utilisateur> options = uRepo.trouverParEmail(utilisateur.getEmail());
+		if (!options.isEmpty() && !search(options, id)) {
 			throw new ApplicationException(400, "Le mail est déjà utilisé");
 		}
 		us.setEmail(utilisateur.getEmail());
 		us.setNom(utilisateur.getNom());
 		us.setPrenom(utilisateur.getPrenom());
 		return uRepo.save(us);
+	}
+
+	private Boolean search(List<Utilisateur> users, String id) {
+		for (Utilisateur u : users) {
+			if (!u.getLogin().equals(id)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public Utilisateur consulter(String token) {

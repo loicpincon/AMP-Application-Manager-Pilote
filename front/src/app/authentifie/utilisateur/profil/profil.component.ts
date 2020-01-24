@@ -33,7 +33,7 @@ export class UtilisateurProfilComponent implements OnInit {
             this.formulaire = this.formBuilder.group({
                 nom: new FormControl({ value: this.user.nom, disabled: !this.modif }, Validators.required),
                 prenom: new FormControl({ value: this.user.prenom, disabled: !this.modif }, Validators.required),
-                email: new FormControl({ value: this.user.email, disabled: !this.modif }, Validators.required)
+                email: new FormControl({ value: this.user.email, disabled: !this.modif }, [Validators.required, Validators.email])
             });
         })
     }

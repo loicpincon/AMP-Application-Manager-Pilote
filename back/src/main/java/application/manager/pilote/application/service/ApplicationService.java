@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import application.manager.pilote.application.modele.AngularApplication;
 import application.manager.pilote.application.modele.Application;
+import application.manager.pilote.application.modele.ApplicationType;
 import application.manager.pilote.application.modele.Environnement;
 import application.manager.pilote.application.modele.ParametreSeries;
 import application.manager.pilote.application.repository.ApplicationRepository;
@@ -32,12 +34,19 @@ public class ApplicationService extends DefaultService {
 	@Autowired
 	private UtilisateurService userService;
 
+	@Autowired
+	private LivrableService livrableService;
+
 	public Application consulter(String id) {
 		Optional<Application> appOpt = appRepo.findById(id);
 		if (!appOpt.isPresent()) {
 			throw new ApplicationException(HttpStatus.NOT_FOUND, "application non trouve");
 		}
-		return appOpt.get();
+		Application app = appOpt.get();
+		if (app.getType().equals(ApplicationType.ANGULAR)) {
+			app.setLivrables(livrableService.getLivrableFromGitHub((AngularApplication) app));
+		}
+		return app;
 	}
 
 	public List<Application> recuperer() {

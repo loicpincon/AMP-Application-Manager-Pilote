@@ -102,6 +102,8 @@ export class AngularApplication extends Application {
     versionAngular: string;
     isBuilder: boolean;
     baseLocation: string;
+    userProprietaire: string;
+    nomRepository: string;
 }
 
 /**
