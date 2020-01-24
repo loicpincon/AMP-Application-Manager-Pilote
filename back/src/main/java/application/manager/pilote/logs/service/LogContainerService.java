@@ -53,8 +53,8 @@ public class LogContainerService {
 		logContainerCmd.withStdOut(true).withStdErr(true);
 		if (debut != null) {
 			Integer timestamp = Math.abs(Integer.valueOf((int) debut.getTime()));
-			LOG.trace("auto : " + (int) (System.currentTimeMillis() / 1000));
-			LOG.trace("cherche par date debut : " + timestamp);
+			LOG.debug("auto : " + (int) (System.currentTimeMillis() / 1000));
+			LOG.debug("cherche par date debut : " + timestamp);
 		}
 		// logContainerCmd.withTail(4); // get only the last 4 log entries
 
@@ -79,8 +79,6 @@ public class LogContainerService {
 							if (debut != null) {
 								if (fin != null) {
 									if (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()) {
-										LOG.debug("filtre debut et fin");
-
 										String type = logBrut.substring(0, 6);
 										String message = logBrut.substring(39, logBrut.length() - 1);
 										logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message)
