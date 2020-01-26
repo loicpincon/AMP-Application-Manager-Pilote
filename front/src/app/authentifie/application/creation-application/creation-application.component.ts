@@ -42,7 +42,9 @@ export class CreationApplicationComponent implements OnInit {
       angularApplication: new FormGroup({
         versionAngular: new FormControl(''),
         isBuilder: new FormControl(''),
-        baseLocation: new FormControl('')
+        baseLocation: new FormControl(''),
+        userProprietaire: new FormControl(''),
+        nomRepository: new FormControl('')
       })
     });
     this.formulaire.controls['dockerfilesText'].disable()
@@ -88,6 +90,8 @@ export class CreationApplicationComponent implements OnInit {
       app.versionAngular = data.angularApplication.versionAngular;
       app.isBuilder = data.angularApplication.isBuilder;
       app.baseLocation = data.angularApplication.baseLocation;
+      app.userProprietaire = data.angularApplication.userProprietaire
+      app.nomRepository = data.angularApplication.nomRepository
     }
     app.name = data.name;
     app.type = data.typeApp;

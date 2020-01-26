@@ -2,7 +2,7 @@
 mypath=$(pwd)
 pathToFolderTemporaire=$1
 urlGit=$2
-
-cd $pathToFolderTemporaire &&  git clone $urlGit . &&  npm i &&   ng build --prod 
+version=$3
+cd $pathToFolderTemporaire &&  git clone -b $version  $urlGit . &&  npm i &&   ng build --prod 
 
 cd $mypath

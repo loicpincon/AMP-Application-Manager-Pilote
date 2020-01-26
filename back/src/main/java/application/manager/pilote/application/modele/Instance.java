@@ -25,15 +25,19 @@ public class Instance extends BasicDataBean {
 
 	private String libelle;
 
+	private String versionApplicationActuel;
+
+	private String versionParametresActuel;
+
+	private String libelleVersion;
+
+	private String libelleEtatAction;
+
 	private String url;
 
 	private String port;
 
 	private String etat;
-
-	private String versionApplicationActuel;
-
-	private String versionParametresActuel;
 
 	private List<UserAction> userActions = new ArrayList<>();
 

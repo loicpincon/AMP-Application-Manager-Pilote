@@ -28,5 +28,7 @@ public class DockerFile extends BasicDataBean {
 
 	private Boolean isPublic;
 
+	private String imageId;
+
 	private Integer exposedPortInside;
 }

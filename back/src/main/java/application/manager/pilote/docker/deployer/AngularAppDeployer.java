@@ -24,7 +24,7 @@ public class AngularAppDeployer extends DefaultDeployer<AngularApplication> {
 		if (!app.getIsBuilder()) {
 			logger.debug("Telechargement et Build de l'application --prod en cours");
 			executionScript(scriptPathHelper.getPathOfFile("", "deploiement_angular_build"), genererCheminTemporaire(),
-					app.getBaseLocation(), app.getBaseName());
+					app.getBaseLocation(), param.getVersion());
 			logger.debug("Fin Telechargement et Build de l'application --prod ");
 		}
 		lancementDeploiement();

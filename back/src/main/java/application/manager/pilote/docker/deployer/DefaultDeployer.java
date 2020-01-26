@@ -143,7 +143,8 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			logger.debug("Chemin temporaire : " + pathFolderTemporaire);
 			new File(pathFolderTemporaire).mkdirs();
 		}
-		return pathFolderTemporaire;
+		return "C:\\Users\\LoïcPinçon\\Desktop\\DockerFile\\1510827207\\";
+//		/return pathFolderTemporaire;
 	}
 
 	/**
@@ -168,7 +169,6 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	 * @return
 	 */
 	protected BuildImageCmd buildImageDocker() {
-		logger.debug("Fin de la construction, debut de la creation de l'image");
 		return dockerClient.buildImageCmd(createDockerFile());
 	}
 
@@ -178,8 +178,6 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	 * @return
 	 */
 	protected BuildImageCmd buildImageDocker(Map<String, String> buildArgs) {
-		logger.debug(
-				"Fin de la construction, debut de la creation de l'image avec " + buildArgs.size() + " parametres");
 		BuildImageCmd command = dockerClient.buildImageCmd(createDockerFile());
 		Set<String> cles = buildArgs.keySet();
 		Iterator<String> it = cles.iterator();
@@ -200,21 +198,27 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
 				this.dockerContainerService.manage(app.getId(), server.getId(), ins.getId(), "delete");
 			}
+			updateInfosInstance("P", "Deploy", "Success", null);
+
 			logger.debug("Construction de l'image");
+			
 			String imageId = buildImageDocker(params).exec(getCallBackBuildImage()).awaitCompletion().awaitImageId();
+			app.getDockerfile().setImageId(imageId);
 			logger.debug("Fin de la construction, debut de la creation du container");
-			dockerClient.createContainerCmd(imageId).withPublishAllPorts(true).withName(ins.getId())
-					.withPortBindings(getPortsBinds()).exec();
+
+			dockerClient.createContainerCmd(app.getDockerfile().getImageId()).withPublishAllPorts(true)
+					.withName(ins.getId()).withPortBindings(getPortsBinds()).exec();
 			logger.debug("Fin de la  creation du container");
 			logger.debug("Lancement du container avec identifiant : " + ins.getContainerId());
 			dockerClient.startContainerCmd(ins.getContainerId()).exec();
-			updateInfosInstance("L", "Deploy", "Success");
+			updateInfosInstance("L", "Deploy", "Success", null);
 		} catch (DockerException | InterruptedException e) {
 			logger.error(e);
-			updateInfosInstance("S", "Deploy", "Echec");
+			updateInfosInstance("S", "Deploy", "Echec", "Probleme durant l'installation");
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(500, "Impossible de constuire le container : " + e.getMessage());
 		}
+		supprimerEnvironnementTemporaire(genererCheminTemporaire());
 	}
 
 	/**
@@ -226,19 +230,25 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	 * @param etatLibelle
 	 * @param message
 	 */
-	protected void updateInfosInstance(String etat, String action, String etatLibelle) {
+	protected void updateInfosInstance(String etat, String action, String etatLibelle, String message) {
 		ins.setEtat(etat);
 		if (server.getDns() != null) {
 			ins.setUrl("http://" + server.getDns() + ":" + ins.getPort());
 		} else {
 			ins.setUrl("http://" + server.getIp() + ":" + ins.getPort());
 		}
+		ins.setLibelleEtatAction(message);
+		ins.setLibelleVersion(param.getVersion());
 		ins.setVersionApplicationActuel(param.getVersion());
 		ins.setVersionParametresActuel(param.getVersionParam());
 		ins.getUserActions().add(traceAction(action, etatLibelle, param.getVersion()));
 		template.convertAndSend("/content/application", ins);
 		logger.debug("fin du thread avec le statut : " + etatLibelle);
 		appService.modifier(app);
+	}
+
+	private void sendInfoToInterface() {
+		template.convertAndSend("/content/application", ins);
 	}
 
 	/**
@@ -253,8 +263,10 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	}
 
 	protected void executionScript(String... command) {
+		logger.debug("Debut du script de creation");
 		try {
 			ProcessBuilder pb = new ProcessBuilder(command);
+			logger.debug(command);
 			pb.start();
 			Process process = pb.start();
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -262,10 +274,15 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			while ((line = br.readLine()) != null) {
 				logger.debug(line);
 			}
+			logger.debug("Fin du script de creation");
 		} catch (IOException e) {
 			logger.error(e);
 			throw new ApplicationException(400, "Probleme durant le script de deploiement");
 		}
+	}
+
+	private void supprimerEnvironnementTemporaire(String path) {
+		// TODO supprimerEnvironnementTemporaire
 	}
 
 }

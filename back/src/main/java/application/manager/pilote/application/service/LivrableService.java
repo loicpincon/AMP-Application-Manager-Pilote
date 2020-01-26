@@ -18,11 +18,14 @@ public class LivrableService extends DefaultService {
 
 	public List<Livrable> getLivrableFromGitHub(AngularApplication angularApp) {
 		List<Livrable> livrables = new ArrayList<>();
-		ResponseEntity<GitHubReleaseResult[]> retour = http.getForEntity(GITHUB_URL
-				.replace("$1$", angularApp.getUserProprietaire()).replace("$2$", angularApp.getNomRepository()),
-				GitHubReleaseResult[].class);
-		for (GitHubReleaseResult release : retour.getBody()) {
-			livrables.add(map(release));
+		if (angularApp.getNomRepository() != null && angularApp.getUserProprietaire() != null) {
+			LOG.debug("Recuperation des livrable");
+			ResponseEntity<GitHubReleaseResult[]> retour = http.getForEntity(GITHUB_URL
+					.replace("$1$", angularApp.getUserProprietaire()).replace("$2$", angularApp.getNomRepository()),
+					GitHubReleaseResult[].class);
+			for (GitHubReleaseResult release : retour.getBody()) {
+				livrables.add(map(release));
+			}
 		}
 		return livrables;
 	}

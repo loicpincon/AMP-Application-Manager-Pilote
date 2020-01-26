@@ -77,10 +77,11 @@ public class DockerContainerService {
 
 		DefaultDeployer<? extends Application> deployer = null;
 		if (app.getType().equals(ApplicationType.WAR)) {
-			deployer = DockerWarDeployer.builder().app(app).envChosi(envChoisi).param(param).ins(ins).server(server)
+			deployer = DockerWarDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server)
 					.build();
 		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
-			deployer = AngularAppDeployer.builder().app(app).server(server).ins(ins).build();
+			deployer = AngularAppDeployer.builder().app(app).param(param).env(envChoisi).server(server).ins(ins)
+					.build();
 		} else {
 			throw new ApplicationException(400, "Impossible de deployer ce type d'application : " + app.getType());
 		}
@@ -89,7 +90,7 @@ public class DockerContainerService {
 		deployer.start();
 
 		LOG.debug("retourne au client");
-		ins.setVersionApplicationActuel(param.getVersion());
+		ins.setVersionApplicationActuel("Deploiement en cours de la version " + param.getVersion());
 		ins.setVersionParametresActuel(param.getVersionParam());
 		ins.setEtat("P");
 		appService.modifier(app);
@@ -163,7 +164,8 @@ public class DockerContainerService {
 
 			}
 		}.start();
-
+		instance.setVersionApplicationActuel(
+				action + " en cours de la version " + instance.getVersionApplicationActuel());
 		instance.setEtat("P");
 		appService.modifier(appli);
 		template.convertAndSend("/content/application", instance);

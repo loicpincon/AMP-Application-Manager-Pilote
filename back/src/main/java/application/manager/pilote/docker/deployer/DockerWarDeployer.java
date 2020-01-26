@@ -20,7 +20,7 @@ import lombok.Builder;
 public class DockerWarDeployer extends DefaultDeployer<WarApplication> {
 
 	@Builder
-	public DockerWarDeployer(Application app, Instance ins, Environnement envChosi, Server server, Environnement env,
+	public DockerWarDeployer(Application app, Instance ins, Server server, Environnement env,
 			ContainerParam param) {
 		super((WarApplication) app, ins, server, env, param);
 	}
