@@ -143,7 +143,7 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			logger.debug("Chemin temporaire : " + pathFolderTemporaire);
 			new File(pathFolderTemporaire).mkdirs();
 		}
-		//return "C:\\Users\\LoïcPinçon\\Desktop\\DockerFile\\1510827207\\";
+		// return "C:\\Users\\LoïcPinçon\\Desktop\\DockerFile\\1510827207\\";
 		return pathFolderTemporaire;
 	}
 
@@ -243,7 +243,7 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 		ins.setVersionApplicationActuel(param.getVersion());
 		ins.setVersionParametresActuel(param.getVersionParam());
 		ins.getUserActions().add(traceAction(action, etatLibelle, param.getVersion()));
-		template.convertAndSend("/content/application", ins);
+		sendInfoToInterface();
 		logger.debug("fin du thread avec le statut : " + etatLibelle);
 		appService.modifier(app);
 	}
@@ -287,7 +287,7 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	}
 
 	private void supprimerImageId(String imageid) {
-		dockerClient.removeImageCmd(imageid).exec();
+		// dockerClient.removeImageCmd(imageid).exec();
 	}
 
 }

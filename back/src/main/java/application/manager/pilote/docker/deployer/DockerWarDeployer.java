@@ -20,8 +20,7 @@ import lombok.Builder;
 public class DockerWarDeployer extends DefaultDeployer<WarApplication> {
 
 	@Builder
-	public DockerWarDeployer(Application app, Instance ins, Server server, Environnement env,
-			ContainerParam param) {
+	public DockerWarDeployer(Application app, Instance ins, Server server, Environnement env, ContainerParam param) {
 		super((WarApplication) app, ins, server, env, param);
 	}
 
@@ -30,7 +29,7 @@ public class DockerWarDeployer extends DefaultDeployer<WarApplication> {
 		deplacerFichierWarDansRepertoireCourant();
 		executionScript(scriptPathHelper.getPathOfFile("", "deploiement_war_gcp"), genererCheminTemporaire(),
 				genererCheminTemporaire() + SLASH + app.getBaseName(),
-				genererCheminTemporaire() + SLASH + "ROOT.war" + " .");
+				genererCheminTemporaire() + SLASH + "ROOT.war" + " .", app.getNomFichierProperties());
 		lancementDeploiement();
 	}
 
