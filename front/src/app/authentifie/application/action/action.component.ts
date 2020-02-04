@@ -76,7 +76,7 @@ export class ActionComponent implements OnInit {
 
 
   delete() {
-    this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'DE').subscribe(res => {
+    this.apmService.manageApplication(this.app.id, this.serveur, this.instance.id, 'DEL').subscribe(res => {
       this.instance = res;
       this.instanceEvent.emit(this.instance);
 
