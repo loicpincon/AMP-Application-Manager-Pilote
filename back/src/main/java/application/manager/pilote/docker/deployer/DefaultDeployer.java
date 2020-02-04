@@ -206,7 +206,9 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			String imageId = buildImageDocker(params).exec(getCallBackBuildImage()).awaitCompletion().awaitImageId();
 			app.getDockerfile().setImageId(imageId);
 			logger.debug("Fin de la construction, debut de la creation du container");
-
+			if (ins.getContainerId() != null) {
+				dockerClient.removeContainerCmd(ins.getContainerId());
+			}
 			dockerClient.createContainerCmd(app.getDockerfile().getImageId()).withPublishAllPorts(true)
 					.withName(ins.getId()).withPortBindings(getPortsBinds()).exec();
 			logger.debug("Fin de la  creation du container");
