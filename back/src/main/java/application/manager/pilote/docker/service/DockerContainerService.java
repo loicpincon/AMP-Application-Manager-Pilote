@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.github.dockerjava.api.DockerClient;
@@ -28,12 +27,15 @@ import application.manager.pilote.docker.deployer.AngularAppDeployer;
 import application.manager.pilote.docker.deployer.DefaultDeployer;
 import application.manager.pilote.docker.deployer.DockerWarDeployer;
 import application.manager.pilote.docker.mapper.ContainerMapper;
+import application.manager.pilote.docker.modele.ActionInstance;
 import application.manager.pilote.docker.modele.Container;
+import application.manager.pilote.docker.modele.EtatInstance;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.server.modele.Server;
 import application.manager.pilote.server.service.ServerService;
 import application.manager.pilote.session.modele.UserSession;
 import application.manager.pilote.session.service.SessionService;
+import application.manager.pilote.socket.service.InstanceWSService;
 
 @Service
 public class DockerContainerService {
@@ -56,7 +58,7 @@ public class DockerContainerService {
 	private ApplicationService appService;
 
 	@Autowired
-	private SimpMessagingTemplate template;
+	private InstanceWSService instanceWS;
 
 	@Autowired
 	private SessionService sessionService;
@@ -77,8 +79,7 @@ public class DockerContainerService {
 
 		DefaultDeployer<? extends Application> deployer = null;
 		if (app.getType().equals(ApplicationType.WAR)) {
-			deployer = DockerWarDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server)
-					.build();
+			deployer = DockerWarDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server).build();
 		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
 			deployer = AngularAppDeployer.builder().app(app).param(param).env(envChoisi).server(server).ins(ins)
 					.build();
@@ -92,9 +93,9 @@ public class DockerContainerService {
 		LOG.debug("retourne au client");
 		ins.setVersionApplicationActuel("Deploiement en cours de la version " + param.getVersion());
 		ins.setVersionParametresActuel(param.getVersionParam());
-		ins.setEtat("P");
+		ins.setEtat(EtatInstance.P.name());
 		appService.modifier(app);
-		template.convertAndSend("/content/application", ins);
+		instanceWS.sendDetailsInstance(ins);
 		return ins;
 	}
 
@@ -123,7 +124,7 @@ public class DockerContainerService {
 	private void startC(Instance containerId) {
 		try {
 			dockerClient.startContainerCmd(containerId.getContainerId()).exec();
-			containerId.setEtat("L");
+			containerId.setEtat(EtatInstance.L.name());
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -138,37 +139,33 @@ public class DockerContainerService {
 		UserSession userSesion = sessionService.getSession();
 		Application appli = appService.consulter(app);
 		Instance instance = instanceService.consulter(appli.getEnvironnements().get(server).getInstances(), id);
+
 		new Thread() {
 			@Override
 			public void run() {
-				switch (action) {
-				case "start":
+				LOG.debug("action demandée : " + action);
+				if (action.equals(ActionInstance.DEPLOY.getCode())) {
 					startC(instance);
-					break;
-				case "reload":
+				} else if (action.equals(ActionInstance.RELOAD.getCode())) {
 					reload(instance);
-					break;
-				case "stop":
+				} else if (action.equals(ActionInstance.STOP.getCode())) {
 					stopC(instance);
-					break;
-				case "delete":
+				} else if (action.equals(ActionInstance.DELETE.getCode())) {
 					delete(instance);
-					break;
-				default:
-					throw new ApplicationException(400, "action inconnue");
+				} else {
+					throw new ApplicationException(400, "action inconnue --> " + action);
 				}
 				instance.getUserActions()
 						.add(traceAction(action, "Success", instance.getVersionApplicationActuel(), userSesion));
 				appService.modifier(appli);
-				template.convertAndSend("/content/application", instance);
-
+				instanceWS.sendDetailsInstance(instance);
 			}
 		}.start();
 		instance.setVersionApplicationActuel(
 				action + " en cours de la version " + instance.getVersionApplicationActuel());
-		instance.setEtat("P");
+		instance.setEtat(EtatInstance.P.name());
 		appService.modifier(appli);
-		template.convertAndSend("/content/application", instance);
+		instanceWS.sendDetailsInstance(instance);
 		return instance;
 	}
 
@@ -188,7 +185,7 @@ public class DockerContainerService {
 	private void stopC(Instance containerId) {
 		try {
 			dockerClient.stopContainerCmd(containerId.getContainerId()).exec();
-			containerId.setEtat("S");
+			containerId.setEtat(EtatInstance.S.name());
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -200,7 +197,7 @@ public class DockerContainerService {
 	private void reload(Instance containerId) {
 		try {
 			dockerClient.restartContainerCmd(containerId.getContainerId()).exec();
-			containerId.setEtat("L");
+			containerId.setEtat(EtatInstance.L.name());
 		} catch (DockerException e) {
 			throw new ApplicationException(400, e.getMessage());
 		}
@@ -216,7 +213,7 @@ public class DockerContainerService {
 		}
 		instance.setVersionApplicationActuel(null);
 		instance.setVersionParametresActuel(null);
-		instance.setEtat("V");
+		instance.setEtat(EtatInstance.V.name());
 		dockerClient.removeContainerCmd(instance.getContainerId()).exec();
 	}
 

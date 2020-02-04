@@ -197,11 +197,12 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 		try {
 			if (ins.getEtat().equals("L") || ins.getEtat().equals("S")) {
 				this.dockerContainerService.manage(app.getId(), server.getId(), ins.getId(), "delete");
+				supprimerImageId(app.getDockerfile().getImageId());
 			}
 			updateInfosInstance("P", "Deploy", "Success", null);
 
 			logger.debug("Construction de l'image");
-			
+
 			String imageId = buildImageDocker(params).exec(getCallBackBuildImage()).awaitCompletion().awaitImageId();
 			app.getDockerfile().setImageId(imageId);
 			logger.debug("Fin de la construction, debut de la creation du container");
@@ -283,6 +284,10 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 
 	private void supprimerEnvironnementTemporaire(String path) {
 		// TODO supprimerEnvironnementTemporaire
+	}
+
+	private void supprimerImageId(String imageid) {
+		dockerClient.removeImageCmd(imageid).exec();
 	}
 
 }
