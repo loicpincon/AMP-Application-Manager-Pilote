@@ -67,7 +67,7 @@ public class ApplicationController extends DefaultController {
 	@ApiManager
 	@Secured
 	public Callable<ResponseEntity<Application>> modifier(@PathVariable String idApp, @RequestBody Application app) {
-		return () -> ResponseEntity.ok(appService.modifier(idApp,app));
+		return () -> ResponseEntity.ok(appService.modifier(idApp, app));
 	}
 
 	/**
