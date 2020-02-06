@@ -3,6 +3,8 @@ package application.manager.pilote.utilisateur.modele;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import organisation.application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;
+
 class DroitApplicatifLevelTest {
 
 	@Test

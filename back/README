@@ -12,7 +12,7 @@ curl -F file=@'mobilite.war' -H 'X-TOKEN-UTILISATEUR-UPLOAD:AZERTYIOP' http://21
     "name": "WarTomcat",
     "file": "FROM tomcat \n MAINTAINER loic  \n  RUN apt-get update && apt-get -y upgrade \n RUN rm -rf /usr/local/tomcat/webapps/ \n WORKDIR /usr/local/tomcat \n  \n ADD ROOT.war /usr/local/tomcat/webapps/ROOT.war",
     "isPublic": true,
-    "_class": "application.manager.pilote.docker.modele.DockerFile"
+    "_class": "organisation.application.manager.pilote.docker.modele.DockerFile"
 }
 
 export DOCKER_OPTS='-H tcp://213.136.77.118:2375 -H unix:///var/run/docker.sock'

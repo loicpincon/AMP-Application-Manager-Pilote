@@ -10,7 +10,7 @@
 		<version>2.2.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>application.manager</groupId>
+	<groupId>organisation.application.manager</groupId>
 	<artifactId>pilote</artifactId>
 	<version>0.0.69-SNAPSHOT</version>
 	<packaging>war</packaging>
