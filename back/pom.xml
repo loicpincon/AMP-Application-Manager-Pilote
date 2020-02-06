@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>loicpincon.java</groupId>
 			<artifactId>apimanager</artifactId>
-			<version>0.0.9-SNAPSHOT</version>
+			<version>0.0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
