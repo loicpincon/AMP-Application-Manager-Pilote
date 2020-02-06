@@ -65,7 +65,6 @@ public class LogContainerService {
 		try {
 			logContainerCmd.exec(new LogContainerResultCallback() {
 
-				@SuppressWarnings("unused")
 				@Override
 				public void onNext(Frame item) {
 

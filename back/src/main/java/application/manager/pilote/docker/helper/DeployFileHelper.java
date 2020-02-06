@@ -9,9 +9,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +18,7 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import application.manager.pilote.application.modele.Parametre;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.commun.helper.StringHelper;
 import application.manager.pilote.docker.modele.DockerFile;
@@ -67,19 +66,14 @@ public class DeployFileHelper {
 		}
 	}
 
-	public void createGcpFile(String url, Map<String, String> params) {
+	public void createGcpFile(String url, List<Parametre> params) {
 		try {
 			PrintWriter writer;
 			writer = new PrintWriter(url, "UTF-8");
-
 			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
-			Set<String> cles = params.keySet();
-			Iterator<String> it = cles.iterator();
-			while (it.hasNext()) {
-				String cle = it.next();
-				String valeur = params.get(cle);
-				writer.println(stringUtils.concat(cle, EGAL, valeur));
-				LOG.trace(stringUtils.concat(stringUtils.concat(cle, EGAL, valeur)));
+			for (Parametre param : params) {
+				writer.println(stringUtils.concat(param.getCle(), EGAL, param.getValeur()));
+				LOG.trace(stringUtils.concat(stringUtils.concat(param.getCle(), EGAL, param.getValeur())));
 			}
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {

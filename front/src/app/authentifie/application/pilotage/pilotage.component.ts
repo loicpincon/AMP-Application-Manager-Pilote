@@ -14,7 +14,7 @@ import { DataSharedService } from 'src/app/core/services/dataShared.service';
 export class PilotageComponent implements OnInit {
 
 
-  constructor(private route: ActivatedRoute,private router : Router, private dataShared: DataSharedService, private appService: ApmService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private dataShared: DataSharedService, private appService: ApmService) { }
 
   instanceSelect: Instance = null;
   idServer: number;
@@ -99,13 +99,11 @@ export class PilotageComponent implements OnInit {
           }
         })
       })
-      if (!find) {
-        alert(' a update une instance')
-      }
+
     }
   }
 
-  
+
   configurer() {
     this.router.navigate(['/secure/application/modification', this.application.id]);
   }

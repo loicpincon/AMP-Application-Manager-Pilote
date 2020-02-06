@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.docker.modele.Container;
 import application.manager.pilote.docker.service.DockerContainerService;
 import application.manager.pilote.docker.service.pr.ContainerParam;
 import application.manager.pilote.session.modele.Secured;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/docker")

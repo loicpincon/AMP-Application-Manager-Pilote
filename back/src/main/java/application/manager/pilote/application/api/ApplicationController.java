@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.application.modele.Application;
 import application.manager.pilote.application.modele.Instance;
 import application.manager.pilote.application.modele.Livrable;
@@ -25,6 +24,7 @@ import application.manager.pilote.application.service.InstanceService;
 import application.manager.pilote.commun.controller.DefaultController;
 import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.session.modele.SecuredLevel;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/applications")

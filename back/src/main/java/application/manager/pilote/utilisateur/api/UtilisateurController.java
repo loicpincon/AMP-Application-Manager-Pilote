@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.commun.exception.ApplicationException;
 import application.manager.pilote.session.modele.Secured;
 import application.manager.pilote.utilisateur.modele.DroitApplicatif;
 import application.manager.pilote.utilisateur.modele.Utilisateur;
 import application.manager.pilote.utilisateur.service.UtilisateurService;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/users")

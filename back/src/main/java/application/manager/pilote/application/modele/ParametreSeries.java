@@ -2,9 +2,7 @@ package application.manager.pilote.application.modele;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
@@ -23,7 +21,7 @@ public class ParametreSeries extends BasicDataBean {
 
 	private Date derniereModification;
 
-	private Map<String, String> parametres = new HashMap<>();
+	private List<Parametre> parametres = new ArrayList<>();
 
 	private List<UserAction> userActions = new ArrayList<>();
 

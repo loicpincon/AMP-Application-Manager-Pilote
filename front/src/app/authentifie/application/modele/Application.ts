@@ -25,14 +25,17 @@ export class Environnement {
 export class ParametreSeries {
     version: string;
     derniereModification: Date;
-    parametres: StringMap;
+    parametres: Parametre[];
     userActions: UserAction[];
 }
 
 
-export class StringMap {
-    [key: string]: string;
+export class Parametre {
+    cle: string;
+    valeur: string;
 }
+
+
 
 /**
  * 
@@ -110,8 +113,8 @@ export class AngularApplication extends Application {
  * 
  */
 export interface ParamsInstance {
-    is: Instance,
-    params: ParametreSeries
+    is: Instance;
+    params: ParametreSeries;
     idServer: number;
 }
 

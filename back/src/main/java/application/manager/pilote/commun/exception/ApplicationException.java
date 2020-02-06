@@ -4,11 +4,10 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import java.util.Date;
 
-import lombok.Getter;
-
 import org.springframework.http.HttpStatus;
 
 import application.manager.pilote.commun.modele.Retour;
+import lombok.Getter;
 
 @Getter
 public class ApplicationException extends RuntimeException {

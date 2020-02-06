@@ -2,9 +2,9 @@ package application.manager.pilote.application.modele;
 
 import java.util.Date;
 
+import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.Getter;
 import lombok.Setter;
-import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter

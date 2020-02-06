@@ -2,12 +2,12 @@ package application.manager.pilote.utilisateur.modele;
 
 import java.util.Date;
 
+import application.manager.pilote.commun.modele.BasicDataBean;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter

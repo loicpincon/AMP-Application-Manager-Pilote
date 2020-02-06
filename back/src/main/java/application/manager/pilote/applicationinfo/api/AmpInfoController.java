@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.applicationinfo.modele.ApplicationInfoRessource;
 import application.manager.pilote.applicationinfo.service.ApplicationInfoService;
 import application.manager.pilote.commun.controller.DefaultController;
 import application.manager.pilote.session.modele.Secured;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/api/infos")

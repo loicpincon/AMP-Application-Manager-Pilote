@@ -21,7 +21,7 @@ export class ApmService {
 
     recupererInfoApp(): Observable<ApplicationInformation> {
         const uri = this.apiManagerService.genereUrl('Information.recuperer').url;
-        return this.httpClient.get<ApplicationInformation>(uri);
+        return this.apiManagerService.get<ApplicationInformation>('Information.recuperer');
     }
 
     connecterUser(login: string, pass: string): Observable<any> {
@@ -70,6 +70,7 @@ export class ApmService {
     recupererAllApplicationsByUser(): Observable<Application[]> {
         let params = new HttpParams().set('idUser', sessionStorage.getItem('USER_TOKEN'));
         const uri = this.apiManagerService.genereUrlWithParam('Application.recupererParUser', params).url;
+        console.log(uri)
         return this.httpClient.get<Application[]>(uri);
     }
 

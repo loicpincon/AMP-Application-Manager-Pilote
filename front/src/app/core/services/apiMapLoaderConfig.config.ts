@@ -11,7 +11,7 @@ export class ApiMapLoaderConfig {
 
     async loadApiMap() {
         await this.apimanager.init().toPromise().then(function (result) {
-            ApiManagerService.apis = result as Api[];
+            ApiManagerService.apis = result as Map<string, Api>;
         });
     }
 }

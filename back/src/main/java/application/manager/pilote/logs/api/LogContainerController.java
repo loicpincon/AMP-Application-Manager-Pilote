@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.logs.modele.LogMessage;
 import application.manager.pilote.logs.modele.RechercheRessource;
 import application.manager.pilote.logs.service.LogContainerService;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/docker/logs")

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.manager.pilote.apimanager.modele.ApiManager;
 import application.manager.pilote.docker.modele.DockerFile;
 import application.manager.pilote.docker.service.DockerFileService;
 import application.manager.pilote.session.modele.Secured;
+import organisation.apimanager.modele.ApiManager;
 
 @RestController
 @RequestMapping("/dockerfile")
