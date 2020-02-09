@@ -7,8 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({ "organisation", "organisation.application" })
-
+@ComponentScan({ "organisation.apimanager", "organisation.application" })
 public class PiloteApplication extends SpringBootServletInitializer {
 
 	@Override
