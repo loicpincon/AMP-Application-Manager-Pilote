@@ -17,6 +17,6 @@ public class PiloteApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PiloteApplication.class, args);
-	}
+			}
 
 }

@@ -90,7 +90,7 @@ public class UtilisateurController {
 
 	@PutMapping(path = "/{id}/image")
 	@ApiManager("uploadImage")
-	public Callable<ResponseEntity<?>> multiUploadFileModel(@PathVariable String id,
+	public Callable<ResponseEntity<Utilisateur>> multiUploadFileModel(@PathVariable String id,
 			@RequestParam("file") MultipartFile file) {
 		return () -> ResponseEntity.ok(userService.setPhotoToMembre(id, file));
 	}

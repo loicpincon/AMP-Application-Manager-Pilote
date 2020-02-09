@@ -66,7 +66,7 @@ public class DockerFileController {
 	@DeleteMapping(path = "/{id}")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<?>> supprimer(@PathVariable Integer id) {
+	public Callable<ResponseEntity<Object>> supprimer(@PathVariable Integer id) {
 		return () -> ResponseEntity.ok(dockerFileService.supprimer(id));
 	}
 
