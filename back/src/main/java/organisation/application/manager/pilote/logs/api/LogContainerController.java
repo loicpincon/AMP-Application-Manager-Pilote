@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import organisation.apimanager.modele.ApiManager;
+import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.logs.modele.LogMessage;
 import organisation.application.manager.pilote.logs.modele.RechercheRessource;
 import organisation.application.manager.pilote.logs.service.LogContainerService;

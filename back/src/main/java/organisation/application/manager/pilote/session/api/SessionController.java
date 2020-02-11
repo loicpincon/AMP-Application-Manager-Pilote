@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import organisation.apimanager.modele.ApiManager;
+import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.session.modele.UserSession;
 import organisation.application.manager.pilote.session.service.SessionService;
 import organisation.application.manager.pilote.session.service.UserSessionParam;

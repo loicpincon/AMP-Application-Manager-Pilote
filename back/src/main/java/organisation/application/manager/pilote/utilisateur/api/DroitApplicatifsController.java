@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import organisation.apimanager.modele.ApiManager;
+import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 import organisation.application.manager.pilote.session.modele.Secured;
 import organisation.application.manager.pilote.utilisateur.modele.DroitApplicatifLevel;

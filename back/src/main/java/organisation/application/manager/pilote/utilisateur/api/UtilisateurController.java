@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import organisation.apimanager.modele.ApiManager;
+import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
 import organisation.application.manager.pilote.session.modele.Secured;
 import organisation.application.manager.pilote.utilisateur.modele.DroitApplicatif;
