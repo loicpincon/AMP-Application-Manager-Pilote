@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({ "organisation.apimanager", "organisation.application" })
+@ComponentScan({ "organisation" })
 public class PiloteApplication extends SpringBootServletInitializer {
 
 	@Override
@@ -17,6 +17,6 @@ public class PiloteApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PiloteApplication.class, args);
-			}
+	}
 
 }
