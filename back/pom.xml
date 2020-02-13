@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>loicpincon.java</groupId>
 			<artifactId>apimanager</artifactId>
-			<version>0.0.22</version>
+			<version>0.0.25</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -172,11 +172,5 @@
 		</plugins>
 		<finalName>amp</finalName>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>nexus_release</id>
-			<name>Mon repo Nexus</name>
-			<url>http://213.136.77.118:8081/nexus/content/repositories/releases/</url>
-		</repository>
-	</distributionManagement>
+
 </project>

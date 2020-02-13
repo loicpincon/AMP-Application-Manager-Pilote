@@ -152,5 +152,8 @@
       }
     }
   },
-  "defaultProject": "amp"
+  "defaultProject": "amp",
+  "cli": {
+    "analytics": "c5b151b8-cbc7-4ca5-9d18-c7f2228b7fef"
+  }
 }
