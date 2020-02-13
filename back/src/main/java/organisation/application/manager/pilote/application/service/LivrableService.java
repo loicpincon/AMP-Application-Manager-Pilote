@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 
 import organisation.application.manager.pilote.application.modele.AngularApplication;
 import organisation.application.manager.pilote.application.modele.Livrable;
@@ -21,12 +22,17 @@ public class LivrableService extends DefaultService {
 		List<Livrable> livrables = new ArrayList<>();
 		if (angularApp.getNomRepository() != null && angularApp.getUserProprietaire() != null) {
 			LOG.debug("Recuperation des livrable");
-			ResponseEntity<GitHubReleaseResult[]> retour = http.getForEntity(GITHUB_URL
-					.replace("$1$", angularApp.getUserProprietaire()).replace("$2$", angularApp.getNomRepository()),
-					GitHubReleaseResult[].class);
-			for (GitHubReleaseResult release : retour.getBody()) {
-				livrables.add(map(release));
+			try {
+				ResponseEntity<GitHubReleaseResult[]> retour = http.getForEntity(GITHUB_URL
+						.replace("$1$", angularApp.getUserProprietaire()).replace("$2$", angularApp.getNomRepository()),
+						GitHubReleaseResult[].class);
+				for (GitHubReleaseResult release : retour.getBody()) {
+					livrables.add(map(release));
+				}
+			} catch (RestClientException e) {
+				LOG.error(e.getMessage());
 			}
+
 		}
 		return livrables;
 	}
