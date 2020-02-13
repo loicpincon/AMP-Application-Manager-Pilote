@@ -251,7 +251,7 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 	}
 
 	private void sendInfoToInterface() {
-		template.convertAndSend("/content/organisation.application", ins);
+		template.convertAndSend("/content/application", ins);
 	}
 
 	/**

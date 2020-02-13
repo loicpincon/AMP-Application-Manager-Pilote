@@ -54,7 +54,7 @@ export class PilotageComponent implements OnInit {
 
   listening() {
     //connect to stomp where stomp endpoint is exposed
-    let ws = new SockJS(environment.urlServeurSocketBase);
+    let ws = new SockJS(environment.urlServeurBase + "/socket");
     //let socket = new WebSocket("ws://localhost:8080/socket");
     this.ws = Stomp.over(ws);
     this.ws.debug = null
@@ -70,6 +70,8 @@ export class PilotageComponent implements OnInit {
 
 
       });
+
+      console.log("connexion effectue");
     }, function (error) {
       console.error(error)
       alert('connexion perdue ! merci de rafraichir')

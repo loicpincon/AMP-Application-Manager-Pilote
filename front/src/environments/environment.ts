@@ -4,13 +4,9 @@
 
 export const environment = {
   production: false,
-  urlServeurBase: 'http://localhost:8080',
-  urlServeurSocketBase: 'http://localhost:8080/socket'
-  // urlServeurSocketBase: 'http://213.136.77.118:8888/ampapi/socket',
+  // urlServeurBase: 'http://localhost:8080',
   //urlServeurBase: 'http://213.136.77.118:8888/ampapi/api/map',
-
-  //urlServeurSocketBase: 'http://213.136.77.118:8888/amp/socket',
-  //urlServeurBase: 'http://213.136.77.118:8888/amp/api/map',
+  urlServeurBase: 'http://194.9.172.184:8080/',
 
 };
 
