@@ -9,7 +9,7 @@ import organisation.application.manager.pilote.application.modele.Instance;
 @Service
 public class InstanceWSService {
 
-	private static final String URL_DETAILS_INSTANCE = "/content/organisation.application";
+	private static final String URL_DETAILS_INSTANCE = "/content/application";
 
 	@Autowired
 	private SimpMessagingTemplate template;
