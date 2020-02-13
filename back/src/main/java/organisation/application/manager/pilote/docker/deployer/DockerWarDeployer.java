@@ -35,7 +35,7 @@ public class DockerWarDeployer extends DefaultDeployer<WarApplication> {
 
 	private void lancementDeploiement() {
 		Map<String, String> params = new HashMap<>();
-		params.put("basename", app.getBaseName());
+		params.put("basename", "ROOT.war");
 		createContainer(params);
 	}
 
