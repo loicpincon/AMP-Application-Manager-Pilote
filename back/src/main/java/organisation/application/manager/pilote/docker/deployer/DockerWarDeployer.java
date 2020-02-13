@@ -28,8 +28,8 @@ public class DockerWarDeployer extends DefaultDeployer<WarApplication> {
 		creerFichierParametresApplicatifs();
 		deplacerFichierWarDansRepertoireCourant();
 		executionScript(scriptPathHelper.getPathOfFile("", "deploiement_war_gcp"), genererCheminTemporaire(),
-				genererCheminTemporaire() + SLASH + app.getBaseName(),
-				genererCheminTemporaire() + SLASH + "ROOT.war" + " .", app.getNomFichierProperties());
+				genererCheminTemporaire() + SLASH + app.getBaseName(), genererCheminTemporaire() + SLASH + "ROOT.war",
+				app.getNomFichierProperties());
 		lancementDeploiement();
 	}
 
