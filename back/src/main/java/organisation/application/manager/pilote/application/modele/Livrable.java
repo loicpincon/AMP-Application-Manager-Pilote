@@ -8,7 +8,7 @@ import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
-public class Livrable extends BasicDataBean {
+public class Livrable extends BasicDataBean implements Comparable<Livrable> {
 
 	/**
 	 * 
@@ -24,5 +24,10 @@ public class Livrable extends BasicDataBean {
 	private Date dateUpload;
 
 	private boolean isFolder;
+
+	@Override
+	public int compareTo(Livrable o) {
+		return this.dateUpload.compareTo(o.getDateUpload());
+	}
 
 }

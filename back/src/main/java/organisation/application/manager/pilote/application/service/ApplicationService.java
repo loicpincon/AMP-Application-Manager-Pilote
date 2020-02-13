@@ -1,6 +1,7 @@
 package organisation.application.manager.pilote.application.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +47,9 @@ public class ApplicationService extends DefaultService {
 		if (app.getType().equals(ApplicationType.ANGULAR)) {
 			app.setLivrables(livrableService.getLivrableFromGitHub((AngularApplication) app));
 		}
+
+		Collections.sort(app.getLivrables(), Collections.reverseOrder());
+
 		return app;
 	}
 

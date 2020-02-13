@@ -50,4 +50,6 @@ export class LivrableComponent implements OnInit {
       this.dataShared.changeLivrable(row);
     }
   }
+
+
 }

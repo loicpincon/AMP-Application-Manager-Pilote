@@ -10,7 +10,7 @@ import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
-public class ParametreSeries extends BasicDataBean {
+public class ParametreSeries extends BasicDataBean implements Comparable<ParametreSeries> {
 
 	/**
 	 * 
@@ -24,5 +24,10 @@ public class ParametreSeries extends BasicDataBean {
 	private List<Parametre> parametres = new ArrayList<>();
 
 	private List<UserAction> userActions = new ArrayList<>();
+
+	@Override
+	public int compareTo(ParametreSeries o) {
+		return this.version.compareTo(o.getVersion());
+	}
 
 }

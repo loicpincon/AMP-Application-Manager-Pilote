@@ -8,7 +8,7 @@ import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
-public class UserAction extends BasicDataBean {
+public class UserAction extends BasicDataBean implements Comparable<UserAction> {
 
 	/**
 	 * 
@@ -27,4 +27,8 @@ public class UserAction extends BasicDataBean {
 
 	private String status;
 
+	@Override
+	public int compareTo(UserAction o) {
+		return this.date.compareTo(o.getDate());
+	}
 }
