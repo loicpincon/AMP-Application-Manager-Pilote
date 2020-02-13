@@ -10,6 +10,13 @@ mkdir "$pathToFolderTemporaire/extract"
 cd $pathToFolderTemporaire"/extract"
 jar -xvf $pathToFolderTemporaireOldNAme
 cd $pathToFolderTemporaire/extract
-cp ../$nameFileParam .
+cp ../$nameFileParam ./WEB-INF/classes/
 jar -cf $pathToFolderTemporaireWithNewFile .
 cd $mypath
+
+
+
+
+
+
+
