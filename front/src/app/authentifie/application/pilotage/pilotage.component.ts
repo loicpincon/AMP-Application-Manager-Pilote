@@ -25,17 +25,20 @@ export class PilotageComponent implements OnInit {
   ngOnInit() {
     this.listening();
     this.route.params.subscribe(params => {
-      console.log(params)
-      if (params['idApp'] !== undefined) {
-        this.appService.recupererApplication(params['idApp']).subscribe(data => {
-          this.instanceSelect = null;
-          this.application = data;
-          console.log(data)
-        },
-          error => {
-            console.log(error.error.message)
-          })
-      }
+      let idApp = params['idApp'];
+      //console.log(idApp)
+      //if (idApp !== undefined) {
+      this.appService.recupererApplication(idApp).subscribe(data => {
+        this.instanceSelect = null;
+        this.application = null;
+
+        this.application = data;
+        //console.log(this.application)
+      },
+        error => {
+          console.log(error.error.message)
+        })
+      // }
 
     });
   }

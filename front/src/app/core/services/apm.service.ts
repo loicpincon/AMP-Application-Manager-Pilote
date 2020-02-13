@@ -21,7 +21,7 @@ export class ApmService {
 
     recupererInfoApp(): Observable<ApplicationInformation> {
         const uri = this.apiManagerService.genereUrl('Information.recuperer').url;
-        return this.apiManagerService.get<ApplicationInformation>('Information.recuperer');
+        return this.httpClient.get<ApplicationInformation>(uri);
     }
 
     connecterUser(login: string, pass: string): Observable<any> {
@@ -63,7 +63,11 @@ export class ApmService {
 
     recupererApplication(idApp: string): Observable<Application> {
         let params = new HttpParams().set('idApp', idApp);
+        console.log(idApp)
+
         const uri = this.apiManagerService.genereUrlWithParam('Application.consulter', params).url;
+        console.log(uri)
+
         return this.httpClient.get<Application>(uri);
     }
 

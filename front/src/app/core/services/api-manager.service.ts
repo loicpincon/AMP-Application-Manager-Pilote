@@ -156,7 +156,8 @@ export class ApiManagerService {
    */
   public genereUrlWithParam(key: string, tab: HttpParams): Api {
     const api: Api = this.getApiByKey(key);
-    return this.buildParam(api, tab);
+    let apiB = new Api(api.key, api.url, api.verbe);
+    return this.buildParam(apiB, tab);
   }
 
   /**

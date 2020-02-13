@@ -43,7 +43,7 @@ export class AuthentifieComponent implements OnInit {
                 this.applications = apps;
             })
             this.dataShared.currentUrlPhoto.subscribe(url => {
-                this.zone.run(() => { console.log("passe dans la zone"); this.urlPhoto = ""; this.urlPhoto = this.appService.getImageProfil(this.user.token) + "?" + new Date(); });
+                this.zone.run(() => { this.urlPhoto = ""; this.urlPhoto = this.appService.getImageProfil(this.user.token) + "?" + new Date(); });
             })
         })
     }
@@ -81,10 +81,8 @@ export class AuthentifieComponent implements OnInit {
     verifierDroit() {
         this.user.rights.forEach(right => {
             if (right.applicationId == this.idApp && (right.level === "CP" || right.level === "PROP" || right.level === "EXPERT")) {
-                console.log('ok')
                 return true;
             } else {
-                console.log(right.level)
             }
         })
         return false;
