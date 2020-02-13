@@ -9,6 +9,6 @@ rm -rf "$pathToFolderTemporaire/extract"
 mkdir "$pathToFolderTemporaire/extract"
 cd $pathToFolderTemporaire"/extract"
 jar -xvf $pathToFolderTemporaireOldNAme
-cd $pathToFolderTemporaire
-jar -cf $pathToFolderTemporaireWithNewFile "$pathToFolderTemporaire/extract"
+cd $pathToFolderTemporaire/extract
+jar -cf $pathToFolderTemporaireWithNewFile .
 cd $mypath
