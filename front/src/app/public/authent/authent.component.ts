@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, Form, FormControl } from '@angular/forms';
 import { ApmService } from '../../core/services/apm.service';
-import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { LoginUser } from '../../core/modele/Authent';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'core-authent',

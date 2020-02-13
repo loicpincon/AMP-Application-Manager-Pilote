@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { WarApplication, BashApplication, Dockerfile, AngularApplication } from '../modele/Application';
-import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'application-creation-application',

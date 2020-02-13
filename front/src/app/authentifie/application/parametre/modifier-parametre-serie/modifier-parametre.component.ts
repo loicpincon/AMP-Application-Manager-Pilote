@@ -1,9 +1,10 @@
 import { OnInit, Component, Inject, Optional } from '@angular/core';
-import { MatTableDataSource, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ParametreSeries, Parametre } from '../../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 

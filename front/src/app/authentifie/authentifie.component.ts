@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit, NgZone } from '@angular/core';
 import { Application, Instance } from './application/modele/Application';
-import { MatSidenav } from '@angular/material';
 import { Router, NavigationExtras } from '@angular/router';
 import { ApmService } from '../core/services/apm.service';
 import { SidenavService } from '../core/services/sideNav.service';
@@ -10,6 +9,7 @@ import * as SockJS from 'sockjs-client';
 import { User } from './administration/modele/model';
 import { ApplicationInformation } from './consultation-log/modele/Model';
 import { DataSharedService } from '../core/services/dataShared.service';
+import { MatSidenav } from '@angular/material/sidenav';
 @Component({
     selector: 'app-secure-authent',
     templateUrl: './authentifie.component.html',

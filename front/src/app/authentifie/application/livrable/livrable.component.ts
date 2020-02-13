@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Livrable, Instance } from '../modele/Application';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'application-livrable',
@@ -26,7 +27,7 @@ export class LivrableComponent implements OnInit {
   ngOnChanges() {
     let availableVersion = false;
     this.dataSource.data = this.livrables
-    if(this.instance){
+    if (this.instance) {
       this.livrables.forEach(l => {
         if (l.nom == this.instance.versionApplicationActuel) {
           this.selection.select(l)

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication } from '../modele/Application';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

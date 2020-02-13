@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Log, Instance, Application, Serveur } from '../../application/modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DatePipe } from '@angular/common';
 import { EnvLog, AppLog, InstanceLog } from '../modele/Model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'consulter-log-recherche-root',

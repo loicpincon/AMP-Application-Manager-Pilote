@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ParametreSeries, Instance, Application } from '../modele/Application';
-import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
 import { DialogAjouterSerieParamComponent } from './dialog-param-ajouter/dialog-param-ajouter.component';
 import { Router } from '@angular/router';
 import { DialogConsulterSerieParamComponent } from './dialog-param-consulter/dialog-param-consulter.component';
 import { ModifierParametreComponent } from './modifier-parametre-serie/modifier-parametre.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'application-parametre',
   templateUrl: './parametre.component.html',
@@ -87,7 +89,7 @@ export class ParametreComponent implements OnInit {
       width: '100%',
       data: { serveur: this.serveur, idApp: this.app.id, versionParam: version }
     });
- }
+  }
 
   supprimerParametre(version) {
     console.log(version)

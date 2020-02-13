@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Instance, Application, ParametreSeries, Livrable } from '../modele/Application';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
-import { MatDialog } from '@angular/material';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { Router } from '@angular/router';

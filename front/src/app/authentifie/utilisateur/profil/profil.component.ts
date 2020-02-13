@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DataSharedService } from 'src/app/core/services/dataShared.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({

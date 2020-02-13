@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { DroitApplicatifLevel, User, UserTypesApp, Right } from '../modele/model';
-import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalAjoutUser } from './modal-ajout-user/modal-ajout-user';
 import { Application } from '../../application/modele/Application';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'administration-gestion-droits-applications',

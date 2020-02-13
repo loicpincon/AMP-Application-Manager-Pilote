@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Serveur, Environnement } from '../../modele/Application';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
     selector: 'modal-ajout-instance',
@@ -26,16 +26,16 @@ export class ModalAjoutInstance implements OnInit {
     }
 
     ajouter(): void {
-        if(this.envChoisi){
+        if (this.envChoisi) {
             this.loader = true
             this.apmService.ajouterInstance(this.envChoisi, this.data.idApp).subscribe(instance => {
                 this.dialogRef.close({ instance: instance, idServer: this.envChoisi });
                 this.loader = false
             },
-            erreur =>{
-                console.log(erreur)
-                this.loader = false;
-            })
+                erreur => {
+                    console.log(erreur)
+                    this.loader = false;
+                })
         }
     }
 }
