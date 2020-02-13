@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  urlServeurBase: window.location.origin + '/amp'
+  urlServeurBase: window.location.origin
 };
