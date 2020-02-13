@@ -1,6 +1,7 @@
 package organisation.application.manager.pilote.application.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class LivrableService extends DefaultService {
 	private Livrable map(GitHubReleaseResult param) {
 		Livrable livrable = new Livrable();
 		livrable.setNom(param.getName());
+		livrable.setDateUpload(new Date());
 		return livrable;
 	}
 
