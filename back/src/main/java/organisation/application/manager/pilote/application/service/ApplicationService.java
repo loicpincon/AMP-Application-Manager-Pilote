@@ -44,9 +44,9 @@ public class ApplicationService extends DefaultService {
 			throw new ApplicationException(HttpStatus.NOT_FOUND, "organisation.application non trouve");
 		}
 		Application app = appOpt.get();
-		if (app.getType().equals(ApplicationType.ANGULAR)) {
-			app.setLivrables(livrableService.getLivrableFromGitHub((AngularApplication) app));
-		}
+//		if (app.getType().equals(ApplicationType.ANGULAR)) {
+//			app.setLivrables(livrableService.getLivrableFromGitHub((AngularApplication) app));
+//		}
 
 		Collections.sort(app.getLivrables(), Collections.reverseOrder());
 
