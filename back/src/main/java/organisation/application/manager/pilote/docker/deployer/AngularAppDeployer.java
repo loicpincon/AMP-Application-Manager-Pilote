@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.Builder;
 import organisation.application.manager.pilote.application.modele.AngularApplication;
@@ -13,10 +14,14 @@ import organisation.application.manager.pilote.application.modele.Application;
 import organisation.application.manager.pilote.application.modele.Environnement;
 import organisation.application.manager.pilote.application.modele.Instance;
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
+import organisation.application.manager.pilote.commun.helper.ZipManagement;
 import organisation.application.manager.pilote.docker.service.pr.ContainerParam;
 import organisation.application.manager.pilote.server.modele.Server;
 
 public class AngularAppDeployer extends DefaultDeployer<AngularApplication> {
+
+	@Autowired
+	private ZipManagement zipService;
 
 	@Builder
 	public AngularAppDeployer(Application app, Instance ins, Server server, Environnement env, ContainerParam param) {
@@ -33,10 +38,13 @@ public class AngularAppDeployer extends DefaultDeployer<AngularApplication> {
 			logger.debug("Fin Telechargement et Build de l'organisation.application --prod ");
 		} else {
 			deplacerFichierZipDansRepertoireCourant();
-			executionScript(scriptPathHelper.getPathOfFile("", "deploiement_angular"), genererCheminTemporaire(),
-					"index.zip");
+			try {
+				zipService.unzip(genererCheminTemporaire() + "/index.zip", genererCheminTemporaire() + "/www");
+				lancementDeploiement();
+			} catch (IOException e) {
+				logger.error(e);
+			}
 		}
-		lancementDeploiement();
 	}
 
 	/**
