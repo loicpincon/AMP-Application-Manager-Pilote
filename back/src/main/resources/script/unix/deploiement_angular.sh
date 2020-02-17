@@ -1,7 +1,6 @@
 #!/bin/bash
-mypath=$(pwd)
 
-cd $0
-unzip $1
+cd $1
+unzip $2
 
-cd $mypath
+
