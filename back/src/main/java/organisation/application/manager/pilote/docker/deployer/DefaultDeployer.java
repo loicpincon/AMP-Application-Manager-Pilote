@@ -143,7 +143,6 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			logger.debug("Chemin temporaire : " + pathFolderTemporaire);
 			new File(pathFolderTemporaire).mkdirs();
 		}
-		// return "C:\\Users\\LoïcPinçon\\Desktop\\DockerFile\\1510827207\\";
 		return pathFolderTemporaire;
 	}
 
