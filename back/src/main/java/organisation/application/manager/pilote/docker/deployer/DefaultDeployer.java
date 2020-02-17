@@ -268,13 +268,17 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 		logger.debug("Debut du script de creation");
 		try {
 			ProcessBuilder pb = new ProcessBuilder(command);
-			logger.debug(command);
+			for (String com : command) {
+				logger.debug(com);
+			}
 			pb.start();
 			Process process = pb.start();
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
+			int cpt = 0;
 			while ((line = br.readLine()) != null) {
-				logger.debug(line);
+				logger.debug(cpt + " : " + line);
+				cpt++;
 			}
 			logger.debug("Fin du script de creation");
 		} catch (IOException e) {
