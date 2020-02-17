@@ -33,8 +33,8 @@ public class AngularAppDeployer extends DefaultDeployer<AngularApplication> {
 			logger.debug("Fin Telechargement et Build de l'organisation.application --prod ");
 		} else {
 			deplacerFichierZipDansRepertoireCourant();
-			executionScript(scriptPathHelper.getPathOfFile("", "deploiement_angular"),
-					genererCheminTemporaire() + SLASH + "index.zip");
+			executionScript(scriptPathHelper.getPathOfFile("", "deploiement_angular"), genererCheminTemporaire(),
+					"index.zip");
 		}
 		lancementDeploiement();
 	}
