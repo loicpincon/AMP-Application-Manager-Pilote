@@ -39,10 +39,11 @@ public class AngularAppDeployer extends DefaultDeployer<AngularApplication> {
 		} else {
 			deplacerFichierZipDansRepertoireCourant();
 			try {
-				zipService.unzip(genererCheminTemporaire() + "/index.zip", genererCheminTemporaire() + "/www");
+				zipService.unzip(genererCheminTemporaire() + "/index.zip", genererCheminTemporaire() );
 				lancementDeploiement();
 			} catch (IOException e) {
 				logger.error(e);
+				e.printStackTrace();
 			}
 		}
 	}
