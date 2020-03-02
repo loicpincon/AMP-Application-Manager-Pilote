@@ -208,8 +208,9 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			if (ins.getContainerId() != null) {
 				dockerClient.removeContainerCmd(ins.getContainerId());
 			}
+			String dns = app.getId().concat(server.getNom()).concat(this.ins.getLibelle()).concat(".194.9.172.184");
 			dockerClient.createContainerCmd(app.getDockerfile().getImageId()).withPublishAllPorts(true)
-					.withName(ins.getId()).withPortBindings(getPortsBinds()).exec();
+					.withName(ins.getId()).withCmd("-e VIRTUAL_HOST=" + dns).withPortBindings(getPortsBinds()).exec();
 			logger.debug("Fin de la  creation du container");
 			logger.debug("Lancement du container avec identifiant : " + ins.getContainerId());
 			dockerClient.startContainerCmd(ins.getContainerId()).exec();
