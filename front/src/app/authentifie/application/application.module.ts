@@ -19,6 +19,7 @@ import { ModifierParametreComponent } from './parametre/modifier-parametre-serie
 import { ModificationApplicationComponent } from './modification-application/modification-application.component';
 import { DialogConsulterSerieParamComponent } from './parametre/dialog-param-consulter/dialog-param-consulter.component';
 import { AdministrationApplicationComponent } from './administration/administration.component';
+import { DatasourceComponent } from './datasource/datasource.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,9 @@ const routes: Routes = [
       },
       {
         path: 'parametres', component: ModifierParametreComponent
+      },
+      {
+        path: 'datasource', component: DatasourceComponent
       },
       {
         path: '', redirectTo: 'pilotage', pathMatch: 'full'
@@ -61,6 +65,7 @@ export class ApplicationRoutingModule { }
     ActionUserComponent,
     LivrableComponent,
     ModalAjoutInstance,
+    DatasourceComponent,
     DialogAjouterSerieParamComponent,
     DialogConsulterSerieParamComponent,
     ModifierParametreComponent

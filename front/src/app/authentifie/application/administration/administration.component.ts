@@ -22,5 +22,9 @@ export class AdministrationApplicationComponent {
 
     }
 
+    gestionDataSource() {
+        this.router.navigate(['/secure/application/datasource'], { queryParams: { idApp: this.app.id } });
+    }
+
 
 }
