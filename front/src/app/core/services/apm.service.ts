@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 import { Observable } from 'rxjs';
-import { Application, Instance, Serveur, Dockerfile, Log, ParametreSeries } from 'src/app/authentifie/application/modele/Application';
+import { Application, Instance, Serveur, Dockerfile, Log, ParametreSeries, Datasource } from 'src/app/authentifie/application/modele/Application';
 import { User, DroitApplicatifLevel, Right, UserProfile } from 'src/app/authentifie/administration/modele/model';
 import { FormulaireLogInfo, ApplicationInformation } from 'src/app/authentifie/consultation-log/modele/Model';
 
@@ -243,5 +243,25 @@ export class ApmService {
         return this.httpClient.delete<Dockerfile>(uri);
     }
 
+
+    executerRequeteSQL(idContainer: string, requete: any, env: string, type: string): Observable<string[]> {
+        const body = { 'requete': requete, 'base': env, 'type': type }
+
+        const params = new HttpParams().set('idContainer', idContainer);
+        const uri = this.apiManagerService.genereUrlWithParam('SQL.executerRequete', params).url;
+        return this.httpClient.post<string[]>(uri, body);
+    }
+
+    consulterDatasource(idContainer: string): Observable<Datasource> {
+        const params = new HttpParams().set('idContainer', idContainer);
+        const uri = this.apiManagerService.genereUrlWithParam('SQL.consulter', params).url;
+        return this.httpClient.get<Datasource>(uri);
+    }
+
+    insererBaseDataSource(idContainer: string, nomBase: string): Observable<Datasource> {
+        const params = new HttpParams().set('idContainer', idContainer).set('base', nomBase);
+        const uri = this.apiManagerService.genereUrlWithParam('SQL.insererBase', params).url;
+        return this.httpClient.post<Datasource>(uri, null);
+    }
 
 }

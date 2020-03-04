@@ -1,5 +1,5 @@
-<div>
-    <div class="header">
+<div *ngIf="datasource">
+    <div class=" header">
         <h3>Datasource</h3>
     </div>
     <div class="container">
@@ -14,10 +14,17 @@
                         </mat-card-title>
                     </div>
                     <mat-card-content class="contentInstance">
-
-                        <div class="env-InstanceNull">
-                            Aucune datasource pour cette application
-                        </div>
+                        <mat-list>
+                            <mat-list-item>
+                                MySQL
+                            </mat-list-item>
+                            <mat-list-item>
+                                Mongo
+                            </mat-list-item>
+                            <mat-list-item>
+                                JMS
+                            </mat-list-item>
+                        </mat-list>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -28,14 +35,82 @@
                         <mat-card-title class="blocInstanceTitre">
                             <a (click)="alert('Il faut coder la modal')"><i class="material-icons iconAdd"
                                     matTooltip="Ajouter une instance">add</i></a>
-                            <h5>DataSource</h5>
+                            <h5>Mysql</h5>
                         </mat-card-title>
                     </div>
                     <mat-card-content class="contentInstance">
 
-                        <div class="env-InstanceNull">
-                            Aucune datasource pour cette application
+                        <div fxLayout fxLayout.xs="column">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Serveur</th>
+                                        <td>{{datasource.ip}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Port</th>
+                                        <td>{{datasource.port}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>User</th>
+                                        <td>{{datasource.user}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Password <mat-icon matSuffix (click)="hide = !hide">
+                                                {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                        </th>
+                                        <td>
+                                            <div *ngIf="hide">
+                                                **************
+                                            </div>
+                                            <div *ngIf="!hide">
+                                                {{datasource.password}}
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
                         </div>
+                        <div fxLayout fxLayout.xs="column">
+                            <mat-label>Base de données</mat-label>
+                            <mat-select [(ngModel)]="envChoisi">
+                                <mat-option *ngFor="let base of datasource.bases" [value]="base">{{base}}</mat-option>
+                            </mat-select>
+                        </div>
+                        <input type="text" [(ngModel)]="newBase">
+                        <button mat-button (click)="insererBase()" style="background-color: #3ac569;">Execute</button>
+
+
+
+
+                        <div fxLayout fxLayout.xs="column">
+                            <textarea [(ngModel)]="requeteA" rows="15" fxFlex
+                                style="align-content:center; overflow:auto; ">
+{{requeteA}}
+                           </textarea>
+                            <button mat-button (click)="executerRequeteSQL()"
+                                style="background-color: #3ac569;">Execute</button>
+
+                        </div>
+                        <div fxLayout fxLayout.xs="column">
+                            <div
+                                style="align-content:center; width: 100%; background-color: black;color: white;border: 1px solid white;">
+                                <table style="border: 1px solid white;">
+                                    <tbody>
+                                        <tr *ngFor="let t of requeteR">
+                                            <td *ngFor="let tbis of t">{{tbis}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+
                     </mat-card-content>
                 </mat-card>
             </div>

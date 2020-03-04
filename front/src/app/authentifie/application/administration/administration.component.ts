@@ -16,10 +16,7 @@ export class AdministrationApplicationComponent {
 
     }
     gestionMembres() {
-
         this.router.navigate(['/secure/administration/gestion-droits'], { queryParams: { idApp: this.app.id } });
-
-
     }
 
     gestionDataSource() {

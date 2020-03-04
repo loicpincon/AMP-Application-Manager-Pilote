@@ -143,4 +143,18 @@ export class Dockerfile {
     exposedPortInside: number;
 }
 
+/**
+ * 
+ */
+export class Datasource {
+    containerId: string;
+    ip: string;
+    port: string;
+    user: string;
+    password: string;
+    bases: string[];
+}
+
+
+
 
