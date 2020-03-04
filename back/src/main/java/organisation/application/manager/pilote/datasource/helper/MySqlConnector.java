@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource;
+package organisation.application.manager.pilote.datasource.helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,16 +31,13 @@ public class MySqlConnector {
 			String urm = "jdbc:mysql://" + ip + ":" + port + "/" + base;
 			Connection con = DriverManager.getConnection(urm, user, password);
 			Statement stmt = con.createStatement();
-			boolean resultset;
-			resultset = stmt.execute(requete);
+			stmt.execute(requete);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
-		
+
 	}
-	
-	
+
 	public List<List<String>> execute(String requete) {
 
 		try {
@@ -61,12 +58,10 @@ public class MySqlConnector {
 			while (resultset.next()) {
 				List<String> corps = new ArrayList<>();
 				for (int i = 1; i < columnsNum + 1; i++) {
-					if(resultset.getObject(i)!=null) {
+					if (resultset.getObject(i) != null) {
 						corps.add(resultset.getObject(i).toString());
-
-					}else {
+					} else {
 						corps.add("NULL");
-
 					}
 				}
 				tmp.add(corps);

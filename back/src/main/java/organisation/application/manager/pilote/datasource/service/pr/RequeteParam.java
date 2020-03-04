@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource;
+package organisation.application.manager.pilote.datasource.service.pr;
 
 import lombok.Getter;
 import lombok.Setter;

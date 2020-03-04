@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource;
+package organisation.application.manager.pilote.datasource.api;
 
 import java.util.concurrent.Callable;
 
@@ -14,37 +14,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.commun.controller.DefaultController;
+import organisation.application.manager.pilote.datasource.service.MySqlService;
+import organisation.application.manager.pilote.datasource.service.pr.RequeteParam;
 import organisation.application.manager.pilote.session.modele.Secured;
 
 @RestController
-@RequestMapping("/datasource/sql")
-@ApiManager("SQL")
+@RequestMapping("/datasource/mysql")
+@ApiManager("mysql")
 public class SqlController extends DefaultController {
 
 	@Autowired
-	private SqlService sqlService;
+	private MySqlService sqlService;
 
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping(path = "/{idContainer}")
+	@GetMapping(path = "/{idApp}/{idContainer}")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<?>> consulter(@PathVariable String idContainer) {
+	public Callable<ResponseEntity<?>> consulter(@PathVariable String idApp, @PathVariable String idContainer) {
 		return () -> ResponseEntity.ok(sqlService.consulter(idContainer));
 	}
-	
 
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping()
+	@GetMapping(path = "/{idApp}")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<?>> recuperer() {
-		return () -> ResponseEntity.ok(sqlService.recuperer());
+	public Callable<ResponseEntity<?>> recuperer(@PathVariable String idApp) {
+		return () -> ResponseEntity.ok(sqlService.recuperer(idApp));
 	}
 
 	/**
@@ -63,11 +64,12 @@ public class SqlController extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@PostMapping(path = "/{idContainer}/bases")
+	@PostMapping(path = "/{idApp}/{idContainer}/bases")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<?>> insererBase(@PathVariable String idContainer, @RequestParam String base) {
-		return () -> ResponseEntity.ok(sqlService.inserer(idContainer, base));
+	public Callable<ResponseEntity<?>> insererBase(@PathVariable String idApp, @PathVariable String idContainer,
+			@RequestParam String base) {
+		return () -> ResponseEntity.ok(sqlService.inserer(idApp, idContainer, base));
 	}
 
 }

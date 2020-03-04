@@ -152,7 +152,7 @@ export class Datasource {
     port: string;
     user: string;
     password: string;
-    bases: string[];
+    bases: any[];
 }
 
 

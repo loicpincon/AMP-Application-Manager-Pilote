@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { Datasource } from '../modele/Application';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-datasource',
@@ -15,20 +16,25 @@ export class DatasourceComponent implements OnInit {
   requeteRF: string;
   datasource: Datasource;
   newBase: string;
-  envChoisi: string;
-
+  envChoisi: any;
+  idApp: string;
   type: string;
 
-  constructor(private apmService: ApmService) { }
+  constructor(private route: ActivatedRoute, private apmService: ApmService) { }
 
   ngOnInit(): void {
-    this.apmService.consulterDatasource('3298bcb545d2').subscribe(data => {
-      this.datasource = data;
-    })
+    this.route.queryParams
+      .subscribe(params => {
+        this.apmService.consulterDatasource('3298bcb545d2', params.idApp).subscribe(data => {
+          this.datasource = data;
+          this.idApp = params.idApp;
+        })
+      });
+
   }
 
   insererBase() {
-    this.apmService.insererBaseDataSource(this.datasource.containerId, this.newBase).subscribe(data => {
+    this.apmService.insererBaseDataSource(this.datasource.containerId, this.newBase, this.idApp).subscribe(data => {
       this.datasource = data;
     })
   }
@@ -39,7 +45,7 @@ export class DatasourceComponent implements OnInit {
     if (this.requeteA.startsWith('SELECT') || this.requeteA.startsWith('select')) {
       this.type = "select";
     }
-    this.apmService.executerRequeteSQL(this.datasource.containerId, this.requeteA, this.envChoisi, this.type).subscribe(result => {
+    this.apmService.executerRequeteSQL(this.datasource.containerId, this.requeteA, this.envChoisi.name, this.type).subscribe(result => {
       console.log(result);
       this.requeteR = result;
       this.format();
@@ -57,4 +63,8 @@ export class DatasourceComponent implements OnInit {
     })
   }
 
+
+  exporterBase() {
+
+  }
 }

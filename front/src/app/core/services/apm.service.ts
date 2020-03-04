@@ -248,19 +248,19 @@ export class ApmService {
         const body = { 'requete': requete, 'base': env, 'type': type }
 
         const params = new HttpParams().set('idContainer', idContainer);
-        const uri = this.apiManagerService.genereUrlWithParam('SQL.executerRequete', params).url;
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.executerRequete', params).url;
         return this.httpClient.post<string[]>(uri, body);
     }
 
-    consulterDatasource(idContainer: string): Observable<Datasource> {
-        const params = new HttpParams().set('idContainer', idContainer);
-        const uri = this.apiManagerService.genereUrlWithParam('SQL.consulter', params).url;
+    consulterDatasource(idContainer: string, idApp: string): Observable<Datasource> {
+        const params = new HttpParams().set('idContainer', idContainer).set('idApp', idApp);
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.consulter', params).url;
         return this.httpClient.get<Datasource>(uri);
     }
 
-    insererBaseDataSource(idContainer: string, nomBase: string): Observable<Datasource> {
-        const params = new HttpParams().set('idContainer', idContainer).set('base', nomBase);
-        const uri = this.apiManagerService.genereUrlWithParam('SQL.insererBase', params).url;
+    insererBaseDataSource(idContainer: string, nomBase: string, idApp: string): Observable<Datasource> {
+        const params = new HttpParams().set('idContainer', idContainer).set('base', nomBase).set('idApp', idApp);;
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.insererBase', params).url;
         return this.httpClient.post<Datasource>(uri, null);
     }
 

@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource;
+package organisation.application.manager.pilote.datasource.modele;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,5 +28,7 @@ public class DataSource implements Serializable {
 
 	private String password;
 
-	private List<String> bases;
+	private String idApp;
+
+	private List<DataSourceItem> bases;
 }
