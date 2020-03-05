@@ -1,6 +1,7 @@
 package organisation.application.manager.pilote.datasource.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -20,6 +21,8 @@ public class DataSource implements Serializable {
 	@Id
 	private String containerId;
 
+	private DataSourceEnum type;
+
 	private String ip;
 
 	private String port;
@@ -30,5 +33,5 @@ public class DataSource implements Serializable {
 
 	private String idApp;
 
-	private List<DataSourceItem> bases;
+	private List<DataSourceItem> bases = new ArrayList<>();
 }

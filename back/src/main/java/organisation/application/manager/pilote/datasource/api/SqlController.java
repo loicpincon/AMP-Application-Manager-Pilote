@@ -37,16 +37,7 @@ public class SqlController extends DefaultController {
 		return () -> ResponseEntity.ok(sqlService.consulter(idContainer));
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	@GetMapping(path = "/{idApp}")
-	@ApiManager
-	@Secured
-	public Callable<ResponseEntity<?>> recuperer(@PathVariable String idApp) {
-		return () -> ResponseEntity.ok(sqlService.recuperer(idApp));
-	}
+	
 
 	/**
 	 * 
@@ -71,5 +62,7 @@ public class SqlController extends DefaultController {
 			@RequestParam String base) {
 		return () -> ResponseEntity.ok(sqlService.inserer(idApp, idContainer, base));
 	}
+
+	
 
 }

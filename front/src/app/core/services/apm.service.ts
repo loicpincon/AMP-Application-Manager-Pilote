@@ -260,8 +260,27 @@ export class ApmService {
 
     insererBaseDataSource(idContainer: string, nomBase: string, idApp: string): Observable<Datasource> {
         const params = new HttpParams().set('idContainer', idContainer).set('base', nomBase).set('idApp', idApp);;
+        console.log(params)
         const uri = this.apiManagerService.genereUrlWithParam('mysql.insererBase', params).url;
         return this.httpClient.post<Datasource>(uri, null);
     }
+
+    recupererDataSourceByApp(idApp: string): Observable<Datasource[]> {
+        const params = new HttpParams().set('idApp', idApp);
+        const uri = this.apiManagerService.genereUrlWithParam('datasource.recupererParApp', params).url;
+        return this.httpClient.get<Datasource[]>(uri);
+    }
+
+    recupererDataSourceTemplate(): Observable<string[]> {
+        const uri = this.apiManagerService.genereUrl('datasource.recuperer').url;
+        return this.httpClient.get<string[]>(uri);
+    }
+
+    ajouterDataSourceTemplate(idApp: string, type: string): Observable<string[]> {
+        const params = new HttpParams().set('idApp', idApp).set('type', type);
+        const uri = this.apiManagerService.genereUrlWithParam('datasource.ajouterDatasource', params).url;
+        return this.httpClient.post<string[]>(uri, null);
+    }
+
 
 }

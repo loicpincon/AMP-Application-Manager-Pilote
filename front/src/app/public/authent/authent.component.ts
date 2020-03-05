@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { LoginUser } from '../../core/modele/Authent';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiManagerService } from 'src/app/core/services/api-manager.service';
 
 @Component({
   selector: 'core-authent',
@@ -29,7 +30,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AuthentComponent implements OnInit {
 
+
+
   constructor(
+    private apmS: ApiManagerService,
     private _fb: FormBuilder,
     private _apm: ApmService,
     private _snackBar: MatSnackBar,
@@ -52,6 +56,7 @@ export class AuthentComponent implements OnInit {
   };
 
   ngOnInit() {
+    console.log('tes')
     if (sessionStorage.getItem('USER_TOKEN')) {
       this._router.navigate(['/secure'])
     }

@@ -79,21 +79,21 @@ public class LogContainerService {
 								if (fin != null) {
 									if (dateLog.getTime() < fin.getTime() && dateLog.getTime() > debut.getTime()) {
 										String type = logBrut.substring(0, 6);
-										String message = logBrut.substring(39, logBrut.length() - 1);
+										String message = logBrut.substring(39, logBrut.length());
 										logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message)
 												.build());
 									}
 								} else {
 									if (dateLog.getTime() > debut.getTime()) {
 										String type = logBrut.substring(0, 6);
-										String message = logBrut.substring(39, logBrut.length() - 1);
+										String message = logBrut.substring(39, logBrut.length() );
 										logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message)
 												.build());
 									}
 								}
 							} else {
 								String type = logBrut.substring(0, 6);
-								String message = logBrut.substring(39, logBrut.length() - 1);
+								String message = logBrut.substring(39, logBrut.length() );
 								logs.add(LogMessage.builder().timestamp(timestamp).type(type).message(message).build());
 							}
 

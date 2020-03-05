@@ -1,4 +1,4 @@
-<div *ngIf="datasource">
+<div *ngIf="datasources">
     <div class="header">
         <h3>Datasource</h3>
     </div>
@@ -14,21 +14,22 @@
                         </mat-card-title>
                     </div>
                     <mat-card-content class="contentInstance">
+                        <mat-select [(ngModel)]="typeChoisi">
+                            <mat-option *ngFor="let base of templatesDS" [value]="base">
+                                {{base}}
+                            </mat-option>
+                        </mat-select>
+                        <button mat-button (click)="ajouter()"
+                            style="background-color: #3ac569;float: right;">Ajouter</button>
                         <mat-list>
-                            <mat-list-item>
+                            <mat-list-item *ngFor="let datas of datasources">
                                 <div>
-                                    MySQL
+                                    {{datas.type}}
                                 </div>
                                 <div>
-                                    <button mat-button
-                                        style="background-color: #3ac569;float: right;">Configurer</button>
+                                    <button mat-button (click)="consulter(datas)"
+                                        style="background-color: #3ac569;float: right;">Consulter</button>
                                 </div>
-                            </mat-list-item>
-                            <mat-list-item>
-                                Mongo
-                            </mat-list-item>
-                            <mat-list-item>
-                                JMS
                             </mat-list-item>
                         </mat-list>
                     </mat-card-content>
@@ -36,7 +37,7 @@
             </div>
             <div fxFlex>
 
-                <mat-card class="blocInstance">
+                <mat-card class="blocInstance" *ngIf="datasource">
                     <div class="blocInstanceHeader">
                         <mat-card-title class="blocInstanceTitre">
                             <a (click)="alert('Il faut coder la modal')"><i class="material-icons iconAdd"
@@ -83,11 +84,6 @@
                         </div>
 
 
-                        <div *ngIf="envChoisi" fxLayout fxLayout.xs="column">
-                            <button fxFlex mat-raised-button class="btnActions">Supprimer</button>
-                            <button fxFlex mat-raised-button (click)="exporterBase()"
-                                class="btnActions">Exporter</button>
-                        </div>
 
                         <input type="text" [(ngModel)]="newBase">
                         <button mat-button (click)="insererBase()" style="background-color: #3ac569;">Execute</button>

@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class DatasourceComponent implements OnInit {
   seasons: string[] = ['select', 'modif'];
 
-  requeteA: string = 'SELECT User,Host from User';
+  requeteA: string;
   requeteR: string[];
   requeteRF: string;
   datasource: Datasource;
@@ -19,18 +19,40 @@ export class DatasourceComponent implements OnInit {
   envChoisi: any;
   idApp: string;
   type: string;
+  typeChoisi: string;
+
+  templatesDS: string[];
+
+  datasources: Datasource[];
 
   constructor(private route: ActivatedRoute, private apmService: ApmService) { }
 
   ngOnInit(): void {
+
+    this.apmService.recupererDataSourceTemplate().subscribe(templates => {
+      this.templatesDS = templates;
+    })
+    console.log(this.route.queryParams)
     this.route.queryParams
       .subscribe(params => {
-        this.apmService.consulterDatasource('3298bcb545d2', params.idApp).subscribe(data => {
-          this.datasource = data;
-          this.idApp = params.idApp;
+        this.idApp = params.idApp;
+        this.apmService.recupererDataSourceByApp(params.idApp).subscribe(datasources => {
+          this.datasources = datasources;
         })
+
+
       });
 
+  }
+
+  consulter(type) {
+    this.datasource = type;
+  }
+
+  ajouter() {
+    this.apmService.ajouterDataSourceTemplate(this.idApp, this.typeChoisi).subscribe(datasource => {
+      console.log(datasource)
+    })
   }
 
   insererBase() {
@@ -54,6 +76,8 @@ export class DatasourceComponent implements OnInit {
 
     })
   }
+
+
 
 
   format() {

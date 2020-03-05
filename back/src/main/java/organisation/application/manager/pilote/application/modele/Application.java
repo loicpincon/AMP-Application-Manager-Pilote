@@ -45,7 +45,6 @@ public class Application extends BasicDataBean {
 
 	private DockerFile dockerfile;
 
-
 	private String baseName;
 
 	private List<Livrable> livrables = new ArrayList<>();

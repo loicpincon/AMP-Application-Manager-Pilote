@@ -9,12 +9,18 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.PortBinding;
+
 import organisation.application.manager.pilote.application.modele.Application;
 import organisation.application.manager.pilote.application.service.ApplicationService;
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
+import organisation.application.manager.pilote.commun.helper.RandomPortHelper;
 import organisation.application.manager.pilote.commun.service.DefaultService;
 import organisation.application.manager.pilote.datasource.helper.MySqlConnector;
 import organisation.application.manager.pilote.datasource.modele.DataSource;
+import organisation.application.manager.pilote.datasource.modele.DataSourceEnum;
 import organisation.application.manager.pilote.datasource.modele.DataSourceItem;
 import organisation.application.manager.pilote.datasource.modele.DatasourceRepository;
 import organisation.application.manager.pilote.datasource.service.pr.RequeteParam;
@@ -27,6 +33,9 @@ public class MySqlService extends DefaultService {
 	protected static final Log LOG = LogFactory.getLog(MySqlService.class);
 
 	@Autowired
+	private DockerClient dockerClient;
+
+	@Autowired
 	private DatasourceRepository datasourceRepo;
 
 	@Autowired
@@ -34,8 +43,10 @@ public class MySqlService extends DefaultService {
 
 	@Autowired
 	private ServerService serService;
-	
-	
+
+	@Autowired
+	private RandomPortHelper randomPort;
+
 	public Object exporterBase(String containerId, RequeteParam param) {
 		Optional<DataSource> datasourceO = datasourceRepo.findById(containerId);
 		if (datasourceO.isPresent()) {
@@ -51,7 +62,6 @@ public class MySqlService extends DefaultService {
 		}
 		throw new ApplicationException(400, "Container inconnu");
 	}
-	
 
 	public Object executeRequete(String containerId, RequeteParam param) {
 		Optional<DataSource> datasourceO = datasourceRepo.findById(containerId);
@@ -116,8 +126,22 @@ public class MySqlService extends DefaultService {
 
 	}
 
-	public Object recuperer(String idApp) {
-		return datasourceRepo.findByIdApp(idApp);
+	
+	public DataSource ajouterDatasource(String idApp) {
+		DataSource datasource = new DataSource();
+		datasource.setIdApp(idApp);
+		datasource.setPort(randomPort.randomPort().toString());
+		datasource.setIp("localhost");
+		datasource.setUser("root");
+		datasource.setPassword("password");
+		datasource.setType(DataSourceEnum.MYSQL);
+		CreateContainerResponse container = dockerClient.createContainerCmd("mysql:latest")
+				.withEnv("MYSQL_ROOT_PASSWORD=" + datasource.getPassword()).withName("mysql-" + idApp)
+				.withPortBindings(PortBinding.parse(datasource.getPort() + ":3306")).exec();
+		datasource.setContainerId(container.getId());
+		dockerClient.startContainerCmd(datasource.getContainerId()).exec();
+		datasourceRepo.save(datasource);
+		return datasource;
 	}
 
 }

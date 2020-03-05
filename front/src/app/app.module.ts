@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER, Component } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Component, OnInit } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { apiMapLoaderConfigFactory, ApiMapLoaderConfig } from './core/services/apiMapLoaderConfig.config';
@@ -11,6 +11,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuardService as AuthGuard } from './core/services/auth-guard.service';
 import { ChartsModule } from 'ng2-charts';
+import { ApmService } from './core/services/apm.service';
+import { ApiManagerService } from './core/services/api-manager.service';
 
 const routes: Routes = [
   {
@@ -64,7 +66,12 @@ export class AppRoutingModule { }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+
+
+}
 
 
 

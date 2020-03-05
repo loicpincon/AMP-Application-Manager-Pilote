@@ -48,6 +48,7 @@ export class ApiManagerService {
    */
   public init() {
     return this.http.get(environment.urlServeurBase + "/api/map")
+
   }
 
   /**
@@ -116,7 +117,7 @@ export class ApiManagerService {
    * @param key cle de l'api map
    * @param params sous forme de json cle/valeur { idclient: 79789, modeAppel: "distant" }
    */
-  public get<T>(key: string, params?: Array<any>): Observable<T> {
+  public get<T>(key: string, params?: any): Observable<T> {
     return this.http.get<T>(this.builder(key, params));
   }
 
