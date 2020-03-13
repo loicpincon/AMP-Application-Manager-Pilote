@@ -282,5 +282,10 @@ export class ApmService {
         return this.httpClient.post<string[]>(uri, null);
     }
 
+    telechargerLivrable(idApp: string, idLivrable: string): string {
+        const params = new HttpParams().set('idApp', idApp).set('idVersion', idLivrable);
+        const uri = this.apiManagerService.genereUrlWithParam('Application.telechargerLivrable', params).url;
+        return uri;
+    }
 
 }

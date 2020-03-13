@@ -198,17 +198,13 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 				this.dockerContainerService.manage(app.getId(), server.getId(), ins.getId(), "delete");
 				supprimerImageId(app.getDockerfile().getImageId());
 			}
-			updateInfosInstance("P", "Deploy", "Success", null);
-
 			logger.debug("Construction de l'image");
-
 			String imageId = buildImageDocker(params).exec(getCallBackBuildImage()).awaitCompletion().awaitImageId();
 			app.getDockerfile().setImageId(imageId);
 			logger.debug("Fin de la construction, debut de la creation du container");
 			if (ins.getContainerId() != null) {
 				dockerClient.removeContainerCmd(ins.getContainerId());
 			}
-			String dns = app.getId().concat(server.getNom()).concat(this.ins.getLibelle()).concat(".194.9.172.184");
 			dockerClient.createContainerCmd(app.getDockerfile().getImageId()).withPublishAllPorts(true)
 					.withName(ins.getId()).withPortBindings(getPortsBinds()).exec();
 			logger.debug("Fin de la  creation du container");

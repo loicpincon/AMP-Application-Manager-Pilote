@@ -1,9 +1,15 @@
 package organisation.application.manager.pilote.application.api;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +28,7 @@ import organisation.application.manager.pilote.application.modele.Livrable;
 import organisation.application.manager.pilote.application.modele.ParametreSeries;
 import organisation.application.manager.pilote.application.service.ApplicationService;
 import organisation.application.manager.pilote.application.service.InstanceService;
+import organisation.application.manager.pilote.application.service.LivrableService;
 import organisation.application.manager.pilote.commun.controller.DefaultController;
 import organisation.application.manager.pilote.session.modele.Secured;
 import organisation.application.manager.pilote.session.modele.SecuredLevel;
@@ -36,6 +43,9 @@ public class ApplicationController extends DefaultController {
 
 	@Autowired
 	private InstanceService insService;
+
+	@Autowired
+	private LivrableService livrableService;
 
 	/**
 	 * 
@@ -145,6 +155,35 @@ public class ApplicationController extends DefaultController {
 	public Callable<ResponseEntity<Livrable>> uploadFileVersion(@PathVariable String idApp,
 			@RequestParam("file") MultipartFile file, @RequestParam String version) {
 		return () -> ResponseEntity.ok(insService.uploadFileVersion(file, idApp, version));
+	}
+
+	@GetMapping(path = "/{idApp}/livrables/{idVersion}")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<Resource>> telechargerLivrable(HttpServletRequest request,
+			@PathVariable String idApp, @PathVariable String idVersion) {
+
+		return () -> {
+			// Load file as Resource
+			Resource resource = livrableService.telechargerVersion(idApp, idVersion);
+
+			// Try to determine file's content type
+			String contentType = null;
+			try {
+				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+
+			// Fallback to the default content type if type could not be determined
+			if (contentType == null) {
+				contentType = "application/octet-stream";
+			}
+			return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+					.body(resource);
+		};
+
 	}
 
 }

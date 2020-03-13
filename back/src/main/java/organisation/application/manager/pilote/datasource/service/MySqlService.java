@@ -1,5 +1,7 @@
 package organisation.application.manager.pilote.datasource.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
@@ -133,6 +135,12 @@ public class MySqlService extends DefaultService {
 		datasource.setPort(randomPort.randomPort().toString());
 		datasource.setIp("localhost");
 		datasource.setUser("root");
+		try {
+			InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		datasource.setPassword("password");
 		datasource.setType(DataSourceEnum.MYSQL);
 		CreateContainerResponse container = dockerClient.createContainerCmd("mysql:latest")

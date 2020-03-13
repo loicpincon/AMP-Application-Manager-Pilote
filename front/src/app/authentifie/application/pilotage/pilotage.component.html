@@ -10,7 +10,8 @@
                     (instanceSelect)="instanceSelectEvent($event)"></application-instance>
                 <application-administration [app]="application"></application-administration>
 
-                <application-livrable [instance]="instanceSelect" [livrables]="application.livrables">
+                <application-livrable [app]="application" [instance]="instanceSelect"
+                    [livrables]="application.livrables">
                 </application-livrable>
                 <application-parametre *ngIf="instanceSelect" [app]="application" [serveur]="idServer"
                     [instance]="instanceSelect" [params]="instanceParams">
