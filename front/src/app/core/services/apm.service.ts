@@ -288,4 +288,11 @@ export class ApmService {
         return uri;
     }
 
+    getTablesOfBasesMysql(idContainer: string, idBase: string): Observable<string[]> {
+        const params = new HttpParams().set('idContainer', idContainer).set('idbase', idBase);
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.getTablesOfBases', params).url;
+        console.log(uri)
+        return this.httpClient.get<string[]>(uri);
+    }
+
 }

@@ -41,23 +41,35 @@
                         <mat-card-title class="blocInstanceTitre">
                             <a><i class="material-icons iconAdd" matTooltip="Ajouter une instance">add</i></a>
                             <h5>Mysql</h5>
+                            <input type="text" [(ngModel)]="newBase">
+                            <button mat-button (click)="insererBase()"
+                                style="background-color: #3ac569;">Execute</button>
                         </mat-card-title>
                     </div>
                     <mat-card-content class="contentInstance">
+                        <h4>Choisir une base de données</h4>
+                        <form>
+                            <mat-form-field>
+                                <mat-select (ngModelChange)="selectBase($event)" name="envChoisi"
+                                    [(ngModel)]="envChoisi">
+                                    <mat-option *ngFor="let base of datasource.bases" [value]="base">
+                                        {{base.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </form>
 
-                        <div fxLayout fxLayout.xs="column">
+
+                        <mat-expansion-panel *ngIf="envChoisi">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Informations
+                                </mat-panel-title>
+
+                            </mat-expansion-panel-header>
+
                             <table style="text-align: left;width: 100%;">
                                 <tbody>
-                                    <tr>
-                                        <th>Base de données</th>
-                                        <td>
-                                            <mat-select [(ngModel)]="envChoisi">
-                                                <mat-option *ngFor="let base of datasource.bases" [value]="base">
-                                                    {{base.name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <th>Serveur</th>
                                         <td>{{datasource.ip}}</td>
@@ -79,38 +91,83 @@
                                 </tbody>
 
                             </table>
-                        </div>
+
+                        </mat-expansion-panel>
+
+
+                        <mat-expansion-panel *ngIf="envChoisi">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Liste des tables
+                                </mat-panel-title>
+
+                            </mat-expansion-panel-header>
+
+                            <table style="text-align: left;width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Nombre enregistrements</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let table of tables">
+                                        <td>{{table}}</td>
+                                        <td>0</td>
+                                        <td><i (click)="buildReqSelect(table)" class="material-icons">
+                                                chrome_reader_mode
+                                            </i></td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </mat-expansion-panel>
 
 
 
-                        <input type="text" [(ngModel)]="newBase">
-                        <button mat-button (click)="insererBase()" style="background-color: #3ac569;">Execute</button>
+                        <mat-expansion-panel *ngIf="envChoisi">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Requetages
+                                </mat-panel-title>
+
+                            </mat-expansion-panel-header>
 
 
 
-
-                        <div *ngIf="envChoisi" fxLayout fxLayout.xs="column">
-                            <textarea [(ngModel)]="requeteA" rows="10" fxFlex
-                                style="align-content:center; overflow:auto; ">
+                            <div *ngIf="envChoisi" fxLayout fxLayout.xs="column">
+                                <textarea [(ngModel)]="requeteA" rows="10" fxFlex
+                                    style="align-content:center; overflow:auto; ">
 {{requeteA}}
                            </textarea>
-                            <button mat-button (click)="executerRequeteSQL()"
-                                style="background-color: #3ac569;">Execute</button>
+                                <button mat-button (click)="executerRequeteSQL()"
+                                    style="background-color: #3ac569;">Execute</button>
 
-                        </div>
-                        <div *ngIf="envChoisi && requeteR" fxLayout fxLayout.xs="column">
-                            <div
-                                style="align-content:center; width: 100%; background-color: black;color: white;border: 1px solid white;">
-                                <table style="border: 1px solid white;">
-                                    <tbody>
-                                        <tr *ngFor="let t of requeteR">
-                                            <td *ngFor="let tbis of t">{{tbis}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            </div>
+                            <div *ngIf="envChoisi && requeteR" fxLayout fxLayout.xs="column">
+                                <div
+                                    style="align-content:center; width: 100%; background-color: black;color: white;border: 1px solid white;">
+                                    <table style="border: 1px solid white;">
+                                        <tbody>
+                                            <tr *ngFor="let t of requeteR">
+                                                <td *ngFor="let tbis of t">{{tbis}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
 
-                        </div>
+
+                        </mat-expansion-panel>
+
+
+
+
+
 
 
 

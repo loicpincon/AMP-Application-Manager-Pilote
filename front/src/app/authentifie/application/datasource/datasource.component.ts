@@ -25,6 +25,8 @@ export class DatasourceComponent implements OnInit {
 
   datasources: Datasource[];
 
+  tables: string[];
+
   constructor(private route: ActivatedRoute, private apmService: ApmService) { }
 
   ngOnInit(): void {
@@ -47,6 +49,17 @@ export class DatasourceComponent implements OnInit {
 
   consulter(type) {
     this.datasource = type;
+    console.log(type)
+
+
+
+  }
+
+  selectBase(newValue) {
+    console.log(newValue)
+    this.apmService.getTablesOfBasesMysql(this.datasource.containerId, newValue.name).subscribe(tables => {
+      this.tables = tables;
+    })
   }
 
   ajouter() {
@@ -59,6 +72,10 @@ export class DatasourceComponent implements OnInit {
     this.apmService.insererBaseDataSource(this.datasource.containerId, this.newBase, this.idApp).subscribe(data => {
       this.datasource = data;
     })
+  }
+
+  buildReqSelect(table) {
+    this.requeteA = "SELECT * from " + table;
   }
 
   executerRequeteSQL() {
