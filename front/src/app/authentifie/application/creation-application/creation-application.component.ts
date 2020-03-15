@@ -29,6 +29,7 @@ export class CreationApplicationComponent implements OnInit {
       dockerfilesText: '',
       check: false,
       basename: '',
+      urlJenkins: '',
       warApplication: new FormGroup({
         nomFichierProperties: new FormControl(''),
       }),
@@ -95,6 +96,7 @@ export class CreationApplicationComponent implements OnInit {
     }
     app.name = data.name;
     app.type = data.typeApp;
+    app.urlJenkins = data.urlJenkins;
     app.dockerfile = data.dockerfiles;
     app.baseName = data.basename;
     console.log(app);

@@ -64,7 +64,6 @@ export class PilotageComponent implements OnInit {
     let that = this;
     this.ws.connect({}, function (frame) {
       that.ws.subscribe("/errors", function (message) {
-        alert("Error " + message.body);
       });
       that.ws.subscribe("/content/application", function (message) {
         console.log(message.body)
@@ -77,7 +76,6 @@ export class PilotageComponent implements OnInit {
       console.log("connexion effectue");
     }, function (error) {
       console.error(error)
-      alert('connexion perdue ! merci de rafraichir')
     });
   }
 

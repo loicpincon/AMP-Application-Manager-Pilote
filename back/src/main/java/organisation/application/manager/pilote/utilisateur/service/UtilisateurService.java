@@ -78,10 +78,10 @@ public class UtilisateurService extends DefaultService {
 	private Boolean search(List<Utilisateur> users, String id) {
 		for (Utilisateur u : users) {
 			if (!u.getLogin().equals(id)) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public Utilisateur consulter(String token) {

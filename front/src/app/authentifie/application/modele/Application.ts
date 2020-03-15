@@ -5,6 +5,7 @@ export abstract class Application {
     id: string;
     name: string;
     type: string;
+    urlJenkins: string;
     environnements: Map<number, Environnement>;
     livrables: Livrable[];
     dockerfile: Dockerfile;

@@ -17,4 +17,5 @@ public @interface Secured {
 	 */
 	SecuredLevel level() default SecuredLevel.MEMBRE;
 
+	String path() default "";
 }

@@ -22,4 +22,5 @@ public class DataSourceItem extends BasicDataBean {
 	private String user;
 
 	private String password;
+
 }

@@ -13,6 +13,7 @@ import { AuthGuardService as AuthGuard } from './core/services/auth-guard.servic
 import { ChartsModule } from 'ng2-charts';
 import { ApmService } from './core/services/apm.service';
 import { ApiManagerService } from './core/services/api-manager.service';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 const routes: Routes = [
   {
@@ -20,6 +21,9 @@ const routes: Routes = [
   },
   {
     path: 'unsecure', loadChildren: './public/public.module#PublicModule'
+  },
+  {
+    path: 'core', loadChildren: './core/core.module#CoreModule'
   },
   {
     path: '**', redirectTo: 'secure'
@@ -51,12 +55,15 @@ export class AppRoutingModule { }
     AppRoutingModule,
     CoreModule,
     ChartsModule,
+    ToastrModule.forRoot(),
     AuthentifieModule],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     LoaderService,
     SidenavService,
+    { provide: ToastrService, useClass: ToastrService }
+    ,
     {
       provide: APP_INITIALIZER,
       useFactory: apiMapLoaderConfigFactory,

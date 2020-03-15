@@ -64,7 +64,7 @@ public class ApplicationController extends DefaultController {
 	 */
 	@GetMapping(path = "/{idApp}")
 	@ApiManager
-	@Secured
+	@Secured(level = SecuredLevel.CONSULTER_APP)
 	public Callable<ResponseEntity<Application>> consulter(@PathVariable String idApp) {
 		return () -> ResponseEntity.ok(appService.consulter(idApp));
 	}

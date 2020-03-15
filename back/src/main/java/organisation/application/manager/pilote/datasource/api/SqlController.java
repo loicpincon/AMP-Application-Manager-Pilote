@@ -37,8 +37,6 @@ public class SqlController extends DefaultController {
 		return () -> ResponseEntity.ok(sqlService.consulter(idContainer));
 	}
 
-	
-
 	/**
 	 * 
 	 * @return
@@ -63,6 +61,15 @@ public class SqlController extends DefaultController {
 		return () -> ResponseEntity.ok(sqlService.inserer(idApp, idContainer, base));
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/{idContainer}/bases/{idbase}/tables")
+	@ApiManager
+	@Secured
+	public Callable<ResponseEntity<?>> getTablesOfBases(@PathVariable String idContainer, @PathVariable String idbase) {
+		return () -> ResponseEntity.ok(sqlService.getTablesOfBases(idContainer, idbase));
+	}
 
 }

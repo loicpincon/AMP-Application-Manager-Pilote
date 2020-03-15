@@ -41,11 +41,15 @@ public class Application extends BasicDataBean {
 
 	private String type;
 
+	private String tokenUpload;
+
 	private Map<Integer, Environnement> environnements = new HashMap<>();
 
 	private DockerFile dockerfile;
 
 	private String baseName;
+
+	private String urlJenkins;
 
 	private List<Livrable> livrables = new ArrayList<>();
 

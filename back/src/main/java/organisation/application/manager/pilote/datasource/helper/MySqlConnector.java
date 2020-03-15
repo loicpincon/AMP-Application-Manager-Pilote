@@ -59,6 +59,7 @@ public class MySqlConnector {
 				List<String> corps = new ArrayList<>();
 				for (int i = 1; i < columnsNum + 1; i++) {
 					if (resultset.getObject(i) != null) {
+						System.out.println(resultset.getObject(i).toString());
 						corps.add(resultset.getObject(i).toString());
 					} else {
 						corps.add("NULL");
@@ -69,6 +70,7 @@ public class MySqlConnector {
 			resultset.close();
 			stmt.close();
 			con.close();
+			tmp.remove(0);
 			return tmp;
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new ApplicationException(401, e.getMessage());

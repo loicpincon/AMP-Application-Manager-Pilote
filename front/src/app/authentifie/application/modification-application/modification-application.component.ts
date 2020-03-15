@@ -37,6 +37,7 @@ export class ModificationApplicationComponent implements OnInit {
             typeApp: new FormControl(app.type),
             dockerfilesText: new FormControl(app.dockerfile.file),
             basename: new FormControl(app.baseName),
+            urlJenkins: new FormControl(app.urlJenkins),
             bashApplication: new FormGroup({
               urlBatch: new FormControl({ value: '', disabled: true }),
             }),
@@ -127,6 +128,7 @@ export class ModificationApplicationComponent implements OnInit {
       }
       console.log(appTmp)
       appTmp.baseName = value.basename
+      appTmp.urlJenkins = value.urlJenkins
       appTmp.type = value.typeApp
       appTmp.name = value.name
       appTmp.dockerfile = this.application.dockerfile

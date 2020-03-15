@@ -49,22 +49,6 @@ public class MySqlService extends DefaultService {
 	@Autowired
 	private RandomPortHelper randomPort;
 
-	public Object exporterBase(String containerId, RequeteParam param) {
-		Optional<DataSource> datasourceO = datasourceRepo.findById(containerId);
-		if (datasourceO.isPresent()) {
-			DataSource datasource = datasourceO.get();
-			MySqlConnector mysql = new MySqlConnector(datasource.getIp(), datasource.getPort(), datasource.getUser(),
-					datasource.getPassword(), param.getBase());
-			if (param.getType().equals("select")) {
-				return mysql.execute(param.getRequete());
-			} else {
-				mysql.executeRequeteSystem(param.getRequete());
-				return null;
-			}
-		}
-		throw new ApplicationException(400, "Container inconnu");
-	}
-
 	public Object executeRequete(String containerId, RequeteParam param) {
 		Optional<DataSource> datasourceO = datasourceRepo.findById(containerId);
 		if (datasourceO.isPresent()) {
@@ -128,7 +112,6 @@ public class MySqlService extends DefaultService {
 
 	}
 
-	
 	public DataSource ajouterDatasource(String idApp) {
 		DataSource datasource = new DataSource();
 		datasource.setIdApp(idApp);
@@ -150,6 +133,17 @@ public class MySqlService extends DefaultService {
 		dockerClient.startContainerCmd(datasource.getContainerId()).exec();
 		datasourceRepo.save(datasource);
 		return datasource;
+	}
+
+	public Object getTablesOfBases(String idContainer, String idbase) {
+		Optional<DataSource> datasourceO = datasourceRepo.findById(idContainer);
+		if (datasourceO.isPresent()) {
+			DataSource datasource = datasourceO.get();
+			MySqlConnector mysql = new MySqlConnector(datasource.getIp(), datasource.getPort(), datasource.getUser(),
+					datasource.getPassword(),idbase);
+			return mysql.execute("show tables");
+		}
+		throw new ApplicationException(400, "Container inconnu");
 	}
 
 }
