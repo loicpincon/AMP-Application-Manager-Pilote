@@ -48,7 +48,10 @@ public class BaseDeDonneService extends DefaultService {
 		sp.setHost(mysqlDataSource.getIp());
 
 		DataSourceItem item = mysqlDataSource.getBases().stream().filter(itemTmp -> name.equals(itemTmp.getName()))
-				.findFirst().orElseThrow();
+				.findFirst().get();
+		if (item == null) {
+			throw new ApplicationException(400, "Probleme");
+		}
 		sp.setDatasource(item.getName());
 		sp.setLogin(item.getUser());
 		sp.setPassword(item.getPassword());
