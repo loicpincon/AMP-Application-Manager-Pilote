@@ -25,6 +25,7 @@ import organisation.application.manager.pilote.application.service.InstanceServi
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
 import organisation.application.manager.pilote.docker.deployer.AngularAppDeployer;
 import organisation.application.manager.pilote.docker.deployer.DefaultDeployer;
+import organisation.application.manager.pilote.docker.deployer.DockerJarDeployer;
 import organisation.application.manager.pilote.docker.deployer.DockerWarDeployer;
 import organisation.application.manager.pilote.docker.mapper.ContainerMapper;
 import organisation.application.manager.pilote.docker.modele.ActionInstance;
@@ -83,11 +84,11 @@ public class DockerContainerService {
 		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
 			deployer = AngularAppDeployer.builder().app(app).param(param).env(envChoisi).server(server).ins(ins)
 					.build();
-		}else if(app.getType().equals(ApplicationType.JAR)) {
-			
-		}
-		else {
-			throw new ApplicationException(400, "Impossible de deployer ce type d'organisation.application : " + app.getType());
+		} else if (app.getType().equals(ApplicationType.JAR)) {
+			deployer = DockerJarDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server).build();
+		} else {
+			throw new ApplicationException(400,
+					"Impossible de deployer ce type d'organisation.application : " + app.getType());
 		}
 		deployer.setUser(userSesion);
 		applicationContext.getAutowireCapableBeanFactory().autowireBean(deployer);
