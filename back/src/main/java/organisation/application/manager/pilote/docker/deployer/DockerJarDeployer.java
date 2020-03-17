@@ -11,17 +11,17 @@ import lombok.Builder;
 import organisation.application.manager.pilote.application.modele.Application;
 import organisation.application.manager.pilote.application.modele.Environnement;
 import organisation.application.manager.pilote.application.modele.Instance;
+import organisation.application.manager.pilote.application.modele.JarApplication;
 import organisation.application.manager.pilote.application.modele.ParametreSeries;
-import organisation.application.manager.pilote.application.modele.WarApplication;
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
 import organisation.application.manager.pilote.docker.service.pr.ContainerParam;
 import organisation.application.manager.pilote.server.modele.Server;
 
-public class DockerJarDeployer extends DefaultDeployer<WarApplication> {
+public class DockerJarDeployer extends DefaultDeployer<JarApplication> {
 
 	@Builder
 	public DockerJarDeployer(Application app, Instance ins, Server server, Environnement env, ContainerParam param) {
-		super((WarApplication) app, ins, server, env, param);
+		super((JarApplication) app, ins, server, env, param);
 	}
 
 	public void run() {
