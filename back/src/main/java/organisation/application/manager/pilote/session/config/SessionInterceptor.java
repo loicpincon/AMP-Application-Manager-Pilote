@@ -75,6 +75,17 @@ public class SessionInterceptor implements HandlerInterceptor {
 						throw new ApplicationException(FORBIDDEN, "Vous n'avez pas les droits sur cette application");
 					}
 
+				}else if(levelToSecure == SecuredLevel.CONSULTER_BASE_ADMIN) {
+					@SuppressWarnings("unchecked")
+					Map<String, String> path = (Map<String, String>) request
+							.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+					String tokenUserHeader = request.getHeader(X_TOKEN_UTILISATEUR);
+					UserSession user = sessionService.getSession(tokenUserHeader);
+					if (!user.getCodesApplications().contains(path.get("id"))) {
+						throw new ApplicationException(FORBIDDEN, "Vous n'avez pas les droits sur cette application");
+					}else {
+					
+					}
 				}
 			}
 		}

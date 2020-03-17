@@ -96,5 +96,10 @@ export class AuthentifieComponent implements OnInit {
     }
 
 
+    loadGestionRoles() {
+        this._router.navigate(['/secure/administration/gestion-roles']);
+        this.sidenavService.sideNav.close();
+    }
+
 
 }

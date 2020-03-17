@@ -18,6 +18,7 @@ export class User {
     rights: Right[];
     rightApp: string;
     email: string;
+    roles: any[];
 }
 
 export class UserProfile {

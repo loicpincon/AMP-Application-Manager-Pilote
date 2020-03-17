@@ -25,6 +25,7 @@ import organisation.application.manager.pilote.datasource.modele.DataSource;
 import organisation.application.manager.pilote.datasource.modele.DataSourceEnum;
 import organisation.application.manager.pilote.datasource.modele.DataSourceItem;
 import organisation.application.manager.pilote.datasource.modele.DatasourceRepository;
+import organisation.application.manager.pilote.datasource.mysql.modele.MysqlDataSource;
 import organisation.application.manager.pilote.datasource.service.pr.RequeteParam;
 import organisation.application.manager.pilote.server.modele.Server;
 import organisation.application.manager.pilote.server.service.ServerService;
@@ -71,8 +72,7 @@ public class MySqlService extends DefaultService {
 
 		Optional<DataSource> datasourceO = datasourceRepo.findById(containerId);
 		if (datasourceO.isPresent()) {
-			DataSource datasource = datasourceO.get();
-
+			MysqlDataSource datasource = (MysqlDataSource) datasourceO.get();
 			Application app = appService.consulter(idApp);
 
 			Set<Integer> cles = app.getEnvironnements().keySet();
@@ -125,7 +125,7 @@ public class MySqlService extends DefaultService {
 			e.printStackTrace();
 		}
 		datasource.setPassword("password");
-		datasource.setType(DataSourceEnum.MYSQL);
+		datasource.setType(DataSourceEnum.MYSQL.name());
 		CreateContainerResponse container = dockerClient.createContainerCmd("mysql:latest")
 				.withEnv("MYSQL_ROOT_PASSWORD=" + datasource.getPassword()).withName("mysql-" + idApp)
 				.withPortBindings(PortBinding.parse(datasource.getPort() + ":3306")).exec();
@@ -140,7 +140,7 @@ public class MySqlService extends DefaultService {
 		if (datasourceO.isPresent()) {
 			DataSource datasource = datasourceO.get();
 			MySqlConnector mysql = new MySqlConnector(datasource.getIp(), datasource.getPort(), datasource.getUser(),
-					datasource.getPassword(),idbase);
+					datasource.getPassword(), idbase);
 			return mysql.execute("show tables");
 		}
 		throw new ApplicationException(400, "Container inconnu");

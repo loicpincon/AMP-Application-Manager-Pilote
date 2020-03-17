@@ -6,12 +6,17 @@ import { ModalAjoutUser } from './gestion-droits-applications/modal-ajout-user/m
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
+import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 const routes: Routes = [
   {
     path: '', component: AdministrationComponent, children: [
       {
         path: 'gestion-droits', component: GestionDroitsApplicationsComponent
+      },
+      {
+        path: 'gestion-roles', component: GestionRolesComponent
       }
     ]
   }
@@ -27,10 +32,12 @@ export class AdministrationRoutingModule { }
   declarations: [
     AdministrationComponent,
     GestionDroitsApplicationsComponent,
-    ModalAjoutUser
+    ModalAjoutUser,
+    GestionRolesComponent
   ],
   imports: [
     CommonModule,
+
     AdministrationRoutingModule,
     MaterialModule,
     ReactiveFormsModule,

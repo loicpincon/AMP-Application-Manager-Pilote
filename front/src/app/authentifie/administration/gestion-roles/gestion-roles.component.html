@@ -1,0 +1,62 @@
+<div class="header">
+    <h2>Gestion des roles</h2>
+</div>
+<div>
+
+    <table style="text-align: center;">
+        <thead>
+            <tr>
+                <th></th>
+                <th *ngFor="let right of rights" [matTooltip]="right.description" matTooltipPosition="above">
+                    {{right.id}}
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of roles">
+                <th>
+                    {{role.id}}
+                </th>
+                <td *ngFor="let right of rights">
+                    <mat-checkbox class="example-margin" (click)="assignRightToRole(role,right)">
+                    </mat-checkbox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" [(ngModel)]="newRole">
+                    <i class="material-icons" (click)="ajouterRoles()">
+                        add
+                    </i>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <table style="text-align: center;">
+        <thead>
+            <tr>
+                <th></th>
+                <th *ngFor="let role of roles">
+                    {{role.id}}
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <th>
+                    {{user.login}}
+                </th>
+                <td *ngFor="let role of roles">
+                    <mat-checkbox class="example-margin" (click)="assignRoleToUser(role,user)">
+                    </mat-checkbox>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>
