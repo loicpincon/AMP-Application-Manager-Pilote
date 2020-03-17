@@ -83,7 +83,10 @@ public class DockerContainerService {
 		} else if (app.getType().equals(ApplicationType.ANGULAR)) {
 			deployer = AngularAppDeployer.builder().app(app).param(param).env(envChoisi).server(server).ins(ins)
 					.build();
-		} else {
+		}else if(app.getType().equals(ApplicationType.JAR)) {
+			
+		}
+		else {
 			throw new ApplicationException(400, "Impossible de deployer ce type d'organisation.application : " + app.getType());
 		}
 		deployer.setUser(userSesion);

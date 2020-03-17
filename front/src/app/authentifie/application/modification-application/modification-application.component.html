@@ -69,6 +69,12 @@
                                         placeholder="Nom fichier Properties">
                                 </mat-form-field>
                             </div>
+                            <div formGroupName="jarApplication" *ngIf="formulaire.value.typeApp=='JAR'">
+                                <mat-form-field class="inputTypeApp">
+                                    <input required formControlName="nomFichierProperties" matInput
+                                        placeholder="Nom fichier Properties">
+                                </mat-form-field>
+                            </div>
                             <div formGroupName="bashApplication" *ngIf="formulaire.value.typeApp=='BASH'">
                                 <mat-form-field class="inputTypeApp">
                                     <input required matInput formControlName="urlBatch" placeholder="URL Batch">

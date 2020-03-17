@@ -26,7 +26,8 @@ import organisation.application.manager.pilote.docker.modele.DockerFile;
 @JsonSubTypes({ @Type(name = ApplicationType.BASH, value = BashApplication.class),
 		@Type(name = ApplicationType.WAR, value = WarApplication.class),
 		@Type(name = ApplicationType.NODEJS, value = NodeJsApplication.class),
-		@Type(name = ApplicationType.ANGULAR, value = AngularApplication.class) })
+		@Type(name = ApplicationType.ANGULAR, value = AngularApplication.class),
+		@Type(name = ApplicationType.JAR, value = JarApplication.class) })
 public class Application extends BasicDataBean {
 
 	/**

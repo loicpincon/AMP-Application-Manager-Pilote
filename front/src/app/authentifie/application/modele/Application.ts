@@ -99,6 +99,13 @@ export class WarApplication extends Application {
 /**
  * 
  */
+export class JarApplication extends Application {
+    nomFichierProperties: string;
+}
+
+/**
+ * 
+ */
 export class NodeJsApplication extends Application {
 }
 

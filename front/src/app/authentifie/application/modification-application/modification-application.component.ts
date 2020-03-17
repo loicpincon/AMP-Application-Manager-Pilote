@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication, JarApplication } from '../modele/Application';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -44,6 +44,9 @@ export class ModificationApplicationComponent implements OnInit {
             warApplication: new FormGroup({
               nomFichierProperties: new FormControl({ value: '', disabled: true }),
             }),
+            jarApplication: new FormGroup({
+              nomFichierProperties: new FormControl({ value: '', disabled: true }),
+            }),
             nodeJsApplication: new FormGroup({
               version: new FormControl({ value: '', disabled: true }),
             }),
@@ -58,6 +61,8 @@ export class ModificationApplicationComponent implements OnInit {
           this.selectType(this.application.type)
           if (this.application.type == "WAR") {
             this.initFormWarApplication(this.application as WarApplication);
+          } else if (this.application.type == "JAR") {
+            this.initFormJarApplication(this.application as JarApplication);
           } else if (this.application.type == "BASH") {
             this.initFormBashApplication(this.application as BashApplication);
           } else if (this.application.type == "NODEJS") {
@@ -103,6 +108,11 @@ export class ModificationApplicationComponent implements OnInit {
       switch (value.typeApp) {
         case "WAR": {
           appTmp = new WarApplication();
+          appTmp.nomFichierProperties = value.warApplication.nomFichierProperties
+          break;
+        }
+        case "JAR": {
+          appTmp = new JarApplication();
           appTmp.nomFichierProperties = value.warApplication.nomFichierProperties
           break;
         }
@@ -172,9 +182,19 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['warApplication'].enable()
         this.formulaire.controls['angularApplication'].disable()
+        this.formulaire.controls['jarApplication'].disable()
+        break;
+      }
+      case "JAR": {
+        this.formulaire.controls['bashApplication'].disable()
+        this.formulaire.controls['nodeJsApplication'].disable()
+        this.formulaire.controls['jarApplication'].enable()
+        this.formulaire.controls['warApplication'].disable()
+        this.formulaire.controls['angularApplication'].disable()
         break;
       }
       case "BASH": {
+        this.formulaire.controls['jarApplication'].disable()
         this.formulaire.controls['bashApplication'].enable()
         this.formulaire.controls['warApplication'].disable()
         this.formulaire.controls['nodeJsApplication'].disable()
@@ -182,6 +202,7 @@ export class ModificationApplicationComponent implements OnInit {
         break;
       }
       case "NODEJS": {
+        this.formulaire.controls['jarApplication'].disable()
         this.formulaire.controls['nodeJsApplication'].enable()
         this.formulaire.controls['bashApplication'].disable()
         this.formulaire.controls['warApplication'].disable()
@@ -189,6 +210,7 @@ export class ModificationApplicationComponent implements OnInit {
         break;
       }
       case "ANGULAR": {
+        this.formulaire.controls['jarApplication'].disable()
         this.formulaire.controls['angularApplication'].enable()
         this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['bashApplication'].disable()
@@ -200,6 +222,10 @@ export class ModificationApplicationComponent implements OnInit {
 
   initFormWarApplication(war: WarApplication) {
     this.formulaire.controls['warApplication'].setValue({ nomFichierProperties: war.nomFichierProperties })
+  }
+
+  initFormJarApplication(war: JarApplication) {
+    this.formulaire.controls['jarApplication'].setValue({ nomFichierProperties: war.nomFichierProperties })
   }
 
   initFormBashApplication(war: BashApplication) {

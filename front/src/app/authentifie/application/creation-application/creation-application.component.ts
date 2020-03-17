@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, AngularApplication } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, AngularApplication, JarApplication } from '../modele/Application';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -31,6 +31,9 @@ export class CreationApplicationComponent implements OnInit {
       basename: '',
       urlJenkins: '',
       warApplication: new FormGroup({
+        nomFichierProperties: new FormControl(''),
+      }),
+      jarApplication: new FormGroup({
         nomFichierProperties: new FormControl(''),
       }),
       bashApplication: new FormGroup({
@@ -83,7 +86,11 @@ export class CreationApplicationComponent implements OnInit {
     } else if (data.typeApp === "WAR") {
       app = new WarApplication();
       app.nomFichierProperties = data.warApplication.nomFichierProperties
-    } else if (data.typeApp === "BASH") {
+    } else if (data.typeApp === "JAR") {
+      app = new JarApplication();
+      app.nomFichierProperties = data.warApplication.nomFichierProperties
+    }
+    else if (data.typeApp === "BASH") {
       app = new BashApplication();
       app.urlBatch = data.bashApplication.urlBatch;
     } else if (data.typeApp === "ANGULAR") {

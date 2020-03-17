@@ -41,6 +41,12 @@
                                 placeholder="Nom fichier properties racine">
                         </mat-form-field>
                     </div>
+                    <div formGroupName="jarApplication" *ngIf="formulaire.value.typeApp=='JAR'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required formControlName="nomFichierProperties" matInput
+                                placeholder="Nom fichier properties racine">
+                        </mat-form-field>
+                    </div>
                     <div formGroupName="angularApplication" *ngIf="formulaire.value.typeApp=='ANGULAR'">
                         <mat-form-field class="inputTypeApp">
                             <input required formControlName="versionAngular" matInput placeholder="Version Angular">

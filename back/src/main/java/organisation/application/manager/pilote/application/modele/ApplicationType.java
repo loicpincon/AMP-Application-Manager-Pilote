@@ -13,7 +13,9 @@ public final class ApplicationType {
 
 	public static final String ANGULAR = "ANGULAR";
 
-	private static final String[] APPLICATIONS_TYPE = { NODEJS, WAR, BASH, ANGULAR };
+	public static final String JAR = "JAR";
+
+	private static final String[] APPLICATIONS_TYPE = { NODEJS, WAR, BASH, ANGULAR, JAR };
 
 	/**
 	 * 
