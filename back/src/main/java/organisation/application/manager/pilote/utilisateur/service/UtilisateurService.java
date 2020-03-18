@@ -47,8 +47,8 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur inserer(Utilisateur u) {
 		u.setToken(hashService.hash(u.getLogin() + u.getPassword()));
-		List<Utilisateur> options = uRepo.trouverParEmail(u.getEmail());
-		if (!options.isEmpty() && search(options, u.getLogin())) {
+		Optional<Utilisateur> options = uRepo.findById(u.getLogin());
+		if (options.isPresent()) {
 			throw new ApplicationException(400, "Le mail est déjà utilisé");
 		}
 		try {
@@ -65,23 +65,13 @@ public class UtilisateurService extends DefaultService {
 
 	public Utilisateur modifier(String id, Utilisateur utilisateur) {
 		Utilisateur us = consulter(id);
-		List<Utilisateur> options = uRepo.trouverParEmail(utilisateur.getEmail());
-		if (!options.isEmpty() && !search(options, id)) {
+		Optional<Utilisateur> options = uRepo.findById(utilisateur.getLogin());
+		if (!options.isPresent()) {
 			throw new ApplicationException(400, "Le mail est déjà utilisé");
 		}
-		us.setEmail(utilisateur.getEmail());
 		us.setNom(utilisateur.getNom());
 		us.setPrenom(utilisateur.getPrenom());
 		return uRepo.save(us);
-	}
-
-	private Boolean search(List<Utilisateur> users, String id) {
-		for (Utilisateur u : users) {
-			if (!u.getLogin().equals(id)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public Utilisateur consulter(String token) {
@@ -162,7 +152,8 @@ public class UtilisateurService extends DefaultService {
 		mailService.sendMail(us.getLogin(), "Droit sur l'organisation.application : " + app.getName(),
 				"vous avez maintenant les droits de " + DroitApplicatifLevel.valueOf(level).getLibelle()
 						+ " sur l'organisation.application " + app.getName());
-		LOG.debug("l'utilisateur a maintenant les droits de " + level + " sur l'organisation.application " + app.getName());
+		LOG.debug("l'utilisateur a maintenant les droits de " + level + " sur l'organisation.application "
+				+ app.getName());
 		us.getRights().add(droitApplicatifHelper.setDroitApplicatif(da, level));
 		return da;
 	}

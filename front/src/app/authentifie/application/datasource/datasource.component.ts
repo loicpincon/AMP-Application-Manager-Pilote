@@ -39,6 +39,7 @@ export class DatasourceComponent implements OnInit {
       .subscribe(params => {
         this.idApp = params.idApp;
         this.apmService.recupererDataSourceByApp(params.idApp).subscribe(datasources => {
+          console.log(this.datasources)
           this.datasources = datasources;
         })
 
@@ -69,7 +70,7 @@ export class DatasourceComponent implements OnInit {
   }
 
   insererBase() {
-    this.apmService.insererBaseDataSource(this.datasource.containerId, this.newBase, this.idApp).subscribe(data => {
+    this.apmService.insererMysqlBase(this.datasource.containerId, this.newBase).subscribe(data => {
       this.datasource = data;
     })
   }

@@ -14,32 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.commun.controller.DefaultController;
-import organisation.application.manager.pilote.datasource.modele.DataSourceItem;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSourceItem;
 import organisation.application.manager.pilote.datasource.mysql.modele.BaseDeDonneeRessource;
-import organisation.application.manager.pilote.datasource.mysql.modele.MysqlDataSource;
-import organisation.application.manager.pilote.datasource.mysql.service.BaseDeDonneService;
-import organisation.application.manager.pilote.datasource.mysql.service.BaseDeDonneeRessourcePR;
+import organisation.application.manager.pilote.datasource.mysql.service.MysqlBaseService;
 import organisation.application.manager.pilote.session.modele.Secured;
 import organisation.application.manager.pilote.session.modele.SecuredLevel;
 
 @RestController
 @RequestMapping("/datasource/mysql")
-@ApiManager("mysql2")
-public class MysqlController extends DefaultController {
+@ApiManager("mysql.base")
+public class MysqlBaseController extends DefaultController {
 
 	@Autowired
-	private BaseDeDonneService baseDonneesService;
-
-	/**
-	 * 
-	 * @return
-	 */
-	@GetMapping
-	@ApiManager
-	@Secured
-	public Callable<ResponseEntity<List<MysqlDataSource>>> recupererServeur() {
-		return () -> ResponseEntity.ok(baseDonneesService.recupererServeur());
-	}
+	private MysqlBaseService baseDonneesService;
 
 	/**
 	 * 
@@ -48,7 +35,7 @@ public class MysqlController extends DefaultController {
 	@GetMapping(path = "/{id}")
 	@ApiManager
 	@Secured(level = SecuredLevel.CONSULTER_BASE_ADMIN)
-	public Callable<ResponseEntity<List<DataSourceItem>>> recupererBase(@PathVariable String id) {
+	public Callable<ResponseEntity<List<DataSourceItem>>> recuperer(@PathVariable String id) {
 		return () -> ResponseEntity.ok(baseDonneesService.recupererBase(id));
 	}
 
@@ -68,22 +55,10 @@ public class MysqlController extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@PostMapping
-	@ApiManager
-	@Secured
-	public Callable<ResponseEntity<BaseDeDonneeRessource>> inserer(@RequestBody BaseDeDonneeRessourcePR body) {
-		return () -> ResponseEntity.ok(baseDonneesService.inserer(body));
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	@PostMapping(path = "/{id}/bases")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<DataSourceItem>> insererBase(@PathVariable String id,
-			@RequestBody DataSourceItem body) {
+	public Callable<ResponseEntity<DataSourceItem>> inserer(@PathVariable String id, @RequestBody DataSourceItem body) {
 		return () -> ResponseEntity.ok(baseDonneesService.insererBase(id, body));
 	}
 

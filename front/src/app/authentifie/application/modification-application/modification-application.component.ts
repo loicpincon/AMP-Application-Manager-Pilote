@@ -113,7 +113,7 @@ export class ModificationApplicationComponent implements OnInit {
         }
         case "JAR": {
           appTmp = new JarApplication();
-          appTmp.nomFichierProperties = value.warApplication.nomFichierProperties
+          appTmp.nomFichierProperties = value.jarApplication.nomFichierProperties
           break;
         }
         case "BASH": {

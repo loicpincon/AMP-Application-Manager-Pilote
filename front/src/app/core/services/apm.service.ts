@@ -247,52 +247,57 @@ export class ApmService {
     executerRequeteSQL(idContainer: string, requete: any, env: string, type: string): Observable<string[]> {
         const body = { 'requete': requete, 'base': env, 'type': type }
 
-        const params = new HttpParams().set('idContainer', idContainer);
-        const uri = this.apiManagerService.genereUrlWithParam('mysql.executerRequete', params).url;
+        const params = new HttpParams().set('id', idContainer);
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.requete.executer', params).url;
         return this.httpClient.post<string[]>(uri, body);
     }
 
-    consulterDatasource(idContainer: string, idApp: string): Observable<Datasource> {
+    consulterMysqlServer(idContainer: string, idApp: string): Observable<Datasource> {
         const params = new HttpParams().set('idContainer', idContainer).set('idApp', idApp);
-        const uri = this.apiManagerService.genereUrlWithParam('mysql.consulter', params).url;
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.server.consulter', params).url;
         return this.httpClient.get<Datasource>(uri);
     }
 
-    insererBaseDataSource(idContainer: string, nomBase: string, idApp: string): Observable<Datasource> {
-        const params = new HttpParams().set('idContainer', idContainer).set('base', nomBase).set('idApp', idApp);;
-        console.log(params)
-        const uri = this.apiManagerService.genereUrlWithParam('mysql.insererBase', params).url;
-        return this.httpClient.post<Datasource>(uri, null);
+
+
+    insererMysqlBase(idContainer: string, nomBase: string): Observable<Datasource> {
+        const params = new HttpParams().set('id', idContainer);
+        const body = { 'name': nomBase };
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.base.inserer', params).url;
+        return this.httpClient.post<Datasource>(uri, body);
     }
+
+    ajouterDataSourceTemplate(idApp: string, type: string): Observable<string[]> {
+        const body = { 'idApp': idApp, 'type': type };
+        const uri = this.apiManagerService.genereUrl('datasource.ajouter').url;
+        return this.httpClient.post<string[]>(uri, body);
+    }
+
 
     recupererDataSourceByApp(idApp: string): Observable<Datasource[]> {
         const params = new HttpParams().set('idApp', idApp);
-        const uri = this.apiManagerService.genereUrlWithParam('datasource.recupererParApp', params).url;
+        const uri = this.apiManagerService.genereUrlWithParam('datasource.recuperer', params).url;
         return this.httpClient.get<Datasource[]>(uri);
     }
 
     recupererDataSourceTemplate(): Observable<string[]> {
-        const uri = this.apiManagerService.genereUrl('datasource.recuperer').url;
+        const uri = this.apiManagerService.genereUrl('datasource.recupererType').url;
         return this.httpClient.get<string[]>(uri);
     }
 
-    ajouterDataSourceTemplate(idApp: string, type: string): Observable<string[]> {
-        const params = new HttpParams().set('idApp', idApp).set('type', type);
-        const uri = this.apiManagerService.genereUrlWithParam('datasource.ajouterDatasource', params).url;
-        return this.httpClient.post<string[]>(uri, null);
+
+
+
+    getTablesOfBasesMysql(idContainer: string, idBase: string): Observable<string[]> {
+        const params = new HttpParams().set('id', idContainer).set('idbase', idBase);
+        const uri = this.apiManagerService.genereUrlWithParam('mysql.table.recuperer', params).url;
+        return this.httpClient.get<string[]>(uri);
     }
 
     telechargerLivrable(idApp: string, idLivrable: string): string {
         const params = new HttpParams().set('idApp', idApp).set('idVersion', idLivrable);
         const uri = this.apiManagerService.genereUrlWithParam('Application.telechargerLivrable', params).url;
         return uri;
-    }
-
-    getTablesOfBasesMysql(idContainer: string, idBase: string): Observable<string[]> {
-        const params = new HttpParams().set('idContainer', idContainer).set('idbase', idBase);
-        const uri = this.apiManagerService.genereUrlWithParam('mysql.getTablesOfBases', params).url;
-        console.log(uri)
-        return this.httpClient.get<string[]>(uri);
     }
 
 }

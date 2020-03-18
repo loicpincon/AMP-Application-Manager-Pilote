@@ -6,7 +6,7 @@ import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
-public class BaseDeDonneeRessourcePR extends BasicDataBean {
+public class MysqlBaseRessourcePR extends BasicDataBean {
 
 	/**
 	 * 
@@ -15,13 +15,13 @@ public class BaseDeDonneeRessourcePR extends BasicDataBean {
 
 	private String type;
 
-	private String ip;
+	private String ip = "194.9.172.184";
 
-	private String port;
+	private String port = "";
 
-	private String user;
+	private String user = "root";
 
-	private String password;
+	private String password = "password";
 
 	private String idApp;
 }

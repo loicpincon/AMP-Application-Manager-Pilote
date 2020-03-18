@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource.modele;
+package organisation.application.manager.pilote.datasource.commun.modele;
 
 import java.io.Serializable;
 

@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.Setter;
-import organisation.application.manager.pilote.datasource.modele.DataSource;
-import organisation.application.manager.pilote.datasource.modele.DataSourceItem;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSource;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSourceItem;
 
 @Getter
 @Setter

@@ -1,4 +1,4 @@
-package organisation.application.manager.pilote.datasource.api;
+package organisation.application.manager.pilote.datasource.commun.api;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -6,17 +6,20 @@ import java.util.concurrent.Callable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import organisation.apimanager.annotations.ApiManager;
 import organisation.application.manager.pilote.commun.controller.DefaultController;
-import organisation.application.manager.pilote.datasource.modele.DataSource;
-import organisation.application.manager.pilote.datasource.modele.DataSourceEnum;
-import organisation.application.manager.pilote.datasource.service.DataSourceService;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSource;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSourceEnum;
+import organisation.application.manager.pilote.datasource.commun.service.DataSourceService;
+import organisation.application.manager.pilote.datasource.commun.service.pr.DataSourcePR;
+import organisation.application.manager.pilote.datasource.mysql.modele.MysqlDataSource;
+import organisation.application.manager.pilote.datasource.mysql.service.MysqlBaseService;
 import organisation.application.manager.pilote.session.modele.Secured;
 
 @RestController
@@ -27,14 +30,17 @@ public class DataSourceContoller extends DefaultController {
 	@Autowired
 	private DataSourceService datasourceService;
 
+	@Autowired
+	private MysqlBaseService mysqlBaseService;
+
 	/**
 	 * 
 	 * @return
 	 */
-	@GetMapping()
+	@GetMapping(path = "/type")
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<DataSourceEnum[]>> recuperer() {
+	public Callable<ResponseEntity<DataSourceEnum[]>> recupererType() {
 		return () -> ResponseEntity.ok(DataSourceEnum.values());
 	}
 
@@ -42,10 +48,10 @@ public class DataSourceContoller extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(path = "/{idApp}")
+	@GetMapping
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<List<DataSource>>> recupererParApp(@PathVariable String idApp) {
+	public Callable<ResponseEntity<List<DataSource>>> recuperer(@RequestParam(required = false) String idApp) {
 		return () -> ResponseEntity.ok(datasourceService.recuperer(idApp));
 	}
 
@@ -53,12 +59,11 @@ public class DataSourceContoller extends DefaultController {
 	 * 
 	 * @return
 	 */
-	@PostMapping(path = "/{idApp}/datasources")
+	@PostMapping
 	@ApiManager
 	@Secured
-	public Callable<ResponseEntity<DataSource>> ajouterDatasource(@PathVariable String idApp,
-			@RequestParam String type) {
-		return () -> ResponseEntity.ok(datasourceService.ajouter(DataSourceEnum.valueOf(type), idApp));
+	public Callable<ResponseEntity<DataSource>> ajouter(@RequestBody DataSourcePR param) {
+		return () -> ResponseEntity.ok(datasourceService.ajouter(param));
 	}
 
 }

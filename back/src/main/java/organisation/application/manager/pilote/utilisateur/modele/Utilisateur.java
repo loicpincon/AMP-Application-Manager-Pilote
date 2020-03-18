@@ -23,8 +23,6 @@ public class Utilisateur extends BasicDataBean {
 	@Id
 	private String login;
 
-	private String email;
-
 	private String password;
 
 	private String token;

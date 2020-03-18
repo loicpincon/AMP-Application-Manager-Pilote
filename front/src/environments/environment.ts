@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   urlServeurBase: 'http://localhost:8080',
   //urlServeurBase: 'http://213.136.77.118:8888/ampapi/api/map',
-  //urlServeurBase: 'http://194.9.172.184:8080/amp',
+  //urlServeurBase: 'http://194.9.172.171:8888',
 
 };
 

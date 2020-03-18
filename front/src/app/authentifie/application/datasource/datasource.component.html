@@ -10,17 +10,24 @@
                         <mat-card-title class="blocInstanceTitre">
                             <a><i class="material-icons iconAdd" matTooltip="Ajouter une instance">add</i></a>
                             <h5>DataSource</h5>
+
                         </mat-card-title>
+                        <form>
+                            <mat-form-field>
+                                <mat-select name="typeChoisi" [(ngModel)]="typeChoisi">
+                                    <mat-option *ngFor="let base of templatesDS" [value]="base">
+                                        {{base}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                            <button mat-button (click)="ajouter()"
+                                style="background-color: #3ac569;float: right;">Ajouter</button>
+                        </form>
                     </div>
                     <mat-card-content class="contentInstance">
-                        <mat-select [(ngModel)]="typeChoisi">
-                            <mat-option *ngFor="let base of templatesDS" [value]="base">
-                                {{base}}
-                            </mat-option>
-                        </mat-select>
-                        <button mat-button (click)="ajouter()"
-                            style="background-color: #3ac569;float: right;">Ajouter</button>
                         <mat-list>
+
                             <mat-list-item *ngFor="let datas of datasources">
                                 <div>
                                     {{datas.type}}

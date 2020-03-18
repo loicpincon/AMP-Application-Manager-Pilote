@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import organisation.application.manager.pilote.commun.modele.BasicDataBean;
-import organisation.application.manager.pilote.datasource.modele.DataSource;
+import organisation.application.manager.pilote.datasource.commun.modele.DataSource;
 
 @Getter
 @Setter
