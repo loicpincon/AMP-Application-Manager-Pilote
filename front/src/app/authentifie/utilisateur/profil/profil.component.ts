@@ -78,7 +78,8 @@ export class UtilisateurProfilComponent implements OnInit {
         document.getElementById("fileProfil").click();
     }
 
-    changementImage(files: FileList) {
+    changementImage(files: any) {
+        console.log("uplaod")
         if (files.length != 0) {
             let fileToUpload = files.item(0);
             this.ng2ImgMax.resizeImage(fileToUpload, 200, 200).subscribe(

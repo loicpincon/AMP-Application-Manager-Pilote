@@ -15,7 +15,9 @@ public final class ApplicationType {
 
 	public static final String JAR = "JAR";
 
-	private static final String[] APPLICATIONS_TYPE = { NODEJS, WAR, BASH, ANGULAR, JAR };
+	public static final String IONIC = "IONIC";
+
+	private static final String[] APPLICATIONS_TYPE = { NODEJS, WAR, BASH, ANGULAR, JAR, IONIC };
 
 	/**
 	 * 

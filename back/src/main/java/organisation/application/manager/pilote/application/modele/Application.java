@@ -27,7 +27,8 @@ import organisation.application.manager.pilote.docker.modele.DockerFile;
 		@Type(name = ApplicationType.WAR, value = WarApplication.class),
 		@Type(name = ApplicationType.NODEJS, value = NodeJsApplication.class),
 		@Type(name = ApplicationType.ANGULAR, value = AngularApplication.class),
-		@Type(name = ApplicationType.JAR, value = JarApplication.class) })
+		@Type(name = ApplicationType.JAR, value = JarApplication.class),
+		@Type(name = ApplicationType.IONIC, value = IonicApplication.class) })
 public class Application extends BasicDataBean {
 
 	/**
