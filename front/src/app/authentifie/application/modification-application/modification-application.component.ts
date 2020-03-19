@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication, JarApplication } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, Application, Serveur, NodeJsApplication, Environnement, AngularApplication, JarApplication, IonicApplication } from '../modele/Application';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -50,6 +50,11 @@ export class ModificationApplicationComponent implements OnInit {
             nodeJsApplication: new FormGroup({
               version: new FormControl({ value: '', disabled: true }),
             }),
+            ionicApplication: new FormGroup({
+              repositoryUrl: new FormControl(''),
+              repoUser: new FormControl(''),
+              repoPass: new FormControl('')
+            }),
             angularApplication: new FormGroup({
               versionAngular: new FormControl({ value: '', disabled: true }),
               isBuilder: new FormControl({ value: '', disabled: true }),
@@ -69,6 +74,8 @@ export class ModificationApplicationComponent implements OnInit {
             this.initFormNodeJsApplication(this.application as NodeJsApplication);
           } else if (this.application.type == "ANGULAR") {
             this.initFormAngularApplication(this.application as AngularApplication);
+          } else if (this.application.type == "IONIC") {
+            this.initFormIonicApplication(this.application as IonicApplication);
           }
           let tmp: string[] = new Array()
 
@@ -114,6 +121,14 @@ export class ModificationApplicationComponent implements OnInit {
         case "JAR": {
           appTmp = new JarApplication();
           appTmp.nomFichierProperties = value.jarApplication.nomFichierProperties
+          break;
+        }
+        case "IONIC": {
+          appTmp = new IonicApplication();
+          appTmp.repositoryUrl = value.ionicApplication.repositoryUrl;
+          appTmp.repoUser = value.ionicApplication.repoUser;
+          appTmp.repoPass = value.ionicApplication.repoPass;
+
           break;
         }
         case "BASH": {
@@ -183,6 +198,7 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['warApplication'].enable()
         this.formulaire.controls['angularApplication'].disable()
         this.formulaire.controls['jarApplication'].disable()
+        this.formulaire.controls['ionicApplication'].disable()
         break;
       }
       case "JAR": {
@@ -191,6 +207,7 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['jarApplication'].enable()
         this.formulaire.controls['warApplication'].disable()
         this.formulaire.controls['angularApplication'].disable()
+        this.formulaire.controls['ionicApplication'].disable()
         break;
       }
       case "BASH": {
@@ -199,6 +216,7 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['warApplication'].disable()
         this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['angularApplication'].disable()
+        this.formulaire.controls['ionicApplication'].disable()
         break;
       }
       case "NODEJS": {
@@ -207,6 +225,7 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['bashApplication'].disable()
         this.formulaire.controls['warApplication'].disable()
         this.formulaire.controls['angularApplication'].disable()
+        this.formulaire.controls['ionicApplication'].disable()
         break;
       }
       case "ANGULAR": {
@@ -215,6 +234,15 @@ export class ModificationApplicationComponent implements OnInit {
         this.formulaire.controls['nodeJsApplication'].disable()
         this.formulaire.controls['bashApplication'].disable()
         this.formulaire.controls['warApplication'].disable()
+        this.formulaire.controls['ionicApplication'].disable()
+        break;
+      } case "IONIC": {
+        this.formulaire.controls['jarApplication'].disable()
+        this.formulaire.controls['angularApplication'].disable()
+        this.formulaire.controls['nodeJsApplication'].disable()
+        this.formulaire.controls['bashApplication'].disable()
+        this.formulaire.controls['warApplication'].disable()
+        this.formulaire.controls['ionicApplication'].enable()
         break;
       }
     }
@@ -241,6 +269,13 @@ export class ModificationApplicationComponent implements OnInit {
 
   }
 
+  initFormIonicApplication(war: IonicApplication) {
+    this.formulaire.controls['ionicApplication'].patchValue({ repoUser: war.repoUser })
+    this.formulaire.controls['ionicApplication'].patchValue({ repositoryUrl: war.repositoryUrl })
+    this.formulaire.controls['ionicApplication'].patchValue({ repoPass: war.repoPass })
+
+
+  }
 
   initFormNodeJsApplication(war: NodeJsApplication) {
 

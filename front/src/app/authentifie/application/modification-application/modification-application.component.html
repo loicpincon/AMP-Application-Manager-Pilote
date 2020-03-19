@@ -33,6 +33,18 @@
                             </mat-select>
                         </mat-form-field>
                         <div fxFlex="50%" *ngIf="formulaire.value.typeApp">
+                            <div formGroupName="ionicApplication" *ngIf="formulaire.value.typeApp=='IONIC'">
+                                <mat-form-field class="inputTypeApp">
+                                    <input required matInput formControlName="repositoryUrl"
+                                        placeholder="URL repository">
+                                </mat-form-field>
+                                <mat-form-field class="inputTypeApp">
+                                    <input required matInput formControlName="repoUser" placeholder="Utilisateur GIT">
+                                </mat-form-field>
+                                <mat-form-field class="inputTypeApp">
+                                    <input required matInput formControlName="repoPass" placeholder="Mot de passe GIT">
+                                </mat-form-field>
+                            </div>
                             <div formGroupName="angularApplication" *ngIf="formulaire.value.typeApp=='ANGULAR'">
                                 <mat-form-field class="inputTypeApp">
                                     <input required formControlName="versionAngular" matInput

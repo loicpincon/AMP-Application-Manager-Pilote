@@ -31,6 +31,7 @@ public class IonicAppDeployer extends DefaultDeployer<IonicApplication> {
 		try {
 			CloneCommand cloneCommand = Git.cloneRepository();
 			cloneCommand.setURI(app.getRepositoryUrl());
+			cloneCommand.setBranch("develop");
 			cloneCommand.setCredentialsProvider(
 					new UsernamePasswordCredentialsProvider(app.getRepoUser(), app.getRepoPass()));
 			cloneCommand.setDirectory(new File(genererCheminTemporaire()));
