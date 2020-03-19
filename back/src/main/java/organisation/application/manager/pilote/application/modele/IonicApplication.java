@@ -1,5 +1,7 @@
 package organisation.application.manager.pilote.application.modele;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,14 +14,12 @@ public class IonicApplication extends Application {
 	 */
 	private static final long serialVersionUID = -4013316352075690620L;
 
-	private String coderepositoryUrl;
+	private String repositoryUrl;
 
-	private Boolean repoUser;
+	private String repoUser;
 
 	private String repoPass;
 
-	private String userProprietaire;
-
-	private String nomRepository;
+	private List<String> branches;
 
 }

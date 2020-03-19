@@ -27,6 +27,7 @@ import organisation.application.manager.pilote.docker.deployer.AngularAppDeploye
 import organisation.application.manager.pilote.docker.deployer.DefaultDeployer;
 import organisation.application.manager.pilote.docker.deployer.DockerJarDeployer;
 import organisation.application.manager.pilote.docker.deployer.DockerWarDeployer;
+import organisation.application.manager.pilote.docker.deployer.IonicAppDeployer;
 import organisation.application.manager.pilote.docker.mapper.ContainerMapper;
 import organisation.application.manager.pilote.docker.modele.ActionInstance;
 import organisation.application.manager.pilote.docker.modele.Container;
@@ -86,6 +87,8 @@ public class DockerContainerService {
 					.build();
 		} else if (app.getType().equals(ApplicationType.JAR)) {
 			deployer = DockerJarDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server).build();
+		} else if (app.getType().equals(ApplicationType.IONIC)) {
+			deployer = IonicAppDeployer.builder().app(app).env(envChoisi).param(param).ins(ins).server(server).build();
 		} else {
 			throw new ApplicationException(400,
 					"Impossible de deployer ce type d'organisation.application : " + app.getType());
@@ -147,22 +150,34 @@ public class DockerContainerService {
 		new Thread() {
 			@Override
 			public void run() {
-				LOG.debug("action demandée : " + action);
-				if (action.equals(ActionInstance.DEPLOY.getCode())) {
-					startC(instance);
-				} else if (action.equals(ActionInstance.RELOAD.getCode())) {
-					reload(instance);
-				} else if (action.equals(ActionInstance.STOP.getCode())) {
-					stopC(instance);
-				} else if (action.equals(ActionInstance.DELETE.getCode())) {
-					delete(instance);
-				} else {
-					throw new ApplicationException(400, "action inconnue --> " + action);
+				ActionInstance encours = null;
+				try {
+					LOG.debug("action demandée : " + action);
+					if (action.equals(ActionInstance.DEPLOY.getCode())) {
+						encours = ActionInstance.DEPLOY;
+						startC(instance);
+					} else if (action.equals(ActionInstance.RELOAD.getCode())) {
+						encours = ActionInstance.RELOAD;
+						reload(instance);
+					} else if (action.equals(ActionInstance.STOP.getCode())) {
+						encours = ActionInstance.STOP;
+						stopC(instance);
+					} else if (action.equals(ActionInstance.DELETE.getCode())) {
+						encours = ActionInstance.DELETE;
+						delete(instance);
+					} else {
+						throw new ApplicationException(400, "action inconnue --> " + action);
+					}
+					instance.getUserActions().add(traceAction(encours.getLibelle(), "Success",
+							instance.getVersionApplicationActuel(), userSesion));
+				} catch (Exception e) {
+					instance.setEtat(EtatInstance.S.name());
+					instance.getUserActions()
+							.add(traceAction(action, "Echec", instance.getVersionApplicationActuel(), userSesion));
 				}
-				instance.getUserActions()
-						.add(traceAction(action, "Success", instance.getVersionApplicationActuel(), userSesion));
 				appService.modifier(appli);
 				instanceWS.sendDetailsInstance(instance);
+
 			}
 		}.start();
 		instance.setVersionApplicationActuel(

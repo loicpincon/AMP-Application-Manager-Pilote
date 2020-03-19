@@ -66,13 +66,13 @@ public class DeployFileHelper {
 		}
 	}
 
-	public void createGcpFile(String url, List<Parametre> params) {
+	public void createParamFile(String delimiter, String url, List<Parametre> params) {
 		try {
 			PrintWriter writer;
 			writer = new PrintWriter(url, "UTF-8");
 			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
 			for (Parametre param : params) {
-				writer.println(stringUtils.concat(param.getCle(), EGAL, param.getValeur()));
+				writer.println(stringUtils.concat(param.getCle(), delimiter, param.getValeur()));
 				LOG.trace(stringUtils.concat(stringUtils.concat(param.getCle(), EGAL, param.getValeur())));
 			}
 			writer.close();
@@ -81,6 +81,32 @@ public class DeployFileHelper {
 			throw new ApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 
+	}
+
+	public void createAngularFile(String url, List<Parametre> params) {
+		try {
+			PrintWriter writer;
+			writer = new PrintWriter(url, "UTF-8");
+			LOG.debug(stringUtils.concat("Nombre de param a creer : ", params.size()));
+			writer.println("export const environment = {");
+			for (Parametre param : params) {
+				if (param.getValeur().equals("true") || param.getValeur().equals("false")) {
+					writer.println(stringUtils.concat(param.getCle(), ": ", param.getValeur(), ","));
+				} else {
+					writer.println(stringUtils.concat(param.getCle(), ": '", param.getValeur(), "',"));
+				}
+				LOG.trace(stringUtils.concat(stringUtils.concat(param.getCle(), EGAL, param.getValeur())));
+			}
+			writer.println("};");
+			writer.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			LOG.error(e);
+			throw new ApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
+
+	public void createGcpFile(String url, List<Parametre> params) {
+		createParamFile(EGAL, url, params);
 	}
 
 	/**

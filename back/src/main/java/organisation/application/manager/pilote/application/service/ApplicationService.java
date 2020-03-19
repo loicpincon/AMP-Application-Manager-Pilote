@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import organisation.application.manager.pilote.application.modele.AngularApplication;
 import organisation.application.manager.pilote.application.modele.Application;
 import organisation.application.manager.pilote.application.modele.ApplicationType;
 import organisation.application.manager.pilote.application.modele.Environnement;
+import organisation.application.manager.pilote.application.modele.Livrable;
 import organisation.application.manager.pilote.application.modele.ParametreSeries;
 import organisation.application.manager.pilote.application.repository.ApplicationRepository;
 import organisation.application.manager.pilote.commun.exception.ApplicationException;
@@ -35,21 +35,16 @@ public class ApplicationService extends DefaultService {
 	@Autowired
 	private UtilisateurService userService;
 
-	@Autowired
-	private LivrableService livrableService;
-
 	public Application consulter(String id) {
 		Optional<Application> appOpt = appRepo.findById(id);
 		if (!appOpt.isPresent()) {
-			throw new ApplicationException(HttpStatus.NOT_FOUND, "organisation.application non trouve");
+			throw new ApplicationException(HttpStatus.NOT_FOUND, "Application non trouve");
 		}
 		Application app = appOpt.get();
-//		if (app.getType().equals(ApplicationType.ANGULAR)) {
-//			app.setLivrables(livrableService.getLivrableFromGitHub((AngularApplication) app));
-//		}
-
+		if (app.getType().equals(ApplicationType.IONIC)) {
+			app.getLivrables().add(Livrable.builder().nom("TEST").dateUpload(new Date()).build());
+		}
 		Collections.sort(app.getLivrables(), Collections.reverseOrder());
-
 		return app;
 	}
 

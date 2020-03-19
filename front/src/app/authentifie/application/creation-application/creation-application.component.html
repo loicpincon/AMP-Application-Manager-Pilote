@@ -35,6 +35,17 @@
                             <input required matInput formControlName="versionNode" placeholder="Version node JS">
                         </mat-form-field>
                     </div>
+                    <div formGroupName="ionicApplication" *ngIf="formulaire.value.typeApp=='IONIC'">
+                        <mat-form-field class="inputTypeApp">
+                            <input required matInput formControlName="repositoryUrl" placeholder="URL repository">
+                        </mat-form-field>
+                        <mat-form-field class="inputTypeApp">
+                            <input required matInput formControlName="repoUser" placeholder="Utilisateur GIT">
+                        </mat-form-field>
+                        <mat-form-field class="inputTypeApp">
+                            <input required matInput formControlName="repoPass" placeholder="Mot de passe GIT">
+                        </mat-form-field>
+                    </div>
                     <div formGroupName="warApplication" *ngIf="formulaire.value.typeApp=='WAR'">
                         <mat-form-field class="inputTypeApp">
                             <input required formControlName="nomFichierProperties" matInput

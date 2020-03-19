@@ -109,6 +109,16 @@ export class JarApplication extends Application {
 export class NodeJsApplication extends Application {
 }
 
+/**
+ * 
+ */
+export class IonicApplication extends Application {
+    repositoryUrl: string;
+    repoUser: string;
+    repoPass: string;
+    branches: string[]
+}
+
 export class AngularApplication extends Application {
     versionAngular: string;
     isBuilder: boolean;

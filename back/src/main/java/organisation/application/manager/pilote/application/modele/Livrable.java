@@ -2,12 +2,18 @@ package organisation.application.manager.pilote.application.modele;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import organisation.application.manager.pilote.commun.modele.BasicDataBean;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Livrable extends BasicDataBean implements Comparable<Livrable> {
 
 	/**

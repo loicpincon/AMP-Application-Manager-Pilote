@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApmService } from 'src/app/core/services/apm.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { WarApplication, BashApplication, Dockerfile, AngularApplication, JarApplication } from '../modele/Application';
+import { WarApplication, BashApplication, Dockerfile, AngularApplication, JarApplication, IonicApplication } from '../modele/Application';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -41,6 +41,12 @@ export class CreationApplicationComponent implements OnInit {
       }),
       nodeJsApplication: new FormGroup({
         versionNode: new FormControl('')
+      })
+      ,
+      ionicApplication: new FormGroup({
+        repositoryUrl: new FormControl(''),
+        repoUser: new FormControl(''),
+        repoPass: new FormControl('')
       })
       ,
       angularApplication: new FormGroup({
@@ -93,6 +99,11 @@ export class CreationApplicationComponent implements OnInit {
     else if (data.typeApp === "BASH") {
       app = new BashApplication();
       app.urlBatch = data.bashApplication.urlBatch;
+    } else if (data.typeApp === "IONIC") {
+      app = new IonicApplication();
+      app.repositoryUrl = data.ionicApplication.repositoryUrl;
+      app.repoUser = data.ionicApplication.repoUser;
+      app.repoPass = data.ionicApplication.repoPass;
     } else if (data.typeApp === "ANGULAR") {
       app = new AngularApplication();
       app.versionAngular = data.angularApplication.versionAngular;

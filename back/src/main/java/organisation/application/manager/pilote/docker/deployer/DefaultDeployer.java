@@ -212,7 +212,10 @@ public abstract class DefaultDeployer<E extends Application> extends Thread {
 			dockerClient.startContainerCmd(ins.getContainerId()).exec();
 			updateInfosInstance("L", "Deploy", "Success", null);
 		} catch (DockerException | InterruptedException e) {
-			logger.error(e);
+			updateInfosInstance("S", "Deploy", "Echec", "Probleme durant l'installation");
+			Thread.currentThread().interrupt();
+			throw new ApplicationException(500, "Impossible de constuire le container : " + e.getMessage());
+		} catch (Exception e) {
 			updateInfosInstance("S", "Deploy", "Echec", "Probleme durant l'installation");
 			Thread.currentThread().interrupt();
 			throw new ApplicationException(500, "Impossible de constuire le container : " + e.getMessage());
