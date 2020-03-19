@@ -62,7 +62,7 @@ public class IonicAppDeployer extends DefaultDeployer<IonicApplication> {
 	 */
 	private void lancementDeploiement() {
 		Map<String, String> params = new HashMap<>();
-		params.put("folder", genererCheminTemporaire());
+		params.put("folder", "");
 		createContainer(params);
 	}
 
